@@ -14,3 +14,14 @@ nodemon cardme-backend
 ```
 
 ## Frontend
+Navigate to folder frontend
+
+Execute once
+```
+npm install
+```
+
+Start frontend
+```
+npm start
+```
