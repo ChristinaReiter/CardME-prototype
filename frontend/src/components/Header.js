@@ -1,43 +1,50 @@
 import React from "react";
-import logo from "./../assets/images/logo_transparent.png";
+import Logo from "./../assets/images/logo_transparent.png";
 import { NavLink } from "react-router-dom";
-import { AppBar } from "@mui/material";
+import { AppBar, IconButton } from "@mui/material";
 import { Toolbar } from "@mui/material";
 import { Typography } from "@mui/material";
+import { Tabs, Tab } from "@mui/material";
+import { Box } from "@mui/material";
 
 const Header = () => {
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <NavLink to="/">
-          <img src={logo} alt="logo" width="15%"></img>
-        </NavLink>
-        <NavLink to="/cards">
-          <Typography>Every Day</Typography>
-        </NavLink>
-        <NavLink to="/cards">
-          <Typography>Occasion</Typography>
-        </NavLink>
-        <NavLink to="/cards">
-          <Typography>Seasonal</Typography>
-        </NavLink>
-        <NavLink to="/create">
-          <Typography>Create</Typography>
-        </NavLink>
-      </Toolbar>
-    </AppBar>
+    <Box
+      sx={{
+        flexGrow: 1,
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
+      <AppBar
+        position="static"
+        sx={{
+          flexGrow: 1,
+          display: "flex",
+          height: "60px",
+        }}
+      >
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <NavLink to="/">
+            <img src={Logo} alt="logo" width="100px"></img>
+          </NavLink>
+          <Tabs sx={{ justifyContent: "center" }}>
+            <Tab label="Every Day" href="/cards"></Tab>
+            <Tab label="Occasion" href="/cards"></Tab>
+            <Tab label="Seasonal" href="/cards"></Tab>
+            <Tab label="Create" href="/create"></Tab>
+          </Tabs>
+          <div>[Icons]</div>
+        </Toolbar>
+      </AppBar>
+    </Box>
   );
-
-  //   <nav>
-  //       <NavLink to="/">
-  //         <img src={logo} alt="logo" width="15%"></img>
-  //       </NavLink>
-  //       <NavLink to="/cards">Every Day</NavLink>
-  //       <NavLink to="/cards">Occasion</NavLink>
-  //       <NavLink to="/cards">Seasonal</NavLink>
-  //       <NavLink to="/create">Create</NavLink>
-  //   </nav>
-  // );
 };
 
 export default Header;
