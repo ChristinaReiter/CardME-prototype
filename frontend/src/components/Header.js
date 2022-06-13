@@ -6,6 +6,10 @@ import { Toolbar } from "@mui/material";
 import { Typography } from "@mui/material";
 import { Tabs, Tab } from "@mui/material";
 import { Box } from "@mui/material";
+import ShoppingCartOutlined from "@mui/icons-material/ShoppingCartOutlined";
+import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import { fontSize } from "@mui/system";
 
 const Header = () => {
   return (
@@ -23,6 +27,7 @@ const Header = () => {
           flexGrow: 1,
           display: "flex",
           height: "60px",
+          bgcolor: "background.paper",
         }}
       >
         <Toolbar
@@ -32,15 +37,59 @@ const Header = () => {
           }}
         >
           <NavLink to="/">
-            <img src={Logo} alt="logo" width="100px"></img>
+            <img src={Logo} alt="logo" width="130px"></img>
           </NavLink>
-          <Tabs sx={{ justifyContent: "center" }}>
-            <Tab label="Every Day" href="/cards"></Tab>
-            <Tab label="Occasion" href="/cards"></Tab>
-            <Tab label="Seasonal" href="/cards"></Tab>
-            <Tab label="Create" href="/create"></Tab>
+          <Tabs
+            sx={{
+              justifyContent: "center",
+            }}
+          >
+            <Tab
+              sx={{
+                fontFamily: "typography2",
+                fontSize: 20,
+                borderRightColor: "#a7cda7",
+                borderRightWidth: 0.5,
+                borderRightStyle: "solid",
+              }}
+              label="Every Day"
+              href="/cards"
+            ></Tab>
+            <Tab
+              sx={{
+                fontFamily: "typography2",
+                fontSize: 20,
+                borderRightColor: "#a7cda7",
+                borderRightWidth: 0.5,
+                borderRightStyle: "solid",
+              }}
+              label="Occasion"
+              href="/cards"
+            ></Tab>
+            <Tab
+              sx={{
+                fontFamily: "typography2",
+                fontSize: 20,
+                borderRightColor: "#a7cda7",
+                borderRightWidth: 0.5,
+                borderRightStyle: "solid",
+              }}
+              label="Seasonal"
+              href="/cards"
+            ></Tab>
+            <Tab
+              sx={{ fontFamily: "typography2", fontSize: 20 }}
+              label="Create"
+              href="/create"
+            ></Tab>
           </Tabs>
-          <div>[Icons]</div>
+          <Tabs>
+            <Typography color="primary">
+              <Tab icon={<ShoppingCartOutlined fontSize="large" />} />
+              <Tab icon={<PermIdentityOutlinedIcon fontSize="large" />} />
+              <Tab icon={<SearchOutlinedIcon fontSize="large" />} />
+            </Typography>
+          </Tabs>
         </Toolbar>
       </AppBar>
     </Box>

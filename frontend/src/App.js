@@ -4,22 +4,25 @@ import Cards from "./components/Cards";
 import Create from "./components/Create";
 import Header from "./components/Header";
 import Home from "./components/Home";
-import { createTheme, ThemeProvider} from '@mui/material/styles';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CheckoutData from "./components/CheckoutData";
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#a7cda7'
+      main: "#a7cda7",
     },
     secondary: {
-      main: '#0a5108'
+      main: "#0a5108",
     },
     typography: {
-      fontFamily: 'Annie+Use+Your+Telescope'
-    }
-  }
-})
+      fontFamily: "Annie+Use+Your+Telescope",
+    },
+    typography2: {
+      fontFamily: "Abril+Fatface",
+    },
+  },
+});
 
 function App() {
   return (
