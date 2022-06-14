@@ -7,6 +7,7 @@ const Home = () => {
     <div>
       <Box>
         <img
+          alt="welcome-postcard"
           src={WelcomePostcard}
           width="100%"
           sx={{ display: "block", height: "auto" }}

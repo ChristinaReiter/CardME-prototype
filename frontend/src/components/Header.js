@@ -22,7 +22,7 @@ const Header = () => {
       }}
     >
       <AppBar
-        position="static"
+        position="absolute"
         sx={{
           flexGrow: 1,
           display: "flex",
@@ -85,9 +85,18 @@ const Header = () => {
           </Tabs>
           <Tabs>
             <Typography color="primary">
-              <Tab icon={<ShoppingCartOutlined fontSize="large" />} />
-              <Tab icon={<PermIdentityOutlinedIcon fontSize="large" />} />
-              <Tab icon={<SearchOutlinedIcon fontSize="large" />} />
+              <Tab
+                icon={<ShoppingCartOutlined fontSize="large" />}
+                sx={{ minWidth: 2 }}
+              />
+              <Tab
+                icon={<PermIdentityOutlinedIcon fontSize="large" />}
+                sx={{ minWidth: 2 }}
+              />
+              <Tab
+                icon={<SearchOutlinedIcon fontSize="large" />}
+                sx={{ minWidth: 2 }}
+              />
             </Typography>
           </Tabs>
         </Toolbar>
