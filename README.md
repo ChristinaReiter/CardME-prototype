@@ -6,6 +6,7 @@ Navigate to folder backend
 Execute once
 ```
 npm install
+npm i cors
 ```
 
 Start backend

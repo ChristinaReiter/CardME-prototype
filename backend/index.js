@@ -21,6 +21,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(helmet());
 const port = config.port;
 
+const cors = require("cors")
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+)
+
 app.get("/", (req, res) => {
   res.json({ response: "Hello World" });
 });
