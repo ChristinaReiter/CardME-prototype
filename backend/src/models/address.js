@@ -24,4 +24,6 @@ const AddressSchema = new mongoose.Schema({
   additional: String,
 });
 
+AddressSchema.set("versionKey", false);
+
 module.exports = mongoose.model("Address", AddressSchema);

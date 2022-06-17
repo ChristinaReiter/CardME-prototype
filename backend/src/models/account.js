@@ -16,4 +16,6 @@ const AccountSchema = new mongoose.Schema({
   acquaintances: [AcquaintanceSchema]
 });
 
+AccountSchema.set("versionKey", false);
+
 module.exports = mongoose.model("Account", AccountSchema);

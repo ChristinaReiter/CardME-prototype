@@ -7,6 +7,7 @@ import Home from "./components/Home";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CheckoutData from "./components/CheckoutData";
 import { Box } from "@mui/system";
+import CheckoutOverview from "./components/CheckoutOverview";
 
 const theme = createTheme({
   palette: {
@@ -37,6 +38,7 @@ function App() {
               <Route exact path="/cards" element={<Cards />} />
               <Route exact path="/create" element={<Create />} />
               <Route exact path="/checkout-data" element={<CheckoutData />} />
+              <Route exact path="/checkout-overview" element={<CheckoutOverview />} />
             </Routes>
           </Box>
         </BrowserRouter>
