@@ -9,7 +9,7 @@ const Home = () => {
       <Box>
         <img alt="welcome-postcard" src={WelcomePostcard} width="100%"></img>
 
-        <Button variant="contained" color="secondary">
+        <Button variant="contained">
           Browse Cards
         </Button>
         <Button variant="contained" color="secondary">

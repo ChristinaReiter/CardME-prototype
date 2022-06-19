@@ -4,6 +4,7 @@ import Cards from "./components/Cards";
 import Create from "./components/Create";
 import Header from "./components/Header";
 import Home from "./components/Home";
+import ProfileOverview from "./components/ProfileOverview";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CheckoutData from "./components/CheckoutData";
 import { Box } from "@mui/system";
@@ -17,13 +18,17 @@ const theme = createTheme({
     secondary: {
       main: "#0a5108",
     },
-    typography: {
-      fontFamily: "Annie+Use+Your+Telescope",
-    },
-    typography2: {
-      fontFamily: "Abril+Fatface",
-    },
   },
+  typography: {
+    fontFamily: [
+      '"Annie Use Your Telescope"',
+      '"Abril Fatface"',
+      'Antic'
+    ].join(','),
+    //button: {
+      //fontFamily: '"Annie Use Your Telescope"',
+    //} 
+  }  
 });
 
 function App() {
@@ -39,6 +44,7 @@ function App() {
               <Route exact path="/create" element={<Create />} />
               <Route exact path="/checkout-data" element={<CheckoutData />} />
               <Route exact path="/checkout-overview" element={<CheckoutOverview />} />
+              <Route exact path="/profile" element={<ProfileOverview />} />
             </Routes>
           </Box>
         </BrowserRouter>
