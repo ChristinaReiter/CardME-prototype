@@ -92,6 +92,7 @@ const Header = () => {
               <Tab
                 icon={<PermIdentityOutlinedIcon fontSize="large" />}
                 sx={{ minWidth: 2 }}
+                href="/profile"
               />
               <Tab
                 icon={<SearchOutlinedIcon fontSize="large" />}
