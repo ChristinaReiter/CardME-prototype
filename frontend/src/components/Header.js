@@ -9,7 +9,16 @@ import { Box } from "@mui/material";
 import ShoppingCartOutlined from "@mui/icons-material/ShoppingCartOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import { fontSize } from "@mui/system";
+
+const styles = {
+  menuText: {
+    fontFamily: "typography2",
+    fontSize: 20,
+    borderRightColor: "#a7cda7",
+    borderRightWidth: 0.5,
+    borderRightStyle: "solid",
+  },
+};
 
 const Header = () => {
   return (
@@ -39,49 +48,11 @@ const Header = () => {
           <NavLink to="/">
             <img src={Logo} alt="logo" width="130px"></img>
           </NavLink>
-          <Tabs
-            sx={{
-              justifyContent: "center",
-            }}
-          >
-            <Tab
-              sx={{
-                fontFamily: "typography2",
-                fontSize: 20,
-                borderRightColor: "#a7cda7",
-                borderRightWidth: 0.5,
-                borderRightStyle: "solid",
-              }}
-              label="Every Day"
-              href="/cards"
-            ></Tab>
-            <Tab
-              sx={{
-                fontFamily: "typography2",
-                fontSize: 20,
-                borderRightColor: "#a7cda7",
-                borderRightWidth: 0.5,
-                borderRightStyle: "solid",
-              }}
-              label="Occasion"
-              href="/cards"
-            ></Tab>
-            <Tab
-              sx={{
-                fontFamily: "typography2",
-                fontSize: 20,
-                borderRightColor: "#a7cda7",
-                borderRightWidth: 0.5,
-                borderRightStyle: "solid",
-              }}
-              label="Seasonal"
-              href="/cards"
-            ></Tab>
-            <Tab
-              sx={{ fontFamily: "typography2", fontSize: 20 }}
-              label="Create"
-              href="/create"
-            ></Tab>
+          <Tabs sx={{ justifyContent: "center" }}>
+            <Tab style={styles.menuText} label="Every Day" href="/cards"></Tab>
+            <Tab style={styles.menuText} label="Occasion" href="/cards"></Tab>
+            <Tab style={styles.menuText} label="Seasonal" href="/cards"></Tab>
+            <Tab style={styles.menuText} label="Create" href="/create"></Tab>
           </Tabs>
           <Tabs>
             <Typography color="primary">
