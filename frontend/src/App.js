@@ -4,7 +4,9 @@ import Cards from "./components/Cards";
 import Create from "./components/Create";
 import Header from "./components/Header";
 import Home from "./components/Home";
+import Login from "./components/Login";
 import ProfileOverview from "./components/ProfileOverview";
+import Register from "./components/Register";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CheckoutData from "./components/CheckoutData";
 import { Box } from "@mui/system";
@@ -45,6 +47,8 @@ function App() {
               <Route exact path="/checkout-data" element={<CheckoutData />} />
               <Route exact path="/checkout-overview" element={<CheckoutOverview />} />
               <Route exact path="/profile" element={<ProfileOverview />} />
+              <Route exact path="/register" element={<Register />} />
+              <Route exact path="/login" element={<Login />} />
             </Routes>
           </Box>
         </BrowserRouter>
