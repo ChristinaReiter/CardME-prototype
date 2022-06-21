@@ -9,6 +9,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CheckoutData from "./components/CheckoutData";
 import { Box } from "@mui/system";
 import CheckoutOverview from "./components/CheckoutOverview";
+import { useState } from "react";
 
 const theme = createTheme({
   palette: {
@@ -18,20 +19,23 @@ const theme = createTheme({
     secondary: {
       main: "#0a5108",
     },
+    tertiary: {
+      main: "#F3F3F3"
+    }
   },
   typography: {
-    fontFamily: [
-      '"Annie Use Your Telescope"',
-      '"Abril Fatface"',
-      'Antic'
-    ].join(','),
+    fontFamily: ['"Annie Use Your Telescope"', '"Abril Fatface"', "Antic"].join(
+      ","
+    ),
     //button: {
-      //fontFamily: '"Annie Use Your Telescope"',
-    //} 
-  }  
+    //fontFamily: '"Annie Use Your Telescope"',
+    //}
+  },
 });
 
 function App() {
+  const [checkoutData, setCheckoutData] = useState({});
+
   return (
     <div>
       <ThemeProvider theme={theme}>
@@ -42,8 +46,21 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route exact path="/cards" element={<Cards />} />
               <Route exact path="/create" element={<Create />} />
-              <Route exact path="/checkout-data" element={<CheckoutData />} />
-              <Route exact path="/checkout-overview" element={<CheckoutOverview />} />
+              <Route
+                exact
+                path="/checkout-data"
+                element={
+                  <CheckoutData
+                    checkoutData={checkoutData}
+                    setCheckoutData={setCheckoutData}
+                  />
+                }
+              />
+              <Route
+                exact
+                path="/checkout-overview"
+                element={<CheckoutOverview checkoutData={checkoutData} />}
+              />
               <Route exact path="/profile" element={<ProfileOverview />} />
             </Routes>
           </Box>

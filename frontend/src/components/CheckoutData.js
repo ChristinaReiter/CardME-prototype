@@ -10,15 +10,15 @@ import {
 } from "@mui/material";
 import OrderService from "../services/OrderService";
 
-const CheckoutData = () => {
+const CheckoutData = ({checkoutData, setCheckoutData}) => {
   const navigate = useNavigate();
-  const [inputs, setInputs] = useState({});
+  //const [inputs, setInputs] = useState({});
   const inputBoxPadding = "1em";
 
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-    setInputs((values) => ({ ...values, [name]: value }));
+    setCheckoutData((values) => ({ ...values, [name]: value }));
   };
 
   const handleSubmit = (event) => {
@@ -35,7 +35,7 @@ const CheckoutData = () => {
           <TextField
             type="email"
             placeholder="Email address"
-            value={inputs.email || ""}
+            value={checkoutData.email || ""}
             name="email"
             onChange={handleChange}
           ></TextField>
@@ -45,7 +45,7 @@ const CheckoutData = () => {
           <TextField
             type="text"
             placeholder="First Name"
-            value={inputs.billingFirstName || ""}
+            value={checkoutData.billingFirstName || ""}
             name="billingFirstName"
             onChange={handleChange}
             required
@@ -53,7 +53,7 @@ const CheckoutData = () => {
           <TextField
             type="text"
             placeholder="Last Name"
-            value={inputs.billingLastName || ""}
+            value={checkoutData.billingLastName || ""}
             name="billingLastName"
             onChange={handleChange}
             required
@@ -62,7 +62,7 @@ const CheckoutData = () => {
           <TextField
             type="text"
             placeholder="Street"
-            value={inputs.billingStreet || ""}
+            value={checkoutData.billingStreet || ""}
             name="billingStreet"
             onChange={handleChange}
             required
@@ -70,7 +70,7 @@ const CheckoutData = () => {
           <TextField
             type="text"
             placeholder="Number"
-            value={inputs.billingNumber || ""}
+            value={checkoutData.billingNumber || ""}
             name="billingNumber"
             onChange={handleChange}
             required
@@ -79,7 +79,7 @@ const CheckoutData = () => {
           <TextField
             type="number"
             placeholder="Zipcode"
-            value={inputs.billingZipcode || ""}
+            value={checkoutData.billingZipcode || ""}
             name="billingZipcode"
             onChange={handleChange}
             required
@@ -87,7 +87,7 @@ const CheckoutData = () => {
           <TextField
             type="text"
             placeholder="City"
-            value={inputs.billingCity || ""}
+            value={checkoutData.billingCity || ""}
             name="billingCity"
             onChange={handleChange}
             required
@@ -96,7 +96,7 @@ const CheckoutData = () => {
           <TextField
             type="text"
             placeholder="Country"
-            value={inputs.billingCountry || ""}
+            value={checkoutData.billingCountry || ""}
             name="billingCountry"
             onChange={handleChange}
             required
@@ -107,7 +107,7 @@ const CheckoutData = () => {
           <TextField
             type="text"
             placeholder="First Name"
-            value={inputs.recipientFirstName || ""}
+            value={checkoutData.recipientFirstName || ""}
             name="recipientFirstName"
             onChange={handleChange}
             required
@@ -115,7 +115,7 @@ const CheckoutData = () => {
           <TextField
             type="text"
             placeholder="Last Name"
-            value={inputs.recipientLastName || ""}
+            value={checkoutData.recipientLastName || ""}
             name="recipientLastName"
             onChange={handleChange}
             required
@@ -124,7 +124,7 @@ const CheckoutData = () => {
           <TextField
             type="text"
             placeholder="Street"
-            value={inputs.recipientStreet || ""}
+            value={checkoutData.recipientStreet || ""}
             name="recipientStreet"
             onChange={handleChange}
             required
@@ -132,7 +132,7 @@ const CheckoutData = () => {
           <TextField
             type="text"
             placeholder="Number"
-            value={inputs.recipientNumber || ""}
+            value={checkoutData.recipientNumber || ""}
             name="recipientNumber"
             onChange={handleChange}
             required
@@ -141,7 +141,7 @@ const CheckoutData = () => {
           <TextField
             type="number"
             placeholder="Zipcode"
-            value={inputs.recipientZipcode || ""}
+            value={checkoutData.recipientZipcode || ""}
             name="recipientZipcode"
             onChange={handleChange}
             required
@@ -149,7 +149,7 @@ const CheckoutData = () => {
           <TextField
             type="text"
             placeholder="City"
-            value={inputs.recipientCity || ""}
+            value={checkoutData.recipientCity || ""}
             name="recipientCity"
             onChange={handleChange}
             required
@@ -158,7 +158,7 @@ const CheckoutData = () => {
           <TextField
             type="text"
             placeholder="Country"
-            value={inputs.recipientCountry || ""}
+            value={checkoutData.recipientCountry || ""}
             name="recipientCountry"
             onChange={handleChange}
             required
@@ -170,7 +170,7 @@ const CheckoutData = () => {
           <TextField
             type="date"
             placeholder="Delivery date"
-            value={inputs.deliveryDate || ""}
+            value={checkoutData.deliveryDate || ""}
             name="deliveryDate"
             onChange={handleChange}
             required
