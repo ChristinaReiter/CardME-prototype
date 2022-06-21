@@ -12,9 +12,7 @@ const styles = {
   button: {
     fontFamily: "typography",
     fontSize: 15,
-    position: "absolute",
-    top: "50%",
-    left: "45%",
+    position: "relative",
     width: "300px",
   },
   greenbackground: {
@@ -31,15 +29,20 @@ const Home = () => {
         style={styles.image}
         width="100%"
         height="50%"
-        flexGrow={1}
-        display="flex"
+        sx={{
+          backgroundRepeat: "no-repeat",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-around",
+          margin: "auto",
+          flexDirection: "row",
+        }}
       >
         <Button
           style={styles.button}
           variant="contained"
           color="secondary"
-          position="center"
-          sx={{ ml: "-10%" }}
+          sx={{}}
         >
           Browse Cards
         </Button>
@@ -47,7 +50,7 @@ const Home = () => {
           style={styles.button}
           variant="contained"
           color="secondary"
-          sx={{ ml: "10%" }}
+          sx={{}}
         >
           Create your own Card
         </Button>
