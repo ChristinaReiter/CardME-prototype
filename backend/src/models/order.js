@@ -1,13 +1,14 @@
 const mongoose = require("mongoose");
 
 const OrderSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   deliveryDate: {
     type: Date,
     required: true,
   },
   billingAddress: {
-    type: AddressSchema,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Address",
     required: true,
   },
   recipientName: {
@@ -15,14 +16,22 @@ const OrderSchema = new mongoose.Schema({
     required: true,
   },
   recipientAddress: {
-    type: AddressSchema,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Address",
     required: true,
   },
   products: {
-    type: [ProductSchema],
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+      },
+    ],
   },
 
   // Subscription
 });
+
+OrderSchema.set("versionKey", false);
 
 module.exports = mongoose.model("Order", OrderSchema);

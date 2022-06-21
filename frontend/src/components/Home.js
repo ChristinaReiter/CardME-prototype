@@ -27,6 +27,7 @@ const styles = {
 const Home = () => {
   return (
     <div>
+<<<<<<< HEAD
       <Box
         style={styles.image}
         width="100%"
@@ -41,6 +42,12 @@ const Home = () => {
           position="center"
           sx={{ ml: "-10%" }}
         >
+=======
+      <Box>
+        <img alt="welcome-postcard" src={WelcomePostcard} width="100%"></img>
+
+        <Button variant="contained">
+>>>>>>> 194beed39c40729c1d09634c65236b3435062468
           Browse Cards
         </Button>
         <Button

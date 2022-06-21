@@ -5,6 +5,7 @@ const helmet = require("helmet");
 
 const config = require("./src/config");
 const product = require("./src/routes/product");
+const order = require("./src/routes/order");
 
 mongoose.connect(config.mongoURI).then(
   () => {
@@ -21,11 +22,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(helmet());
 const port = config.port;
 
+const cors = require("cors");
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
+
 app.get("/", (req, res) => {
   res.json({ response: "Hello World" });
 });
 
 app.use("/products", product);
+
+app.use("/order", order);
 
 app.listen(port, () => {
   console.log(`Backend listening on port ${port}`);

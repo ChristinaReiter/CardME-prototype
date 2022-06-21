@@ -1,8 +1,19 @@
 import React, { useState } from "react";
-import { Typography, Button, TextField, Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import {
+  Typography,
+  Button,
+  TextField,
+  Box,
+  Checkbox,
+  FormControlLabel,
+} from "@mui/material";
+import OrderService from "../services/OrderService";
 
 const CheckoutData = () => {
+  const navigate = useNavigate();
   const [inputs, setInputs] = useState({});
+  const inputBoxPadding = "1em";
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -12,13 +23,14 @@ const CheckoutData = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(inputs);
+
+    navigate("/checkout-overview");
   };
 
   return (
-    <Box display="flex" justifyContent="center">
+    <Box display="flex" justifyContent="center" padding="3em">
       <form onSubmit={handleSubmit}>
-        <div>
+        <Box padding={inputBoxPadding}>
           <Typography variant="h6">Contact details</Typography>
           <TextField
             type="email"
@@ -27,8 +39,8 @@ const CheckoutData = () => {
             name="email"
             onChange={handleChange}
           ></TextField>
-        </div>
-        <div>
+        </Box>
+        <Box padding={inputBoxPadding}>
           <Typography variant="h6">Billing address</Typography>
           <TextField
             type="text"
@@ -58,8 +70,8 @@ const CheckoutData = () => {
           <TextField
             type="text"
             placeholder="Number"
-            value={inputs.billingEmail || ""}
-            name="billingEmail"
+            value={inputs.billingNumber || ""}
+            name="billingNumber"
             onChange={handleChange}
             required
           ></TextField>
@@ -89,8 +101,8 @@ const CheckoutData = () => {
             onChange={handleChange}
             required
           ></TextField>
-        </div>
-        <div>
+        </Box>
+        <Box padding={inputBoxPadding}>
           <Typography variant="h6">Recipient address</Typography>
           <TextField
             type="text"
@@ -151,10 +163,25 @@ const CheckoutData = () => {
             onChange={handleChange}
             required
           ></TextField>
-        </div>
-        <Button variant="contained" color="secondary" type="submit">
-          Continue
-        </Button>
+          <br />
+        </Box>
+        <Box padding={inputBoxPadding}>
+          <Typography variant="h6">Delivery</Typography>
+          <TextField
+            type="date"
+            placeholder="Delivery date"
+            value={inputs.deliveryDate || ""}
+            name="deliveryDate"
+            onChange={handleChange}
+            required
+          ></TextField>
+          <FormControlLabel control={<Checkbox />} label="Recurring delivery" />{" "}
+        </Box>
+        <Box display="flex" justifyContent="end">
+          <Button variant="contained" color="secondary" type="submit">
+            Continue
+          </Button>
+        </Box>
       </form>
     </Box>
   );
