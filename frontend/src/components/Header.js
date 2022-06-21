@@ -1,11 +1,7 @@
 import React from "react";
 import Logo from "./../assets/images/logo_transparent.png";
 import { NavLink } from "react-router-dom";
-import { AppBar, IconButton } from "@mui/material";
-import { Toolbar } from "@mui/material";
-import { Typography } from "@mui/material";
-import { Tabs, Tab } from "@mui/material";
-import { Box } from "@mui/material";
+import { Tabs, Tab, Typography, Toolbar, AppBar, Box } from "@mui/material";
 import ShoppingCartOutlined from "@mui/icons-material/ShoppingCartOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
@@ -52,7 +48,14 @@ const Header = () => {
             <Tab style={styles.menuText} label="Every Day" href="/cards"></Tab>
             <Tab style={styles.menuText} label="Occasion" href="/cards"></Tab>
             <Tab style={styles.menuText} label="Seasonal" href="/cards"></Tab>
-            <Tab style={styles.menuText} label="Create" href="/create"></Tab>
+            <Tab
+              sx={{
+                fontFamily: "typography2",
+                fontSize: 20,
+              }}
+              label="Create"
+              href="/create"
+            ></Tab>
           </Tabs>
           <Tabs>
             <Typography color="primary">

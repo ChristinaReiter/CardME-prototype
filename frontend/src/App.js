@@ -10,7 +10,7 @@ import CheckoutData from "./components/CheckoutData";
 import { Box } from "@mui/system";
 import CheckoutOverview from "./components/CheckoutOverview";
 
-const theme = createTheme({
+export const theme = createTheme({
   palette: {
     primary: {
       main: "#a7cda7",
@@ -20,15 +20,13 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: [
-      '"Annie Use Your Telescope"',
-      '"Abril Fatface"',
-      'Antic'
-    ].join(','),
+    fontFamily: ['"Annie Use Your Telescope"', '"Abril Fatface"', "Antic"].join(
+      ","
+    ),
     //button: {
-      //fontFamily: '"Annie Use Your Telescope"',
-    //} 
-  }  
+    //fontFamily: '"Annie Use Your Telescope"',
+    //}
+  },
 });
 
 function App() {
@@ -37,13 +35,17 @@ function App() {
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Header />
-          <Box sx={{ mt: 6 }}>
+          <Box sx={{ mt: 6, position: "static" }}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route exact path="/cards" element={<Cards />} />
               <Route exact path="/create" element={<Create />} />
               <Route exact path="/checkout-data" element={<CheckoutData />} />
-              <Route exact path="/checkout-overview" element={<CheckoutOverview />} />
+              <Route
+                exact
+                path="/checkout-overview"
+                element={<CheckoutOverview />}
+              />
               <Route exact path="/profile" element={<ProfileOverview />} />
             </Routes>
           </Box>
