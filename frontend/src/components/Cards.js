@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Button, Box, Grid, Paper, Card, CardActions, CardContent, CardMedia} from "@mui/material";
+import { Typography, Button, Box, Grid, Paper, Card, CardActions, CardContent, CardMedia, IconButton} from "@mui/material";
 import { styled } from '@mui/material/styles';
 import CardService from "../services/CardService";
-import CardPlaceholder from "./../assets/images/happymothersday.jpg";
 import { margin } from "@mui/system";
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import image01 from '../assets/images/happymothersday.jpg'
 import image02 from '../assets/images/flowerywishes.jpg'
 import image03 from '../assets/images/flowerpastel.jpg'
@@ -34,6 +34,22 @@ const Cards = () => {
     color: theme.palette.text.secondary,
   }));
 
+  const styles = {
+    button: {
+      fontFamily: "Annie Use Your Telescope",
+      fontSize: 18,
+      marginRight: 20,
+      marginLeft: 20,
+      width: "92px",
+    },
+    favorites: {
+      marginLeft:"auto",
+    },
+    image: {
+      objectFit: "cover",
+    }
+  }
+
 let images = new Map();
 images.set('happymothersday', image01);
 images.set('flowerywishes', image02);
@@ -44,16 +60,45 @@ images.set('imoustacheyou', image04);
     <div>
       <Box sx={{ width: '100%', margin:'90px 30px 30px 30px'}}>
         <Typography variant="h4">All Cards:</Typography>
-        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{margin:'20px 10px 10px 10px'}}>
+        <Grid 
+          container 
+          rowSpacing={1} 
+          columnSpacing={{ xs: 1, sm: 2, md: 3 }} 
+          sx={{margin:'20px 10px 10px 10px'}}>
           {products.map((product) => (
             <Grid item xs={3}>
-              <Card>
-                <CardMedia
-                  component="img"
-                  height="194"
-                  image={images.get(product.url)}
-                  alt="Card-Preview"
-                />
+              <Card sx={{
+                width: 270,
+                height: 430,
+                bgcolor: "#F3F3F3",
+              }}>
+                <CardActions>
+                  <IconButton aria-label="add to favorites" style={styles.favorites}>
+                    <FavoriteIcon />
+                  </IconButton>
+                </CardActions>
+                <div style={{ display:'flex', justifyContent:'center', alignItems:"center"}}>
+                  <CardMedia style={styles.image}
+                    component="img"
+                    sx={{width:146.67, height:220, objectFit:"cover"}}
+                    image={images.get(product.url)}
+                    alt="Card-Preview"
+                  />
+                </div>
+                <CardContent>
+                  <Typography fontFamily={'Antic'} fontSize="20px" fontWeight={"500"} textAlign="center" component="div">
+                    {product.title}
+                  </Typography>
+                  <Typography fontFamily={'Antic'} fontSize='16px' textAlign={"center"} component="div">
+                    by {product.designer}
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <div style={{display:"flex", justifyContent:"center"}}>
+                    <Button size="small" variant="contained" color="secondary" style={styles.button} href=".././ViewCard">View</Button>
+                    <Button size="small" variant="contained" color="secondary" style={styles.button} href=".././Create">Write</Button>
+                  </div>    
+                </CardActions>
               </Card>
             </Grid>
           ))}
