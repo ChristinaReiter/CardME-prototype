@@ -58,7 +58,7 @@ images.set('imoustacheyou', image04);
           
   return (
     <div>
-      <Box sx={{ width: '100%', margin:'90px 30px 30px 30px'}}>
+      <Box sx={{ margin:'90px 30px 30px 30px'}}>
         <Typography variant="h4">All Cards:</Typography>
         <Grid 
           container 

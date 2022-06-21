@@ -4,14 +4,16 @@ import Cards from "./components/Cards";
 import Create from "./components/Create";
 import Header from "./components/Header";
 import Home from "./components/Home";
+import Login from "./components/Login";
 import ProfileOverview from "./components/ProfileOverview";
+import Register from "./components/Register";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CheckoutData from "./components/CheckoutData";
 import { Box } from "@mui/system";
 import CheckoutOverview from "./components/CheckoutOverview";
 import { useState } from "react";
 
-const theme = createTheme({
+export const theme = createTheme({
   palette: {
     primary: {
       main: "#a7cda7",
@@ -41,7 +43,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Header />
-          <Box sx={{ mt: 6 }}>
+          <Box sx={{ mt: 6, position: "static" }}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route exact path="/cards" element={<Cards />} />
@@ -62,6 +64,8 @@ function App() {
                 element={<CheckoutOverview checkoutData={checkoutData} />}
               />
               <Route exact path="/profile" element={<ProfileOverview />} />
+              <Route exact path="/register" element={<Register />} />
+              <Route exact path="/login" element={<Login />} />
             </Routes>
           </Box>
         </BrowserRouter>
