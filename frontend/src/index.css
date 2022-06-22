@@ -18,6 +18,8 @@ code {
   height: 60px;
   background: #A7CDA7;
   box-shadow: 0px 6px 4px rgba(51, 97, 50, 0.25), inset 0px 6px 4px rgba(51, 97, 50, 0.25);
-  top: 60px;
+  margin-top: 60px;
   font-size: 30px;
+  display: flex;
+  align-items: center;
 }
