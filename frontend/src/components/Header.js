@@ -42,7 +42,7 @@ const Header = () => {
           }}
         >
           <NavLink to="/">
-            <img src={Logo} alt="logo" width="130px"></img>
+            <img src={Logo} alt="logo" height="55px"></img>
           </NavLink>
           <Tabs sx={{ justifyContent: "center" }}>
             <Tab style={styles.menuText} label="Every Day" href="/cards"></Tab>
