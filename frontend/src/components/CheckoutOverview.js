@@ -1,27 +1,41 @@
 import { useTheme } from "@emotion/react";
+import styled from "@emotion/styled";
 import { Box, Grid, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 
 const CheckoutOverview = ({ checkoutData }) => {
   const theme = useTheme();
-  useEffect(() => {
-    console.log(checkoutData);
-  }, []);
+  const style = {
+    detailBox: {
+      marginLeft: "3em",
+      padding: "2em",
+      borderRadius: "15px",
+      background: "#fff",
+    }
+  }
 
   return (
     <Box padding="3em">
       <Typography variant="h2">Checkbox</Typography>
-      <Box></Box>
-      <Box bgcolor={theme.palette.tertiary.main}>
-        <Grid container spacing={3} justifyContent="center">
+      <Box bgcolor={theme.palette.tertiary.main} padding="4em"></Box>
+      <Box bgcolor={theme.palette.tertiary.main} padding="4em" marginTop="4em">
+        <Grid container justifyContent="center">
           <Grid item xs={12}>
             <Typography variant="h4">Delivery details</Typography>
           </Grid>
-          <Grid item xs={3} bgcolor="#fff">
+          <Grid
+            item
+            xs={3}
+            style={style.detailBox}
+          >
             <Typography variant="h5">Your details</Typography>
             <Typography fontFamily="Antic">{checkoutData.email}</Typography>
           </Grid>
-          <Grid item xs={3} bgcolor="#fff">
+          <Grid
+            item
+            xs={3}
+            style={style.detailBox}
+          >
             <Typography variant="h5">Billing address</Typography>
             <Typography fontFamily="Antic">
               {checkoutData.billingFirstName} {checkoutData.billingLastName}
@@ -31,7 +45,11 @@ const CheckoutOverview = ({ checkoutData }) => {
               {checkoutData.billingCountry}
             </Typography>
           </Grid>
-          <Grid item xs={3} bgcolor="#fff">
+          <Grid
+            item
+            xs={3}
+            style={style.detailBox}
+          >
             <Typography variant="h5">Recipient address</Typography>
             <Typography fontFamily="Antic">
               {checkoutData.recipientFirstName} {checkoutData.recipientLastName}
@@ -45,7 +63,7 @@ const CheckoutOverview = ({ checkoutData }) => {
           </Grid>
         </Grid>
       </Box>
-      <Box bgcolor={theme.palette.tertiary.main}>
+      <Box bgcolor={theme.palette.tertiary.main} marginTop="4em">
         <Typography variant="h4">Payment</Typography>
       </Box>
     </Box>
