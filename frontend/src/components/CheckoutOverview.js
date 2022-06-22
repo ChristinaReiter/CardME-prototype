@@ -11,62 +11,58 @@ const CheckoutOverview = ({ checkoutData }) => {
       padding: "2em",
       borderRadius: "15px",
       background: "#fff",
-    }
-  }
+    },
+  };
 
   return (
-    <Box padding="3em">
-      <Typography variant="h2">Checkbox</Typography>
-      <Box bgcolor={theme.palette.tertiary.main} padding="4em"></Box>
-      <Box bgcolor={theme.palette.tertiary.main} padding="4em" marginTop="4em">
-        <Grid container justifyContent="center">
-          <Grid item xs={12}>
-            <Typography variant="h4">Delivery details</Typography>
+    <div>
+      <Box className="subheader"></Box>
+      <Box padding="3em">
+        <Typography variant="h2">Checkbox</Typography>
+        <Box bgcolor={theme.palette.tertiary.main} padding="4em"></Box>
+        <Box
+          bgcolor={theme.palette.tertiary.main}
+          padding="4em"
+          marginTop="4em"
+        >
+          <Grid container justifyContent="center">
+            <Grid item xs={12}>
+              <Typography variant="h4">Delivery details</Typography>
+            </Grid>
+            <Grid item xs={3} style={style.detailBox}>
+              <Typography variant="h5">Your details</Typography>
+              <Typography fontFamily="Antic">{checkoutData.email}</Typography>
+            </Grid>
+            <Grid item xs={3} style={style.detailBox}>
+              <Typography variant="h5">Billing address</Typography>
+              <Typography fontFamily="Antic">
+                {checkoutData.billingFirstName} {checkoutData.billingLastName}
+                <br />
+                {checkoutData.billingStreet} {checkoutData.billingNumber} <br />
+                {checkoutData.billingZipcode} {checkoutData.billingCity} <br />
+                {checkoutData.billingCountry}
+              </Typography>
+            </Grid>
+            <Grid item xs={3} style={style.detailBox}>
+              <Typography variant="h5">Recipient address</Typography>
+              <Typography fontFamily="Antic">
+                {checkoutData.recipientFirstName}{" "}
+                {checkoutData.recipientLastName}
+                <br />
+                {checkoutData.recipientStreet} {checkoutData.recipientNumber}{" "}
+                <br />
+                {checkoutData.recipientZipcode} {checkoutData.recipientCity}{" "}
+                <br />
+                {checkoutData.recipientCountry}
+              </Typography>
+            </Grid>
           </Grid>
-          <Grid
-            item
-            xs={3}
-            style={style.detailBox}
-          >
-            <Typography variant="h5">Your details</Typography>
-            <Typography fontFamily="Antic">{checkoutData.email}</Typography>
-          </Grid>
-          <Grid
-            item
-            xs={3}
-            style={style.detailBox}
-          >
-            <Typography variant="h5">Billing address</Typography>
-            <Typography fontFamily="Antic">
-              {checkoutData.billingFirstName} {checkoutData.billingLastName}
-              <br />
-              {checkoutData.billingStreet} {checkoutData.billingNumber} <br />
-              {checkoutData.billingZipcode} {checkoutData.billingCity} <br />
-              {checkoutData.billingCountry}
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={3}
-            style={style.detailBox}
-          >
-            <Typography variant="h5">Recipient address</Typography>
-            <Typography fontFamily="Antic">
-              {checkoutData.recipientFirstName} {checkoutData.recipientLastName}
-              <br />
-              {checkoutData.recipientStreet} {checkoutData.recipientNumber}{" "}
-              <br />
-              {checkoutData.recipientZipcode} {checkoutData.recipientCity}{" "}
-              <br />
-              {checkoutData.recipientCountry}
-            </Typography>
-          </Grid>
-        </Grid>
+        </Box>
+        <Box bgcolor={theme.palette.tertiary.main} marginTop="4em">
+          <Typography variant="h4">Payment</Typography>
+        </Box>
       </Box>
-      <Box bgcolor={theme.palette.tertiary.main} marginTop="4em">
-        <Typography variant="h4">Payment</Typography>
-      </Box>
-    </Box>
+    </div>
   );
 };
 
