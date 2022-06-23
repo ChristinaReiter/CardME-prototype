@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Button, Box, Grid, Paper, Card, CardActions, CardContent, CardMedia, IconButton} from "@mui/material";
-import { styled } from '@mui/material/styles';
+import { Typography, Button, Box, Grid, Paper, Card, CardActions, CardContent, CardMedia, IconButton, InputBase} from "@mui/material";
+import { styled, alpha } from '@mui/material/styles';
 import CardService from "../services/CardService";
-import { margin } from "@mui/system";
+import { margin, palette } from "@mui/system";
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import SearchIcon from '@mui/icons-material/Search';
 import image01 from '../assets/images/happymothersday.jpg'
 import image02 from '../assets/images/flowerywishes.jpg'
 import image03 from '../assets/images/flowerpastel.jpg'
@@ -55,10 +56,87 @@ images.set('happymothersday', image01);
 images.set('flowerywishes', image02);
 images.set('pastellflowers', image03);
 images.set('imoustacheyou', image04);
+
+
+
+//search bar design
+
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 1.0),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.75),
+  },
+  boxShadow: '1px 3px 9px rgba(0,0,0,0.75)',
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(1),
+    width: 'auto',
+  },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    fontSize:'24px',
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: '85ch',
+      '&:focus': {
+        width: '85ch',
+      },
+    },
+  },
+}));
+
+
+//search bar logic
+{/*const [searchInputText, setSearchInput] = useState("");
+let searchInputHandler = (e) => {
+  console.log(e.target.value);
+};*/}
+const searchInputHandler = (e) => {
+  const name = e.target.name;
+  const value = e.target.value;
+
+  if(e.key === 'Enter') {
+    console.log(value);
+  }
+  
+}
           
   return (
     <div>
-      <Box sx={{ margin:'90px 30px 30px 30px'}}>
+      <Box sx={{margin: '90px 0px 0px 0px', display: 'flex', justifyContent: 'center'}}>
+        <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase 
+              name= "searchInputText"
+              onKeyDown = {searchInputHandler}
+              placeholder="Search for…"
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </Search>
+      </Box>
+      <Box sx={{ margin:'30px 30px 30px 30px'}}>
         <Typography variant="h4">All Cards:</Typography>
         <Grid 
           container 
