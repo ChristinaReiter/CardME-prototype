@@ -5,7 +5,6 @@ import CardService from "../services/CardService";
 import { margin, palette } from "@mui/system";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import SearchIcon from '@mui/icons-material/Search';
-import SearchList from "./SearchList";
 import image01 from '../assets/images/happymothersday.jpg'
 import image02 from '../assets/images/flowerywishes.jpg'
 import image03 from '../assets/images/flowerpastel.jpg'
