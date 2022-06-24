@@ -5,6 +5,7 @@ import CardService from "../services/CardService";
 import { margin, palette } from "@mui/system";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import SearchIcon from '@mui/icons-material/Search';
+import SearchList from "./SearchList";
 import image01 from '../assets/images/happymothersday.jpg'
 import image02 from '../assets/images/flowerywishes.jpg'
 import image03 from '../assets/images/flowerpastel.jpg'
@@ -111,12 +112,23 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 let searchInputHandler = (e) => {
   console.log(e.target.value);
 };*/}
+const [Result, setResult] = useState(null);
 const searchInputHandler = (e) => {
   const name = e.target.name;
   const value = e.target.value;
 
   if(e.key === 'Enter') {
     console.log(value);
+    const filteredCards= (
+      products.map( (product) => {
+        if(product.title.toString().toLowerCase().includes(value.toString().toLowerCase()))
+          console.log(product.title);         
+      })
+     
+    )
+    const searchResult = products.filter((element) => element.title.includes(value))
+    setResult(searchResult);
+    console.log(filteredCards);
   }
   
 }
@@ -139,6 +151,7 @@ const searchInputHandler = (e) => {
       <Box sx={{ margin:'30px 30px 30px 30px'}}>
         <Typography variant="h4">All Cards:</Typography>
         <Grid 
+          products = {Result!==null?Result:products}
           container 
           rowSpacing={1} 
           columnSpacing={{ xs: 1, sm: 2, md: 3 }} 
