@@ -107,26 +107,21 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 //search bar logic
-{/*const [searchInputText, setSearchInput] = useState("");
-let searchInputHandler = (e) => {
-  console.log(e.target.value);
-};*/}
 const [Result, setResult] = useState(null);
 const searchInputHandler = (e) => {
   const name = e.target.name;
   const value = e.target.value;
 
   if(e.key === 'Enter') {
-    console.log(value);
-    const filteredCards= (
-      products.map( (product) => {
-        if(product.title.toString().toLowerCase().includes(value.toString().toLowerCase()))
-          console.log(product.title);         
-      })
-     
-    )
-    const searchResult = products.filter((element) => element.title.includes(value))
-    setResult(searchResult);
+    {/*console.log(value);*/}
+    console.log(products);
+    const filteredCards = [];
+    for (var i = 0; i < products.length; i++) {
+      if(products[i].title.toString().toLowerCase().includes(value.toString().toLowerCase())) {
+        filteredCards.push(products[i]);
+      }
+    }
+    setProducts(filteredCards);
     console.log(filteredCards);
   }
   
@@ -199,17 +194,3 @@ const searchInputHandler = (e) => {
 };
 
 export default Cards;
-
-
-{/*<Item>
-                <img 
-                  alt = "Card-Preview"
-                  source= {"../assets/images/" + product.url}
-                  width ="100%"
-                  sx={{ display: "block", height: "auto" }}
-                />
-                <p key={product._id}>
-                  <Typography variant="h5" gutterBottom="true">{product.title}</Typography>
-                  <Typography variant="h10" gutterBottom="true">by {product.designer}</Typography>
-                </p>
-</Item>*/}
