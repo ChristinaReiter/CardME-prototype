@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Button, Box, Grid, Paper, Card, CardActions, CardContent, CardMedia, IconButton, InputBase} from "@mui/material";
+import { Typography, Button, Box, Grid, Paper, Card, CardActions, CardContent, CardMedia, IconButton, InputBase, Input, InputAdornment} from "@mui/material";
 import { styled, alpha } from '@mui/material/styles';
 import CardService from "../services/CardService";
 import { margin, palette } from "@mui/system";
@@ -60,92 +60,44 @@ images.set('imoustacheyou', image04);
 
 
 //search bar design
-
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 1.0),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.75),
-  },
+const SearchBarStyle = {
   boxShadow: '1px 3px 9px rgba(0,0,0,0.75)',
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(1),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    fontSize:'24px',
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '85ch',
-      '&:focus': {
-        width: '85ch',
-      },
-    },
-  },
-}));
-
+  width: "350px"
+}
 
 //search bar logic
-const [Result, setResult] = useState(null);
 const searchInputHandler = (e) => {
-  const name = e.target.name;
   const value = e.target.value;
 
-  if(e.key === 'Enter') {
-    {/*console.log(value);*/}
-    console.log(products);
-    const filteredCards = [];
-    for (var i = 0; i < products.length; i++) {
-      if(products[i].title.toString().toLowerCase().includes(value.toString().toLowerCase())) {
-        filteredCards.push(products[i]);
-      }
+  console.log(products);
+  const filteredCards = [];
+  for (var i = 0; i < products.length; i++) {
+    if(products[i].title.toString().toLowerCase().includes(value.toString().toLowerCase())) {
+      filteredCards.push(products[i]);
     }
-    setProducts(filteredCards);
-    console.log(filteredCards);
   }
+  setProducts(filteredCards);
+  console.log(filteredCards);
   
 }
           
   return (
     <div>
       <Box sx={{margin: '90px 0px 0px 0px', display: 'flex', justifyContent: 'center'}}>
-        <Search>
-            <SearchIconWrapper>
+      <Input
+          onChange={searchInputHandler}
+          placeholder="Search for…"
+          startAdornment={
+            <InputAdornment position="end">
               <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase 
-              name= "searchInputText"
-              onKeyDown = {searchInputHandler}
-              placeholder="Search for…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
+            </InputAdornment>
+          }
+          style={SearchBarStyle}
+        ></Input>
       </Box>
       <Box sx={{ margin:'30px 30px 30px 30px'}}>
         <Typography variant="h4">All Cards:</Typography>
         <Grid 
-          products = {Result!==null?Result:products}
           container 
           rowSpacing={1} 
           columnSpacing={{ xs: 1, sm: 2, md: 3 }} 
