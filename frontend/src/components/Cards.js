@@ -15,6 +15,8 @@ import image04 from '../assets/images/imoustacheyou.png'
 
 const Cards = () => {
   const [products, setProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState([]);
+  
 
   useEffect(() => {
     CardService.getAllCards().then((result) => {
@@ -23,17 +25,6 @@ const Cards = () => {
       console.log(error)
     });
   }, []);
-
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: '#F3F3F3',
-    elevation: 1,
-    width: 237,
-    height: 369,
-    ...theme.typography.body2,
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  }));
 
   const styles = {
     button: {
@@ -57,27 +48,38 @@ images.set('flowerywishes', image02);
 images.set('pastellflowers', image03);
 images.set('imoustacheyou', image04);
 
+const productsCopy = JSON.parse(JSON.stringify(products));
+
 
 
 //search bar design
 const SearchBarStyle = {
   boxShadow: '1px 3px 9px rgba(0,0,0,0.75)',
-  width: "350px"
+  width: "500px",
+  height: "40px"
 }
 
 //search bar logic
 const searchInputHandler = (e) => {
   const value = e.target.value;
 
-  console.log(products);
-  const filteredCards = [];
+  {/*const filteredCards = [];
   for (var i = 0; i < products.length; i++) {
     if(products[i].title.toString().toLowerCase().includes(value.toString().toLowerCase())) {
       filteredCards.push(products[i]);
     }
-  }
+  }*/}
+  const filteredCards = products.filter((el) => {
+    console.log(el);
+    if (value === "") {
+      return el;
+    }
+    else {
+      return el.title.toString().toLowerCase().includes(value.toLowerCase());
+    }
+  })
   setProducts(filteredCards);
-  console.log(filteredCards);
+  {/*console.log(filteredCards);*/}
   
 }
           
@@ -85,7 +87,7 @@ const searchInputHandler = (e) => {
     <div>
       <Box sx={{margin: '90px 0px 0px 0px', display: 'flex', justifyContent: 'center'}}>
       <Input
-          onChange={searchInputHandler}
+          onChange={event => {setSearchTerm(event.target.value)}}
           placeholder="Search for…"
           startAdornment={
             <InputAdornment position="end">
@@ -102,7 +104,14 @@ const searchInputHandler = (e) => {
           rowSpacing={1} 
           columnSpacing={{ xs: 1, sm: 2, md: 3 }} 
           sx={{margin:'20px 10px 10px 10px'}}>
-          {products.map((product) => (
+          {products.filter((el) => {
+            if (searchTerm == "") {
+              return el;
+            }
+            else {
+              return el.title.toString().toLowerCase().includes(searchTerm.toLowerCase()) || el.designer.toString().toLowerCase().includes(searchTerm.toLowerCase());
+            }
+          }).map((product) => (
             <Grid item xs={3}>
               <Card sx={{
                 width: 270,
