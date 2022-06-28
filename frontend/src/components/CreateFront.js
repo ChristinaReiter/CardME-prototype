@@ -12,13 +12,15 @@ import { theme } from "../App";
 
 const styles = {
   stepbar: {
+    position: "relative",
     width: "100%",
     height: "60px",
     background: "#A7CDA7",
     boxShadow:
       "0px 6px 4px rgba(51, 97, 50, 0.25), inset 0px 6px 4px rgba(51, 97, 50, 0.25)",
-    top: "60px",
+    top: "10px",
     fontSize: "30px",
+    zIndex: "1",
   },
   kreis: {
     fontFamily: '"Annie Use Your Telescope"',
@@ -37,7 +39,7 @@ const styles = {
     width: "464px",
     height: "491px",
     left: "698px",
-    top: "182px",
+    top: "100px",
     background: "#F3F3F3",
     borderRadius: "30px",
   },
@@ -49,7 +51,7 @@ const styles = {
     width: "279px",
     height: "342px",
     left: "20%",
-    top: "120px",
+    top: "80px",
     background: "#FFFFFF",
     boxShadow:
       "2px 2px 30px rgba(0, 0, 0, 0.1), -2px -2px 30px rgba(0, 0, 0, 0.1)",
@@ -92,7 +94,7 @@ const styles = {
     width: "464px",
     height: "491px",
     left: "55%",
-    top: "-250px",
+    top: "-300px",
     background: "#F3F3F3",
     borderRadius: "30px",
   },
