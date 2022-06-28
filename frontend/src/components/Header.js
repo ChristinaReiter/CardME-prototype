@@ -21,13 +21,12 @@ const Header = () => {
     <Box
       sx={{
         flexGrow: 1,
-        display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
       }}
     >
       <AppBar
-        position="absolute"
+        position="fixed"
         sx={{
           flexGrow: 1,
           display: "flex",

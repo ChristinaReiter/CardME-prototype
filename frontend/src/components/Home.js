@@ -38,20 +38,10 @@ const Home = () => {
           flexDirection: "row",
         }}
       >
-        <Button
-          style={styles.button}
-          variant="contained"
-          color="secondary"
-          sx={{}}
-        >
+        <Button style={styles.button} variant="contained" color="secondary">
           Browse Cards
         </Button>
-        <Button
-          style={styles.button}
-          variant="contained"
-          color="secondary"
-          sx={{}}
-        >
+        <Button style={styles.button} variant="contained" color="secondary">
           Create your own Card
         </Button>
       </Box>
