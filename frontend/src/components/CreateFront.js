@@ -24,7 +24,7 @@ const styles = {
   },
   kreis: {
     fontFamily: '"Annie Use Your Telescope"',
-    position: "absolute",
+    position: "relative",
     width: "40px",
     height: "40px",
     borderRadius: "50%",
@@ -35,7 +35,7 @@ const styles = {
     lineHeight: "40px",
   },
   adjust: {
-    position: "absolute",
+    position: "relative",
     width: "464px",
     height: "491px",
     left: "698px",

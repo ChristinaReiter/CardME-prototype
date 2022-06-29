@@ -18,7 +18,7 @@ const styles = {
     background: "#A7CDA7",
     boxShadow:
       "0px 6px 4px rgba(51, 97, 50, 0.25), inset 0px 6px 4px rgba(51, 97, 50, 0.25)",
-    top: "-280px",
+
     fontSize: "30px",
     zIndex: "1",
   },
@@ -35,37 +35,30 @@ const styles = {
     lineHeight: "40px",
   },
   adjusttext: {
-    position: "relative ",
-    display: "flex",
-    alignItems: "center",
-    alignContent: "center",
-    justifyContent: "center",
+    position: "relative",
     width: "1146px",
     height: "254px",
+
     background: "#F3F3F3",
     borderRadius: "30px",
-    top: "-280px",
-    margin: "10px",
-    left: "50%",
   },
 };
 
-const CreateText = () => {
+const CreateAddGift = () => {
   return (
     <Box sx={{ flexGrow: 1, flexShrink: 1 }}>
       <Typography fontStyle="Annie Use Your Telescope">
         <AppBar style={styles.stepbar}>
           <Toolbar>
             <IconButton sx={{ mr: 2 }}>
-              <div style={styles.kreis}>2.</div>
+              <div style={styles.kreis}>3.</div>
             </IconButton>
-            <div fontSize={"30px"}>Create card text</div>
+            <div fontSize={"30px"}>Add gift (optional)</div>
           </Toolbar>
         </AppBar>
-        <div sx={styles.adjusttext}></div>
       </Typography>
     </Box>
   );
 };
 
-export default CreateText;
+export default CreateAddGift;
