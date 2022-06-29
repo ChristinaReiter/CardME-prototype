@@ -9,14 +9,15 @@ import image01 from '../assets/images/happymothersday.jpg'
 import image02 from '../assets/images/flowerywishes.jpg'
 import image03 from '../assets/images/flowerpastel.jpg'
 import image04 from '../assets/images/imoustacheyou.png'
+import { useNavigate } from "react-router-dom";
 
 
 
 
-const Cards = () => {
+const Cards = ({setShoppingCart}) => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState([]);
-  
+  const navigate = useNavigate();
 
   useEffect(() => {
     CardService.getAllCards().then((result) => {
@@ -82,6 +83,19 @@ const searchInputHandler = (e) => {
   {/*console.log(filteredCards);*/}
   
 }
+
+const addProductToCart = (product) => {
+  let cartItem = {
+    cardId: product._id,
+    cardUrl: product.url,
+    cardTitle: product.title,
+    cardPrice: product.price,
+    text: null,
+    giftId: null
+  }
+  setShoppingCart(cartItem)
+  navigate("/create")
+}
           
   return (
     <div>
@@ -142,7 +156,7 @@ const searchInputHandler = (e) => {
                 <CardActions>
                   <div style={{display:"flex", justifyContent:"center"}}>
                     <Button size="small" variant="contained" color="secondary" style={styles.button} href=".././ViewCard">View</Button>
-                    <Button size="small" variant="contained" color="secondary" style={styles.button} href=".././Create">Write</Button>
+                    <Button size="small" variant="contained" color="secondary" style={styles.button} onClick={() => {addProductToCart(product)}}>Write</Button>
                   </div>    
                 </CardActions>
               </Card>

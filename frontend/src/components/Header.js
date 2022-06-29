@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import Logo from "./../assets/images/logo_transparent.png";
 import { NavLink } from "react-router-dom";
-import { Tabs, Tab, Typography, Toolbar, AppBar, Box } from "@mui/material";
+import {
+  Tabs,
+  Tab,
+  Typography,
+  Toolbar,
+  AppBar,
+  Box,
+  Popover,
+  Button,
+  Grid,
+} from "@mui/material";
 import ShoppingCartOutlined from "@mui/icons-material/ShoppingCartOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import { useTheme } from "@emotion/react";
+
+import image01 from "../assets/images/happymothersday.jpg";
+import { border } from "@mui/system";
 
 const styles = {
   menuText: {
@@ -16,7 +30,19 @@ const styles = {
   },
 };
 
-const Header = () => {
+const Header = ({ shoppingCart }) => {
+  const theme = useTheme();
+  const [popoverAnchor, setPopoverAnchor] = useState(null);
+  const popoverOpened = Boolean(popoverAnchor);
+
+  const openShoppingCart = (event) => {
+    setPopoverAnchor(event.currentTarget);
+  };
+
+  const closeShoppingCart = () => {
+    setPopoverAnchor(null);
+  };
+
   return (
     <Box
       sx={{
@@ -61,6 +87,7 @@ const Header = () => {
               <Tab
                 icon={<ShoppingCartOutlined fontSize="large" />}
                 sx={{ minWidth: 2 }}
+                onClick={openShoppingCart}
               />
               <Tab
                 icon={<PermIdentityOutlinedIcon fontSize="large" />}
@@ -72,6 +99,62 @@ const Header = () => {
                 sx={{ minWidth: 2 }}
               />
             </Typography>
+            <Popover
+              open={popoverOpened}
+              onClose={closeShoppingCart}
+              anchorEl={popoverAnchor}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "center",
+              }}
+            >
+              <Box padding="2em" maxWidth="20em">
+                <Grid
+                  container
+                  bgcolor={theme.palette.tertiary.main}
+                  padding="2em"
+                  borderRadius="25px"
+                >
+                  <Grid item xs={4}>
+                    <img src={image01} width="80%"></img>
+                  </Grid>
+                  <Grid item xs={8} textAlign="right">
+                    <Typography>{shoppingCart.cardTitle}</Typography>
+                    <Typography fontFamily="Antic">
+                      {shoppingCart.cardPrice},-
+                    </Typography>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    justifyContent="center"
+                    display="flex"
+                    paddingTop="1em"
+                  >
+                    <Button
+                      variant="contained"
+                      style={{ color: theme.palette.secondary.main }}
+                    >
+                      Remove
+                    </Button>
+                    <Button
+                      variant="contained"
+                      sx={{ ml: 4 }}
+                      style={{ color: theme.palette.secondary.main }}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      sx={{ ml: 4 }}
+                    >
+                      Checkout
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Box>
+            </Popover>
           </Tabs>
         </Toolbar>
       </AppBar>

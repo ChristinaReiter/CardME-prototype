@@ -19,11 +19,11 @@ export const theme = createTheme({
       main: "#a7cda7",
     },
     secondary: {
-      main: "#0a5108",
+      main: "#0a5108"
     },
     tertiary: {
-      main: "#F3F3F3"
-    }
+      main: "#F3F3F3",
+    },
   },
   typography: {
     fontFamily: ['"Annie Use Your Telescope"', '"Abril Fatface"', "Antic"].join(
@@ -37,16 +37,21 @@ export const theme = createTheme({
 
 function App() {
   const [checkoutData, setCheckoutData] = useState({});
+  const [shoppingCart, setShoppingCart] = useState([]);
 
   return (
     <div>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <Header />
+          <Header shoppingCart={shoppingCart} />
           <Box sx={{ mt: 6, position: "static" }}>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route exact path="/cards" element={<Cards />} />
+              <Route
+                exact
+                path="/cards"
+                element={<Cards setShoppingCart={setShoppingCart} />}
+              />
               <Route exact path="/create" element={<Create />} />
               <Route
                 exact
