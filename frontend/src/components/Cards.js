@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Button, Box, Grid, Paper, Card, CardActions, CardContent, CardMedia, IconButton, InputBase, Input, InputAdornment} from "@mui/material";
-import { styled, alpha } from '@mui/material/styles';
+import { AppBar, Typography, Button, Divider, Box, Grid, Paper, Card, CardActions, CardContent, CardMedia, IconButton, InputBase, Input, InputAdornment, Table, TableHead, TableRow, TableCell} from "@mui/material";
+import FilterList from '@mui/icons-material/FilterList';
+import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
 import CardService from "../services/CardService";
 import { margin, palette } from "@mui/system";
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -28,6 +29,29 @@ const Cards = ({setShoppingCart}) => {
   }, []);
 
   const styles = {
+    filterBar: {
+      borderBottom: "none",
+    },
+    filterHeader: {
+      display:"flex", 
+      alignItems:"center", 
+      justifyContent:"start"
+    },
+    stepbar: {
+      display: "flex",
+      flexDirection: "row",
+      margin: "50px 0px 0px 0px",
+      position: "fixed",
+      width: "100%",
+      height: "80px",
+      background: "#A7CDA7",
+      alignItems: "center",
+      justifyContent: "center",
+      boxShadow:
+      "0px 2px 4px rgba(51, 97, 50, 0.25), inset 0px 6px 4px rgba(51, 97, 50, 0.25)",
+      top: "10px",
+      zIndex: "1",
+    },
     button: {
       fontFamily: "Annie Use Your Telescope",
       fontSize: 18,
@@ -99,7 +123,40 @@ const addProductToCart = (product) => {
           
   return (
     <div>
-      <Box sx={{margin: '90px 0px 0px 0px', display: 'flex', justifyContent: 'center'}}>
+      <Box sx={{ flexGrow: 1, flexShrink: 1 }}>
+          <AppBar position="fixed" style={styles.stepbar}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={styles.filterBar}>
+                    <div style={styles.filterHeader}>
+                      <div>
+                        <Typography variant="h5" ><b>Color</b></Typography>
+                        <Typography variant="h7" >All Colors</Typography> 
+                      </div>
+                      <div style={{alignSelf:"flex-right"}}> {/*aaaaaaaaaaaah*/}
+                        <FilterList />
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell sx={styles.filterBar}><Typography variant="h5" >Vibe</Typography>
+                  <Typography variant="h7" >All Vibes</Typography></TableCell>
+                  <TableCell sx={styles.filterBar}><Typography variant="h5" >Style</Typography>
+                  <Typography variant="h7" >All Styles</Typography></TableCell>
+                  <TableCell sx={styles.filterBar}><Typography variant="h5" >Recipient</Typography>
+                  <Typography variant="h7" >All Recipients</Typography></TableCell>
+                  <TableCell sx={styles.filterBar}><Typography variant="h5" >Occasion</Typography>
+                  <Typography variant="h7" >All Occasions</Typography></TableCell>
+                  <TableCell sx={styles.filterBar}><Typography variant="h5" >Season</Typography>
+                  <Typography variant="h7" >All Seasons</Typography></TableCell>
+                  <TableCell sx={styles.filterBar}><Typography variant="h5" >Sort By</Typography>
+                  <Typography variant="h7" >Most Trending</Typography></TableCell>
+                </TableRow>
+              </TableHead>
+            </Table>
+          </AppBar>
+      </Box>
+      <Box sx={{margin: '200px 0px 0px 0px', display: 'flex', justifyContent: 'center'}}>
       <Input
           onChange={event => {setSearchTerm(event.target.value)}}
           placeholder="Search for…"
