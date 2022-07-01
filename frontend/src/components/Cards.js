@@ -29,28 +29,51 @@ const Cards = ({setShoppingCart}) => {
   }, []);
 
   const styles = {
-    filterBar: {
-      borderBottom: "none",
-    },
     filterHeader: {
       display:"flex", 
       alignItems:"center", 
-      justifyContent:"start"
+      justifyContent:"start",
+      borderRight: "1px solid",
+      background: "#A7CDA7",
+      "&:hover": {
+        background: "#FF69B4",
+      },
     },
-    stepbar: {
+    filterBar: {
       display: "flex",
       flexDirection: "row",
-      margin: "50px 0px 0px 0px",
-      position: "fixed",
       width: "100%",
-      height: "80px",
-      background: "#A7CDA7",
+      height:70,
       alignItems: "center",
       justifyContent: "center",
+      background: "#A7CDA7",
+      "&:hover": {
+        background: "#FF69B4",
+      },
       boxShadow:
       "0px 2px 4px rgba(51, 97, 50, 0.25), inset 0px 6px 4px rgba(51, 97, 50, 0.25)",
-      top: "10px",
+      top:"60px",
       zIndex: "1",
+    },
+    tableRow: {
+      height: 70,
+      display: "flex",
+      flexDirection: "row",
+      width:"100%",
+    },
+    tableCell: {
+      borderRight: "1px solid",
+      backgroundColor: "FF69B4",
+      width:"100%",
+      borderBottom: "none",
+      background: "#A7CDA7",
+      "&:hover": {
+        background: "#FF69B4",
+      },
+      display:"flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      padding: "5px 10px",
     },
     button: {
       fontFamily: "Annie Use Your Telescope",
@@ -75,6 +98,21 @@ images.set('imoustacheyou', image04);
 
 const productsCopy = JSON.parse(JSON.stringify(products));
 
+function getInitialState (){
+  return {hover: false}
+}
+function toggleHover (){
+  this.setState({hover: !this.state.hover})
+};
+
+function render (){
+  var linkStyle;
+    if (this.state.hover) {
+      linkStyle = {backgroundColor: 'red'}
+    } else {
+      linkStyle = {backgroundColor: 'blue'}
+    }
+}
 
 
 //search bar design
@@ -124,37 +162,77 @@ const addProductToCart = (product) => {
   return (
     <div>
       <Box sx={{ flexGrow: 1, flexShrink: 1 }}>
-          <AppBar position="fixed" style={styles.stepbar}>
+          <Box position="fixed" style={styles.filterBar}>
             <Table>
               <TableHead>
-                <TableRow>
-                  <TableCell sx={styles.filterBar}>
-                    <div style={styles.filterHeader}>
-                      <div>
-                        <Typography variant="h5" ><b>Color</b></Typography>
-                        <Typography variant="h7" >All Colors</Typography> 
-                      </div>
-                      <div style={{alignSelf:"flex-right"}}> {/*aaaaaaaaaaaah*/}
-                        <FilterList />
-                      </div>
+                <TableRow style={styles.tableRow}>
+                  <TableCell style={styles.tableCell} onMouseEnter={toggleHover} onMouseLeave={toggleHover}>
+                    <div>
+                      <Typography variant="h5" ><b>Color</b></Typography>
+                      <Typography variant="h7" >All Colors</Typography>
+                    </div> 
+                    <div>
+                      <FilterList style={{alignContent: "right"}}/>
+                    </div>
+                  </TableCell>   
+                  <TableCell style={styles.tableCell}>
+                    <div>
+                      <Typography variant="h5" ><b>Vibes</b></Typography>
+                      <Typography variant="h7" >All Vibes</Typography>
+                    </div> 
+                    <div>
+                      <FilterList style={{alignContent: "right"}}/>
                     </div>
                   </TableCell>
-                  <TableCell sx={styles.filterBar}><Typography variant="h5" >Vibe</Typography>
-                  <Typography variant="h7" >All Vibes</Typography></TableCell>
-                  <TableCell sx={styles.filterBar}><Typography variant="h5" >Style</Typography>
-                  <Typography variant="h7" >All Styles</Typography></TableCell>
-                  <TableCell sx={styles.filterBar}><Typography variant="h5" >Recipient</Typography>
-                  <Typography variant="h7" >All Recipients</Typography></TableCell>
-                  <TableCell sx={styles.filterBar}><Typography variant="h5" >Occasion</Typography>
-                  <Typography variant="h7" >All Occasions</Typography></TableCell>
-                  <TableCell sx={styles.filterBar}><Typography variant="h5" >Season</Typography>
-                  <Typography variant="h7" >All Seasons</Typography></TableCell>
-                  <TableCell sx={styles.filterBar}><Typography variant="h5" >Sort By</Typography>
-                  <Typography variant="h7" >Most Trending</Typography></TableCell>
+                  <TableCell style={styles.tableCell}>
+                    <div>
+                      <Typography variant="h5" ><b>Styles</b></Typography>
+                      <Typography variant="h7" >All Styles</Typography>
+                    </div> 
+                    <div>
+                      <FilterList style={{alignContent: "right"}}/>
+                    </div>
+                  </TableCell>
+                  <TableCell style={styles.tableCell}>
+                    <div>
+                      <Typography variant="h5" ><b>Recipients</b></Typography>
+                      <Typography variant="h7" >All Recipients</Typography>
+                    </div> 
+                    <div>
+                      <FilterList style={{alignContent: "right"}}/>
+                    </div>
+                  </TableCell>
+                  <TableCell style={styles.tableCell}>
+                    <div>
+                      <Typography variant="h5" ><b>Occasion</b></Typography>
+                      <Typography variant="h7" >All Occasions</Typography>
+                    </div> 
+                    <div>
+                      <FilterList style={{alignContent: "right"}}/>
+                    </div>
+                  </TableCell>
+                  <TableCell style={styles.tableCell}>
+                    <div>
+                      <Typography variant="h5" ><b>Season</b></Typography>
+                      <Typography variant="h7" >All Seasons</Typography>
+                    </div> 
+                    <div>
+                      <FilterList style={{alignContent: "right"}}/>
+                    </div>
+                  </TableCell>
+                  <TableCell style={styles.tableCell}>
+                    <div>
+                      <Typography variant="h5" ><b>Sort By</b></Typography>
+                      <Typography variant="h7" >Most Trending</Typography>
+                    </div> 
+                    <div>
+                      <FilterList style={{alignContent: "right"}}/>
+                    </div>
+                  </TableCell>
                 </TableRow>
               </TableHead>
             </Table>
-          </AppBar>
+          </Box>
       </Box>
       <Box sx={{margin: '200px 0px 0px 0px', display: 'flex', justifyContent: 'center'}}>
       <Input
