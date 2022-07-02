@@ -67,9 +67,17 @@ const Cards = ({setShoppingCart}) => {
       width:"100%",
       borderBottom: "none",
       background: "#A7CDA7",
-      "&:hover": {
-        background: "#FF69B4",
-      },
+      display:"flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      padding: "5px 10px",
+    },
+    tableCellHover: {
+      borderRight: "1px solid",
+      backgroundColor: "FF69B4",
+      width:"100%",
+      borderBottom: "none",
+      background: "#FF69B4",
       display:"flex",
       flexDirection: "row",
       justifyContent: "space-between",
@@ -105,7 +113,7 @@ function toggleHover (){
   this.setState({hover: !this.state.hover})
 };
 
-function render (){
+function filterHover (){
   var linkStyle;
     if (this.state.hover) {
       linkStyle = {backgroundColor: 'red'}
@@ -158,6 +166,23 @@ const addProductToCart = (product) => {
   setShoppingCart(cartItem)
   navigate("/create")
 }
+
+const [filterIsHovering, setFilterIsHovering] = useState(false);
+
+function handleFilterMouseEnter (e) {
+  setFilterIsHovering(true);
+  console.log(setFilterIsHovering);
+}
+
+function hoverOverFilter() {
+  if(filterIsHovering) {
+    return styles.tableCellHover;
+  }
+  else {
+    return styles.tableCell;
+  }
+    
+}
           
   return (
     <div>
@@ -166,7 +191,7 @@ const addProductToCart = (product) => {
             <Table>
               <TableHead>
                 <TableRow style={styles.tableRow}>
-                  <TableCell style={styles.tableCell} onMouseEnter={toggleHover} onMouseLeave={toggleHover}>
+                  <TableCell style={styles.tableCell} onMouseEnter={handleFilterMouseEnter} onMouseLeave={handleFilterMouseEnter}>
                     <div>
                       <Typography variant="h5" ><b>Color</b></Typography>
                       <Typography variant="h7" >All Colors</Typography>
@@ -175,7 +200,7 @@ const addProductToCart = (product) => {
                       <FilterList style={{alignContent: "right"}}/>
                     </div>
                   </TableCell>   
-                  <TableCell style={styles.tableCell}>
+                  <TableCell style={{hoverOverFilter}} onMouseEnter={handleFilterMouseEnter} onMouseLeave={handleFilterMouseEnter}>
                     <div>
                       <Typography variant="h5" ><b>Vibes</b></Typography>
                       <Typography variant="h7" >All Vibes</Typography>
