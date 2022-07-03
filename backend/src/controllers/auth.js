@@ -3,31 +3,28 @@ const Account = require('../models/account');
 
 
 const register = async (req, res) => {
-  console.log(req.body);
-  try {
-    /* const user = await User.create({
-      name: req.body.name,
-      email: req.body.email,
-      
-    }) */
-    const account = await Account.create({
-      user: await User.create ({
-        name: req.body.name,
+    console.log(req.body)
+    try{
+      const user = await User.create({
         email: req.body.email,
-        
-      }),
-      password: req.body.password,
-    })
+        name: req.body.name,
+         })
+      const account = await Account.create({
+        user: user._id,
+        password: req.body.password,
+      })
+      return res.json({response: 'success'})
+    
+    
+    } catch (err) {
+      console.log(err)
+     return res.json({response: "error"})
+    }
+    
+  }
+  
 
-  return res.json({status: 'ok'})
-
-} catch (err) {
-  console.log(err)
-  return res.json({status: 'error', message: err.message})
-}
-};
-
-const login = async (req, res) => {
+ const login = async (req, res) => {
     try{
     const account = await User.findOne({
       email: req.body.email,
@@ -45,11 +42,11 @@ const login = async (req, res) => {
     message: err.message,
     });
   }
-}; 
+};  
 
 
 module.exports = {
     register,
     login,
   };
- 
+  
