@@ -65,9 +65,16 @@ const Cards = ({addProductToShoppingCart}) => {
       width:"100%",
       borderBottom: "none",
       background: "#A7CDA7",
-      "&:hover": {
-        background: "#FF69B4",
-      },
+      display:"flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      padding: "5px 10px",
+    },
+    tableCellHover: {
+      borderRight: "1px solid",
+      background: "rgba(10, 81, 8, 0.61)",
+      width:"100%",
+      borderBottom: "none",
       display:"flex",
       flexDirection: "row",
       justifyContent: "space-between",
@@ -95,22 +102,6 @@ images.set('pastellflowers', image03);
 images.set('imoustacheyou', image04);
 
 const productsCopy = JSON.parse(JSON.stringify(products));
-
-function getInitialState (){
-  return {hover: false}
-}
-function toggleHover (){
-  this.setState({hover: !this.state.hover})
-};
-
-function render (){
-  var linkStyle;
-    if (this.state.hover) {
-      linkStyle = {backgroundColor: 'red'}
-    } else {
-      linkStyle = {backgroundColor: 'blue'}
-    }
-}
 
 
 //search bar design
@@ -147,6 +138,37 @@ const searchInputHandler = (e) => {
 const addProductToCart = (product) => {
   addProductToShoppingCart(product)
 }
+
+const [filterIsHovering, setFilterIsHovering] = useState(-1);
+const [filterIsClicked, setFilterIsClicked] = useState(-1);
+
+function handleFilterMouseEnter (index) {
+  setFilterIsHovering(index);
+}
+
+function clickOnFilter(index) {
+  setFilterIsClicked(index);
+}
+
+function EnableBox ({index}) {
+  if (filterIsClicked == index) {
+    return (
+      <Box style={{
+        width:200,
+        height:200,
+        top:"400px",
+        background: "#A7CDA7",
+        zIndex:1,
+      }}>
+      </Box>
+    )
+  }
+  else {
+    return (
+      <Box disabled></Box>
+    )
+  }
+}
           
   return (
     <div>
@@ -155,7 +177,7 @@ const addProductToCart = (product) => {
             <Table>
               <TableHead>
                 <TableRow style={styles.tableRow}>
-                  <TableCell style={styles.tableCell} onMouseEnter={toggleHover} onMouseLeave={toggleHover}>
+                  <TableCell style={filterIsHovering == 0 ? (styles.tableCellHover):(styles.tableCell)} onMouseEnter={() => handleFilterMouseEnter(0)} onMouseLeave={() => handleFilterMouseEnter(-1)} onClick={() => clickOnFilter(0)}>
                     <div>
                       <Typography variant="h5" ><b>Color</b></Typography>
                       <Typography variant="h7" >All Colors</Typography>
@@ -164,7 +186,7 @@ const addProductToCart = (product) => {
                       <FilterList style={{alignContent: "right"}}/>
                     </div>
                   </TableCell>   
-                  <TableCell style={styles.tableCell}>
+                  <TableCell style={filterIsHovering == 1 ? (styles.tableCellHover):(styles.tableCell)} onMouseEnter={() => handleFilterMouseEnter(1)} onMouseLeave={() => handleFilterMouseEnter(-1)} onClick={() => clickOnFilter(1)}>
                     <div>
                       <Typography variant="h5" ><b>Vibes</b></Typography>
                       <Typography variant="h7" >All Vibes</Typography>
@@ -173,7 +195,7 @@ const addProductToCart = (product) => {
                       <FilterList style={{alignContent: "right"}}/>
                     </div>
                   </TableCell>
-                  <TableCell style={styles.tableCell}>
+                  <TableCell style={filterIsHovering == 2 ? (styles.tableCellHover):(styles.tableCell)} onMouseEnter={() => handleFilterMouseEnter(2)} onMouseLeave={() => handleFilterMouseEnter(-1)} onClick={() => clickOnFilter(2)}>
                     <div>
                       <Typography variant="h5" ><b>Styles</b></Typography>
                       <Typography variant="h7" >All Styles</Typography>
@@ -182,7 +204,7 @@ const addProductToCart = (product) => {
                       <FilterList style={{alignContent: "right"}}/>
                     </div>
                   </TableCell>
-                  <TableCell style={styles.tableCell}>
+                  <TableCell style={filterIsHovering == 3 ? (styles.tableCellHover):(styles.tableCell)} onMouseEnter={() => handleFilterMouseEnter(3)} onMouseLeave={() => handleFilterMouseEnter(-1)} onClick={() => clickOnFilter(3)}>
                     <div>
                       <Typography variant="h5" ><b>Recipients</b></Typography>
                       <Typography variant="h7" >All Recipients</Typography>
@@ -191,7 +213,7 @@ const addProductToCart = (product) => {
                       <FilterList style={{alignContent: "right"}}/>
                     </div>
                   </TableCell>
-                  <TableCell style={styles.tableCell}>
+                  <TableCell style={filterIsHovering == 4 ? (styles.tableCellHover):(styles.tableCell)} onMouseEnter={() => handleFilterMouseEnter(4)} onMouseLeave={() => handleFilterMouseEnter(-1)} onClick={() => clickOnFilter(4)}>
                     <div>
                       <Typography variant="h5" ><b>Occasion</b></Typography>
                       <Typography variant="h7" >All Occasions</Typography>
@@ -200,7 +222,7 @@ const addProductToCart = (product) => {
                       <FilterList style={{alignContent: "right"}}/>
                     </div>
                   </TableCell>
-                  <TableCell style={styles.tableCell}>
+                  <TableCell style={filterIsHovering == 5 ? (styles.tableCellHover):(styles.tableCell)} onMouseEnter={() => handleFilterMouseEnter(5)} onMouseLeave={() => handleFilterMouseEnter(-1)} onClick={() => clickOnFilter(5)}>
                     <div>
                       <Typography variant="h5" ><b>Season</b></Typography>
                       <Typography variant="h7" >All Seasons</Typography>
@@ -209,7 +231,7 @@ const addProductToCart = (product) => {
                       <FilterList style={{alignContent: "right"}}/>
                     </div>
                   </TableCell>
-                  <TableCell style={styles.tableCell}>
+                  <TableCell style={filterIsHovering == 6 ? (styles.tableCellHover):(styles.tableCell)} onMouseEnter={() => handleFilterMouseEnter(6)} onMouseLeave={() => handleFilterMouseEnter(-1)} onClick={() => clickOnFilter(6)}>
                     <div>
                       <Typography variant="h5" ><b>Sort By</b></Typography>
                       <Typography variant="h7" >Most Trending</Typography>
@@ -222,6 +244,7 @@ const addProductToCart = (product) => {
               </TableHead>
             </Table>
           </Box>
+          <EnableBox index={0}></EnableBox>
       </Box>
       <Box sx={{margin: '200px 0px 0px 0px', display: 'flex', justifyContent: 'center'}}>
       <Input
