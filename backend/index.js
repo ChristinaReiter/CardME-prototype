@@ -39,6 +39,8 @@ app.use("/products", product);
 
 app.use("/order", order);
 
+app.use("/public", express.static("public"));
+
 app.listen(port, () => {
   console.log(`Backend listening on port ${port}`);
 });

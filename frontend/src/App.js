@@ -19,6 +19,7 @@ import Calendar from "./components/Calendar";
 import Favorites from "./components/Favorites";
 import Contacts from "./components/Contacts";
 import AccountDetails from "./components/AccountDetails";
+import ShoppingCartService from "./services/ShoppingCartService";
 
 export const theme = createTheme({
   palette: {
@@ -26,7 +27,7 @@ export const theme = createTheme({
       main: "#a7cda7",
     },
     secondary: {
-      main: "#0a5108"
+      main: "#0a5108",
     },
     tertiary: {
       main: "#F3F3F3",
@@ -44,21 +45,16 @@ export const theme = createTheme({
 
 function App() {
   const [checkoutData, setCheckoutData] = useState({});
-  const [shoppingCart, setShoppingCart] = useState([]);
 
   return (
     <div>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <Header shoppingCart={shoppingCart} />
+          <Header />
           <Box sx={{ mt: 6, position: "static" }}>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route
-                exact
-                path="/cards"
-                element={<Cards setShoppingCart={setShoppingCart} />}
-              />
+              <Route exact path="/cards" element={<Cards />} />
               <Route exact path="/create" element={<Create />} />
               <Route
                 exact
