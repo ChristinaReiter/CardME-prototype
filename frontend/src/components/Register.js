@@ -6,14 +6,31 @@ function Register() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    async function createAccount(event) {
+        event.preventDefault();
+        const response = await fetch('http://localhost:3001/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name,
+                email,
+                password
+            })
+        });
+        const data = await response.json();
+        console.log(data);
+    }
   
   
     return (
       <Box  display="flex" justifyContent="center" padding="5em">
-        <form>
+        <form onSubmit={createAccount}>
             <TextField 
                 type="text"
-                placeholder='"User Name"'
+                placeholder="User Name"
                 name="username"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -36,7 +53,8 @@ function Register() {
                 required> 
             </TextField>
             <Button
-                variant="outlined">
+                variant="outlined"
+                type="submit">
                 Submit
             </Button>
         </form>       

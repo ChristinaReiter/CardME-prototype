@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const AccountSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true, },
   password: {
     type: String,
     required: true,

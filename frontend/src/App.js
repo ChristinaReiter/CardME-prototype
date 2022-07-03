@@ -12,6 +12,13 @@ import CheckoutData from "./components/CheckoutData";
 import { Box } from "@mui/system";
 import CheckoutOverview from "./components/CheckoutOverview";
 import { useState } from "react";
+import Orders from "./components/Orders";
+import Subscriptions from "./components/Subscriptions";
+import View from "./components/View";
+import Calendar from "./components/Calendar";
+import Favorites from "./components/Favorites";
+import Contacts from "./components/Contacts";
+import AccountDetails from "./components/AccountDetails";
 
 export const theme = createTheme({
   palette: {
@@ -67,8 +74,16 @@ function App() {
                 exact
                 path="/checkout-overview"
                 element={<CheckoutOverview checkoutData={checkoutData} />}
-              />
-              <Route exact path="/profile" element={<ProfileOverview />} />
+              />              
+              <Route path="profile" element={<ProfileOverview/>}> 
+                <Route path="view" element={<View />} />    
+                <Route path="orders" element={<Orders />} />
+                <Route path="subscriptions" element={<Subscriptions />} />
+                <Route path="calendar" element={<Calendar />} />
+                <Route path="favorites" element={<Favorites />} />
+                <Route path="contacts" element={<Contacts />} />
+                <Route path="details" element={<AccountDetails />} />          
+              </Route>                
               <Route exact path="/register" element={<Register />} />
               <Route exact path="/login" element={<Login />} />
             </Routes>
