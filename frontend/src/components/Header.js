@@ -19,6 +19,7 @@ import { useTheme } from "@emotion/react";
 
 import image01 from "../assets/images/happymothersday.jpg";
 import { border } from "@mui/system";
+import ShoppingCartService from "../services/ShoppingCartService";
 
 const styles = {
   menuText: {
@@ -30,13 +31,15 @@ const styles = {
   },
 };
 
-const Header = ({ shoppingCart, removeProductFromShoppingCart }) => {
+const Header = ({ removeProductFromShoppingCart }) => {
   const theme = useTheme();
   const [popoverAnchor, setPopoverAnchor] = useState(null);
   const popoverOpened = Boolean(popoverAnchor);
+  const [shoppingCart, setShoppingCart] = useState([]);
 
   const openShoppingCart = (event) => {
-    console.log(shoppingCart)
+    setShoppingCart(ShoppingCartService.getCart());
+
     setPopoverAnchor(event.currentTarget);
   };
 
@@ -45,7 +48,8 @@ const Header = ({ shoppingCart, removeProductFromShoppingCart }) => {
   };
 
   const handleRemove = (id) => {
-    removeProductFromShoppingCart(id);
+    ShoppingCartService.removeItem(id);
+    setShoppingCart(ShoppingCartService.getCart());
   };
 
   return (
@@ -114,9 +118,9 @@ const Header = ({ shoppingCart, removeProductFromShoppingCart }) => {
               }}
             >
               <Box padding="2em" maxWidth="20em">
-                {shoppingCart.length == 0 &&
+                {shoppingCart.length == 0 && (
                   <Typography>No products in your cart, add some...</Typography>
-                }
+                )}
                 {shoppingCart.map((item) => (
                   <Grid
                     container
@@ -143,7 +147,9 @@ const Header = ({ shoppingCart, removeProductFromShoppingCart }) => {
                       <Button
                         variant="contained"
                         style={{ color: theme.palette.secondary.main }}
-                        onClick={() => {handleRemove(item.cardId)}}
+                        onClick={() => {
+                          handleRemove(item.cardId);
+                        }}
                       >
                         Remove
                       </Button>

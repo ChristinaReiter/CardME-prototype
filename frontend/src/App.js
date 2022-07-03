@@ -12,6 +12,7 @@ import CheckoutData from "./components/CheckoutData";
 import { Box } from "@mui/system";
 import CheckoutOverview from "./components/CheckoutOverview";
 import { useState } from "react";
+import ShoppingCartService from "./services/ShoppingCartService";
 
 export const theme = createTheme({
   palette: {
@@ -37,51 +38,16 @@ export const theme = createTheme({
 
 function App() {
   const [checkoutData, setCheckoutData] = useState({});
-  const [shoppingCart, setShoppingCart] = useState([]);
-
-  const addProductToShoppingCart = (product) => {
-    let cartItem = {
-      cardId: product._id,
-      cardUrl: product.url,
-      cardTitle: product.title,
-      cardPrice: product.price,
-      text: null,
-      giftId: null,
-    };
-
-    setShoppingCart(items => [...items, cartItem]);
-  };
-
-  const removeProductFromShoppingCart = (productId) => {
-    let remainingItems = shoppingCart.find((element) => {
-      return element.cardId !== productId;
-    });
-
-    if (remainingItems != undefined) {
-      setShoppingCart(remainingItems);
-    } else {
-      setShoppingCart([]);
-    }
-  };
 
   return (
     <div>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <Header
-            shoppingCart={shoppingCart}
-            removeProductFromShoppingCart={removeProductFromShoppingCart}
-          />
+          <Header />
           <Box sx={{ mt: 6, position: "static" }}>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route
-                exact
-                path="/cards"
-                element={
-                  <Cards addProductToShoppingCart={addProductToShoppingCart} />
-                }
-              />
+              <Route exact path="/cards" element={<Cards />} />
               <Route exact path="/create" element={<Create />} />
               <Route
                 exact
