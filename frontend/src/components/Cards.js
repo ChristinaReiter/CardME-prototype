@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
 import {
-  AppBar,
   Typography,
   Button,
-  Divider,
   Box,
   Grid,
-  Paper,
   Card,
   CardActions,
   CardContent,
   CardMedia,
   IconButton,
-  InputBase,
   Input,
   InputAdornment,
   Table,
@@ -21,19 +17,14 @@ import {
   TableCell,
 } from "@mui/material";
 import FilterList from "@mui/icons-material/FilterList";
-import FormatAlignLeftIcon from "@mui/icons-material/FormatAlignLeft";
 import CardService from "../services/CardService";
-import { margin, palette } from "@mui/system";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import SearchIcon from "@mui/icons-material/Search";
-import image01 from "../assets/images/happymothersday.jpg";
-import image02 from "../assets/images/flowerywishes.jpg";
-import image03 from "../assets/images/flowerpastel.jpg";
-import image04 from "../assets/images/imoustacheyou.png";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ShoppingCartService from "../services/ShoppingCartService";
 
 const Cards = () => {
+  const imageUrl = "http://localhost:3001/public/";
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState([]);
   const navigate = useNavigate();
@@ -118,12 +109,6 @@ const Cards = () => {
     },
   };
 
-  let images = new Map();
-  images.set("happymothersday", image01);
-  images.set("flowerywishes", image02);
-  images.set("pastellflowers", image03);
-  images.set("imoustacheyou", image04);
-
   const productsCopy = JSON.parse(JSON.stringify(products));
 
   //search bar design
@@ -176,7 +161,7 @@ const Cards = () => {
   }
 
   function EnableBox({ index }) {
-    if (filterIsClicked == index) {
+    if (filterIsClicked === index) {
       return (
         <Box
           style={{
@@ -202,7 +187,7 @@ const Cards = () => {
               <TableRow style={styles.tableRow}>
                 <TableCell
                   style={
-                    filterIsHovering == 0
+                    filterIsHovering === 0
                       ? styles.tableCellHover
                       : styles.tableCell
                   }
@@ -222,7 +207,7 @@ const Cards = () => {
                 </TableCell>
                 <TableCell
                   style={
-                    filterIsHovering == 1
+                    filterIsHovering === 1
                       ? styles.tableCellHover
                       : styles.tableCell
                   }
@@ -242,7 +227,7 @@ const Cards = () => {
                 </TableCell>
                 <TableCell
                   style={
-                    filterIsHovering == 2
+                    filterIsHovering === 2
                       ? styles.tableCellHover
                       : styles.tableCell
                   }
@@ -262,7 +247,7 @@ const Cards = () => {
                 </TableCell>
                 <TableCell
                   style={
-                    filterIsHovering == 3
+                    filterIsHovering === 3
                       ? styles.tableCellHover
                       : styles.tableCell
                   }
@@ -282,7 +267,7 @@ const Cards = () => {
                 </TableCell>
                 <TableCell
                   style={
-                    filterIsHovering == 4
+                    filterIsHovering === 4
                       ? styles.tableCellHover
                       : styles.tableCell
                   }
@@ -302,7 +287,7 @@ const Cards = () => {
                 </TableCell>
                 <TableCell
                   style={
-                    filterIsHovering == 5
+                    filterIsHovering === 5
                       ? styles.tableCellHover
                       : styles.tableCell
                   }
@@ -322,7 +307,7 @@ const Cards = () => {
                 </TableCell>
                 <TableCell
                   style={
-                    filterIsHovering == 6
+                    filterIsHovering === 6
                       ? styles.tableCellHover
                       : styles.tableCell
                   }
@@ -419,8 +404,9 @@ const Cards = () => {
                       style={styles.image}
                       component="img"
                       sx={{ width: 146.67, height: 220, objectFit: "cover" }}
-                      image={images.get(product.url)}
+                      src={imageUrl + product.url}
                       alt="Card-Preview"
+                      crossOrigin="anonymous"
                     />
                   </div>
                   <CardContent>

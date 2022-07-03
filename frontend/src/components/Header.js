@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Logo from "./../assets/images/logo_transparent.png";
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import {
   Tabs,
   Tab,
@@ -17,10 +17,9 @@ import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { useTheme } from "@emotion/react";
 
-import image01 from "../assets/images/happymothersday.jpg";
-import { border } from "@mui/system";
 import ShoppingCartService from "../services/ShoppingCartService";
 
+const imageUrl = "http://localhost:3001/public/"
 const styles = {
   menuText: {
     fontFamily: "typography2",
@@ -31,11 +30,12 @@ const styles = {
   },
 };
 
-const Header = ({ removeProductFromShoppingCart }) => {
+const Header = () => {
   const theme = useTheme();
   const [popoverAnchor, setPopoverAnchor] = useState(null);
   const popoverOpened = Boolean(popoverAnchor);
   const [shoppingCart, setShoppingCart] = useState([]);
+  const navigate = useNavigate();
 
   const openShoppingCart = (event) => {
     setShoppingCart(ShoppingCartService.getCart());
@@ -118,7 +118,7 @@ const Header = ({ removeProductFromShoppingCart }) => {
               }}
             >
               <Box padding="2em" maxWidth="20em">
-                {shoppingCart.length == 0 && (
+                {shoppingCart.length === 0 && (
                   <Typography>No products in your cart, add some...</Typography>
                 )}
                 {shoppingCart.map((item) => (
@@ -127,9 +127,10 @@ const Header = ({ removeProductFromShoppingCart }) => {
                     bgcolor={theme.palette.tertiary.main}
                     padding="2em"
                     borderRadius="25px"
+                    marginTop="1em"
                   >
                     <Grid item xs={4}>
-                      <img src={image01} width="80%"></img>
+                      <img src={imageUrl + item.cardImg} width="80%" crossOrigin="anonymous" alt="Product"></img>
                     </Grid>
                     <Grid item xs={8} textAlign="right">
                       <Typography>{item.cardTitle}</Typography>
@@ -157,6 +158,7 @@ const Header = ({ removeProductFromShoppingCart }) => {
                         variant="contained"
                         sx={{ ml: 4 }}
                         style={{ color: theme.palette.secondary.main }}
+                        onClick={() => {navigate("/create")}}
                       >
                         Edit
                       </Button>
@@ -164,6 +166,7 @@ const Header = ({ removeProductFromShoppingCart }) => {
                         variant="contained"
                         color="secondary"
                         sx={{ ml: 4 }}
+                        onClick={() => {navigate("checkout-data")}}
                       >
                         Checkout
                       </Button>

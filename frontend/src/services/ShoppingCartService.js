@@ -14,7 +14,7 @@ export default class ShoppingCartService {
 
     let cartItem = {
       cardId: product._id,
-      cardUrl: product.url,
+      cardImg: product.url,
       cardTitle: product.title,
       cardPrice: product.price,
       text: null,
