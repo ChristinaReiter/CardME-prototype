@@ -10,12 +10,10 @@ import image01 from '../assets/images/happymothersday.jpg'
 import image02 from '../assets/images/flowerywishes.jpg'
 import image03 from '../assets/images/flowerpastel.jpg'
 import image04 from '../assets/images/imoustacheyou.png'
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 
-
-
-const Cards = ({setShoppingCart}) => {
+const Cards = ({addProductToShoppingCart}) => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState([]);
   const navigate = useNavigate();
@@ -147,16 +145,7 @@ const searchInputHandler = (e) => {
 }
 
 const addProductToCart = (product) => {
-  let cartItem = {
-    cardId: product._id,
-    cardUrl: product.url,
-    cardTitle: product.title,
-    cardPrice: product.price,
-    text: null,
-    giftId: null
-  }
-  setShoppingCart(cartItem)
-  navigate("/create")
+  addProductToShoppingCart(product)
 }
           
   return (

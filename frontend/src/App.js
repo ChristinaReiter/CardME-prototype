@@ -19,7 +19,7 @@ export const theme = createTheme({
       main: "#a7cda7",
     },
     secondary: {
-      main: "#0a5108"
+      main: "#0a5108",
     },
     tertiary: {
       main: "#F3F3F3",
@@ -39,18 +39,48 @@ function App() {
   const [checkoutData, setCheckoutData] = useState({});
   const [shoppingCart, setShoppingCart] = useState([]);
 
+  const addProductToShoppingCart = (product) => {
+    let cartItem = {
+      cardId: product._id,
+      cardUrl: product.url,
+      cardTitle: product.title,
+      cardPrice: product.price,
+      text: null,
+      giftId: null,
+    };
+
+    setShoppingCart(items => [...items, cartItem]);
+  };
+
+  const removeProductFromShoppingCart = (productId) => {
+    let remainingItems = shoppingCart.find((element) => {
+      return element.cardId !== productId;
+    });
+
+    if (remainingItems != undefined) {
+      setShoppingCart(remainingItems);
+    } else {
+      setShoppingCart([]);
+    }
+  };
+
   return (
     <div>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <Header shoppingCart={shoppingCart} />
+          <Header
+            shoppingCart={shoppingCart}
+            removeProductFromShoppingCart={removeProductFromShoppingCart}
+          />
           <Box sx={{ mt: 6, position: "static" }}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route
                 exact
                 path="/cards"
-                element={<Cards setShoppingCart={setShoppingCart} />}
+                element={
+                  <Cards addProductToShoppingCart={addProductToShoppingCart} />
+                }
               />
               <Route exact path="/create" element={<Create />} />
               <Route
