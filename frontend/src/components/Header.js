@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import Logo from "./../assets/images/logo_transparent.png";
 import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import {
-  Tabs,
-  Tab,
   Typography,
   Toolbar,
   AppBar,
@@ -19,14 +17,20 @@ import { useTheme } from "@emotion/react";
 
 import ShoppingCartService from "../services/ShoppingCartService";
 
-const imageUrl = "http://localhost:3001/public/"
+const imageUrl = "http://localhost:3001/public/";
 const styles = {
   menuText: {
     fontFamily: "typography2",
     fontSize: 20,
-    borderRightColor: "#a7cda7",
-    borderRightWidth: 0.5,
+    borderColor: "#a7cda7",
+    borderWidth: 0.5,
     borderRightStyle: "solid",
+    borderLeftStyle: "solid",
+    color: "#999999",
+    textDecoration: "none",
+    padding: "1em",
+    fontWeight: 500,
+    textTransform: "uppercase",
   },
 };
 
@@ -78,35 +82,31 @@ const Header = () => {
           <NavLink to="/">
             <img src={Logo} alt="logo" height="55px"></img>
           </NavLink>
-          <Tabs sx={{ justifyContent: "center" }}>
-            <Tab style={styles.menuText} label="Every Day" href="/cards"></Tab>
-            <Tab style={styles.menuText} label="Occasion" href="/cards"></Tab>
-            <Tab style={styles.menuText} label="Seasonal" href="/cards"></Tab>
-            <Tab
-              sx={{
-                fontFamily: "typography2",
-                fontSize: 20,
-              }}
-              label="Create"
-              href="/create"
-            ></Tab>
-          </Tabs>
-          <Tabs>
+          <Box sx={{ justifyContent: "center" }}>
+            <NavLink style={styles.menuText} to="/cards">
+              Every Day
+            </NavLink>
+            <NavLink style={styles.menuText} to="/cards">
+              Occasion
+            </NavLink>
+            <NavLink style={styles.menuText} to="/cards">
+              Seasonal
+            </NavLink>
+            <NavLink style={styles.menuText} to="/create">
+              Create
+            </NavLink>
+          </Box>
+          <Box>
             <Typography color="primary">
-              <Tab
-                icon={<ShoppingCartOutlined fontSize="large" />}
-                sx={{ minWidth: 2 }}
-                onClick={openShoppingCart}
-              />
-              <Tab
-                icon={<PermIdentityOutlinedIcon fontSize="large" />}
-                sx={{ minWidth: 2 }}
-                href="/profile"
-              />
-              <Tab
-                icon={<SearchOutlinedIcon fontSize="large" />}
-                sx={{ minWidth: 2 }}
-              />
+              <Button sx={{ minWidth: 2 }} onClick={openShoppingCart}>
+                <ShoppingCartOutlined fontSize="large" />
+              </Button>
+              <Button sx={{ minWidth: 2 }} href="/profile">
+                <PermIdentityOutlinedIcon fontSize="large" />
+              </Button>
+              <Button sx={{ minWidth: 2 }}>
+                <SearchOutlinedIcon fontSize="large" />
+              </Button>
             </Typography>
             <Popover
               open={popoverOpened}
@@ -128,9 +128,15 @@ const Header = () => {
                     padding="2em"
                     borderRadius="25px"
                     marginTop="1em"
+                    key={item.cardId}
                   >
                     <Grid item xs={4}>
-                      <img src={imageUrl + item.cardImg} width="80%" crossOrigin="anonymous" alt="Product"></img>
+                      <img
+                        src={imageUrl + item.cardImg}
+                        width="80%"
+                        crossOrigin="anonymous"
+                        alt="Product"
+                      ></img>
                     </Grid>
                     <Grid item xs={8} textAlign="right">
                       <Typography>{item.cardTitle}</Typography>
@@ -158,7 +164,9 @@ const Header = () => {
                         variant="contained"
                         sx={{ ml: 4 }}
                         style={{ color: theme.palette.secondary.main }}
-                        onClick={() => {navigate("/create")}}
+                        onClick={() => {
+                          navigate("/create");
+                        }}
                       >
                         Edit
                       </Button>
@@ -166,7 +174,9 @@ const Header = () => {
                         variant="contained"
                         color="secondary"
                         sx={{ ml: 4 }}
-                        onClick={() => {navigate("checkout-data")}}
+                        onClick={() => {
+                          navigate("checkout-data");
+                        }}
                       >
                         Checkout
                       </Button>
@@ -175,7 +185,7 @@ const Header = () => {
                 ))}
               </Box>
             </Popover>
-          </Tabs>
+          </Box>
         </Toolbar>
       </AppBar>
     </Box>
