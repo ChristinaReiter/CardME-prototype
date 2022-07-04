@@ -7,7 +7,7 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  async function loggingIn(event) {
+  async function loginAccount(event) {
       event.preventDefault();
       const response = await fetch('http://localhost:3001/login', {
           method: 'POST',
@@ -26,7 +26,7 @@ function Login() {
 
   return (
     <Box  display="flex" justifyContent="center" padding="5em">
-      <form onSubmit={loggingIn}>
+      <form onSubmit={loginAccount}>
           <TextField 
               type="text"
               placeholder="Email"
