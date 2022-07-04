@@ -5,7 +5,9 @@ const helmet = require("helmet");
 
 const config = require("./src/config");
 const product = require("./src/routes/product");
-const order = require("./src/routes/order");
+const order = require("./src/routes/order"); 
+const register = require("./src/routes/auth");
+const login = require("./src/routes/auth");
 
 mongoose.connect(config.mongoURI).then(
   () => {
@@ -29,14 +31,25 @@ app.use(
   })
 );
 
+app.use(express.json())
 app.get("/", (req, res) => {
-  res.json({ response: "Hello World" });
+  /* res.json({ response: "Hello World" }); */
+  res.send('hello world')
 });
 
 app.use("/products", product);
 
+app.use("/", register)
+
 app.use("/order", order);
+
+app.use("/", login)
+
+app.use("/public", express.static("public"));
 
 app.listen(port, () => {
   console.log(`Backend listening on port ${port}`);
 });
+
+
+ 

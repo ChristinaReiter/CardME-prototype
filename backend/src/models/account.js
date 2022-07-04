@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const AccountSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", },
   password: {
     type: String,
     required: true,
@@ -9,11 +9,11 @@ const AccountSchema = new mongoose.Schema({
   preferences: [String],
 
   // Not quite sure if below are referenced correctly
-  favorites: [ProductSchema],
+ /*  favorites: [ProductSchema],
   calendarEvents: [CalendarEventSchema],
   pastOrders: [OrderSchema],
   subscriptions: [SubscriptionSchema],
-  acquaintances: [AcquaintanceSchema]
+  acquaintances: [AcquaintanceSchema] */
 });
 
 AccountSchema.set("versionKey", false);

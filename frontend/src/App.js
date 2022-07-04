@@ -12,6 +12,14 @@ import CheckoutData from "./components/CheckoutData";
 import { Box } from "@mui/system";
 import CheckoutOverview from "./components/CheckoutOverview";
 import { useState } from "react";
+import Orders from "./components/Orders";
+import Subscriptions from "./components/Subscriptions";
+import View from "./components/View";
+import Calendar from "./components/Calendar";
+import Favorites from "./components/Favorites";
+import Contacts from "./components/Contacts";
+import AccountDetails from "./components/AccountDetails";
+import ShoppingCartService from "./services/ShoppingCartService";
 
 export const theme = createTheme({
   palette: {
@@ -19,7 +27,7 @@ export const theme = createTheme({
       main: "#a7cda7",
     },
     secondary: {
-      main: "#0a5108"
+      main: "#0a5108",
     },
     tertiary: {
       main: "#F3F3F3",
@@ -37,21 +45,16 @@ export const theme = createTheme({
 
 function App() {
   const [checkoutData, setCheckoutData] = useState({});
-  const [shoppingCart, setShoppingCart] = useState([]);
 
   return (
     <div>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <Header shoppingCart={shoppingCart} />
+          <Header />
           <Box sx={{ mt: 6, position: "static" }}>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route
-                exact
-                path="/cards"
-                element={<Cards setShoppingCart={setShoppingCart} />}
-              />
+              <Route exact path="/cards" element={<Cards />} />
               <Route exact path="/create" element={<Create />} />
               <Route
                 exact
@@ -67,8 +70,16 @@ function App() {
                 exact
                 path="/checkout-overview"
                 element={<CheckoutOverview checkoutData={checkoutData} />}
-              />
-              <Route exact path="/profile" element={<ProfileOverview />} />
+              />              
+              <Route path="profile" element={<ProfileOverview/>}> 
+                <Route path="view" element={<View />} />    
+                <Route path="orders" element={<Orders />} />
+                <Route path="subscriptions" element={<Subscriptions />} />
+                <Route path="calendar" element={<Calendar />} />
+                <Route path="favorites" element={<Favorites />} />
+                <Route path="contacts" element={<Contacts />} />
+                <Route path="details" element={<AccountDetails />} />          
+              </Route>                
               <Route exact path="/register" element={<Register />} />
               <Route exact path="/login" element={<Login />} />
             </Routes>
