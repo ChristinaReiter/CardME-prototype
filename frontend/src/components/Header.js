@@ -31,7 +31,7 @@ const styles = {
     borderLeftStyle: "solid",
     color: "#999999",
     textDecoration: "none",
-    padding: "1em",
+    padding: "0.5em 1em",
     fontWeight: 500,
     textTransform: "uppercase",
   },
