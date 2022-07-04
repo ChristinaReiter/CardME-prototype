@@ -8,6 +8,9 @@ import {
   CardActions,
   CardContent,
   CardMedia,
+  Checkbox,
+  FormGroup,
+  FormControlLabel,
   IconButton,
   Input,
   InputAdornment,
@@ -139,9 +142,6 @@ const Cards = () => {
       }
     });
     setProducts(filteredCards);
-    {
-      /*console.log(filteredCards);*/
-    }
   };
 
   const addProductToCart = (product) => {
@@ -161,26 +161,68 @@ const Cards = () => {
   }
 
   function EnableBox({ index }) {
-    if (filterIsClicked === index) {
-      return (
-        <Box
-          style={{
-            width: 200,
-            height: 200,
-            top: "400px",
-            background: "#A7CDA7",
-            zIndex: 1,
-          }}
-        ></Box>
-      );
-    } else {
-      return <Box disabled></Box>;
-    }
+      var positionIndex = "0px";
+      if(index === 1) {
+        positionIndex = "14%";
+      }
+      if(index === 2) {
+        positionIndex = "28%";
+      }
+      if(index === 3) {
+        positionIndex = "42%";
+      }
+      if(index === 4) {
+        positionIndex = "56%";
+      }
+      if(index === 5) {
+        positionIndex = "70%";
+      }
+      if(index === 6) {
+        positionIndex = "85%";
+      }
+      if (filterIsHovering != index) {
+        return <Box disabled></Box>;
+      }
+      else {
+        return (
+          <Box
+            style={{
+              position: "absolute",
+              width: 300,
+              height: 200,
+              top: "70px",
+              left: positionIndex,
+              background: "rgba(167, 205,	167, 0.8)",
+              zIndex: 1,
+            }}
+          >
+            <div style= {{display:"flex", flexDirection: "row", paddingLeft:"5%"}}>
+            <div style={{display: "flex", flexDirection: "column", paddingRight:"15%"}}>
+              <FormGroup>
+                <FormControlLabel value= "end" control={<Checkbox style={{color: "black", "&$checked": "black"}}></Checkbox>} label="Red"></FormControlLabel>
+              </FormGroup>
+              <FormGroup>
+                <FormControlLabel value= "end" control={<Checkbox style={{color: "black", "&$checked": "black"}}></Checkbox>} label="Yellow"></FormControlLabel>
+              </FormGroup>
+            </div>
+            <div style={{display: "flex", flexDirection: "column"}}>
+              <FormGroup>
+                <FormControlLabel value= "end" control={<Checkbox style={{color: "black", "&$checked": "black"}}></Checkbox>} label="Yellow"></FormControlLabel>
+              </FormGroup>
+              <FormGroup>
+                <FormControlLabel value= "end" control={<Checkbox style={{color: "black", "&$checked": "black"}}></Checkbox>} label="Green"></FormControlLabel>
+              </FormGroup>
+            </div>
+            </div>
+          </Box>
+        );
+      }
+
   }
 
   return (
     <div>
-      <Box sx={{ flexGrow: 1, flexShrink: 1 }}>
+      <Box sx={{ flexGrow: 1, flexShrink: 1, position: "relative" }}>
         <Box position="fixed" style={styles.filterBar}>
           <Table>
             <TableHead>
@@ -201,6 +243,7 @@ const Cards = () => {
                     </Typography>
                     <Typography variant="h7">All Colors</Typography>
                   </div>
+                  <EnableBox index={0}></EnableBox>
                   <div>
                     <FilterList style={{ alignContent: "right" }} />
                   </div>
@@ -221,6 +264,7 @@ const Cards = () => {
                     </Typography>
                     <Typography variant="h7">All Vibes</Typography>
                   </div>
+                  <EnableBox index={1}></EnableBox>
                   <div>
                     <FilterList style={{ alignContent: "right" }} />
                   </div>
@@ -236,6 +280,7 @@ const Cards = () => {
                   onClick={() => clickOnFilter(2)}
                 >
                   <div>
+                  <EnableBox index={2}></EnableBox>
                     <Typography variant="h5">
                       <b>Styles</b>
                     </Typography>
@@ -256,6 +301,7 @@ const Cards = () => {
                   onClick={() => clickOnFilter(3)}
                 >
                   <div>
+                  <EnableBox index={3}></EnableBox>
                     <Typography variant="h5">
                       <b>Recipients</b>
                     </Typography>
@@ -276,6 +322,7 @@ const Cards = () => {
                   onClick={() => clickOnFilter(4)}
                 >
                   <div>
+                  <EnableBox index={4}></EnableBox>
                     <Typography variant="h5">
                       <b>Occasion</b>
                     </Typography>
@@ -296,6 +343,7 @@ const Cards = () => {
                   onClick={() => clickOnFilter(5)}
                 >
                   <div>
+                  <EnableBox index={5}></EnableBox>
                     <Typography variant="h5">
                       <b>Season</b>
                     </Typography>
@@ -316,6 +364,7 @@ const Cards = () => {
                   onClick={() => clickOnFilter(6)}
                 >
                   <div>
+                  <EnableBox index={6}></EnableBox>
                     <Typography variant="h5">
                       <b>Sort By</b>
                     </Typography>
@@ -329,7 +378,6 @@ const Cards = () => {
             </TableHead>
           </Table>
         </Box>
-        <EnableBox index={0}></EnableBox>
       </Box>
       <Box
         sx={{
