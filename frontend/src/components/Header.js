@@ -138,7 +138,7 @@ const Header = () => {
                 <MenuItem
                   component={Link}
                   onClick={() => setProfileMenu(null)}
-                  to="/profile"
+                  to="/profile/view"
                 >
                   Profile-Temporary
                 </MenuItem>

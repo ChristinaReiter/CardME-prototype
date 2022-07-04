@@ -26,23 +26,33 @@ const register = async (req, res) => {
 
  const login = async (req, res) => {
     try{
-    const user = await User.findOne({email: req.body.email})
-    const account = await Account.findOne({
+      const user = await User.findOne({email: req.body.email})
+      const account = await Account.findOne({
       user: user._id,
       password: req.body.password,    
-  })
+    })
 
-  if (account){
-  res.json({status: 'ok', account: true})
-  }else {
-    res.json({status: 'error', message: 'User not found'})
-  }
-  } catch (err) {
-  return res.status(404).json({
-    error: "User Not Found",
-    message: err.message,
-    });
-  }
+      if (account){
+        res.json({status: 'ok', account: true})
+
+        /* const token = jwt.sign({
+          id: user._id,
+          email: user.email,
+          },
+          "secret123"  // better secret needed
+        ) */
+
+
+      
+      }else {
+        res.json({status: 'error', message: 'User not found'})
+      }
+    } catch (err) {
+    return res.status(404).json({
+      error: "User Not Found",
+      message: err.message,
+      });
+    }
 };  
 
 
