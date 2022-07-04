@@ -34,14 +34,6 @@ const styles = {
     textAlign: "center",
     lineHeight: "40px",
   },
-  adjusttext: {
-    position: "relative",
-    width: "1146px",
-    height: "254px",
-
-    background: "#F3F3F3",
-    borderRadius: "30px",
-  },
 };
 
 const CreateFinal = () => {

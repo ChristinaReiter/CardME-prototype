@@ -1,4 +1,12 @@
-import { AppBar, Box, Toolbar, IconButton, Typography } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Grid,
+  TextField,
+} from "@mui/material";
 import React from "react";
 
 const styles = {
@@ -27,7 +35,6 @@ const styles = {
   },
   adjusttext: {
     position: "relative",
-    display: "flex",
     alignItems: "center",
     alignContent: "center",
     textAlign: "center",
@@ -36,7 +43,44 @@ const styles = {
     height: "254px",
     background: "#F3F3F3",
     borderRadius: "30px",
-    margin: "10px",
+  },
+  textadjust: {
+    position: "relative",
+    fontFamily: "Antic",
+    fontWeight: "400",
+    fontSize: "32px",
+    top: "20px",
+  },
+  textWindow: {
+    position: "relative",
+    borderColor: "#FFFFFF",
+    borderStyle: "solid",
+    borderWidth: "20px",
+    textAlign: "center",
+    width: "350px",
+    height: "444px",
+    background: "#F3F3F3",
+    marginRight: "20px",
+    boxShadow:
+      "2px 2px 30px rgba(0, 0, 0, 0.1), -2px -2px 30px rgba(0, 0, 0, 0.1)",
+  },
+  text1: {
+    position: "relative",
+    fontFamily: "Antic",
+    fontWeight: "400",
+    fontSize: "20px",
+    display: "center",
+    top: "80px",
+  },
+  text2: {
+    position: "relative",
+    fontFamily: "Antic",
+    fontWeight: "400",
+    fontSize: "16px",
+    lineHeight: "20px",
+    display: "center",
+    top: "80px",
+    color: "rgba(0, 0, 0, 0.5)",
   },
 };
 
@@ -52,7 +96,30 @@ const CreateText = () => {
             <div fontSize={"30px"}>Create card text</div>
           </Toolbar>
         </AppBar>
-        <Box sx={styles.adjusttext}></Box>
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          direction="column"
+          spacing={3}
+          marginTop="10px"
+        >
+          <Grid item xs={12}>
+            <Box sx={styles.adjusttext}>
+              <Typography sx={styles.textadjust}>Adjust your Text</Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              fullLength
+              label="Type your text here"
+              multiline
+              variant="standard"
+              style={styles.textWindow}
+            ></TextField>
+          </Grid>
+        </Grid>
       </Typography>
     </Box>
   );

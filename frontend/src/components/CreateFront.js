@@ -109,16 +109,15 @@ const CreateFront = () => {
           alignItems="center"
           direction="row"
           marginTop="30px"
-          spacing={0}
         >
           <Grid item xs={4}>
-            <Item style={styles.uploadWindow}>
+            <Box style={styles.uploadWindow}>
               <div style={styles.textupload}>Upload your image</div>
               <div style={styles.textupload2}>
                 Click here to upload from your computer. Your image needs to be
                 at least 1328x1820 in PNG or JPG format.
               </div>
-            </Item>
+            </Box>
 
             <Button style={styles.button} variant="contained" color="secondary">
               Upload / change picture
@@ -128,9 +127,11 @@ const CreateFront = () => {
             </Button>
           </Grid>
           <Grid item xs={4} textAlign="center">
-            <Item style={styles.adjustwindow}>
-              <div style={styles.textadjust}>Adjust your design</div>
-            </Item>
+            <Box style={styles.adjustwindow}>
+              <Typography style={styles.textadjust}>
+                Adjust your design
+              </Typography>
+            </Box>
           </Grid>
         </Grid>
       </Typography>

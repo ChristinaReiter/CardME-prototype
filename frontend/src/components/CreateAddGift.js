@@ -42,6 +42,16 @@ const styles = {
     background: "#F3F3F3",
     borderRadius: "30px",
   },
+  text: {
+    fontFamily: "Annie Use Your Telescope",
+    position: "relative",
+    width: "664px",
+    height: " 46px",
+    fontWeight: "400",
+    fontSize: "20px",
+    textAlign: "center",
+    top: "50px",
+  },
 };
 
 const CreateAddGift = () => {
@@ -56,6 +66,9 @@ const CreateAddGift = () => {
             <div fontSize={"30px"}>Add gift (optional)</div>
           </Toolbar>
         </AppBar>
+        <Box style={styles.text}>
+          Add a gift to your card, which fits perfectly in the envelope.
+        </Box>
       </Typography>
     </Box>
   );
