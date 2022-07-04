@@ -7,6 +7,7 @@ const config = require("./src/config");
 const product = require("./src/routes/product");
 const order = require("./src/routes/order"); 
 const register = require("./src/routes/auth");
+const login = require("./src/routes/auth");
 
 mongoose.connect(config.mongoURI).then(
   () => {
@@ -38,9 +39,11 @@ app.get("/", (req, res) => {
 
 app.use("/products", product);
 
-app.use("/register", register)
+app.use("/", register)
 
 app.use("/order", order);
+
+app.use("/", login)
 
 app.use("/public", express.static("public"));
 

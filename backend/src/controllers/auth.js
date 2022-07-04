@@ -18,7 +18,7 @@ const register = async (req, res) => {
     
     } catch (err) {
       console.log(err)
-     return res.json({response: "error"})
+     return res.json({status: "error", error: "Duplicate Email"})
     }
     
   }
@@ -26,13 +26,14 @@ const register = async (req, res) => {
 
  const login = async (req, res) => {
     try{
-    const account = await User.findOne({
-      email: req.body.email,
+    const user = await User.findOne({email: req.body.email})
+    const account = await Account.findOne({
+      user: user._id,
       password: req.body.password,    
   })
 
   if (account){
-  res.json({status: 'ok'})
+  res.json({status: 'ok', account: true})
   }else {
     res.json({status: 'error', message: 'User not found'})
   }
