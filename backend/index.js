@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
+const jwt = require("jsonwebtoken");
 
 const config = require("./src/config");
 const product = require("./src/routes/product");
