@@ -3,12 +3,13 @@ import {
   Box,
   Toolbar,
   IconButton,
-  MenuIcon,
+  Grid,
   Typography,
   Button,
+  Paper,
 } from "@mui/material";
 import React from "react";
-import { theme } from "../App";
+import { styled } from "@mui/material/styles";
 
 const styles = {
   stepbar: {
@@ -34,39 +35,18 @@ const styles = {
     textAlign: "center",
     lineHeight: "40px",
   },
-  adjust: {
-    position: "relative",
-    width: "464px",
-    height: "491px",
-    left: "698px",
-    top: "100px",
-    background: "#F3F3F3",
-    borderRadius: "30px",
-  },
   uploadWindow: {
     position: "relative",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "279px",
-    height: "342px",
-    left: "20%",
-    top: "80px",
-    background: "#FFFFFF",
-    boxShadow:
-      "2px 2px 30px rgba(0, 0, 0, 0.1), -2px -2px 30px rgba(0, 0, 0, 0.1)",
-    margin: "10px",
-  },
-  insideUploadWindow: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+    borderColor: "#FFFFFF",
+    borderStyle: "solid",
+    borderWidth: "20px",
     textAlign: "center",
-    position: "relative",
-    display: "center",
     width: "241px",
     height: "306px",
     background: "#F3F3F3",
+    marginRight: "20px",
+    boxShadow:
+      "2px 2px 30px rgba(0, 0, 0, 0.1), -2px -2px 30px rgba(0, 0, 0, 0.1)",
   },
   textupload: {
     position: "relative",
@@ -87,14 +67,9 @@ const styles = {
     color: "rgba(0, 0, 0, 0.5)",
   },
   adjustwindow: {
-    display: "flex",
-    justifyContent: "center",
-    textAlign: "center",
     position: "relative",
     width: "464px",
     height: "491px",
-    left: "55%",
-    top: "-300px",
     background: "#F3F3F3",
     borderRadius: "30px",
   },
@@ -107,11 +82,12 @@ const styles = {
   },
   button: {
     fontFamily: "typography",
+    display: "block",
     fontSize: 15,
-    position: "absolute",
+    position: "relative",
     width: "300px",
-    top: "600px",
-    marginLeft: "50px",
+    marginTop: "20px",
+    marginRight: "20px",
   },
 };
 
@@ -127,37 +103,47 @@ const CreateFront = () => {
             <div fontSize={"30px"}>Create card front</div>
           </Toolbar>
         </AppBar>
-        <div style={styles.uploadWindow}>
-          <div style={styles.insideUploadWindow}>
-            <div style={styles.textupload}>Upload your image</div>
-            <div style={styles.textupload2}>
-              Click here to upload from your computer. Your image needs to be at
-              least 1328x1820 in PNG or JPG format.
-            </div>
-          </div>
-        </div>
-        <div style={styles.adjustwindow}>
-          <div style={styles.textadjust}>Adjust your design</div>
-        </div>
-        <Button
-          style={styles.button}
-          sx={{ left: "80px" }}
-          variant="contained"
-          color="secondary"
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          direction="row"
+          marginTop="30px"
+          spacing={0}
         >
-          Upload / change picture
-        </Button>
-        <Button
-          style={styles.button}
-          sx={{ left: "400px" }}
-          variant="contained"
-          color="secondary"
-        >
-          Browse card designs
-        </Button>
+          <Grid item xs={4}>
+            <Item style={styles.uploadWindow}>
+              <div style={styles.textupload}>Upload your image</div>
+              <div style={styles.textupload2}>
+                Click here to upload from your computer. Your image needs to be
+                at least 1328x1820 in PNG or JPG format.
+              </div>
+            </Item>
+
+            <Button style={styles.button} variant="contained" color="secondary">
+              Upload / change picture
+            </Button>
+            <Button style={styles.button} variant="contained" color="secondary">
+              Browse card designs
+            </Button>
+          </Grid>
+          <Grid item xs={4} textAlign="center">
+            <Item style={styles.adjustwindow}>
+              <div style={styles.textadjust}>Adjust your design</div>
+            </Item>
+          </Grid>
+        </Grid>
       </Typography>
     </Box>
   );
 };
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
 
 export default CreateFront;

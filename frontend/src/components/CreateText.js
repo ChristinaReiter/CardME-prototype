@@ -1,14 +1,5 @@
-import {
-  AppBar,
-  Box,
-  Toolbar,
-  IconButton,
-  MenuIcon,
-  Typography,
-  Button,
-} from "@mui/material";
+import { AppBar, Box, Toolbar, IconButton, Typography } from "@mui/material";
 import React from "react";
-import { theme } from "../App";
 
 const styles = {
   stepbar: {
@@ -18,7 +9,7 @@ const styles = {
     background: "#A7CDA7",
     boxShadow:
       "0px 6px 4px rgba(51, 97, 50, 0.25), inset 0px 6px 4px rgba(51, 97, 50, 0.25)",
-    top: "-280px",
+    top: "10px",
     fontSize: "30px",
     zIndex: "1",
   },
@@ -35,18 +26,17 @@ const styles = {
     lineHeight: "40px",
   },
   adjusttext: {
-    position: "relative ",
+    position: "relative",
     display: "flex",
     alignItems: "center",
     alignContent: "center",
+    textAlign: "center",
     justifyContent: "center",
     width: "1146px",
     height: "254px",
     background: "#F3F3F3",
     borderRadius: "30px",
-    top: "-280px",
     margin: "10px",
-    left: "50%",
   },
 };
 
@@ -62,7 +52,7 @@ const CreateText = () => {
             <div fontSize={"30px"}>Create card text</div>
           </Toolbar>
         </AppBar>
-        <div sx={styles.adjusttext}></div>
+        <Box sx={styles.adjusttext}></Box>
       </Typography>
     </Box>
   );

@@ -18,7 +18,7 @@ const styles = {
     background: "#A7CDA7",
     boxShadow:
       "0px 6px 4px rgba(51, 97, 50, 0.25), inset 0px 6px 4px rgba(51, 97, 50, 0.25)",
-
+    top: "10px",
     fontSize: "30px",
     zIndex: "1",
   },
