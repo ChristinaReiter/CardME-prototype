@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Logo from "./../assets/images/logo_transparent.png";
-import { Navigate, NavLink, useNavigate } from "react-router-dom";
+import { Navigate, NavLink, useNavigate, Link } from "react-router-dom";
 import {
   Typography,
   Toolbar,
@@ -9,6 +9,9 @@ import {
   Popover,
   Button,
   Grid,
+  Menu,
+  MenuItem,
+  IconButton
 } from "@mui/material";
 import ShoppingCartOutlined from "@mui/icons-material/ShoppingCartOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
@@ -40,6 +43,7 @@ const Header = () => {
   const popoverOpened = Boolean(popoverAnchor);
   const [shoppingCart, setShoppingCart] = useState([]);
   const navigate = useNavigate();
+  const [profileMenu, setProfileMenu] = useState(null);
 
   const openShoppingCart = (event) => {
     setShoppingCart(ShoppingCartService.getCart());
@@ -101,9 +105,44 @@ const Header = () => {
               <Button sx={{ minWidth: 2 }} onClick={openShoppingCart}>
                 <ShoppingCartOutlined fontSize="large" />
               </Button>
-              <Button sx={{ minWidth: 2 }} href="/profile">
+              <IconButton
+                aria-haspopup="true"
+                color="inherit"
+                aria-controls="profile-menu"
+                onClick={e => setProfileMenu(e.currentTarget)}
+              >
                 <PermIdentityOutlinedIcon fontSize="large" />
-              </Button>
+              </IconButton>
+
+              <Menu
+                id="profile-menu"
+                open={Boolean(profileMenu)}
+                anchorEl={profileMenu}
+                onClose={() => setProfileMenu(null)}
+                disableAutoFocusItem
+              >
+                <MenuItem
+                  component={Link}
+                  onClick={() => setProfileMenu(null)}
+                  to="/login"
+                >
+                  Log In
+                </MenuItem>
+                <MenuItem
+                  component={Link}
+                  onClick={() => setProfileMenu(null)}
+                  to="/register"
+                >
+                  Register
+                </MenuItem>
+                <MenuItem
+                  component={Link}
+                  onClick={() => setProfileMenu(null)}
+                  to="/profile"
+                >
+                  Profile-Temporary
+                </MenuItem>
+              </Menu>           
               <Button sx={{ minWidth: 2 }}>
                 <SearchOutlinedIcon fontSize="large" />
               </Button>

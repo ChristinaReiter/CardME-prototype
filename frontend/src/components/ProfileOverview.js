@@ -10,9 +10,6 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 import ListIcon from '@mui/icons-material/List';
 import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
-import View from "./View"
-import Orders from "./Orders"
-import Subscriptions from "./Subscriptions"
 import { Link, useParams, Outlet } from "react-router-dom";
 
 const pages = ['view', 'orders', 'subscriptions', 'calendar', 'favorites', 'contacts', 'account'];
@@ -20,7 +17,8 @@ const pages = ['view', 'orders', 'subscriptions', 'calendar', 'favorites', 'cont
 const styles = {
     tabss: {
     fontFamily: '"Abril Fatface"',
-    fontSize: 15
+    fontSize: 15,
+    color: "#000"
   },
 };
 
@@ -38,8 +36,7 @@ const styles = {
         <Tabs
           value={selectedTab}
           onChange={handleChange}
-          indicatorColor="secondary"  
-          textColor='black'   
+          indicatorColor="secondary"         
         >
           <Tab component={Link} to='view' style={styles.tabss} icon={<HomeIcon />} iconPosition="start" label="Overview" />
           <Tab component={Link} to='orders' style={styles.tabss} icon={<ListIcon />} iconPosition="start" label="Orders" />
