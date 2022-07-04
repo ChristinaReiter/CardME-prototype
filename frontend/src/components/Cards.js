@@ -79,6 +79,7 @@ const Cards = () => {
     tableCell: {
       borderRight: "1px solid",
       backgroundColor: "FF69B4",
+      alignItems: "center",
       width: "100%",
       borderBottom: "none",
       background: "#A7CDA7",
@@ -86,16 +87,19 @@ const Cards = () => {
       flexDirection: "row",
       justifyContent: "space-between",
       padding: "5px 10px",
+      fontFamily: "Abril Fatface"
     },
     tableCellHover: {
       borderRight: "1px solid",
       background: "rgba(10, 81, 8, 0.61)",
+      alignItems: "center",
       width: "100%",
       borderBottom: "none",
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-between",
       padding: "5px 10px",
+      fontFamily: "Abril Fatface"
     },
     button: {
       fontFamily: "Annie Use Your Telescope",
@@ -150,14 +154,31 @@ const Cards = () => {
   };
 
   const [filterIsHovering, setFilterIsHovering] = useState(-1);
-  const [filterIsClicked, setFilterIsClicked] = useState(-1);
 
   function handleFilterMouseEnter(index) {
     setFilterIsHovering(index);
   }
 
-  function clickOnFilter(index) {
-    setFilterIsClicked(index);
+  const colorFilter = [];
+  const [colorIsChecked, setColorIsChecked] = useState();
+
+  function addColorToFilter(color) {
+    colorFilter.push(color);
+  }
+
+  function removeColorFromFilter(color) {
+    this.setState(this.state.colorFilter.filter(function(col) { return col !== color.target.value}));
+  }
+
+  const updateColorArray = event => {
+    if (event.target.checked)
+    {
+      addColorToFilter("red");
+      console.log(colorFilter);
+    }
+    if(!event.target.checked) {
+      
+    }
   }
 
   function EnableBox({ index }) {
@@ -199,7 +220,7 @@ const Cards = () => {
             <div style= {{display:"flex", flexDirection: "row", paddingLeft:"5%"}}>
             <div style={{display: "flex", flexDirection: "column", paddingRight:"15%"}}>
               <FormGroup>
-                <FormControlLabel value= "end" control={<Checkbox style={{color: "black", "&$checked": "black"}}></Checkbox>} label="Red"></FormControlLabel>
+                <FormControlLabel value= "end" control={<Checkbox style={{color: "black", "&$checked": "black"}} ></Checkbox>} onChange={updateColorArray} label="Red"></FormControlLabel>
               </FormGroup>
               <FormGroup>
                 <FormControlLabel value= "end" control={<Checkbox style={{color: "black", "&$checked": "black"}}></Checkbox>} label="Yellow"></FormControlLabel>
@@ -207,7 +228,7 @@ const Cards = () => {
             </div>
             <div style={{display: "flex", flexDirection: "column"}}>
               <FormGroup>
-                <FormControlLabel value= "end" control={<Checkbox style={{color: "black", "&$checked": "black"}}></Checkbox>} label="Yellow"></FormControlLabel>
+                <FormControlLabel value= "end" control={<Checkbox style={{color: "black", "&$checked": "black"}}></Checkbox>} label="Blue"></FormControlLabel>
               </FormGroup>
               <FormGroup>
                 <FormControlLabel value= "end" control={<Checkbox style={{color: "black", "&$checked": "black"}}></Checkbox>} label="Green"></FormControlLabel>
@@ -217,7 +238,6 @@ const Cards = () => {
           </Box>
         );
       }
-
   }
 
   return (
@@ -235,15 +255,20 @@ const Cards = () => {
                   }
                   onMouseEnter={() => handleFilterMouseEnter(0)}
                   onMouseLeave={() => handleFilterMouseEnter(-1)}
-                  onClick={() => clickOnFilter(0)}
                 >
                   <div>
-                    <Typography variant="h5">
-                      <b>Color</b>
-                    </Typography>
-                    <Typography variant="h7">All Colors</Typography>
-                  </div>
                   <EnableBox index={0}></EnableBox>
+                  <div>
+                      <Typography variant="h7" style={{fontSize: "20px"}}>
+                          Color
+                      </Typography>
+                    </div>
+                    <div>
+                      <Typography variant="h7">
+                          All Colors
+                      </Typography>
+                    </div>
+                  </div> 
                   <div>
                     <FilterList style={{ alignContent: "right" }} />
                   </div>
@@ -256,15 +281,21 @@ const Cards = () => {
                   }
                   onMouseEnter={() => handleFilterMouseEnter(1)}
                   onMouseLeave={() => handleFilterMouseEnter(-1)}
-                  onClick={() => clickOnFilter(1)}
                 >
                   <div>
-                    <Typography variant="h5">
-                      <b>Vibes</b>
-                    </Typography>
-                    <Typography variant="h7">All Vibes</Typography>
+                    <EnableBox index={1}></EnableBox>
+                    <div>
+                      <Typography variant="h7" style={{fontSize: "20px"}}>
+                          Vibes
+                      </Typography>
+                    </div>
+                    <div>
+                      <Typography variant="h7">
+                          All Vibes
+                      </Typography>
+                    </div>
                   </div>
-                  <EnableBox index={1}></EnableBox>
+                  
                   <div>
                     <FilterList style={{ alignContent: "right" }} />
                   </div>
@@ -277,14 +308,19 @@ const Cards = () => {
                   }
                   onMouseEnter={() => handleFilterMouseEnter(2)}
                   onMouseLeave={() => handleFilterMouseEnter(-1)}
-                  onClick={() => clickOnFilter(2)}
                 >
                   <div>
-                  <EnableBox index={2}></EnableBox>
-                    <Typography variant="h5">
-                      <b>Styles</b>
-                    </Typography>
-                    <Typography variant="h7">All Styles</Typography>
+                    <EnableBox index={2}></EnableBox>
+                    <div>
+                      <Typography variant="h7" style={{fontSize: "20px"}}>
+                          Styles
+                      </Typography>
+                    </div>
+                    <div>
+                      <Typography variant="h7">
+                          All Styles
+                      </Typography>
+                    </div>
                   </div>
                   <div>
                     <FilterList style={{ alignContent: "right" }} />
@@ -298,14 +334,19 @@ const Cards = () => {
                   }
                   onMouseEnter={() => handleFilterMouseEnter(3)}
                   onMouseLeave={() => handleFilterMouseEnter(-1)}
-                  onClick={() => clickOnFilter(3)}
                 >
                   <div>
-                  <EnableBox index={3}></EnableBox>
-                    <Typography variant="h5">
-                      <b>Recipients</b>
-                    </Typography>
-                    <Typography variant="h7">All Recipients</Typography>
+                    <EnableBox index={3}></EnableBox>
+                    <div>
+                      <Typography variant="h7" style={{fontSize: "20px"}}>
+                          Recipients
+                      </Typography>
+                    </div>
+                    <div>
+                      <Typography variant="h7">
+                          All Recipients
+                      </Typography>
+                    </div>     
                   </div>
                   <div>
                     <FilterList style={{ alignContent: "right" }} />
@@ -319,14 +360,19 @@ const Cards = () => {
                   }
                   onMouseEnter={() => handleFilterMouseEnter(4)}
                   onMouseLeave={() => handleFilterMouseEnter(-1)}
-                  onClick={() => clickOnFilter(4)}
                 >
                   <div>
                   <EnableBox index={4}></EnableBox>
-                    <Typography variant="h5">
-                      <b>Occasion</b>
-                    </Typography>
-                    <Typography variant="h7">All Occasions</Typography>
+                    <div>
+                      <Typography variant="h7" style={{fontSize: "20px"}}>
+                          Occasions
+                      </Typography>
+                    </div>
+                    <div>
+                      <Typography variant="h7">
+                          All Occasions
+                      </Typography>
+                    </div>
                   </div>
                   <div>
                     <FilterList style={{ alignContent: "right" }} />
@@ -340,14 +386,19 @@ const Cards = () => {
                   }
                   onMouseEnter={() => handleFilterMouseEnter(5)}
                   onMouseLeave={() => handleFilterMouseEnter(-1)}
-                  onClick={() => clickOnFilter(5)}
                 >
                   <div>
                   <EnableBox index={5}></EnableBox>
-                    <Typography variant="h5">
-                      <b>Season</b>
-                    </Typography>
-                    <Typography variant="h7">All Seasons</Typography>
+                  <div>
+                      <Typography variant="h7" style={{fontSize: "20px"}}>
+                          Season
+                      </Typography>
+                    </div>
+                    <div>
+                      <Typography variant="h7">
+                          All Seasons
+                      </Typography>
+                    </div>
                   </div>
                   <div>
                     <FilterList style={{ alignContent: "right" }} />
@@ -361,14 +412,19 @@ const Cards = () => {
                   }
                   onMouseEnter={() => handleFilterMouseEnter(6)}
                   onMouseLeave={() => handleFilterMouseEnter(-1)}
-                  onClick={() => clickOnFilter(6)}
                 >
                   <div>
                   <EnableBox index={6}></EnableBox>
-                    <Typography variant="h5">
-                      <b>Sort By</b>
-                    </Typography>
-                    <Typography variant="h7">Most Trending</Typography>
+                  <div>
+                      <Typography variant="h7" style={{fontSize: "20px"}}>
+                          Sort By
+                      </Typography>
+                    </div>
+                    <div>
+                      <Typography variant="h7">
+                          Most Trending
+                      </Typography>
+                    </div>
                   </div>
                   <div>
                     <FilterList style={{ alignContent: "right" }} />
