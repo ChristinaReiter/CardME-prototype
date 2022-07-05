@@ -6,9 +6,11 @@ import {
   MenuIcon,
   Typography,
   Button,
+  Grid,
+  Image,
 } from "@mui/material";
 import React from "react";
-import { theme } from "../App";
+import AddGift from "./../assets/images/addGift.png";
 
 const styles = {
   stepbar: {
@@ -38,7 +40,6 @@ const styles = {
     position: "relative",
     width: "1146px",
     height: "254px",
-
     background: "#F3F3F3",
     borderRadius: "30px",
   },
@@ -52,6 +53,19 @@ const styles = {
     textAlign: "center",
     top: "50px",
   },
+  button: {
+    fontFamily: "typography",
+    display: "block",
+    fontSize: 15,
+    position: "relative",
+    width: "300px",
+    marginTop: "20px",
+    marginRight: "20px",
+  },
+  image: {
+    position: "relative",
+    backdropFiler: "blur(100px)",
+  },
 };
 
 const CreateAddGift = () => {
@@ -63,12 +77,27 @@ const CreateAddGift = () => {
             <IconButton sx={{ mr: 2 }}>
               <div style={styles.kreis}>3.</div>
             </IconButton>
-            <div fontSize={"30px"}>Add gift (optional)</div>
+            <div fontSize={"30px"}>
+              Add a gift to your card, which fits perfectly in the envelope.
+              (optional)
+            </div>
           </Toolbar>
         </AppBar>
-        <Box style={styles.text}>
-          Add a gift to your card, which fits perfectly in the envelope.
-        </Box>
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Grid item xs={4}>
+            <img src={AddGift} alt="addGift" style={styles.image} />
+          </Grid>
+          <Grid item xs={4}>
+            <Button style={styles.button} variant="contained" color="secondary">
+              Browse gifts
+            </Button>
+          </Grid>
+        </Grid>
       </Typography>
     </Box>
   );
