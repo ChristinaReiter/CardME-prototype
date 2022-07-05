@@ -3,14 +3,14 @@ import {
   Box,
   Toolbar,
   IconButton,
-  MenuIcon,
   Typography,
   Button,
   Grid,
-  Image,
 } from "@mui/material";
 import React from "react";
 import AddGift from "./../assets/images/addGift.png";
+
+//TODO: If Gift added, show Gift and Button to remove Gift
 
 const styles = {
   stepbar: {
@@ -64,7 +64,7 @@ const styles = {
   },
   image: {
     position: "relative",
-    backdropFiler: "blur(100px)",
+    width: "400px",
   },
 };
 

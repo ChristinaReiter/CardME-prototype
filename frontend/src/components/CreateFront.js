@@ -82,12 +82,12 @@ const styles = {
   },
   button: {
     fontFamily: "typography",
-    display: "block",
     fontSize: 15,
     position: "relative",
     width: "300px",
-    marginTop: "20px",
-    marginRight: "20px",
+    marginLeft: "40px",
+    marginBottom: "20px",
+    marginTop: "-30px",
   },
 };
 
@@ -118,13 +118,6 @@ const CreateFront = () => {
                 at least 1328x1820 in PNG or JPG format.
               </div>
             </Box>
-
-            <Button style={styles.button} variant="contained" color="secondary">
-              Upload / change picture
-            </Button>
-            <Button style={styles.button} variant="contained" color="secondary">
-              Browse card designs
-            </Button>
           </Grid>
           <Grid item xs={4} textAlign="center">
             <Box style={styles.adjustwindow}>
@@ -134,6 +127,12 @@ const CreateFront = () => {
             </Box>
           </Grid>
         </Grid>
+        <Button style={styles.button} variant="contained" color="secondary">
+          Upload / change picture
+        </Button>
+        <Button style={styles.button} variant="contained" color="secondary">
+          Browse card designs
+        </Button>
       </Typography>
     </Box>
   );

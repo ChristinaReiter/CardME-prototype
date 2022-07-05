@@ -3,12 +3,12 @@ import {
   Box,
   Toolbar,
   IconButton,
-  MenuIcon,
+  Grid,
   Typography,
   Button,
 } from "@mui/material";
 import React from "react";
-import { theme } from "../App";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 const styles = {
   stepbar: {
@@ -34,6 +34,25 @@ const styles = {
     textAlign: "center",
     lineHeight: "40px",
   },
+  cardWindows: {
+    position: "relative",
+    textAlign: "center",
+    width: "370px",
+    height: "464px",
+    background: "#FFFFFF",
+    boxShadow:
+      "2px 2px 30px rgba(0, 0, 0, 0.1), -2px -2px 30px rgba(0, 0, 0, 0.1)",
+    marginTop: "40px",
+    marginDown: "40px",
+  },
+  button: {
+    fontFamily: "typography",
+    display: "block",
+    fontSize: 15,
+    position: "relative",
+    width: "300px",
+    margin: "10px",
+  },
 };
 
 const CreateFinal = () => {
@@ -48,6 +67,58 @@ const CreateFinal = () => {
             <div fontSize={"30px"}>View the final card</div>
           </Toolbar>
         </AppBar>
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          marginBottom={"30px"}
+        >
+          <Grid item xs={3}>
+            <IconButton sx={{ float: "right", marginRight: "20px" }}>
+              <ArrowBackIosIcon sx={{ fontSize: "60px" }} />
+            </IconButton>
+          </Grid>
+          <Grid item xs={3}>
+            <Box style={styles.cardWindows} sx={{ float: "right" }}></Box>
+          </Grid>
+          <Grid item xs={3}>
+            <Box style={styles.cardWindows} sx={{ float: "left" }}></Box>
+          </Grid>
+          <Grid item xs={3}>
+            <Box>
+              <IconButton>
+                <ArrowBackIosIcon
+                  sx={{ transform: "rotate(180deg)", fontSize: "60px" }}
+                />
+              </IconButton>
+            </Box>
+          </Grid>
+        </Grid>
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          marginBottom={"60px"}
+          textAlign="center"
+        >
+          <Grid item xs={3}>
+            <Button
+              style={styles.button}
+              sx={{ float: "right" }}
+              variant="contained"
+              color="secondary"
+            >
+              Add to shopping cart
+            </Button>
+          </Grid>
+          <Grid item xs={3}>
+            <Button style={styles.button} variant="contained" color="secondary">
+              Proceed to shipping / payment
+            </Button>
+          </Grid>
+        </Grid>
       </Typography>
     </Box>
   );
