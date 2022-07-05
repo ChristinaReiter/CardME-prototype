@@ -1,5 +1,4 @@
 import { Tab, Tabs, Box, Button } from '@mui/material';
-import { TabPanel } from '@mui/lab';
 import React from 'react';
 import { useState } from 'react'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -10,9 +9,7 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 import ListIcon from '@mui/icons-material/List';
 import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Link, useParams, Outlet } from "react-router-dom";
-
-const pages = ['view', 'orders', 'subscriptions', 'calendar', 'favorites', 'contacts', 'account'];
+import { Link, Outlet } from "react-router-dom";
 
 const styles = {
     tabss: {
