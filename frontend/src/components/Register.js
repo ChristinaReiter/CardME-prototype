@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { TextField, Box, Button, InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material'; 
+import { useNavigate } from "react-router-dom";
 
 
 function Register() {
@@ -8,10 +9,13 @@ function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPw, setShowPw] = useState(false);
+    const navigate = useNavigate();
 
-        const toggle = () => {
+
+
+    const toggle = () => {
             setShowPw(!showPw);        
-      }; 
+    }; 
     
       const handleMouseDownPassword = (event) => {
         event.preventDefault();
@@ -33,6 +37,11 @@ function Register() {
         });
         const data = await response.json();
         console.log(data);
+
+        if(data.status === "ok") {
+            alert("Account Created");
+            navigate("/login");        
+        }
     }
   
   
@@ -79,7 +88,6 @@ function Register() {
                     </InputAdornment>
                   }}> 
             </TextField> 
-
             <Button
                 sx={{ m: 2 }}
                 color="secondary"

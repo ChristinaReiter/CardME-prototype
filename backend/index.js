@@ -40,7 +40,7 @@ app.get("/", (req, res) => {
 
 app.use("/products", product);
 
-app.use("/", register)
+app.use("/", register) // vllt reicht einmal ('/auth',auth)
 
 app.use("/order", order);
 

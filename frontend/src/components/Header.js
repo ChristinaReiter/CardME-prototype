@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Logo from "./../assets/images/logo_transparent.png";
-import { Navigate, NavLink, useNavigate, Link } from "react-router-dom";
+import { NavLink, useNavigate, Link } from "react-router-dom";
 import {
   Typography,
   Toolbar,

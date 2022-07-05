@@ -1,5 +1,5 @@
 import { Tab, Tabs, Box, Button } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -10,7 +10,10 @@ import ListIcon from '@mui/icons-material/List';
 import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link, Outlet } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import jwt_decode from 'jwt-decode'; // temp
 
+ 
 const styles = {
     tabss: {
     fontFamily: '"Abril Fatface"',
@@ -21,10 +24,24 @@ const styles = {
 
  const ProfileOverview = () => {
   const [selectedTab, setSelectedTab] = useState(0);
+  const navigate = useNavigate();
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const account = jwt_decode(token);  // temporary -- gotta use middleware
+      if (!account) {
+        localStorage.removeItem('token');
+        navigate("/login");
+      } else {
+        alert("U have a token")
+      }
+    }
+  }, [])  
+
 
 
   return (

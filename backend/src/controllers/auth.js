@@ -16,7 +16,7 @@ const register = async (req, res) => {
         _id: user._id,
         password: securePassword,
       })
-      return res.json({response: 'success'})
+      return res.json({status: 'ok'})
     
     
     } catch (err) {
@@ -40,8 +40,11 @@ const register = async (req, res) => {
         const token = jwt.sign({
         _id: account._id,
         },
-        "secret123"  // better secret needed
-        ) 
+        "secret secretion here",  // idk man xd
+        {
+          expiresIn: 86400, // expires in 24 hours
+        }
+        );
         return res.json({status: 'ok', account: token})
       
      }else {
