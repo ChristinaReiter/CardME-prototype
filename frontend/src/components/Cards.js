@@ -129,14 +129,6 @@ const Cards = () => {
   const searchInputHandler = (e) => {
     const value = e.target.value;
 
-    {
-      /*const filteredCards = [];
-  for (var i = 0; i < products.length; i++) {
-    if(products[i].title.toString().toLowerCase().includes(value.toString().toLowerCase())) {
-      filteredCards.push(products[i]);
-    }
-  }*/
-    }
     const filteredCards = products.filter((el) => {
       console.log(el);
       if (value === "") {
@@ -160,24 +152,40 @@ const Cards = () => {
   }
 
   const colorFilter = [];
-  const [colorIsChecked, setColorIsChecked] = useState();
+  const colorFilterCopy = [];
+  const [a, setColorIsChecked] = useState([]);
 
   function addColorToFilter(color) {
     colorFilter.push(color);
+    console.log(colorFilter);
   }
 
   function removeColorFromFilter(color) {
-    this.setState(this.state.colorFilter.filter(function(col) { return col !== color.target.value}));
+    colorFilterCopy = colorFilter.filter((col) => {
+      return (
+        col !== color.target.value
+      )
+    })
+    colorFilter = colorFilterCopy;
   }
 
   const updateColorArray = event => {
     if (event.target.checked)
     {
-      addColorToFilter("red");
-      console.log(colorFilter);
+      setColorIsChecked((newColor) => [...newColor, "red",]);
+      console.log("add");
+      console.log(a);
     }
     if(!event.target.checked) {
-      
+      var remainingColors = a.find((element) => {
+        console.log("element value: " + element.value);
+        return element.value !== "red";
+      });
+      console.log("remaining:");
+      console.log(remainingColors);
+      setColorIsChecked(remainingColors);
+      console.log("sub:");
+      console.log(a);
     }
   }
 

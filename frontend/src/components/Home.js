@@ -1,7 +1,6 @@
 import React from "react";
-import { Typography, Button, Box } from "@mui/material";
+import { Button, Box } from "@mui/material";
 import WelcomePostcard from "./../assets/images/welcome-postcard.png";
-import { spacing } from "@mui/system";
 
 const styles = {
   image: {
