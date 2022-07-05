@@ -1,11 +1,22 @@
 import { useState } from 'react'
-import { TextField, Box, Button } from '@mui/material';
+import { TextField, Box, Button, InputAdornment, IconButton } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material'; 
 
 
 function Register() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPw, setShowPw] = useState(false);
+
+        const toggle = () => {
+            setShowPw(!showPw);        
+      }; 
+    
+      const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+      }; 
+    
 
     async function createAccount(event) {
         event.preventDefault();
@@ -29,31 +40,50 @@ function Register() {
       <Box  display="flex" justifyContent="center" padding="5em">
         <form onSubmit={createAccount}>
             <TextField 
+                sx={{ m: 1 }}
                 type="text"
-                placeholder="User Name"
+                label="User Name"
                 name="username"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required> 
             </TextField>
-            <TextField 
+            <TextField
+                sx={{ m: 1 }} 
                 type="text"
-                placeholder="Email"
+                label="Email"
                 name="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required> 
             </TextField>
             <TextField 
-                type="text"
-                placeholder="password"
+                sx={{ m: 1 }}
+                type={showPw ? 'text' : 'password'}
+                label="Password"
                 name="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required> 
-            </TextField>
+                required
+                InputProps={{
+                endAdornment:
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={toggle}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPw ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }}> 
+            </TextField> 
+
             <Button
-                variant="outlined"
+                sx={{ m: 2 }}
+                color="secondary"
+                variant="contained"
                 type="submit">
                 Submit
             </Button>

@@ -28,6 +28,7 @@ function Login() {
     <Box  display="flex" justifyContent="center" padding="5em">
       <form onSubmit={loginAccount}>
           <TextField 
+              sx={{ m: 1 }}
               type="text"
               placeholder="Email"
               name="email"
@@ -36,6 +37,7 @@ function Login() {
               required> 
           </TextField>
           <TextField 
+              sx={{ m: 1 }}
               type="text"
               placeholder="password"
               name="password"
@@ -44,7 +46,9 @@ function Login() {
               required> 
           </TextField>
           <Button
-              variant="outlined"
+              sx={{ m: 2 }}
+              color="secondary"
+              variant="contained"
               type="submit">
               Submit
           </Button>
