@@ -5,7 +5,7 @@ import CreateText from "./CreateText";
 import CreateAddGift from "./CreateAddGift";
 import CreateFinal from "./CreateFinal";
 
-const Create = () => {
+const Create = ({id}) => {
   return (
     <div>
       <CreateFront />

@@ -87,7 +87,7 @@ const Cards = () => {
       flexDirection: "row",
       justifyContent: "space-between",
       padding: "5px 10px",
-      fontFamily: "Abril Fatface"
+      fontFamily: "Abril Fatface",
     },
     tableCellHover: {
       borderRight: "1px solid",
@@ -99,7 +99,7 @@ const Cards = () => {
       flexDirection: "row",
       justifyContent: "space-between",
       padding: "5px 10px",
-      fontFamily: "Abril Fatface"
+      fontFamily: "Abril Fatface",
     },
     button: {
       fontFamily: "Annie Use Your Telescope",
@@ -151,101 +151,123 @@ const Cards = () => {
     setFilterIsHovering(index);
   }
 
-  const colorFilter = [];
-  const colorFilterCopy = [];
-  const [a, setColorIsChecked] = useState([]);
+  const [colorFilter, setColorFilter] = useState({});
 
-  function addColorToFilter(color) {
-    colorFilter.push(color);
-    console.log(colorFilter);
-  }
-
-  function removeColorFromFilter(color) {
-    colorFilterCopy = colorFilter.filter((col) => {
-      return (
-        col !== color.target.value
-      )
-    })
-    colorFilter = colorFilterCopy;
-  }
-
-  const updateColorArray = event => {
-    if (event.target.checked)
-    {
-      setColorIsChecked((newColor) => [...newColor, "red",]);
-      console.log("add");
-      console.log(a);
-    }
-    if(!event.target.checked) {
-      var remainingColors = a.find((element) => {
-        console.log("element value: " + element.value);
-        return element.value !== "red";
-      });
-      console.log("remaining:");
-      console.log(remainingColors);
-      setColorIsChecked(remainingColors);
-      console.log("sub:");
-      console.log(a);
-    }
-  }
+  const updateColorArray = (colorKey, event) => {
+    setColorFilter({ ...colorFilter, [colorKey]: event.target.checked });
+  };
 
   function EnableBox({ index }) {
-      var positionIndex = "0px";
-      if(index === 1) {
-        positionIndex = "14%";
-      }
-      if(index === 2) {
-        positionIndex = "28%";
-      }
-      if(index === 3) {
-        positionIndex = "42%";
-      }
-      if(index === 4) {
-        positionIndex = "56%";
-      }
-      if(index === 5) {
-        positionIndex = "70%";
-      }
-      if(index === 6) {
-        positionIndex = "85%";
-      }
-      if (filterIsHovering != index) {
-        return <Box disabled></Box>;
-      }
-      else {
-        return (
-          <Box
-            style={{
-              position: "absolute",
-              width: 300,
-              height: 200,
-              top: "70px",
-              left: positionIndex,
-              background: "rgba(167, 205,	167, 0.8)",
-              zIndex: 1,
-            }}
+    var positionIndex = "0px";
+    if (index === 1) {
+      positionIndex = "14%";
+    }
+    if (index === 2) {
+      positionIndex = "28%";
+    }
+    if (index === 3) {
+      positionIndex = "42%";
+    }
+    if (index === 4) {
+      positionIndex = "56%";
+    }
+    if (index === 5) {
+      positionIndex = "70%";
+    }
+    if (index === 6) {
+      positionIndex = "85%";
+    }
+    if (filterIsHovering != index) {
+      return <Box disabled></Box>;
+    } else {
+      return (
+        <Box
+          style={{
+            position: "absolute",
+            width: 300,
+            height: 200,
+            top: "70px",
+            left: positionIndex,
+            background: "rgba(167, 205,	167, 0.8)",
+            zIndex: 1,
+          }}
+        >
+          <div
+            style={{ display: "flex", flexDirection: "row", paddingLeft: "5%" }}
           >
-            <div style= {{display:"flex", flexDirection: "row", paddingLeft:"5%"}}>
-            <div style={{display: "flex", flexDirection: "column", paddingRight:"15%"}}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                paddingRight: "15%",
+              }}
+            >
               <FormGroup>
-                <FormControlLabel value= "end" control={<Checkbox style={{color: "black", "&$checked": "black"}} ></Checkbox>} onChange={updateColorArray} label="Red"></FormControlLabel>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      style={{ color: "black", "&$checked": "black" }}
+                      checked={colorFilter.red}
+                    ></Checkbox>
+                  }
+                  onChange={(e) => {
+                    updateColorArray("red", e);
+                  }}
+                  label="Red"
+                ></FormControlLabel>
               </FormGroup>
               <FormGroup>
-                <FormControlLabel value= "end" control={<Checkbox style={{color: "black", "&$checked": "black"}}></Checkbox>} label="Yellow"></FormControlLabel>
+                <FormControlLabel
+                  value="end"
+                  control={
+                    <Checkbox
+                      style={{ color: "black", "&$checked": "black" }}
+                      checked={colorFilter.yellow}
+                    ></Checkbox>
+                  }
+                  onChange={(e) => {
+                    updateColorArray("yellow", e);
+                  }}
+                  label="Yellow"
+                ></FormControlLabel>
               </FormGroup>
             </div>
-            <div style={{display: "flex", flexDirection: "column"}}>
+            <div style={{ display: "flex", flexDirection: "column" }}>
               <FormGroup>
-                <FormControlLabel value= "end" control={<Checkbox style={{color: "black", "&$checked": "black"}}></Checkbox>} label="Blue"></FormControlLabel>
+                <FormControlLabel
+                  value="end"
+                  control={
+                    <Checkbox
+                      style={{ color: "black", "&$checked": "black" }}
+                      checked={colorFilter.blue}
+                    ></Checkbox>
+                  }
+                  onChange={(e) => {
+                    updateColorArray("blue", e);
+                  }}
+                  label="Blue"
+                ></FormControlLabel>
               </FormGroup>
               <FormGroup>
-                <FormControlLabel value= "end" control={<Checkbox style={{color: "black", "&$checked": "black"}}></Checkbox>} label="Green"></FormControlLabel>
+                <FormControlLabel
+                  value="end"
+                  control={
+                    <Checkbox
+                      style={{ color: "black", "&$checked": "black" }}
+                      checked={colorFilter.green}
+                    ></Checkbox>
+                  }
+                  onChange={(e) => {
+                    updateColorArray("green", e);
+                  }}
+                  label="Green"
+                ></FormControlLabel>
               </FormGroup>
             </div>
-            </div>
-          </Box>
-        );
-      }
+          </div>
+        </Box>
+      );
+    }
   }
 
   return (
@@ -265,18 +287,16 @@ const Cards = () => {
                   onMouseLeave={() => handleFilterMouseEnter(-1)}
                 >
                   <div>
-                  <EnableBox index={0}></EnableBox>
-                  <div>
-                      <Typography variant="h7" style={{fontSize: "20px"}}>
-                          Color
+                    <EnableBox index={0}></EnableBox>
+                    <div>
+                      <Typography variant="h7" style={{ fontSize: "20px" }}>
+                        Color
                       </Typography>
                     </div>
                     <div>
-                      <Typography variant="h7">
-                          All Colors
-                      </Typography>
+                      <Typography variant="h7">All Colors</Typography>
                     </div>
-                  </div> 
+                  </div>
                   <div>
                     <FilterList style={{ alignContent: "right" }} />
                   </div>
@@ -293,17 +313,15 @@ const Cards = () => {
                   <div>
                     <EnableBox index={1}></EnableBox>
                     <div>
-                      <Typography variant="h7" style={{fontSize: "20px"}}>
-                          Vibes
+                      <Typography variant="h7" style={{ fontSize: "20px" }}>
+                        Vibes
                       </Typography>
                     </div>
                     <div>
-                      <Typography variant="h7">
-                          All Vibes
-                      </Typography>
+                      <Typography variant="h7">All Vibes</Typography>
                     </div>
                   </div>
-                  
+
                   <div>
                     <FilterList style={{ alignContent: "right" }} />
                   </div>
@@ -320,14 +338,12 @@ const Cards = () => {
                   <div>
                     <EnableBox index={2}></EnableBox>
                     <div>
-                      <Typography variant="h7" style={{fontSize: "20px"}}>
-                          Styles
+                      <Typography variant="h7" style={{ fontSize: "20px" }}>
+                        Styles
                       </Typography>
                     </div>
                     <div>
-                      <Typography variant="h7">
-                          All Styles
-                      </Typography>
+                      <Typography variant="h7">All Styles</Typography>
                     </div>
                   </div>
                   <div>
@@ -346,15 +362,13 @@ const Cards = () => {
                   <div>
                     <EnableBox index={3}></EnableBox>
                     <div>
-                      <Typography variant="h7" style={{fontSize: "20px"}}>
-                          Recipients
+                      <Typography variant="h7" style={{ fontSize: "20px" }}>
+                        Recipients
                       </Typography>
                     </div>
                     <div>
-                      <Typography variant="h7">
-                          All Recipients
-                      </Typography>
-                    </div>     
+                      <Typography variant="h7">All Recipients</Typography>
+                    </div>
                   </div>
                   <div>
                     <FilterList style={{ alignContent: "right" }} />
@@ -370,16 +384,14 @@ const Cards = () => {
                   onMouseLeave={() => handleFilterMouseEnter(-1)}
                 >
                   <div>
-                  <EnableBox index={4}></EnableBox>
+                    <EnableBox index={4}></EnableBox>
                     <div>
-                      <Typography variant="h7" style={{fontSize: "20px"}}>
-                          Occasions
+                      <Typography variant="h7" style={{ fontSize: "20px" }}>
+                        Occasions
                       </Typography>
                     </div>
                     <div>
-                      <Typography variant="h7">
-                          All Occasions
-                      </Typography>
+                      <Typography variant="h7">All Occasions</Typography>
                     </div>
                   </div>
                   <div>
@@ -396,16 +408,14 @@ const Cards = () => {
                   onMouseLeave={() => handleFilterMouseEnter(-1)}
                 >
                   <div>
-                  <EnableBox index={5}></EnableBox>
-                  <div>
-                      <Typography variant="h7" style={{fontSize: "20px"}}>
-                          Season
+                    <EnableBox index={5}></EnableBox>
+                    <div>
+                      <Typography variant="h7" style={{ fontSize: "20px" }}>
+                        Season
                       </Typography>
                     </div>
                     <div>
-                      <Typography variant="h7">
-                          All Seasons
-                      </Typography>
+                      <Typography variant="h7">All Seasons</Typography>
                     </div>
                   </div>
                   <div>
@@ -422,16 +432,14 @@ const Cards = () => {
                   onMouseLeave={() => handleFilterMouseEnter(-1)}
                 >
                   <div>
-                  <EnableBox index={6}></EnableBox>
-                  <div>
-                      <Typography variant="h7" style={{fontSize: "20px"}}>
-                          Sort By
+                    <EnableBox index={6}></EnableBox>
+                    <div>
+                      <Typography variant="h7" style={{ fontSize: "20px" }}>
+                        Sort By
                       </Typography>
                     </div>
                     <div>
-                      <Typography variant="h7">
-                          Most Trending
-                      </Typography>
+                      <Typography variant="h7">Most Trending</Typography>
                     </div>
                   </div>
                   <div>
@@ -489,7 +497,7 @@ const Cards = () => {
               }
             })
             .map((product) => (
-              <Grid item xs={3}>
+              <Grid item xs={3} key={product._id}>
                 <Card
                   sx={{
                     width: 270,

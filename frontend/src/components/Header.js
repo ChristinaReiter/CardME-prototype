@@ -160,14 +160,14 @@ const Header = () => {
                 {shoppingCart.length === 0 && (
                   <Typography>No products in your cart, add some...</Typography>
                 )}
-                {shoppingCart.map((item) => (
+                {shoppingCart.map((item, index) => (
                   <Grid
                     container
                     bgcolor={theme.palette.tertiary.main}
                     padding="2em"
                     borderRadius="25px"
                     marginTop="1em"
-                    key={item.cardId}
+                    key={index}
                   >
                     <Grid item xs={4}>
                       <img
@@ -194,7 +194,7 @@ const Header = () => {
                         variant="contained"
                         style={{ color: theme.palette.secondary.main }}
                         onClick={() => {
-                          handleRemove(item.cardId);
+                          handleRemove(index);
                         }}
                       >
                         Remove
@@ -204,7 +204,7 @@ const Header = () => {
                         sx={{ ml: 4 }}
                         style={{ color: theme.palette.secondary.main }}
                         onClick={() => {
-                          navigate("/create");
+                          navigate("/create/" + index);
                         }}
                       >
                         Edit

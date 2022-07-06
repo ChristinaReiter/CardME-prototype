@@ -25,14 +25,14 @@ export default class ShoppingCartService {
     localStorage.setItem(this.accessKey, JSON.stringify(cart));
   }
 
-  static removeItem(cardId) {
+  static removeItem(itemIndex) {
     let cart = this.getCart();
 
-    let remainingItems = cart.find((element) => {
-      return element.cardId !== cardId;
+    let remainingItems = cart.find((element, index) => {
+      return index !== itemIndex;
     });
 
-    if (remainingItems != undefined) {
+    if (remainingItems !== undefined) {
       localStorage.setItem(this.accessKey, JSON.stringify([remainingItems]));
     } else {
       localStorage.removeItem(this.accessKey);

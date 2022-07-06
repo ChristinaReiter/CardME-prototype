@@ -55,7 +55,10 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route exact path="/cards" element={<Cards />} />
-              <Route exact path="/create" element={<Create />} />
+              <Route path="/create" element={<Create />}>
+                <Route path=":id" element={<Create />} />
+                <Route path="" element={<Create />} />
+              </Route>
               <Route
                 exact
                 path="/checkout-data"
@@ -70,16 +73,16 @@ function App() {
                 exact
                 path="/checkout-overview"
                 element={<CheckoutOverview checkoutData={checkoutData} />}
-              />              
-              <Route path="profile" element={<ProfileOverview/>}> 
-                <Route path="view" element={<View />} />    
+              />
+              <Route path="profile" element={<ProfileOverview />}>
+                <Route path="view" element={<View />} />
                 <Route path="orders" element={<Orders />} />
                 <Route path="subscriptions" element={<Subscriptions />} />
                 <Route path="calendar" element={<Calendar />} />
                 <Route path="favorites" element={<Favorites />} />
                 <Route path="contacts" element={<Contacts />} />
-                <Route path="details" element={<AccountDetails />} />          
-              </Route>                
+                <Route path="details" element={<AccountDetails />} />
+              </Route>
               <Route exact path="/register" element={<Register />} />
               <Route exact path="/login" element={<Login />} />
             </Routes>
