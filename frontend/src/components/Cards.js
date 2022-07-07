@@ -481,20 +481,58 @@ const Cards = () => {
         >
           {products
             .filter((el) => {
-              if (searchTerm == "") {
+              var filterArray = [];
+              Object.keys(colorFilter).map((key, value) => {
+                  if (colorFilter[key]) {
+                    filterArray.push(key);
+                  }
+              })
+              if (searchTerm.length === 0 && filterArray.length === 0) {
                 return el;
-              } else {
+              } 
+              else if(searchTerm.length === 0 && filterArray.length !== 0) {
+                
+                const recursiveColorFilter = (index) => {
+                  console.log(el.color.toString().toLowerCase().includes(filterArray[index].toString()));
+                  if (index === filterArray.length) {
+                    return;
+                  }
+                  return(
+                    el.color
+                    .toString()
+                    .toLowerCase()
+                    .includes(filterArray[index].toString().toLowerCase()) //doesn't work with recursion, I think it's because it's nested or something
+                  )
+                }
+                recursiveColorFilter(0);
+              }
+              {/*else if(searchTerm.length !== 0 && filterArray.length === 0) {
                 return (
                   el.title
                     .toString()
                     .toLowerCase()
-                    .includes(searchTerm.toLowerCase()) ||
+                    .includes(searchTerm.toString().toLowerCase()) ||
                   el.designer
                     .toString()
                     .toLowerCase()
-                    .includes(searchTerm.toLowerCase())
+                    .includes(searchTerm.toString().toLowerCase()))
+              }*/}
+              {/*else {
+                return (
+                  (el.title
+                    .toString()
+                    .toLowerCase()
+                    .includes(searchTerm.toString().toLowerCase()) ||
+                  el.designer
+                    .toString()
+                    .toLowerCase()
+                    .includes(searchTerm.toString().toLowerCase())) &&
+                  el.color
+                    .toString()
+                    .toLowerCase()
+                    .includes("blue")
                 );
-              }
+              }*/}
             })
             .map((product) => (
               <Grid item xs={3} key={product._id}>
