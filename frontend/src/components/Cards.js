@@ -551,13 +551,11 @@ const Cards = () => {
                 return el;
               } 
               else if(searchTerm.length === 0 && filterArray.length !== 0) {
-                console.log(el.title + ": ");
-                console.log(el.color.includes(filterArray.toString()));
                 return(
-                  el.color.
-                  toString().
-                  toLowerCase().
-                  includes(filterArray.toString().toLowerCase())
+                  filterArray
+                  .every(colors => 
+                    {return el.color.includes(colors)}
+                  )
                 )
               }
               else if(searchTerm.length !== 0 && filterArray.length === 0) {
@@ -581,10 +579,10 @@ const Cards = () => {
                     .toString()
                     .toLowerCase()
                     .includes(searchTerm.toString().toLowerCase())) &&
-                  el.color
-                    .toString()
-                    .toLowerCase()
-                    .includes(filterArray.toString().toLowerCase())
+                  filterArray
+                  .every(colors => 
+                    {return el.color.includes(colors)}
+                    )
                 );
               }
             })
