@@ -231,6 +231,36 @@ const Cards = () => {
                   label="Yellow"
                 ></FormControlLabel>
               </FormGroup>
+              <FormGroup>
+                <FormControlLabel
+                  value="end"
+                  control={
+                    <Checkbox
+                      style={{ color: "black", "&$checked": "black" }}
+                      checked={colorFilter.orange}
+                    ></Checkbox>
+                  }
+                  onChange={(e) => {
+                    updateColorArray("orange", e);
+                  }}
+                  label="Orange"
+                ></FormControlLabel>
+              </FormGroup>
+              <FormGroup>
+                <FormControlLabel
+                  value="end"
+                  control={
+                    <Checkbox
+                      style={{ color: "black", "&$checked": "black" }}
+                      checked={colorFilter.pink}
+                    ></Checkbox>
+                  }
+                  onChange={(e) => {
+                    updateColorArray("pink", e);
+                  }}
+                  label="Pink"
+                ></FormControlLabel>
+              </FormGroup>
             </div>
             <div style={{ display: "flex", flexDirection: "column" }}>
               <FormGroup>
@@ -261,6 +291,36 @@ const Cards = () => {
                     updateColorArray("green", e);
                   }}
                   label="Green"
+                ></FormControlLabel>
+              </FormGroup>
+              <FormGroup>
+                <FormControlLabel
+                  value="end"
+                  control={
+                    <Checkbox
+                      style={{ color: "black", "&$checked": "black" }}
+                      checked={colorFilter.white}
+                    ></Checkbox>
+                  }
+                  onChange={(e) => {
+                    updateColorArray("white", e);
+                  }}
+                  label="White"
+                ></FormControlLabel>
+              </FormGroup>
+              <FormGroup>
+                <FormControlLabel
+                  value="end"
+                  control={
+                    <Checkbox
+                      style={{ color: "black", "&$checked": "black" }}
+                      checked={colorFilter.violet}
+                    ></Checkbox>
+                  }
+                  onChange={(e) => {
+                    updateColorArray("violet", e);
+                  }}
+                  label="Violet"
                 ></FormControlLabel>
               </FormGroup>
             </div>
@@ -491,22 +551,16 @@ const Cards = () => {
                 return el;
               } 
               else if(searchTerm.length === 0 && filterArray.length !== 0) {
-                
-                const recursiveColorFilter = (index) => {
-                  console.log(el.color.toString().toLowerCase().includes(filterArray[index].toString()));
-                  if (index === filterArray.length) {
-                    return;
-                  }
-                  return(
-                    el.color
-                    .toString()
-                    .toLowerCase()
-                    .includes(filterArray[index].toString().toLowerCase()) //doesn't work with recursion, I think it's because it's nested or something
-                  )
-                }
-                recursiveColorFilter(0);
+                console.log(el.title + ": ");
+                console.log(el.color.includes(filterArray.toString()));
+                return(
+                  el.color.
+                  toString().
+                  toLowerCase().
+                  includes(filterArray.toString().toLowerCase())
+                )
               }
-              {/*else if(searchTerm.length !== 0 && filterArray.length === 0) {
+              else if(searchTerm.length !== 0 && filterArray.length === 0) {
                 return (
                   el.title
                     .toString()
@@ -516,8 +570,8 @@ const Cards = () => {
                     .toString()
                     .toLowerCase()
                     .includes(searchTerm.toString().toLowerCase()))
-              }*/}
-              {/*else {
+              }
+              else {
                 return (
                   (el.title
                     .toString()
@@ -530,9 +584,9 @@ const Cards = () => {
                   el.color
                     .toString()
                     .toLowerCase()
-                    .includes("blue")
+                    .includes(filterArray.toString().toLowerCase())
                 );
-              }*/}
+              }
             })
             .map((product) => (
               <Grid item xs={3} key={product._id}>
