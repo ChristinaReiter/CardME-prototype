@@ -6,10 +6,9 @@ import {
   Grid,
   Typography,
   Button,
-  Paper,
 } from "@mui/material";
-import React from "react";
-import { styled } from "@mui/material/styles";
+import React, { useState, useEffect } from "react";
+import UploadImages from "./UploadImages";
 
 const styles = {
   stepbar: {
@@ -127,10 +126,20 @@ const CreateFront = () => {
             </Box>
           </Grid>
         </Grid>
-        <Button style={styles.button} variant="contained" color="secondary">
+        <Button
+          style={styles.button}
+          onClick={() => UploadImages()}
+          variant="contained"
+          color="secondary"
+        >
           Upload / change picture
         </Button>
-        <Button style={styles.button} variant="contained" color="secondary">
+        <Button
+          style={styles.button}
+          variant="contained"
+          color="secondary"
+          href=".././Cards"
+        >
           Browse card designs
         </Button>
       </Typography>
