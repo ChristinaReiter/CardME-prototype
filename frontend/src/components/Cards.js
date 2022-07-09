@@ -27,10 +27,11 @@ import { useNavigate } from "react-router-dom";
 import ShoppingCartService from "../services/ShoppingCartService";
 import FilterHeader from "./FilterHeader";
 
-const Cards = (colorFilter) => {
+const Cards = () => {
   const imageUrl = "http://localhost:3001/public/";
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState([]);
+  const [colorFilter, setColorFilter] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -75,10 +76,12 @@ const Cards = (colorFilter) => {
     navigate("/create");
   };
 
+  
+
   return (
     <div>
       <Box sx={{ flexGrow: 1, flexShrink: 1, position: "relative" }}>
-        <FilterHeader />
+        <FilterHeader colorFilter={colorFilter} setColorFilter={setColorFilter}/>
       </Box>
       <Box
         sx={{
@@ -111,12 +114,12 @@ const Cards = (colorFilter) => {
           {products
             .filter((el) => {
               var filterArray = [];
+              console.log(colorFilter);
               Object.keys(colorFilter).map((key) => {
                   if (colorFilter[key]) {
                     filterArray.push(key);
                   }
               })
-              console.log(colorFilter);
               if (searchTerm.length === 0 && filterArray.length === 0) {
                 return el;
                 

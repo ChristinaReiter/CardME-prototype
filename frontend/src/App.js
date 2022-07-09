@@ -46,7 +46,6 @@ export const theme = createTheme({
 
 function App() {
   const [checkoutData, setCheckoutData] = useState({});
-  const [colorFilter, setColorFilter] = useState({});
 
   return (
     <div>
@@ -60,19 +59,8 @@ function App() {
                 exact 
                 path="/cards" 
                 element={
-                  <Cards 
-                    colorFilter={colorFilter}
-                  />
+                  <Cards />
                 } 
-              />
-              <Route 
-                exact path= "/filterheader" 
-                element={
-                  <FilterHeader
-                    colorFilter={colorFilter} 
-                    setColorFilter={setColorFilter}
-                  />
-                }
               />
               <Route path="/create" element={<Create />}>
                 <Route path=":id" element={<Create />} />
