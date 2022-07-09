@@ -28,8 +28,10 @@ const OrderSchema = new mongoose.Schema({
       },
     ],
   },
-
-  // Subscription
+  isSubscription: {  //is this correct?
+    type: Boolean,
+    default: false,
+  },
 });
 
 OrderSchema.set("versionKey", false);
