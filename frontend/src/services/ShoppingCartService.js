@@ -38,4 +38,20 @@ export default class ShoppingCartService {
       localStorage.removeItem(this.accessKey);
     }
   }
+
+  static updateText(itemIndex, text){
+    let cart = this.getCart()
+
+    cart[itemIndex].text = text
+
+    localStorage.setItem(this.accessKey, JSON.stringify(cart))
+  }
+
+  static updateGift(itemIndex, giftId = null){
+    let cart = this.getCart()
+
+    cart[itemIndex].giftId = giftId
+
+    localStorage.setItem(this.accessKey, JSON.stringify(cart))
+  }
 }

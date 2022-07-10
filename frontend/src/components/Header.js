@@ -205,6 +205,7 @@ const Header = () => {
                         style={{ color: theme.palette.secondary.main }}
                         onClick={() => {
                           navigate("/create/" + index);
+                          closeShoppingCart()
                         }}
                       >
                         Edit
@@ -214,7 +215,8 @@ const Header = () => {
                         color="secondary"
                         sx={{ ml: 4 }}
                         onClick={() => {
-                          navigate("checkout-data");
+                          navigate("/checkout-data/" + index);
+                          closeShoppingCart()
                         }}
                       >
                         Checkout

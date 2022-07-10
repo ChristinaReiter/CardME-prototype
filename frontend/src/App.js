@@ -61,7 +61,7 @@ function App() {
               </Route>
               <Route
                 exact
-                path="/checkout-data"
+                path="/checkout-data/:id"
                 element={
                   <CheckoutData
                     checkoutData={checkoutData}
