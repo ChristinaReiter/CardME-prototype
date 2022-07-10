@@ -1,10 +1,18 @@
 import { useTheme } from "@emotion/react";
 import styled from "@emotion/styled";
-import { Box, Breadcrumbs, Button, Divider, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Breadcrumbs,
+  Button,
+  Divider,
+  Grid,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import CheckoutService from "../services/CheckoutService";
 import ShoppingCartService from "../services/ShoppingCartService";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 const CheckoutOverview = () => {
   const imageUrl = "http://localhost:3001/public/";
@@ -77,7 +85,13 @@ const CheckoutOverview = () => {
               <Typography variant="h5">Text:</Typography>
               <Typography fontFamily="Antic">{cartItem.text}</Typography>
             </Grid>
-            <Grid item xs={3} alignItems="flex-end" display="flex" justifyContent="flex-end">
+            <Grid
+              item
+              xs={3}
+              alignItems="flex-end"
+              display="flex"
+              justifyContent="flex-end"
+            >
               <Typography fontFamily="Antic" variant="h4">
                 {cartItem.cardPrice},-
               </Typography>
@@ -104,7 +118,9 @@ const CheckoutOverview = () => {
                 incl. VAT: {(cartItem.cardPrice + cartItem.giftPrice) * 0.16},-
               </Typography>
               <Divider></Divider>
-              <Typography fontFamily="Antic" variant="h3">{cartItem.cardPrice + cartItem.giftPrice},-</Typography>
+              <Typography fontFamily="Antic" variant="h3">
+                {cartItem.cardPrice + cartItem.giftPrice},-
+              </Typography>
             </Grid>
             <Grid item xs={1}></Grid>
           </Grid>
@@ -119,7 +135,7 @@ const CheckoutOverview = () => {
               <Typography variant="h4">Delivery details</Typography>
             </Grid>
             <Grid item xs={1}>
-            <Button
+              <Button
                 variant="contained"
                 color="secondary"
                 onClick={() => {
@@ -158,8 +174,86 @@ const CheckoutOverview = () => {
             </Grid>
           </Grid>
         </Box>
-        <Box bgcolor={theme.palette.tertiary.main} marginTop="4em">
+        <Box
+          bgcolor={theme.palette.tertiary.main}
+          marginTop="4em"
+          padding="4em"
+        >
           <Typography variant="h4">Payment</Typography>
+          <Box textAlign="center">
+            <PayPalScriptProvider
+              options={{
+                "client-id":
+                  "AWhQbQw5irWMzQRjp7gn4yYP4V7qomnXWIE4krmMbZi3M5NwPz-cnAUVk9-7uvBkmOgnCPqTgEfROIDP",
+                currency: "EUR",
+                components: "buttons",
+              }}
+            >
+              <PayPalButtons
+                style={{ layout: "horizontal" }}
+                fundingSource="paypal"
+                createOrder={(data, actions) => {
+                  return actions.order.create({
+                    purchase_units: [
+                      {
+                        amount: {
+                          value: cartItem.cardPrice + cartItem.giftPrice,
+                        },
+                        shipping: {
+                          name: {
+                            full_name:
+                              checkoutData.recipientFirstName +
+                              " " +
+                              checkoutData.recipientLastName,
+                          },
+                          address: {
+                            address_line_1:
+                              checkoutData.recipientStreet +
+                              " " +
+                              checkoutData.recipientNumber,
+                            postal_code: checkoutData.recipientZipcode,
+                            admin_area_2: checkoutData.recipientCity,
+                            country_code: "DE",
+                          },
+                        },
+                      },
+                    ],
+                    application_context: {
+                      brand_name: "CardMe",
+                      shipping_preference: "SET_PROVIDED_ADDRESS",
+                    },
+                  });
+                }}
+                onApprove={(data, actions) => {
+                  return actions.order.capture().then((details) => {
+                    const name = details.payer.name.given_name;
+                    console.log(`Transaction completed by ${name}`);
+                  });
+                }}
+              />
+              <PayPalButtons
+                style={{ layout: "horizontal" }}
+                fundingSource="card"
+                createOrder={(data, actions) => {
+                  return actions.order.create({
+                    purchase_units: [
+                      {
+                        amount: {
+                          value: 3.4,
+                        },
+                      },
+                    ],
+                  });
+                }}
+                onApprove={(data, actions) => {
+                  return actions.order.capture().then((details) => {
+                    const name = details.payer.name.given_name;
+                    alert(`Transaction completed by ${name}`);
+                  });
+                }}
+              />
+            </PayPalScriptProvider>
+          </Box>
         </Box>
       </Box>
     </div>
