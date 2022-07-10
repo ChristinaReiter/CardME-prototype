@@ -14,6 +14,6 @@ const CalendarEventSchema = new mongoose.Schema({
   },
 });
 
-AcquaintanceSchema.set("versionKey", false);
+CalendarEventSchema.set("versionKey", false);
 
 module.exports = mongoose.model("CalendarEvent", CalendarEventSchema);

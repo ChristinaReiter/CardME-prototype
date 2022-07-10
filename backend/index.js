@@ -46,7 +46,7 @@ app.use("/products", product);
 
 app.use("/", auth) 
 
-app.use("/order", order);
+//app.use("/order", order);
 
 app.use("/", order) // Might not work 
 
