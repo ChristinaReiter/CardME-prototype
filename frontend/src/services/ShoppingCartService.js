@@ -9,6 +9,14 @@ export default class ShoppingCartService {
     return [];
   }
 
+  static getItem(itemIndex) {
+    let cart = this.getCart();
+    if (cart) {
+      return cart[itemIndex];
+    }
+    return null;
+  }
+
   static addItem(product) {
     let cart = this.getCart();
 
@@ -19,6 +27,7 @@ export default class ShoppingCartService {
       cardPrice: product.price,
       text: null,
       giftId: null,
+      giftPrice: 0
     };
 
     cart.push(cartItem);
@@ -39,19 +48,19 @@ export default class ShoppingCartService {
     }
   }
 
-  static updateText(itemIndex, text){
-    let cart = this.getCart()
+  static updateText(itemIndex, text) {
+    let cart = this.getCart();
 
-    cart[itemIndex].text = text
+    cart[itemIndex].text = text;
 
-    localStorage.setItem(this.accessKey, JSON.stringify(cart))
+    localStorage.setItem(this.accessKey, JSON.stringify(cart));
   }
 
-  static updateGift(itemIndex, giftId = null){
-    let cart = this.getCart()
+  static updateGift(itemIndex, giftId = null) {
+    let cart = this.getCart();
 
-    cart[itemIndex].giftId = giftId
+    cart[itemIndex].giftId = giftId;
 
-    localStorage.setItem(this.accessKey, JSON.stringify(cart))
+    localStorage.setItem(this.accessKey, JSON.stringify(cart));
   }
 }

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import {
   Typography,
   Button,
@@ -9,9 +9,13 @@ import {
   FormControlLabel,
   Breadcrumbs,
 } from "@mui/material";
+import CheckoutService from "../services/CheckoutService";
 
-const CheckoutData = ({ checkoutData, setCheckoutData }) => {
+const CheckoutData = () => {
+  const [checkoutData, setCheckoutData] = useState({});
+
   const navigate = useNavigate();
+  const { id } = useParams();
   const inputBoxPadding = "1em";
 
   const styles = {
@@ -22,16 +26,27 @@ const CheckoutData = ({ checkoutData, setCheckoutData }) => {
     }
   }
 
+  useEffect(() => {
+    let checkoutData = CheckoutService.getCheckoutData()
+    if(checkoutData){
+      setCheckoutData(checkoutData)
+    }
+  }, [])
+
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
+
+    // For local state
     setCheckoutData((values) => ({ ...values, [name]: value }));
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    navigate("/checkout-overview");
+    CheckoutService.setData(checkoutData)
+    console.log(id)
+    navigate("/checkout-overview/" + id);
   };
 
   return (
