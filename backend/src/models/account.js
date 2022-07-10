@@ -9,11 +9,11 @@ const AccountSchema = new mongoose.Schema({
   preferences: [String],
 
   // Not quite sure if below are referenced correctly
- /*  favorites: [ProductSchema],
+  /* favorites: [ProductSchema],
   calendarEvents: [CalendarEventSchema],
   pastOrders: [OrderSchema],
   subscriptions: [SubscriptionSchema],
-  acquaintances: [AcquaintanceSchema] */
+  acquaintances: [AcquaintanceSchema]  */
 });
 
 AccountSchema.set("versionKey", false);

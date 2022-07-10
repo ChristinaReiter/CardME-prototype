@@ -20,6 +20,7 @@ import Favorites from "./components/Favorites";
 import Contacts from "./components/Contacts";
 import AccountDetails from "./components/AccountDetails";
 import ShoppingCartService from "./services/ShoppingCartService";
+import FilterHeader from "./components/FilterHeader";
 
 export const theme = createTheme({
   palette: {
@@ -54,7 +55,13 @@ function App() {
           <Box sx={{ mt: 6, position: "static" }}>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route exact path="/cards" element={<Cards />} />
+              <Route 
+                exact 
+                path="/cards" 
+                element={
+                  <Cards />
+                } 
+              />
               <Route path="/create" element={<Create />}>
                 <Route path=":id" element={<Create />} />
                 <Route path="" element={<Create />} />
