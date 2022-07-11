@@ -14,6 +14,16 @@ const styles = {
     boxShadow:
       "2px 2px 30px rgba(0, 0, 0, 0.1), -2px -2px 30px rgba(0, 0, 0, 0.1)",
   },
+  cardWindow: {
+    position: "relative",
+    textAlign: "center",
+    width: "241px",
+    height: "306px",
+    background: "#F3F3F3",
+    marginRight: "20px",
+    boxShadow:
+      "2px 2px 30px rgba(0, 0, 0, 0.1), -2px -2px 30px rgba(0, 0, 0, 0.1)",
+  },
   hiddenUpload: {
     display: "none",
   },
@@ -79,7 +89,7 @@ export default function UploadImages() {
         </label>
       </div>
       {imageURLs.map((imageSrc) => (
-        <img src={imageSrc} style={styles.uploadWindow} />
+        <img src={imageSrc} style={styles.cardWindow} />
       ))}
     </>
   );
