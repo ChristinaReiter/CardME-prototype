@@ -31,6 +31,7 @@ export default function UploadImages() {
       newImageURLs.push(URL.createObjectURL(image));
     });
     setImageURLs(newImageURLs);
+    uploadLabel.style.display = "none";
   }, [images]);
 
   function onImageChange(e) {
@@ -45,7 +46,6 @@ export default function UploadImages() {
           style={styles.hiddenUpload}
           type="file"
           onChange={onImageChange}
-          multiple
           accept="image*/"
           id="upload-images"
           name="upload-images"
