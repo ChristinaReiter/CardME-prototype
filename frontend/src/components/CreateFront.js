@@ -34,37 +34,6 @@ const styles = {
     textAlign: "center",
     lineHeight: "40px",
   },
-  uploadWindow: {
-    position: "relative",
-    borderColor: "#FFFFFF",
-    borderStyle: "solid",
-    borderWidth: "20px",
-    textAlign: "center",
-    width: "241px",
-    height: "306px",
-    background: "#F3F3F3",
-    marginRight: "20px",
-    boxShadow:
-      "2px 2px 30px rgba(0, 0, 0, 0.1), -2px -2px 30px rgba(0, 0, 0, 0.1)",
-  },
-  textupload: {
-    position: "relative",
-    fontFamily: "Antic",
-    fontWeight: "400",
-    fontSize: "20px",
-    display: "center",
-    top: "80px",
-  },
-  textupload2: {
-    position: "relative",
-    fontFamily: "Antic",
-    fontWeight: "400",
-    fontSize: "16px",
-    lineHeight: "20px",
-    display: "center",
-    top: "80px",
-    color: "rgba(0, 0, 0, 0.5)",
-  },
   adjustwindow: {
     position: "relative",
     width: "464px",
@@ -91,6 +60,8 @@ const styles = {
 };
 
 const CreateFront = () => {
+  const uploadLabel = document.getElementById("upload-images-label");
+
   return (
     <Box sx={{ flexGrow: 1, flexShrink: 1 }}>
       <Typography fontStyle="Annie Use Your Telescope">
@@ -110,13 +81,7 @@ const CreateFront = () => {
           marginTop="30px"
         >
           <Grid item xs={4}>
-            <Box style={styles.uploadWindow}>
-              <div style={styles.textupload}>Upload your image</div>
-              <div style={styles.textupload2}>
-                Click here to upload from your computer. Your image needs to be
-                at least 1328x1820 in PNG or JPG format.
-              </div>
-            </Box>
+            <UploadImages />
           </Grid>
           <Grid item xs={4} textAlign="center">
             <Box style={styles.adjustwindow}>
@@ -128,9 +93,11 @@ const CreateFront = () => {
         </Grid>
         <Button
           style={styles.button}
-          onClick={() => UploadImages()}
           variant="contained"
           color="secondary"
+          onClick={() => {
+            uploadLabel.display = "block";
+          }}
         >
           Upload / change picture
         </Button>
