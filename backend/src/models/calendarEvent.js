@@ -12,6 +12,11 @@ const CalendarEventSchema = new mongoose.Schema({
   description: {
     type: String,    
   },
+  account: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Account",
+    required: true,
+  },
 });
 
 CalendarEventSchema.set("versionKey", false);

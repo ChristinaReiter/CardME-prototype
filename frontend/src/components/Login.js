@@ -2,9 +2,10 @@ import { useState } from 'react'
 import { TextField, Box, Button, InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material'; 
 import { useNavigate } from "react-router-dom";
+import AuthService from '../services/AuthService';
 
 
-function Login() {
+const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -21,7 +22,7 @@ function Login() {
     const navigate = useNavigate();
 
 
-  async function loginAccount(event) {
+/*    async function loginAccount(event) {
       event.preventDefault();
       const response = await fetch('http://localhost:3001/login', {
           method: 'POST',
@@ -44,12 +45,22 @@ function Login() {
 
       //console.log(data);
       } 
-  }
+  }  */
 
+     const handleLogin = (e) => {
+      e.preventDefault();
+      AuthService.login({ email, password }).then(
+        () => {
+          navigate("/profile/view");
+          //window.location.reload();
+        }
+      )
 
+    }
+ 
   return (
     <Box  display="flex" justifyContent="center" padding="5em">
-      <form onSubmit={loginAccount}>
+      <form onSubmit={ /* loginAccount */  handleLogin }>
             <TextField
                 sx={{ m: 1 }} 
                 type="text"
@@ -86,7 +97,7 @@ function Login() {
               color="secondary"
               variant="contained"
               type="submit">
-              Submit
+              Login
           </Button>
       </form>       
     </Box>
