@@ -35,15 +35,15 @@ function Login() {
       });
       const data = await response.json();
 
-      if(data.account) {
+       if(data.account) {
         localStorage.setItem("token", data.account)  // not the way
-        alert("Login Successful");
+        //alert("Login Successful");
         navigate("/profile/view");        
       } else {
-        alert("Login Failed");
+        //alert("Login Failed");
 
-      console.log(data);
-      }
+      //console.log(data);
+      } 
   }
 
 

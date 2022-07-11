@@ -15,7 +15,7 @@ import {
  
 
 
-const FilterHeader = (index, colorFilter, setColorFilter) => {
+const FilterHeader = (colorFilter, setColorFilter) => {
     const styles = {
         filterHeader: {
           display: "flex",
@@ -84,10 +84,10 @@ const FilterHeader = (index, colorFilter, setColorFilter) => {
      }
     
      
-    
      const updateColorArray = (colorKey, event) => {
-       setColorFilter({ ...colorFilter, [colorKey]: event.target.checked });
-     };
+      setColorFilter({ ...colorFilter, [colorKey]: event.target.checked });
+      console.log(colorFilter);
+    };
     
     
      function EnableBox({ index }) {

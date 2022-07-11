@@ -37,12 +37,15 @@ const styles = {
         localStorage.removeItem('token');
         navigate("/login");
       } else {
-        alert("U have a token")
+        //alert("U have a token")
       }
     }
   }, [])  
 
-
+  const logOut = () => {
+    localStorage.removeItem('token');
+        navigate("/login");
+  }
 
   return (
     <div>
@@ -60,7 +63,7 @@ const styles = {
           <Tab component={Link} to='contacts' style={styles.tabss} icon={<PeopleAltIcon />} iconPosition="start" label="Contacts" />
           <Tab component={Link} to='details' style={styles.tabss} icon={<ManageAccountsIcon />} iconPosition="start" label="Account Details" />       
         </Tabs>        
-        <Button style={styles.tabss} startIcon={<LogoutIcon />} sx= {{marginLeft:'auto', color:'black', pr: '2em' }}>
+        <Button onClick={logOut} style={styles.tabss} startIcon={<LogoutIcon />} sx= {{marginLeft:'auto', color:'black', pr: '2em' }}>
           Sign Out
         </Button>
       </Box>

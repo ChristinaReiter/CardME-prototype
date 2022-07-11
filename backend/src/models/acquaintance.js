@@ -5,8 +5,14 @@ const AcquaintanceSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  address: {
-    type: AddressSchema,
+  acquaintanceAddress: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Address",
+    required: true,
+  },
+  account: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Account",
     required: true,
   },
 });

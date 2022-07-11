@@ -45,9 +45,6 @@ export const theme = createTheme({
 });
 
 function App() {
-  const [checkoutData, setCheckoutData] = useState({});
-  const [colorFilter, setColorFilter] = useState({});
-
   return (
     <div>
       <ThemeProvider theme={theme}>
@@ -56,42 +53,20 @@ function App() {
           <Box sx={{ mt: 6, position: "static" }}>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route 
-                exact 
-                path="/cards" 
-                element={
-                  <Cards 
-                    colorFilter={colorFilter}
-                  />
-                } 
-              />
-              <Route 
-                exact path= "/filterheader" 
-                element={
-                  <FilterHeader
-                    colorFilter={colorFilter} 
-                    setColorFilter={setColorFilter}
-                  />
-                }
-              />
+              <Route exact path="/cards" element={<Cards />} />
               <Route path="/create" element={<Create />}>
                 <Route path=":id" element={<Create />} />
                 <Route path="" element={<Create />} />
               </Route>
               <Route
                 exact
-                path="/checkout-data"
-                element={
-                  <CheckoutData
-                    checkoutData={checkoutData}
-                    setCheckoutData={setCheckoutData}
-                  />
-                }
+                path="/checkout-data/:id"
+                element={<CheckoutData />}
               />
               <Route
                 exact
-                path="/checkout-overview"
-                element={<CheckoutOverview checkoutData={checkoutData} />}
+                path="/checkout-overview/:id"
+                element={<CheckoutOverview />}
               />
               <Route path="profile" element={<ProfileOverview />}>
                 <Route path="view" element={<View />} />

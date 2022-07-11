@@ -5,10 +5,14 @@ const helmet = require("helmet");
 const jwt = require("jsonwebtoken");
 
 const config = require("./src/config");
+
 const product = require("./src/routes/product");
+const auth = require("./src/routes/auth");
 const order = require("./src/routes/order"); 
-const register = require("./src/routes/auth");
-const login = require("./src/routes/auth");
+const subscription = require("./src/routes/subscription");
+const calendarEvent = require("./src/routes/calendarEvent");
+const favorite = require("./src/routes/favorite");
+const acquaintance = require("./src/routes/acquaintance");
 
 mongoose.connect(config.mongoURI).then(
   () => {
@@ -40,13 +44,24 @@ app.get("/", (req, res) => {
 
 app.use("/products", product);
 
-app.use("/", register) // vllt reicht einmal ('/auth',auth)
+app.use("/", auth) 
 
-app.use("/order", order);
+//app.use("/order", order);
 
-app.use("/", login)
+app.use("/", order) // Might not work 
+
+app.use("/profile/subscriptions", subscription);
+
+app.use("/profile/calendar", calendarEvent);
+
+app.use("/profile/favorites", favorite);
+
+app.use("/profile/contacts", acquaintance);
+
+
 
 app.use("/public", express.static("public"));
+
 
 app.listen(port, () => {
   console.log(`Backend listening on port ${port}`);

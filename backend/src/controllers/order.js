@@ -46,6 +46,54 @@ const create = async (req, res) => {
   }
 };
 
+const getOrder = async (req, res) => { //TODO
+  try {
+    const orders = await Order.find();
+
+    return res.status(200).json(orders);
+  } catch (err) {
+    console.log(err);
+
+    return res.status(500).json({
+      error: "Internal server error",
+      message: err.message,
+    });
+  }
+};
+
+const updateOrder = async (req, res) => { //TODO
+  try {
+    const orders = await Order.find();
+
+    return res.status(200).json(orders);
+  } catch (err) {
+    console.log(err);
+
+    return res.status(500).json({
+      error: "Internal server error",
+      message: err.message,
+    });
+  }
+};
+
+const deleteOrder = async (req, res) => { //TODO
+  try {
+    const orders = await Order.find();
+
+    return res.status(200).json(orders);
+  } catch (err) {
+    console.log(err);
+
+    return res.status(500).json({
+      error: "Internal server error",
+      message: err.message,
+    });
+  }
+};
+
 module.exports = {
   create,
+  getOrder,
+  updateOrder,
+  deleteOrder,
 };
