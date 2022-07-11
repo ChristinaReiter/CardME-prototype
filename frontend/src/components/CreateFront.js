@@ -7,8 +7,8 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import React, { useState, useEffect } from "react";
-import UploadImages from "./UploadImages";
+import React, { useEffect } from "react";
+import UploadImages, { UploadImages2 } from "./UploadImages";
 
 const styles = {
   stepbar: {
@@ -60,8 +60,6 @@ const styles = {
 };
 
 const CreateFront = () => {
-  const uploadLabel = document.getElementById("upload-images-label");
-
   return (
     <Box sx={{ flexGrow: 1, flexShrink: 1 }}>
       <Typography fontStyle="Annie Use Your Telescope">
@@ -91,16 +89,18 @@ const CreateFront = () => {
             </Box>
           </Grid>
         </Grid>
-        <Button
-          style={styles.button}
-          variant="contained"
-          color="secondary"
-          onClick={() => {
-            uploadLabel.display = "block";
-          }}
-        >
-          Upload / change picture
-        </Button>
+        <label htmlFor="upload-images">
+          <Button
+            style={styles.button}
+            variant="contained"
+            color="secondary"
+            id="upload-image-button"
+            htmlFor="upload-images"
+            component="span"
+          >
+            Upload / change picture
+          </Button>
+        </label>
         <Button
           style={styles.button}
           variant="contained"
