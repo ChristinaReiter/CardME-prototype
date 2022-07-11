@@ -8,6 +8,7 @@ import {
   Button,
 } from "@mui/material";
 import React, { useEffect } from "react";
+import CreateAdjustDesign from "./CreateAdjustDesign";
 import UploadImages, { UploadImages2 } from "./UploadImages";
 
 const styles = {
@@ -41,13 +42,7 @@ const styles = {
     background: "#F3F3F3",
     borderRadius: "30px",
   },
-  textadjust: {
-    position: "relative",
-    fontFamily: "Antic",
-    fontWeight: "400",
-    fontSize: "32px",
-    top: "20px",
-  },
+
   button: {
     fontFamily: "typography",
     fontSize: 15,
@@ -83,9 +78,7 @@ const CreateFront = () => {
           </Grid>
           <Grid item xs={4} textAlign="center">
             <Box style={styles.adjustwindow}>
-              <Typography style={styles.textadjust}>
-                Adjust your design
-              </Typography>
+              <CreateAdjustDesign />
             </Box>
           </Grid>
         </Grid>

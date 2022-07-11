@@ -17,6 +17,24 @@ const styles = {
   hiddenUpload: {
     display: "none",
   },
+  text1: {
+    position: "relative",
+    fontFamily: "Antic",
+    fontWeight: "400",
+    fontSize: "20px",
+    display: "center",
+    top: "80px",
+  },
+  text2: {
+    position: "relative",
+    fontFamily: "Antic",
+    fontWeight: "400",
+    fontSize: "16px",
+    lineHeight: "20px",
+    display: "center",
+    top: "80px",
+    color: "rgba(0, 0, 0, 0.5)",
+  },
 };
 
 export default function UploadImages() {
@@ -51,7 +69,13 @@ export default function UploadImages() {
           name="upload-images"
         />
         <label htmlFor="upload-images" id="upload-images-label">
-          <div style={styles.uploadWindow}></div>
+          <div style={styles.uploadWindow}>
+            <div style={styles.text1}>Upload your image here</div>
+            <div style={styles.text2}>
+              Click here to upload from your computer. Your image needs to be at
+              least 1328x1820 in PNG or JPG format.
+            </div>
+          </div>
         </label>
       </div>
       {imageURLs.map((imageSrc) => (
