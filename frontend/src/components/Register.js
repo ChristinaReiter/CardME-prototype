@@ -93,7 +93,7 @@ function Register() {
                 color="secondary"
                 variant="contained"
                 type="submit">
-                Submit
+                Register
             </Button>
         </form>       
       </Box>

@@ -8,8 +8,8 @@ const AccountSchema = new mongoose.Schema({
   },
   preferences: [String],
 
-  // Not quite sure if below are referenced correctly - maybe now
-  /* favorites: {
+  // Not quite sure if below are referenced correctly 
+ favorites: {
     type: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -17,6 +17,7 @@ const AccountSchema = new mongoose.Schema({
       },
     ],
   },
+   /* 
   calendarEvents: {
     type: [
       {

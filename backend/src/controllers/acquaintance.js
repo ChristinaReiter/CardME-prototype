@@ -1,9 +1,10 @@
 const Acquaintance = require("../models/acquaintance");
 const Adress = require("../models/address");
+const Account = require("../models/account");
 
 const getAcquaintances = async (req, res) => { //TODO
     try {
-      const acquaintances = await Acquaintance.find();
+      const acquaintances = await Acquaintance.find({ account: req.account.id });
   
       return res.status(200).json(acquaintances);
     } catch (err) {
@@ -32,6 +33,7 @@ const getAcquaintances = async (req, res) => { //TODO
       const acquaintance = await Acquaintance.create({
         name: req.body.name,
         acquaintanceAdress: acquaintanceAddress._id,
+        account: req.account.id,
 
       });
   
@@ -54,6 +56,16 @@ const getAcquaintances = async (req, res) => { //TODO
         return res.status(400).json({error:"Acquaintance not found"});
       }
 
+      const account = await Account.findById(req.account.id);
+
+      if(!account) {
+        res.status(401).json({error:"Account not found"});
+      }
+
+      if(account.id !== acquaintance.account.toString()) {
+        return res.status(401).json({error:"You are not allowed to edit this acquaintance"});
+      }
+
       const updatedAcquaintance = await Acquaintance.findByIdAndUpdate(req.params.id, req.body, {new: true});
   
       return res.status(200).json(updatedAcquaintance);
@@ -73,6 +85,16 @@ const getAcquaintances = async (req, res) => { //TODO
 
       if(!acquaintance) {
         return res.status(400).json({error:"Acquaintance not found"});
+      }
+
+      const account = await Account.findById(req.account.id);
+
+      if(!account) {
+        res.status(401).json({error:"Account not found"});
+      }
+
+      if(account.id !== acquaintance.account.toString()) {
+        return res.status(401).json({error:"You are not allowed to edit this acquaintance"});
       }
 
       await acquaintance.remove();
