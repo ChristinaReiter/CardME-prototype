@@ -31,6 +31,13 @@ const CreateAdjustDesign = () => {
   const cardImage = document.getElementById("card-image");
   const [valueB, setValueB] = React.useState(100);
   const [valueC, setValueC] = React.useState(100);
+  const [valueS, setValueS] = React.useState(100);
+  const [valueV, setValueV] = React.useState(0);
+  const [valueBlur, setValueBlur] = React.useState(0);
+
+  function update(newValue) {
+    cardImage.style = `filter: blur(${newValue}px)`;
+  }
 
   return (
     <div>
@@ -80,6 +87,7 @@ const CreateAdjustDesign = () => {
             aria-label="Small"
             onChange={(event, newValue) => {
               setValueB(newValue);
+
               cardImage.style.filter += `brightness(${newValue / 100})`;
             }}
             value={valueB}
@@ -116,8 +124,8 @@ const CreateAdjustDesign = () => {
             }}
             value={valueC}
             valueLabelDisplay="auto"
-            property="brightness"
-            name="Brightness"
+            property="contrast"
+            name="Contrast"
             min={0}
             max={200}
             unit="%"
@@ -141,10 +149,21 @@ const CreateAdjustDesign = () => {
         <Grid item xs={4}>
           <Slider
             size="small"
-            defaultValue={70}
             aria-label="Small"
+            onChange={(event, newValue) => {
+              setValueS(newValue);
+              cardImage.style.filter += `saturate(${newValue / 100})`;
+            }}
+            value={valueS}
             valueLabelDisplay="auto"
-            sx={{ marginTop: "10px" }}
+            property="saturation"
+            name="Saturation"
+            min={0}
+            max={200}
+            unit="%"
+            sx={{
+              marginTop: "10px",
+            }}
           />
         </Grid>
         <Grid item xs={2}>
@@ -162,10 +181,21 @@ const CreateAdjustDesign = () => {
         <Grid item xs={4}>
           <Slider
             size="small"
-            defaultValue={70}
             aria-label="Small"
+            onChange={(event, newValue) => {
+              setValueV(newValue);
+              cardImage.style.filter += `sepia(${newValue / 100})`;
+            }}
+            value={valueV}
             valueLabelDisplay="auto"
-            sx={{ marginTop: "10px" }}
+            property="vibrance"
+            name="Vibrance"
+            min={0}
+            max={100}
+            unit="%"
+            sx={{
+              marginTop: "10px",
+            }}
           />
         </Grid>
         <Grid item xs={2}>
@@ -178,15 +208,26 @@ const CreateAdjustDesign = () => {
           <DetailsIcon fontSize="medium" />
         </Grid>
         <Grid item xs={3}>
-          <div style={styles.text1}> Sharpen </div>
+          <div style={styles.text1}> Blur </div>
         </Grid>
         <Grid item xs={4}>
           <Slider
             size="small"
-            defaultValue={70}
             aria-label="Small"
+            onChange={(event, newValue) => {
+              setValueBlur(newValue);
+              cardImage.style.filter += `blur(${newValue}px)`;
+            }}
+            value={valueBlur}
             valueLabelDisplay="auto"
-            sx={{ marginTop: "10px" }}
+            property="blur"
+            name="Blur"
+            min={0}
+            max={20}
+            unit="px"
+            sx={{
+              marginTop: "10px",
+            }}
           />
         </Grid>
         <Grid item xs={2}>
