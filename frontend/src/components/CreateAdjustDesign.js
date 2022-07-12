@@ -1,4 +1,4 @@
-import { Typography, Slider, Button, Grid } from "@mui/material";
+import { Typography, Slider, Button, Grid, IconButton } from "@mui/material";
 import React, { useEffect } from "react";
 import Rotate90DegreesCcwIcon from "@mui/icons-material/Rotate90DegreesCcw";
 import RotateLeftIcon from "@mui/icons-material/RotateLeft";
@@ -28,6 +28,10 @@ const styles = {
 };
 
 const CreateAdjustDesign = () => {
+  const cardImage = document.getElementById("card-image");
+  const [valueB, setValueB] = React.useState(100);
+  const [valueC, setValueC] = React.useState(100);
+
   return (
     <div>
       <Typography style={styles.textadjust}>Adjust your design</Typography>
@@ -36,23 +40,27 @@ const CreateAdjustDesign = () => {
         direction="row"
         justifyContent="center"
         alignItems="center"
-        sx={{ marginTop: "40px" }}
+        sx={{ marginTop: "60px" }}
         spacing={1}
       >
         <Grid item xs={2}>
           <div> </div>
         </Grid>
         <Grid item xs={1}>
-          <Rotate90DegreesCcwIcon fontSize="large" />
+          <Rotate90DegreesCcwIcon fontSize="medium" />
         </Grid>
         <Grid item xs={3}>
           <div style={styles.text1}> Rotate </div>
         </Grid>
         <Grid item xs={2}>
-          <RotateLeftIcon />
+          <IconButton>
+            <RotateLeftIcon fontSize="medium" />
+          </IconButton>
         </Grid>
         <Grid item xs={2}>
-          <RotateRightIcon />
+          <IconButton>
+            <RotateRightIcon fontSize="medium" />
+          </IconButton>
         </Grid>
         <Grid item xs={2}>
           <div> </div>
@@ -61,7 +69,7 @@ const CreateAdjustDesign = () => {
           <div> </div>
         </Grid>
         <Grid item xs={1}>
-          <LightModeIcon fontSize="large" />
+          <LightModeIcon fontSize="medium" />
         </Grid>
         <Grid item xs={3}>
           <div style={styles.text1}> Brightness </div>
@@ -69,10 +77,21 @@ const CreateAdjustDesign = () => {
         <Grid item xs={4}>
           <Slider
             size="small"
-            defaultValue={70}
             aria-label="Small"
+            onChange={(event, newValue) => {
+              setValueB(newValue);
+              cardImage.style.filter += `brightness(${newValue / 100})`;
+            }}
+            value={valueB}
             valueLabelDisplay="auto"
-            sx={{ marginTop: "10px" }}
+            property="brightness"
+            name="Brightness"
+            min={0}
+            max={200}
+            unit="%"
+            sx={{
+              marginTop: "10px",
+            }}
           />
         </Grid>
         <Grid item xs={2}>
@@ -82,7 +101,7 @@ const CreateAdjustDesign = () => {
           <div> </div>
         </Grid>
         <Grid item xs={1}>
-          <ContrastIcon fontSize="large" />
+          <ContrastIcon fontSize="medium" />
         </Grid>
         <Grid item xs={3}>
           <div style={styles.text1}> Contrast </div>
@@ -90,10 +109,21 @@ const CreateAdjustDesign = () => {
         <Grid item xs={4}>
           <Slider
             size="small"
-            defaultValue={70}
             aria-label="Small"
+            onChange={(event, newValue) => {
+              setValueC(newValue);
+              cardImage.style.filter += `contrast(${newValue / 100})`;
+            }}
+            value={valueC}
             valueLabelDisplay="auto"
-            sx={{ marginTop: "10px" }}
+            property="brightness"
+            name="Brightness"
+            min={0}
+            max={200}
+            unit="%"
+            sx={{
+              marginTop: "10px",
+            }}
           />
         </Grid>
         <Grid item xs={2}>
@@ -103,7 +133,7 @@ const CreateAdjustDesign = () => {
           <div> </div>
         </Grid>
         <Grid item xs={1}>
-          <OpacityIcon fontSize="large" />
+          <OpacityIcon fontSize="medium" />
         </Grid>
         <Grid item xs={3}>
           <div style={styles.text1}> Saturation </div>
@@ -124,7 +154,7 @@ const CreateAdjustDesign = () => {
           <div> </div>
         </Grid>
         <Grid item xs={1}>
-          <AutoAwesomeIcon fontSize="large" />
+          <AutoAwesomeIcon fontSize="medium" />
         </Grid>
         <Grid item xs={3}>
           <div style={styles.text1}> Vibrance </div>
@@ -145,7 +175,7 @@ const CreateAdjustDesign = () => {
           <div> </div>
         </Grid>
         <Grid item xs={1}>
-          <DetailsIcon fontSize="large" />
+          <DetailsIcon fontSize="medium" />
         </Grid>
         <Grid item xs={3}>
           <div style={styles.text1}> Sharpen </div>

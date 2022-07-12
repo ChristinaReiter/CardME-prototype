@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Input, Button } from "react";
+import React, { useState, useEffect } from "react";
 
 const styles = {
   uploadWindow: {
@@ -89,7 +89,15 @@ export default function UploadImages() {
         </label>
       </div>
       {imageURLs.map((imageSrc) => (
-        <img src={imageSrc} style={styles.cardWindow} />
+        <img
+          src={imageSrc}
+          style={styles.cardWindow}
+          id="card-image"
+          className="card-image"
+          alt="card"
+          filter="brightness(0.5)"
+          sx={{}}
+        />
       ))}
     </>
   );
