@@ -29,14 +29,19 @@ const styles = {
 
 const CreateAdjustDesign = () => {
   const cardImage = document.getElementById("card-image");
+
   const [valueB, setValueB] = React.useState(100);
   const [valueC, setValueC] = React.useState(100);
   const [valueS, setValueS] = React.useState(100);
   const [valueV, setValueV] = React.useState(0);
   const [valueBlur, setValueBlur] = React.useState(0);
 
-  function update(newValue) {
-    cardImage.style = `filter: blur(${newValue}px)`;
+  function update() {
+    cardImage.style = `filter: brightness(${valueB / 100})`;
+    cardImage.style.filter = `contrast(${valueC / 100})`;
+    cardImage.style.filter = `saturate(${valueS / 100})`;
+    cardImage.style.filter = `sepia(${valueV / 100})`;
+    cardImage.style.filter = `blur(${valueBlur}px)`;
   }
 
   return (
@@ -87,8 +92,7 @@ const CreateAdjustDesign = () => {
             aria-label="Small"
             onChange={(event, newValue) => {
               setValueB(newValue);
-
-              cardImage.style.filter += `brightness(${newValue / 100})`;
+              cardImage.style.filter = `brightness(${valueV / 100})`;
             }}
             value={valueB}
             valueLabelDisplay="auto"
@@ -120,7 +124,7 @@ const CreateAdjustDesign = () => {
             aria-label="Small"
             onChange={(event, newValue) => {
               setValueC(newValue);
-              cardImage.style.filter += `contrast(${newValue / 100})`;
+              cardImage.style.filter = `contrast(${valueC / 100})`;
             }}
             value={valueC}
             valueLabelDisplay="auto"
@@ -152,7 +156,7 @@ const CreateAdjustDesign = () => {
             aria-label="Small"
             onChange={(event, newValue) => {
               setValueS(newValue);
-              cardImage.style.filter += `saturate(${newValue / 100})`;
+              cardImage.style.filter = `saturate(${valueS / 100})`;
             }}
             value={valueS}
             valueLabelDisplay="auto"
@@ -184,7 +188,7 @@ const CreateAdjustDesign = () => {
             aria-label="Small"
             onChange={(event, newValue) => {
               setValueV(newValue);
-              cardImage.style.filter += `sepia(${newValue / 100})`;
+              cardImage.style.filter = `sepia(${valueV / 100})`;
             }}
             value={valueV}
             valueLabelDisplay="auto"
@@ -216,7 +220,7 @@ const CreateAdjustDesign = () => {
             aria-label="Small"
             onChange={(event, newValue) => {
               setValueBlur(newValue);
-              cardImage.style.filter += `blur(${newValue}px)`;
+              cardImage.style.filter = `blur(${valueV / 100})`;
             }}
             value={valueBlur}
             valueLabelDisplay="auto"

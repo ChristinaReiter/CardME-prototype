@@ -80,7 +80,7 @@ export default function UploadImages() {
         />
         <label htmlFor="upload-images" id="upload-images-label">
           <div style={styles.uploadWindow}>
-            <div style={styles.text1}>Upload your image here</div>
+            <div style={styles.text1}>Upload your image</div>
             <div style={styles.text2}>
               Click here to upload from your computer. Your image needs to be at
               least 1328x1820 in PNG or JPG format.
