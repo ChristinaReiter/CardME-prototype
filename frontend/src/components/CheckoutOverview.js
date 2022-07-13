@@ -141,10 +141,10 @@ const CheckoutOverview = () => {
           marginTop="4em"
         >
           <Grid container justifyContent="center">
-            <Grid item xs={11}>
+            <Grid item xs={11} paddingBottom="2em">
               <Typography variant="h4">Delivery details</Typography>
             </Grid>
-            <Grid item xs={1}>
+            <Grid item xs={1} paddingBottom="2em">
               <Button
                 variant="contained"
                 color="secondary"
@@ -157,11 +157,13 @@ const CheckoutOverview = () => {
             </Grid>
             <Grid item xs={3} style={styles.detailBox}>
               <Typography variant="h5">Your details</Typography>
-              <Typography fontFamily="Antic">{checkoutData.email}</Typography>
+              <Typography color="#808080" fontSize="14px">For sending the order confirmation and to notify about the delivery.</Typography>
+              <Typography fontFamily="Antic" paddingTop="1em">{checkoutData.email}</Typography>
             </Grid>
             <Grid item xs={3} style={styles.detailBox}>
               <Typography variant="h5">Billing address</Typography>
-              <Typography fontFamily="Antic">
+              <Typography color="#808080" fontSize="14px">For sending the bill</Typography>
+              <Typography fontFamily="Antic" paddingTop="1em">
                 {checkoutData.billingFirstName} {checkoutData.billingLastName}
                 <br />
                 {checkoutData.billingStreet} {checkoutData.billingNumber} <br />
@@ -171,7 +173,8 @@ const CheckoutOverview = () => {
             </Grid>
             <Grid item xs={3} style={styles.detailBox}>
               <Typography variant="h5">Recipient address</Typography>
-              <Typography fontFamily="Antic">
+              <Typography color="#808080" fontSize="14px">Who are you sending to?</Typography>
+              <Typography fontFamily="Antic" paddingTop="1em">
                 {checkoutData.recipientFirstName}{" "}
                 {checkoutData.recipientLastName}
                 <br />
@@ -190,7 +193,7 @@ const CheckoutOverview = () => {
           padding="4em"
         >
           <Typography variant="h4">Payment</Typography>
-          <Box textAlign="center">
+          <Box textAlign="center" padding="2em">
             <PayPalScriptProvider
               options={{
                 "client-id":
@@ -207,7 +210,7 @@ const CheckoutOverview = () => {
                     purchase_units: [
                       {
                         amount: {
-                          value: cartItem.cardPrice + cartItem.giftPrice,
+                          value: (cartItem.cardPrice + cartItem.giftPrice),
                         },
                         shipping: {
                           name: {
@@ -259,7 +262,7 @@ const CheckoutOverview = () => {
                     purchase_units: [
                       {
                         amount: {
-                          value: cartItem.cardPrice + cartItem.giftPrice,
+                          value: (cartItem.cardPrice + cartItem.giftPrice),
                         },
                       },
                     ],
