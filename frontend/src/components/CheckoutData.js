@@ -41,6 +41,12 @@ const CheckoutData = () => {
     setCheckoutData((values) => ({ ...values, [name]: value }));
   };
 
+  const handleToggle = (event) => {
+    const value = event.target.checked
+
+    setCheckoutData((values) => ({...values, "recurrentDelivery": value}))
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -215,7 +221,9 @@ const CheckoutData = () => {
               required
             ></TextField>
             <FormControlLabel
-              control={<Checkbox />}
+              control={
+                <Checkbox name="recurrentDelivery" onChange={handleToggle} checked={checkoutData.recurrentDelivery || false}/>
+              }
               label="Recurring delivery"
             />{" "}
           </Box>

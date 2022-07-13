@@ -89,7 +89,7 @@ const CheckoutOverview = () => {
               <Typography fontFamily="Antic">
                 Delivery on {checkoutData.deliveryDate}
               </Typography>
-              <Typography fontFamily="Antic">Recurring delivery: -</Typography>
+              <Typography fontFamily="Antic">Recurring delivery: {checkoutData.recurrentDelivery ? "yearly" : "no"}</Typography>
             </Grid>
             <Grid item xs={5}>
               <Typography variant="h5">Text:</Typography>
