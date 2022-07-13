@@ -22,16 +22,16 @@ const CheckoutData = () => {
     breadcrumbs: {
       textDecoration: "none",
       fontFamily: "Abril Fatface",
-      color: "#000"
-    }
-  }
+      color: "#000",
+    },
+  };
 
   useEffect(() => {
-    let checkoutData = CheckoutService.getCheckoutData()
-    if(checkoutData){
-      setCheckoutData(checkoutData)
+    let checkoutData = CheckoutService.getCheckoutData();
+    if (checkoutData) {
+      setCheckoutData(checkoutData);
     }
-  }, [])
+  }, []);
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -41,11 +41,17 @@ const CheckoutData = () => {
     setCheckoutData((values) => ({ ...values, [name]: value }));
   };
 
+  const handleToggle = (event) => {
+    const value = event.target.checked
+
+    setCheckoutData((values) => ({...values, "recurrentDelivery": value}))
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    CheckoutService.setData(checkoutData)
-    console.log(id)
+    CheckoutService.setData(checkoutData);
+    console.log(id);
     navigate("/checkout-overview/" + id);
   };
 
@@ -53,9 +59,17 @@ const CheckoutData = () => {
     <div>
       <Box className="subheader">
         <Box paddingLeft="1em">
-          <Breadcrumbs aria-label="breadcrumb" separator=">" style={styles.breadcrumbs}>
-            <NavLink style={styles.breadcrumbs} to="/create">Edit card</NavLink>
-            <Typography fontFamily="Abril Fatface">Delivery Information</Typography>
+          <Breadcrumbs
+            aria-label="breadcrumb"
+            separator=">"
+            style={styles.breadcrumbs}
+          >
+            <NavLink style={styles.breadcrumbs} to={"/create/" + id}>
+              Edit card
+            </NavLink>
+            <Typography fontFamily="Abril Fatface">
+              Delivery Information
+            </Typography>
           </Breadcrumbs>
         </Box>
       </Box>
@@ -207,7 +221,9 @@ const CheckoutData = () => {
               required
             ></TextField>
             <FormControlLabel
-              control={<Checkbox />}
+              control={
+                <Checkbox name="recurrentDelivery" onChange={handleToggle} checked={checkoutData.recurrentDelivery || false}/>
+              }
               label="Recurring delivery"
             />{" "}
           </Box>
