@@ -21,6 +21,7 @@ import Contacts from "./components/Contacts";
 import AccountDetails from "./components/AccountDetails";
 import ShoppingCartService from "./services/ShoppingCartService";
 import FilterHeader from "./components/FilterHeader";
+import SuccessfulOrder from "./components/SuccessfulOrder";
 
 export const theme = createTheme({
   palette: {
@@ -79,6 +80,7 @@ function App() {
               </Route>
               <Route exact path="/register" element={<Register />} />
               <Route exact path="/login" element={<Login />} />
+              <Route exact path="/successful-order" element={<SuccessfulOrder />} />
             </Routes>
           </Box>
         </BrowserRouter>

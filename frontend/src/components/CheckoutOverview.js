@@ -13,6 +13,7 @@ import { NavLink, useNavigate, useParams } from "react-router-dom";
 import CheckoutService from "../services/CheckoutService";
 import ShoppingCartService from "../services/ShoppingCartService";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import OrderService from "../services/OrderService";
 
 const CheckoutOverview = () => {
   const imageUrl = "http://localhost:3001/public/";
@@ -43,6 +44,15 @@ const CheckoutOverview = () => {
     setCartItem(cartItem);
   }, []);
 
+  const handleSuccessfulCheckout = () => {
+    //OrderService.createOrder(null)
+    navigate("successful-order");
+  };
+
+  const handleFailedCheckout = () => {
+    console.log("Failed payment");
+  };
+
   return (
     <div>
       <Box className="subheader">
@@ -52,10 +62,10 @@ const CheckoutOverview = () => {
             separator=">"
             style={styles.breadcrumbs}
           >
-            <NavLink style={styles.breadcrumbs} to="/create">
+            <NavLink style={styles.breadcrumbs} to={"/create/" + id}>
               Edit card
             </NavLink>
-            <NavLink style={styles.breadcrumbs} to="/checkout-data">
+            <NavLink style={styles.breadcrumbs} to={"/checkout-data/" + id}>
               Delivery Information
             </NavLink>
             <Typography fontFamily="Abril Fatface">Checkout</Typography>
@@ -226,8 +236,7 @@ const CheckoutOverview = () => {
                 }}
                 onApprove={(data, actions) => {
                   return actions.order.capture().then((details) => {
-                    const name = details.payer.name.given_name;
-                    console.log(`Transaction completed by ${name}`);
+                    handleSuccessfulCheckout();
                   });
                 }}
               />
@@ -236,19 +245,33 @@ const CheckoutOverview = () => {
                 fundingSource="card"
                 createOrder={(data, actions) => {
                   return actions.order.create({
+                    payer: {
+                      email_address: checkoutData.email,
+                      name: {
+                        given_name: checkoutData.billingFirstName,
+                        surname: checkoutData.billingLastName,
+                      },
+                      address: {
+                        postal_code: checkoutData.billingZipcode,
+                        country_code: "DE",
+                      },
+                    },
                     purchase_units: [
                       {
                         amount: {
-                          value: 3.4,
+                          value: cartItem.cardPrice + cartItem.giftPrice,
                         },
                       },
                     ],
+                    application_context: {
+                      brand_name: "CardMe",
+                      shipping_preference: "NO_SHIPPING",
+                    },
                   });
                 }}
                 onApprove={(data, actions) => {
                   return actions.order.capture().then((details) => {
-                    const name = details.payer.name.given_name;
-                    alert(`Transaction completed by ${name}`);
+                    handleSuccessfulCheckout();
                   });
                 }}
               />
