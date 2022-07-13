@@ -84,27 +84,23 @@ const Cards = () => {
 
   const productsSort = () => {
     var sortIndex = -1;
-    var blocked = false;
     Object.keys(sortFilter).map((key) => {
-      
+      console.log(sortFilter);
       if(sortFilter[key]) {
-        blocked = true;
-        if(key == "titlesort") {
+        if(key == "titlea") {
           sortIndex = 0;
         }  
-        if(key == "titleUpsidedown") {
+        if(key == "titlez") {
           sortIndex = 1;
         }  
-        if(key == "designersort") {
+        if(key == "designera") {
           sortIndex = 2;
         }  
-        if(key == "designerupsidedown") {
+        if(key == "designerz") {
           sortIndex = 3;
         }   
       }
-      if (!blocked)
-        sortIndex = -1;
-      console.log(blocked)
+      console.log(sortIndex);
     })
     
     if (sortIndex === 0)
@@ -196,11 +192,6 @@ const Cards = () => {
                   filterArray.push(key);
                 }
               })
-              Object.keys(sortFilter).map((key) => {
-                if(sortFilter[key] && (key === "trending" || key === "mostpopular")) {
-                  filterArray.push(key);
-                }
-              })
               if (searchTerm.length === 0 && filterArray.length === 0) {
                 return el;
                 
@@ -216,8 +207,7 @@ const Cards = () => {
                         el.style.includes(filter) || 
                         el.recipient.includes(filter) ||
                         el.occasion.includes(filter) ||
-                        el.season.includes(filter) ||
-                        el.sort.includes(filter))}
+                        el.season.includes(filter))}
                   )
                 )
               }
