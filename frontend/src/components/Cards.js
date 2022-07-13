@@ -114,7 +114,6 @@ const Cards = () => {
           {products
             .filter((el) => {
               var filterArray = [];
-              console.log(colorFilter);
               Object.keys(colorFilter).map((key) => {
                   if (colorFilter[key]) {
                     filterArray.push(key);

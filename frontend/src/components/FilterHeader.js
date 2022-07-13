@@ -15,7 +15,7 @@ import {
  
 
 
-const FilterHeader = (colorFilter, setColorFilter) => {
+const FilterHeader = ({colorFilter, setColorFilter}) => {
     const styles = {
         filterHeader: {
           display: "flex",
@@ -86,7 +86,6 @@ const FilterHeader = (colorFilter, setColorFilter) => {
      
      const updateColorArray = (colorKey, event) => {
       setColorFilter({ ...colorFilter, [colorKey]: event.target.checked });
-      console.log(colorFilter);
     };
     
     
@@ -144,7 +143,7 @@ const FilterHeader = (colorFilter, setColorFilter) => {
                         ></Checkbox>
                       }
                       onChange={(e) => {
-                        updateColorArray.bind("red", e);
+                        updateColorArray("red", e);
                       }}
                       label="Red"
                     ></FormControlLabel>
@@ -159,7 +158,7 @@ const FilterHeader = (colorFilter, setColorFilter) => {
                         ></Checkbox>
                       }
                       onChange={(e) => {
-                        updateColorArray.bind("yellow", e);
+                        updateColorArray("yellow", e);
                       }}
                       label="Yellow"
                     ></FormControlLabel>
@@ -174,7 +173,7 @@ const FilterHeader = (colorFilter, setColorFilter) => {
                         ></Checkbox>
                       }
                       onChange={(e) => {
-                        updateColorArray.bind("orange", e);
+                        updateColorArray("orange", e);
                       }}
                       label="Orange"
                     ></FormControlLabel>
@@ -189,7 +188,7 @@ const FilterHeader = (colorFilter, setColorFilter) => {
                         ></Checkbox>
                       }
                       onChange={(e) => {
-                        updateColorArray.bind("pink", e);
+                        updateColorArray("pink", e);
                       }}
                       label="Pink"
                     ></FormControlLabel>
@@ -206,7 +205,7 @@ const FilterHeader = (colorFilter, setColorFilter) => {
                         ></Checkbox>
                       }
                       onChange={(e) => {
-                        updateColorArray.bind("blue", e);
+                        updateColorArray("blue", e);
                       }}
                       label="Blue"
                     ></FormControlLabel>
@@ -221,7 +220,7 @@ const FilterHeader = (colorFilter, setColorFilter) => {
                         ></Checkbox>
                       }
                       onChange={(e) => {
-                        updateColorArray.bind("green", e);
+                        updateColorArray("green", e);
                       }}
                       label="Green"
                     ></FormControlLabel>
@@ -236,7 +235,7 @@ const FilterHeader = (colorFilter, setColorFilter) => {
                         ></Checkbox>
                       }
                       onChange={(e) => {
-                        updateColorArray.bind("white", e);
+                        updateColorArray("white", e);
                       }}
                       label="White"
                     ></FormControlLabel>
@@ -251,7 +250,7 @@ const FilterHeader = (colorFilter, setColorFilter) => {
                         ></Checkbox>
                       }
                       onChange={(e) => {
-                        updateColorArray.bind("violet", e);
+                        updateColorArray("violet", e);
                       }}
                       label="Violet"
                     ></FormControlLabel>
@@ -263,7 +262,7 @@ const FilterHeader = (colorFilter, setColorFilter) => {
         }
       }
 
-      
+    // Header bar
     return(
         <Box position="fixed" style={styles.filterBar}>
           <Table>
