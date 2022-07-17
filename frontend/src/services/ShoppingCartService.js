@@ -37,9 +37,14 @@ export default class ShoppingCartService {
   static removeItem(itemIndex) {
     let cart = this.getCart();
 
+    // If string provided
+    itemIndex = parseInt(itemIndex)
+
     let remainingItems = cart.find((element, index) => {
       return index !== itemIndex;
     });
+
+    console.log(remainingItems)
 
     if (remainingItems !== undefined) {
       localStorage.setItem(this.accessKey, JSON.stringify([remainingItems]));

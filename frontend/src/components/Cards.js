@@ -32,6 +32,12 @@ const Cards = () => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState([]);
   const [colorFilter, setColorFilter] = useState({});
+  const [vibeFilter, setVibeFilter] = useState({});
+  const [styleFilter, setStyleFilter] = useState({});
+  const [recipientsFilter, setRecipientsFilter] = useState({});
+  const [occasionFilter, setOccasionFilter] = useState({});
+  const [seasonFilter, setSeasonFilter] = useState({});
+  const [sortFilter, setSortFilter] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -76,12 +82,54 @@ const Cards = () => {
     navigate("/create");
   };
 
+  const productsSort = () => {
+    var sortIndex = -1;
+    Object.keys(sortFilter).map((key) => {
+      console.log(sortFilter);
+      if(sortFilter[key]) {
+        if(key == "titlea") {
+          sortIndex = 0;
+        }  
+        if(key == "titlez") {
+          sortIndex = 1;
+        }  
+        if(key == "designera") {
+          sortIndex = 2;
+        }  
+        if(key == "designerz") {
+          sortIndex = 3;
+        }   
+      }
+      console.log(sortIndex);
+    })
+    
+    if (sortIndex === 0)
+      return products.sort((a,b) => a.title > b.title? 1: -1)
+    else if (sortIndex === 1)
+      return products.sort((a,b) => a.title > b.title? -1: 1)
+    else if (sortIndex === 2)
+      return products.sort((a,b) => a.designer > b.designer? 1: -1)
+    else if (sortIndex === 3)
+      return products.sort((a,b) => a.designer > b.designer? -1: 1)
+    else
+      return products; //here we should sort by most trending
+  };
+  
+  
+
   
 
   return (
     <div>
       <Box sx={{ flexGrow: 1, flexShrink: 1, position: "relative" }}>
-        <FilterHeader colorFilter={colorFilter} setColorFilter={setColorFilter}/>
+        <FilterHeader 
+          colorFilter={colorFilter} setColorFilter={setColorFilter} 
+          vibeFilter={vibeFilter} setVibeFilter={setVibeFilter} 
+          styleFilter={styleFilter} setStyleFilter={setStyleFilter}
+          recipientsFilter={recipientsFilter} setRecipientsFilter={setRecipientsFilter}
+          occasionFilter={occasionFilter} setOccasionFilter={setOccasionFilter}
+          seasonFilter={seasonFilter} setSeasonFilter={setSeasonFilter}
+          sortFilter={sortFilter} setSortFilter={setSortFilter}/>
       </Box>
       <Box
         sx={{
@@ -111,14 +159,38 @@ const Cards = () => {
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           sx={{ margin: "20px 10px 10px 10px" }}
         >
-          {products
+          {productsSort()
             .filter((el) => {
               var filterArray = [];
-              console.log(colorFilter);
               Object.keys(colorFilter).map((key) => {
                   if (colorFilter[key]) {
                     filterArray.push(key);
                   }
+              })
+              Object.keys(vibeFilter).map((key) => {
+                if(vibeFilter[key]) {
+                  filterArray.push(key);
+                }
+              })
+              Object.keys(styleFilter).map((key) => {
+                if(styleFilter[key]) {
+                  filterArray.push(key);
+                }
+              })
+              Object.keys(recipientsFilter).map((key) => {
+                if(recipientsFilter[key]) {
+                  filterArray.push(key);
+                }
+              })
+              Object.keys(occasionFilter).map((key) => {
+                if(occasionFilter[key]) {
+                  filterArray.push(key);
+                }
+              })
+              Object.keys(seasonFilter).map((key) => {
+                if(seasonFilter[key]) {
+                  filterArray.push(key);
+                }
               })
               if (searchTerm.length === 0 && filterArray.length === 0) {
                 return el;
@@ -127,8 +199,15 @@ const Cards = () => {
               else if(searchTerm.length === 0 && filterArray.length !== 0) {
                 return(
                   filterArray
-                  .every(colors => 
-                    {return el.color.includes(colors)}
+                  .every(filter => 
+                    {
+                      return (
+                        el.vibe.includes(filter) || 
+                        el.color.includes(filter) || 
+                        el.style.includes(filter) || 
+                        el.recipient.includes(filter) ||
+                        el.occasion.includes(filter) ||
+                        el.season.includes(filter))}
                   )
                 )
               }

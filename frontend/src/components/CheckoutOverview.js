@@ -13,6 +13,7 @@ import { NavLink, useNavigate, useParams } from "react-router-dom";
 import CheckoutService from "../services/CheckoutService";
 import ShoppingCartService from "../services/ShoppingCartService";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import OrderService from "../services/OrderService";
 
 const CheckoutOverview = () => {
   const imageUrl = "http://localhost:3001/public/";
@@ -43,6 +44,20 @@ const CheckoutOverview = () => {
     setCartItem(cartItem);
   }, []);
 
+  const handleSuccessfulCheckout = async () => {
+    const response = await OrderService.createOrder(checkoutData, cartItem)
+    if (response.response == "success"){
+      CheckoutService.removeData()
+      ShoppingCartService.removeItem(id)
+      navigate("/successful-order/" + response.order._id);
+
+    }
+  };
+
+  const handleFailedCheckout = () => {
+    console.log("Failed payment");
+  };
+
   return (
     <div>
       <Box className="subheader">
@@ -52,10 +67,10 @@ const CheckoutOverview = () => {
             separator=">"
             style={styles.breadcrumbs}
           >
-            <NavLink style={styles.breadcrumbs} to="/create">
+            <NavLink style={styles.breadcrumbs} to={"/create/" + id}>
               Edit card
             </NavLink>
-            <NavLink style={styles.breadcrumbs} to="/checkout-data">
+            <NavLink style={styles.breadcrumbs} to={"/checkout-data/" + id}>
               Delivery Information
             </NavLink>
             <Typography fontFamily="Abril Fatface">Checkout</Typography>
@@ -79,7 +94,7 @@ const CheckoutOverview = () => {
               <Typography fontFamily="Antic">
                 Delivery on {checkoutData.deliveryDate}
               </Typography>
-              <Typography fontFamily="Antic">Recurring delivery: -</Typography>
+              <Typography fontFamily="Antic">Recurring delivery: {checkoutData.recurrentDelivery ? "yearly" : "no"}</Typography>
             </Grid>
             <Grid item xs={5}>
               <Typography variant="h5">Text:</Typography>
@@ -131,10 +146,10 @@ const CheckoutOverview = () => {
           marginTop="4em"
         >
           <Grid container justifyContent="center">
-            <Grid item xs={11}>
+            <Grid item xs={11} paddingBottom="2em">
               <Typography variant="h4">Delivery details</Typography>
             </Grid>
-            <Grid item xs={1}>
+            <Grid item xs={1} paddingBottom="2em">
               <Button
                 variant="contained"
                 color="secondary"
@@ -147,11 +162,13 @@ const CheckoutOverview = () => {
             </Grid>
             <Grid item xs={3} style={styles.detailBox}>
               <Typography variant="h5">Your details</Typography>
-              <Typography fontFamily="Antic">{checkoutData.email}</Typography>
+              <Typography color="#808080" fontSize="14px">For sending the order confirmation and to notify about the delivery.</Typography>
+              <Typography fontFamily="Antic" paddingTop="1em">{checkoutData.email}</Typography>
             </Grid>
             <Grid item xs={3} style={styles.detailBox}>
               <Typography variant="h5">Billing address</Typography>
-              <Typography fontFamily="Antic">
+              <Typography color="#808080" fontSize="14px">For sending the bill</Typography>
+              <Typography fontFamily="Antic" paddingTop="1em">
                 {checkoutData.billingFirstName} {checkoutData.billingLastName}
                 <br />
                 {checkoutData.billingStreet} {checkoutData.billingNumber} <br />
@@ -161,7 +178,8 @@ const CheckoutOverview = () => {
             </Grid>
             <Grid item xs={3} style={styles.detailBox}>
               <Typography variant="h5">Recipient address</Typography>
-              <Typography fontFamily="Antic">
+              <Typography color="#808080" fontSize="14px">Who are you sending to?</Typography>
+              <Typography fontFamily="Antic" paddingTop="1em">
                 {checkoutData.recipientFirstName}{" "}
                 {checkoutData.recipientLastName}
                 <br />
@@ -180,7 +198,7 @@ const CheckoutOverview = () => {
           padding="4em"
         >
           <Typography variant="h4">Payment</Typography>
-          <Box textAlign="center">
+          <Box textAlign="center" padding="2em">
             <PayPalScriptProvider
               options={{
                 "client-id":
@@ -197,7 +215,7 @@ const CheckoutOverview = () => {
                     purchase_units: [
                       {
                         amount: {
-                          value: cartItem.cardPrice + cartItem.giftPrice,
+                          value: (cartItem.cardPrice + cartItem.giftPrice),
                         },
                         shipping: {
                           name: {
@@ -226,8 +244,7 @@ const CheckoutOverview = () => {
                 }}
                 onApprove={(data, actions) => {
                   return actions.order.capture().then((details) => {
-                    const name = details.payer.name.given_name;
-                    console.log(`Transaction completed by ${name}`);
+                    handleSuccessfulCheckout();
                   });
                 }}
               />
@@ -236,19 +253,33 @@ const CheckoutOverview = () => {
                 fundingSource="card"
                 createOrder={(data, actions) => {
                   return actions.order.create({
+                    payer: {
+                      email_address: checkoutData.email,
+                      name: {
+                        given_name: checkoutData.billingFirstName,
+                        surname: checkoutData.billingLastName,
+                      },
+                      address: {
+                        postal_code: checkoutData.billingZipcode,
+                        country_code: "DE",
+                      },
+                    },
                     purchase_units: [
                       {
                         amount: {
-                          value: 3.4,
+                          value: (cartItem.cardPrice + cartItem.giftPrice),
                         },
                       },
                     ],
+                    application_context: {
+                      brand_name: "CardMe",
+                      shipping_preference: "NO_SHIPPING",
+                    },
                   });
                 }}
                 onApprove={(data, actions) => {
                   return actions.order.capture().then((details) => {
-                    const name = details.payer.name.given_name;
-                    alert(`Transaction completed by ${name}`);
+                    handleSuccessfulCheckout();
                   });
                 }}
               />
