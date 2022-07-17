@@ -33,8 +33,8 @@ const CreateAdjustDesign = () => {
   const [brightness, setBrightness] = React.useState(100);
   const [contrast, setContrast] = React.useState(100);
   const [saturate, setSaturate] = React.useState(100);
+  const [grayscale, setGrayscale] = React.useState(0);
   const [sepia, setSepia] = React.useState(0);
-  const [blur, setBlur] = React.useState(0);
 
   function updateFilters() {
     cardImage.style.filter =
@@ -44,10 +44,10 @@ const CreateAdjustDesign = () => {
       contrast +
       "%) saturate(" +
       saturate +
-      "%)  blur(" +
-      blur +
-      "px)  sepia(" +
+      "%)  sepia(" +
       sepia +
+      "%)  grayscale(" +
+      grayscale +
       "%)";
   }
 
@@ -187,17 +187,17 @@ const CreateAdjustDesign = () => {
           <AutoAwesomeIcon fontSize="medium" />
         </Grid>
         <Grid item xs={3}>
-          <div style={styles.text1}> Sepia </div>
+          <div style={styles.text1}> B/W </div>
         </Grid>
         <Grid item xs={4}>
           <Slider
             size="small"
             aria-label="Small"
             onChange={(event, newValue) => {
-              setSepia(newValue);
+              setGrayscale(newValue);
               updateFilters();
             }}
-            value={sepia}
+            value={grayscale}
             valueLabelDisplay="auto"
             property="vibrance"
             name="Vibrance"
@@ -219,23 +219,23 @@ const CreateAdjustDesign = () => {
           <DetailsIcon fontSize="medium" />
         </Grid>
         <Grid item xs={3}>
-          <div style={styles.text1}> Blur </div>
+          <div style={styles.text1}> Sepia </div>
         </Grid>
         <Grid item xs={4}>
           <Slider
             size="small"
             aria-label="Small"
             onChange={(event, newValue) => {
-              setBlur(newValue);
+              setSepia(newValue);
               updateFilters();
             }}
-            value={blur}
+            value={sepia}
             valueLabelDisplay="auto"
             property="blur"
             name="Blur"
             min={0}
-            max={20}
-            unit="px"
+            max={100}
+            unit="%"
             sx={{
               marginTop: "10px",
             }}
