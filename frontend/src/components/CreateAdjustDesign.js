@@ -9,6 +9,7 @@ import OpacityIcon from "@mui/icons-material/Opacity";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import DetailsIcon from "@mui/icons-material/Details";
 import UploadImages from "./UploadImages";
+import HistoryIcon from "@mui/icons-material/History";
 
 const styles = {
   textadjust: {
@@ -17,6 +18,16 @@ const styles = {
     fontWeight: "400",
     fontSize: "32px",
     top: "20px",
+  },
+  cardWindow: {
+    position: "relative",
+    textAlign: "center",
+    width: "241px",
+    height: "306px",
+    background: "#F3F3F3",
+    marginRight: "20px",
+    boxShadow:
+      "2px 2px 30px rgba(0, 0, 0, 0.1), -2px -2px 30px rgba(0, 0, 0, 0.1)",
   },
   text1: {
     position: "relative",
@@ -71,14 +82,34 @@ const CreateAdjustDesign = () => {
         <Grid item xs={3}>
           <div style={styles.text1}> Rotate </div>
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={1}>
           <IconButton>
-            <RotateLeftIcon fontSize="medium" />
+            <RotateLeftIcon
+              onClick={() => {
+                cardImage.style.transform = "rotate(90deg)";
+              }}
+              fontSize="medium"
+            />
           </IconButton>
         </Grid>
         <Grid item xs={2}>
           <IconButton>
-            <RotateRightIcon fontSize="medium" />
+            <HistoryIcon
+              onClick={() => {
+                cardImage.style.transform = "rotate(0deg)";
+              }}
+              fontSize="medium"
+            />
+          </IconButton>
+        </Grid>
+        <Grid item xs={1}>
+          <IconButton>
+            <RotateRightIcon
+              onClick={() => {
+                cardImage.style.transform = "rotate(-90deg)";
+              }}
+              fontSize="medium"
+            />
           </IconButton>
         </Grid>
         <Grid item xs={2}>

@@ -83,7 +83,16 @@ const CreateFinal = () => {
             <Box style={styles.cardWindows} sx={{ float: "right" }}></Box>
           </Grid>
           <Grid item xs={3}>
-            <Box style={styles.cardWindows} sx={{ float: "left" }}></Box>
+            <Box style={styles.cardWindows} sx={{ float: "left" }}>
+              <div
+                id="final-text-view"
+                sx={{
+                  marginTop: "20px",
+                  marginLeft: "20px",
+                  marginRight: "20px",
+                }}
+              ></div>
+            </Box>
           </Grid>
           <Grid item xs={3}>
             <Box>

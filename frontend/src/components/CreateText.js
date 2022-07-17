@@ -76,6 +76,7 @@ const styles = {
     height: "444px",
     background: "#F3F3F3",
     marginRight: "20px",
+    fontSize: "30px",
     boxShadow:
       "2px 2px 30px rgba(0, 0, 0, 0.1), -2px -2px 30px rgba(0, 0, 0, 0.1)",
   },
@@ -142,6 +143,7 @@ const StyledMenu = styled((props) => (
 }));
 
 const CreateText = () => {
+  const finaltext = document.getElementById("final-text-view");
   const cardtext = document.getElementById("card-text");
   const [styleEl, setStyleEl] = React.useState(null);
   const openStyle = Boolean(styleEl);
@@ -274,17 +276,41 @@ const CreateText = () => {
                     >
                       Times New Roman
                     </MenuItem>
-                    <MenuItem onClick={handleStyleClose} disableRipple>
-                      Georgia
+                    <MenuItem
+                      onClick={() => {
+                        cardtext.style.fontFamily = "Annie Use Your Telescope";
+                        setStyleEl(null);
+                      }}
+                      disableRipple
+                    >
+                      Romantic
                     </MenuItem>
-                    <MenuItem onClick={handleStyleClose} disableRipple>
+                    <MenuItem
+                      onClick={() => {
+                        cardtext.style.fontFamily = "Arial";
+                        setStyleEl(null);
+                      }}
+                      disableRipple
+                    >
                       Arial
                     </MenuItem>
-                    <MenuItem onClick={handleStyleClose} disableRipple>
+                    <MenuItem
+                      onClick={() => {
+                        cardtext.style.fontFamily = "Monaco";
+                        setStyleEl(null);
+                      }}
+                      disableRipple
+                    >
                       Monaco
                     </MenuItem>
-                    <MenuItem onClick={handleStyleClose} disableRipple>
-                      Papyrus
+                    <MenuItem
+                      onClick={() => {
+                        cardtext.style.fontFamily = "Courier New";
+                        setStyleEl(null);
+                      }}
+                      disableRipple
+                    >
+                      Courier New
                     </MenuItem>
                   </StyledMenu>
                 </Grid>
@@ -310,16 +336,40 @@ const CreateText = () => {
                     open={openColor}
                     onClose={handleColorClose}
                   >
-                    <MenuItem onClick={handleColorClose} disableRipple>
+                    <MenuItem
+                      onClick={() => {
+                        cardtext.style.color = "black";
+                        setStyleEl(null);
+                      }}
+                      disableRipple
+                    >
                       Black
                     </MenuItem>
-                    <MenuItem onClick={handleColorClose} disableRipple>
+                    <MenuItem
+                      onClick={() => {
+                        cardtext.style.color = "blue";
+                        setStyleEl(null);
+                      }}
+                      disableRipple
+                    >
                       Blue
                     </MenuItem>
-                    <MenuItem onClick={handleColorClose} disableRipple>
+                    <MenuItem
+                      onClick={() => {
+                        cardtext.style.color = "red";
+                        setStyleEl(null);
+                      }}
+                      disableRipple
+                    >
                       Red
                     </MenuItem>
-                    <MenuItem onClick={handleColorClose} disableRipple>
+                    <MenuItem
+                      onClick={() => {
+                        cardtext.style.color = "coral";
+                        setStyleEl(null);
+                      }}
+                      disableRipple
+                    >
                       Coral
                     </MenuItem>
                   </StyledMenu>
@@ -346,13 +396,40 @@ const CreateText = () => {
                     open={openSize}
                     onClose={handleSizeClose}
                   >
-                    <MenuItem onClick={handleSizeClose} disableRipple>
+                    <MenuItem
+                      onClick={() => {
+                        cardtext.style.fontSize = "16px";
+                        setStyleEl(null);
+                      }}
+                      disableRipple
+                    >
+                      Extra Small
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        cardtext.style.fontSize = "20px";
+                        setStyleEl(null);
+                      }}
+                      disableRipple
+                    >
                       Small
                     </MenuItem>
-                    <MenuItem onClick={handleSizeClose} disableRipple>
+                    <MenuItem
+                      onClick={() => {
+                        cardtext.style.fontSize = "25px";
+                        setStyleEl(null);
+                      }}
+                      disableRipple
+                    >
                       Medium
                     </MenuItem>
-                    <MenuItem onClick={handleSizeClose} disableRipple>
+                    <MenuItem
+                      onClick={() => {
+                        cardtext.style.fontSize = "32px";
+                        setStyleEl(null);
+                      }}
+                      disableRipple
+                    >
                       Large
                     </MenuItem>
                   </StyledMenu>
@@ -379,15 +456,33 @@ const CreateText = () => {
                     open={openAlignment}
                     onClose={handleAlignmentClose}
                   >
-                    <MenuItem onClick={handleAlignmentClose} disableRipple>
+                    <MenuItem
+                      onClick={() => {
+                        cardtext.style.textAlign = "left";
+                        setStyleEl(null);
+                      }}
+                      disableRipple
+                    >
                       <FormatAlignLeftIcon />
                       Left
                     </MenuItem>
-                    <MenuItem onClick={handleAlignmentClose} disableRipple>
+                    <MenuItem
+                      onClick={() => {
+                        cardtext.style.textAlign = "center";
+                        setStyleEl(null);
+                      }}
+                      disableRipple
+                    >
                       <FormatAlignJustifyIcon />
                       Middle
                     </MenuItem>
-                    <MenuItem onClick={handleAlignmentClose} disableRipple>
+                    <MenuItem
+                      onClick={() => {
+                        cardtext.style.textAlign = "right";
+                        setStyleEl(null);
+                      }}
+                      disableRipple
+                    >
                       <FormatAlignRightIcon />
                       Right
                     </MenuItem>
@@ -415,19 +510,43 @@ const CreateText = () => {
                     open={openIcons}
                     onClose={handleIconsClose}
                   >
-                    <MenuItem onClick={handleIconsClose} disableRipple>
+                    <MenuItem
+                      onClick={() => {
+                        cardtext.text += <FavoriteIcon />;
+                        setStyleEl(null);
+                      }}
+                      disableRipple
+                    >
                       <FavoriteIcon />
                       Heart
                     </MenuItem>
-                    <MenuItem onClick={handleIconsClose} disableRipple>
+                    <MenuItem
+                      onClick={() => {
+                        finaltext.innerHTML = cardtext.value;
+                        setStyleEl(null);
+                      }}
+                      disableRipple
+                    >
                       <SentimentVerySatisfiedIcon />
                       Happy
                     </MenuItem>
-                    <MenuItem onClick={handleIconsClose} disableRipple>
+                    <MenuItem
+                      onClick={() => {
+                        cardtext.style.textAlign = "right";
+                        setStyleEl(null);
+                      }}
+                      disableRipple
+                    >
                       <SentimentVeryDissatisfiedIcon />
                       Sad
                     </MenuItem>
-                    <MenuItem onClick={handleIconsClose} disableRipple>
+                    <MenuItem
+                      onClick={() => {
+                        cardtext.style.textAlign = "right";
+                        setStyleEl(null);
+                      }}
+                      disableRipple
+                    >
                       <WbSunnyIcon />
                       Sun
                     </MenuItem>
