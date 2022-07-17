@@ -142,6 +142,7 @@ const StyledMenu = styled((props) => (
 }));
 
 const CreateText = () => {
+  const cardtext = document.getElementById("card-text");
   const [styleEl, setStyleEl] = React.useState(null);
   const openStyle = Boolean(styleEl);
   const handleStyleClick = (event) => {
@@ -264,7 +265,13 @@ const CreateText = () => {
                       setStyleEl(null);
                     }}
                   >
-                    <MenuItem onClick={handleStyleClose} disableRipple>
+                    <MenuItem
+                      onClick={() => {
+                        cardtext.style.fontFamily = "Times New Roman";
+                        setStyleEl(null);
+                      }}
+                      disableRipple
+                    >
                       Times New Roman
                     </MenuItem>
                     <MenuItem onClick={handleStyleClose} disableRipple>
@@ -438,10 +445,11 @@ const CreateText = () => {
           <Grid item xs={12}>
             <TextField
               fullWidth
-              fullLength
+              id="card-text"
               label="Type your text here"
               multiline
-              variant="standard"
+              variant="outlined"
+              rows={18}
               style={styles.textWindow}
             ></TextField>
           </Grid>
