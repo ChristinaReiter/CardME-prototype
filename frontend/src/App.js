@@ -80,7 +80,7 @@ function App() {
               </Route>
               <Route exact path="/register" element={<Register />} />
               <Route exact path="/login" element={<Login />} />
-              <Route exact path="/successful-order" element={<SuccessfulOrder />} />
+              <Route exact path="/successful-order/:id" element={<SuccessfulOrder />} />
               <Route path="*" element={<Home />}/>
             </Routes>
           </Box>

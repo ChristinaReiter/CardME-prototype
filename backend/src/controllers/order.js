@@ -6,36 +6,51 @@ const create = async (req, res) => {
   try {
     // probably to outsource to own function
     const recipientAddress = await Address.create({
-      street: req.body.recipientStreet,
-      streetNumber: req.body.recipientNumber,
-      zipCode: req.body.recipientZipcode,
-      city: req.body.recipientCity,
-      country: req.body.recipientCountry,
+      street: req.body.recipient.street,
+      streetNumber: req.body.recipient.number,
+      zipCode: req.body.recipient.zipcode,
+      city: req.body.recipient.city,
+      country: req.body.recipient.country,
     });
-    const billingAddress = await Address.create({
-      street: req.body.billingStreet,
-      streetNumber: req.body.billingNumber,
-      zipCode: req.body.billingZipcode,
-      city: req.body.billingCity,
-      country: req.body.billingCountry,
-    });
-    let userName = req.body.billingFirstName + " " + req.body.billingLastName;
 
-    const user = await User.create({ email: req.body.email, name: userName });
+    let billingAddress = await Address.findOne({
+      street: req.body.billingAddress.street,
+      streetNumber: req.body.billingAddress. number,
+      zipCode: req.body.billingAddress.zipcode,
+      city: req.body.billingAddress.city,
+      country: req.body.billingAddress.country,
+    });
+
+    if (billingAddress == undefined) {
+      billingAddress = await Address.create({
+        street: req.body.billingAddress.street,
+        streetNumber: req.body.billingAddress.number,
+        zipCode: req.body.billingAddress.zipcode,
+        city: req.body.billingAddress.city,
+        country: req.body.billingAddress.country,
+      });
+    }
+    let userName = req.body.billingAddress.firstName + " " + req.body.billingAddress.lastName;
+
+    let user = await User.findOne({ email: req.body.email });
+
+    if (user == undefined) {
+      user = await User.create({ email: req.body.email, name: userName });
+    }
 
     let recipientName =
-      req.body.recipientFirstName + " " + req.body.recipientLastName;
+      req.body.recipient.firstName + " " + req.body.recipient.lastName;
 
-    const order = Order.create({
+    const order = await Order.create({
       user: user._id,
       deliveryDate: req.body.deliveryDate,
       billingAddress: billingAddress._id,
       recipientName: recipientName,
       recipientAddress: recipientAddress._id,
-      products: []
+      products: req.body.product,
     });
 
-    return res.status(201).json({ response: "success" });
+    return res.status(201).json({ response: "success", order: order });
   } catch (err) {
     console.log(err);
 
@@ -46,7 +61,8 @@ const create = async (req, res) => {
   }
 };
 
-const getOrder = async (req, res) => { //TODO
+const getOrder = async (req, res) => {
+  //TODO
   try {
     const orders = await Order.find();
 
@@ -61,7 +77,8 @@ const getOrder = async (req, res) => { //TODO
   }
 };
 
-const updateOrder = async (req, res) => { //TODO
+const updateOrder = async (req, res) => {
+  //TODO
   try {
     const orders = await Order.find();
 
@@ -76,7 +93,8 @@ const updateOrder = async (req, res) => { //TODO
   }
 };
 
-const deleteOrder = async (req, res) => { //TODO
+const deleteOrder = async (req, res) => {
+  //TODO
   try {
     const orders = await Order.find();
 

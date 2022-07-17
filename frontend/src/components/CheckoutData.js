@@ -51,7 +51,6 @@ const CheckoutData = () => {
     event.preventDefault();
 
     CheckoutService.setData(checkoutData);
-    console.log(id);
     navigate("/checkout-overview/" + id);
   };
 

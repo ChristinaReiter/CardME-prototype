@@ -44,9 +44,14 @@ const CheckoutOverview = () => {
     setCartItem(cartItem);
   }, []);
 
-  const handleSuccessfulCheckout = () => {
-    //OrderService.createOrder(null)
-    navigate("successful-order");
+  const handleSuccessfulCheckout = async () => {
+    const response = await OrderService.createOrder(checkoutData, cartItem)
+    if (response.response == "success"){
+      CheckoutService.removeData()
+      ShoppingCartService.removeItem(id)
+      navigate("/successful-order/" + response.order._id);
+
+    }
   };
 
   const handleFailedCheckout = () => {

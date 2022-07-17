@@ -21,12 +21,7 @@ const OrderSchema = new mongoose.Schema({
     required: true,
   },
   products: {
-    type: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product",
-      },
-    ],
+    type: Object
   },
  //Subscription?
 });
