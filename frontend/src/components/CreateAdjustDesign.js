@@ -30,18 +30,25 @@ const styles = {
 const CreateAdjustDesign = () => {
   const cardImage = document.getElementById("card-image");
 
-  const [valueB, setValueB] = React.useState(100);
-  const [valueC, setValueC] = React.useState(100);
-  const [valueS, setValueS] = React.useState(100);
-  const [valueV, setValueV] = React.useState(0);
-  const [valueBlur, setValueBlur] = React.useState(0);
+  const [brightness, setBrightness] = React.useState(100);
+  const [contrast, setContrast] = React.useState(100);
+  const [saturate, setSaturate] = React.useState(100);
+  const [sepia, setSepia] = React.useState(0);
+  const [blur, setBlur] = React.useState(0);
 
-  function update() {
-    cardImage.style = `filter: brightness(${valueB / 100})`;
-    cardImage.style.filter = `contrast(${valueC / 100})`;
-    cardImage.style.filter = `saturate(${valueS / 100})`;
-    cardImage.style.filter = `sepia(${valueV / 100})`;
-    cardImage.style.filter = `blur(${valueBlur}px)`;
+  function updateFilters() {
+    cardImage.style.filter =
+      "brightness(" +
+      brightness +
+      "%) contrast(" +
+      contrast +
+      "%) saturate(" +
+      saturate +
+      "%)  blur(" +
+      blur +
+      "px)  sepia(" +
+      sepia +
+      "%)";
   }
 
   return (
@@ -91,10 +98,10 @@ const CreateAdjustDesign = () => {
             size="small"
             aria-label="Small"
             onChange={(event, newValue) => {
-              setValueB(newValue);
-              cardImage.style.filter = `brightness(${valueV / 100})`;
+              setBrightness(newValue);
+              updateFilters();
             }}
-            value={valueB}
+            value={brightness}
             valueLabelDisplay="auto"
             property="brightness"
             name="Brightness"
@@ -123,10 +130,10 @@ const CreateAdjustDesign = () => {
             size="small"
             aria-label="Small"
             onChange={(event, newValue) => {
-              setValueC(newValue);
-              cardImage.style.filter = `contrast(${valueC / 100})`;
+              setContrast(newValue);
+              updateFilters();
             }}
-            value={valueC}
+            value={contrast}
             valueLabelDisplay="auto"
             property="contrast"
             name="Contrast"
@@ -155,10 +162,10 @@ const CreateAdjustDesign = () => {
             size="small"
             aria-label="Small"
             onChange={(event, newValue) => {
-              setValueS(newValue);
-              cardImage.style.filter = `saturate(${valueS / 100})`;
+              setSaturate(newValue);
+              updateFilters();
             }}
-            value={valueS}
+            value={saturate}
             valueLabelDisplay="auto"
             property="saturation"
             name="Saturation"
@@ -180,17 +187,17 @@ const CreateAdjustDesign = () => {
           <AutoAwesomeIcon fontSize="medium" />
         </Grid>
         <Grid item xs={3}>
-          <div style={styles.text1}> Vibrance </div>
+          <div style={styles.text1}> Sepia </div>
         </Grid>
         <Grid item xs={4}>
           <Slider
             size="small"
             aria-label="Small"
             onChange={(event, newValue) => {
-              setValueV(newValue);
-              cardImage.style.filter = `sepia(${valueV / 100})`;
+              setSepia(newValue);
+              updateFilters();
             }}
-            value={valueV}
+            value={sepia}
             valueLabelDisplay="auto"
             property="vibrance"
             name="Vibrance"
@@ -219,10 +226,10 @@ const CreateAdjustDesign = () => {
             size="small"
             aria-label="Small"
             onChange={(event, newValue) => {
-              setValueBlur(newValue);
-              cardImage.style.filter = `blur(${valueV / 100})`;
+              setBlur(newValue);
+              updateFilters();
             }}
-            value={valueBlur}
+            value={blur}
             valueLabelDisplay="auto"
             property="blur"
             name="Blur"
