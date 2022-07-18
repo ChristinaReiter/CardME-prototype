@@ -23,7 +23,8 @@ const HeaderSortBox = ({index, sortFilter, setSortFilter, filterIsHovering}) => 
 
         const updateSortArray = (sortKey, event) => {
           
-          setSortFilter({ ...sortFilter, [sortKey]: event.target.checked });
+          setSortFilter(sortKey);
+          console.log(sortKey);
 
           /*Object.keys(sortFilter).map((key) => {
             if (key !== sortKey) {

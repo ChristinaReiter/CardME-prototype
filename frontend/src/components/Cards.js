@@ -37,7 +37,7 @@ const Cards = () => {
   const [recipientsFilter, setRecipientsFilter] = useState({});
   const [occasionFilter, setOccasionFilter] = useState({});
   const [seasonFilter, setSeasonFilter] = useState({});
-  const [sortFilter, setSortFilter] = useState({});
+  const [sortFilter, setSortFilter] = useState("trending");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -84,24 +84,22 @@ const Cards = () => {
 
   const productsSort = () => {
     var sortIndex = -1;
-    Object.keys(sortFilter).map((key) => {
-      console.log(sortFilter);
-      if(sortFilter[key]) {
-        if(key == "titlea") {
+    console.log(sortFilter);
+    
+        if(sortFilter === "titlea") {
           sortIndex = 0;
         }  
-        if(key == "titlez") {
+        if(sortFilter === "titlez") {
           sortIndex = 1;
         }  
-        if(key == "designera") {
+        if(sortFilter == "designera") {
           sortIndex = 2;
         }  
-        if(key == "designerz") {
+        if(sortFilter == "designerz") {
           sortIndex = 3;
         }   
-      }
+      
       console.log(sortIndex);
-    })
     
     if (sortIndex === 0)
       return products.sort((a,b) => a.title > b.title? 1: -1)
