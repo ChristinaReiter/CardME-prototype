@@ -142,7 +142,7 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-const CreateText = () => {
+const CreateText = ({text, setText, handleTextPersist}) => {
   const finaltext = document.getElementById("final-text-view");
   const cardtext = document.getElementById("card-text");
   const [styleEl, setStyleEl] = React.useState(null);
@@ -189,6 +189,10 @@ const CreateText = () => {
   const handleIconsClose = () => {
     setIconsEl(null);
   };
+
+  const handleText = (event) => {
+    handleTextPersist(event.target.value)
+  } 
 
   return (
     <Box sx={{ flexGrow: 1, flexShrink: 1 }}>
@@ -522,7 +526,7 @@ const CreateText = () => {
                     </MenuItem>
                     <MenuItem
                       onClick={() => {
-                        finaltext.innerHTML = cardtext.value;
+                        //finaltext.innerHTML = cardtext.value;
                         setStyleEl(null);
                       }}
                       disableRipple
@@ -570,6 +574,10 @@ const CreateText = () => {
               variant="outlined"
               rows={18}
               style={styles.textWindow}
+              onBlur={handleText}
+              onChange={(event) => {setText(event.target.value)}}
+              value={text || ""}
+              type="text"
             ></TextField>
           </Grid>
         </Grid>

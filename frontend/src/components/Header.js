@@ -96,7 +96,7 @@ const Header = () => {
             <NavLink style={styles.menuText} to="/cards">
               Seasonal
             </NavLink>
-            <NavLink style={styles.menuText} to="/create">
+            <NavLink style={styles.menuText} to={"/create/" + Math.floor(Math.random() * 100000000)}>
               Create
             </NavLink>
           </Box>

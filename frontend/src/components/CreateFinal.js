@@ -55,7 +55,7 @@ const styles = {
   },
 };
 
-const CreateFinal = () => {
+const CreateFinal = ({text}) => {
   return (
     <Box sx={{ flexGrow: 1, flexShrink: 1 }}>
       <Typography fontStyle="Annie Use Your Telescope">
@@ -91,7 +91,7 @@ const CreateFinal = () => {
                   marginLeft: "20px",
                   marginRight: "20px",
                 }}
-              ></div>
+              >{text}</div>
             </Box>
           </Grid>
           <Grid item xs={3}>

@@ -77,9 +77,9 @@ const Cards = () => {
 
 
 
-  const addProductToCart = (product) => {
-    ShoppingCartService.addItem(product);
-    navigate("/create");
+  const addProductToCart = async (product) => {
+    //let index = await ShoppingCartService.addItem(product);
+    navigate("/create/" + product._id);
   };
 
   const productsSort = () => {

@@ -34,6 +34,23 @@ export default class ShoppingCartService {
     localStorage.setItem(this.accessKey, JSON.stringify(cart));
   }
 
+  static async addOwnCard(product){
+    let cart = this.getCart()
+
+    // Find item with same id
+    let cardIndex = await cart.findIndex((element) => {
+      return element.cardId === product._id
+    })
+
+    // Only create new product if not found
+    if (cardIndex !== -1){
+      cart[cardIndex].cardImg = product.url
+      localStorage.setItem(this.accessKey, JSON.stringify(cart));
+    }else{
+      this.addItem(product)
+    }
+  }
+
   static removeItem(itemIndex) {
     let cart = this.getCart();
 
@@ -53,8 +70,12 @@ export default class ShoppingCartService {
     }
   }
 
-  static updateText(itemIndex, text) {
+  static async updateText(id, text) {
     let cart = this.getCart();
+
+    let itemIndex = await cart.findIndex((element) => {
+      return element.cardId === id
+    })
 
     cart[itemIndex].text = text;
 
@@ -67,5 +88,15 @@ export default class ShoppingCartService {
     cart[itemIndex].giftId = giftId;
 
     localStorage.setItem(this.accessKey, JSON.stringify(cart));
+  }
+
+  static async findItemById(id){
+    let cart = this.getCart()
+
+    let item =  cart.find((element) => {
+      return element.cardId === id
+    })
+
+    return item
   }
 }
