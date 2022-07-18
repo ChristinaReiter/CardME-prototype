@@ -54,7 +54,7 @@ const styles = {
   },
 };
 
-const CreateFront = () => {
+const CreateFront = ({id}) => {
   return (
     <Box sx={{ flexGrow: 1, flexShrink: 1 }}>
       <Typography fontStyle="Annie Use Your Telescope">
@@ -74,7 +74,7 @@ const CreateFront = () => {
           marginTop="30px"
         >
           <Grid item xs={4}>
-            <UploadImages />
+            <UploadImages id={id}/>
           </Grid>
           <Grid item xs={4} textAlign="center">
             <Box style={styles.adjustwindow}>

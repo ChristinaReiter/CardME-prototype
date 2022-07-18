@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Box } from "@mui/material";
 import WelcomePostcard from "./../assets/images/welcome-postcard.png";
+import { useNavigate } from "react-router-dom";
 
 const styles = {
   image: {
@@ -22,6 +23,8 @@ const styles = {
 };
 
 const Home = () => {
+  const navigate = useNavigate();
+
   return (
     <div>
       <Box
@@ -37,10 +40,10 @@ const Home = () => {
           flexDirection: "row",
         }}
       >
-        <Button style={styles.button} variant="contained" color="secondary">
+        <Button style={styles.button} variant="contained" color="secondary" onClick={() => {navigate('/cards')}}>
           Browse Cards
         </Button>
-        <Button style={styles.button} variant="contained" color="secondary">
+        <Button style={styles.button} variant="contained" color="secondary" onClick={() => {navigate('/create')}}>
           Create your own Card
         </Button>
       </Box>
