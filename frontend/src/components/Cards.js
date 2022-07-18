@@ -84,7 +84,6 @@ const Cards = () => {
 
   const productsSort = () => {
     var sortIndex = -1;
-    console.log(sortFilter);
     
         if(sortFilter === "titlea") {
           sortIndex = 0;
@@ -98,8 +97,6 @@ const Cards = () => {
         if(sortFilter == "designerz") {
           sortIndex = 3;
         }   
-      
-      console.log(sortIndex);
     
     if (sortIndex === 0)
       return products.sort((a,b) => a.title > b.title? 1: -1)
