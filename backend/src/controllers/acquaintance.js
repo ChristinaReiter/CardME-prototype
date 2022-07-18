@@ -4,6 +4,7 @@ const Account = require("../models/account");
 
 const getAcquaintances = async (req, res) => { //TODO
     try {
+   
       const acquaintances = await Acquaintance.find({ account: req.account.id });
   
       return res.status(200).json(acquaintances);

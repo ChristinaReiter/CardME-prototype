@@ -21,32 +21,6 @@ const Login = () => {
 
     const navigate = useNavigate();
 
-
-/*    async function loginAccount(event) {
-      event.preventDefault();
-      const response = await fetch('http://localhost:3001/login', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-              email,
-              password
-          })
-      });
-      const data = await response.json();
-
-       if(data.account) {
-        localStorage.setItem("token", data.account)  // not the way
-        //alert("Login Successful");
-        navigate("/profile/view");        
-      } else {
-        //alert("Login Failed");
-
-      //console.log(data);
-      } 
-  }  */
-
      const handleLogin = (e) => {
       e.preventDefault();
       AuthService.login({ email, password }).then(

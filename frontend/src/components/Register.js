@@ -20,30 +20,7 @@ const Register = () => {
     
       const handleMouseDownPassword = (event) => {
         event.preventDefault();
-      }; 
-    
-
-    async function createAccount(event) {
-        event.preventDefault();
-        const response = await fetch('http://localhost:3001/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                name,
-                email,
-                password
-            })
-        });
-        const data = await response.json();
-        console.log(data);
-
-        if(data.status === 201) {
-            alert("Account Created");
-            navigate("/login");        
-        }
-    }
+      };     
 
     const handleRegister = (event) => {
       event.preventDefault();

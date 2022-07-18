@@ -11,8 +11,8 @@ import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link, Outlet } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import jwt_decode from 'jwt-decode'; // temp
 import AuthService  from '../services/AuthService';
+
 
  
 const styles = {
@@ -26,6 +26,13 @@ const styles = {
  const ProfileOverview = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const navigate = useNavigate();
+  const account = AuthService.getMe();
+
+useEffect(() => {
+  if (!account) {
+    navigate("/login");
+  }
+},[navigate, account])
   
 
   const handleChange = (event, newValue) => {

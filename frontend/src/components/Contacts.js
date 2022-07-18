@@ -1,6 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TextField, Box, Button } from '@mui/material'; 
-//import { useNavigate } from "react-router-dom";
 import AcquaintanceService from '../services/AcquaintanceService';
 import AuthService from '../services/AuthService';
 
@@ -12,8 +11,8 @@ const Contacts = () => {
     const [zipcode, setZipcode] = useState('');
     const [city, setCity] = useState('');
     const [country, setCountry] = useState('');
-    //const navigate = useNavigate();
     const currentAccount = AuthService.getMe();
+    const [contacts, setContacts] = useState([]);
 
     const createContact = (e) => {
       e.preventDefault();
@@ -21,8 +20,19 @@ const Contacts = () => {
       AcquaintanceService.setAcquaintance({ name, street, number, zipcode, city, country, account });
     }
 
-    
- 
+    useEffect(() => {
+        AcquaintanceService.getAcquaintances().then(res => {
+            setContacts(res);
+        })
+    }, []); 
+
+    const myContacts = contacts?.map(contact => 
+     <li key={contact._id}>
+         <b>{contact.name}</b>
+     </li>
+    );
+
+
   
     return (
       <Box  display="flex" justifyContent="center" padding="5em">
@@ -89,7 +99,10 @@ const Contacts = () => {
                 type="submit">
                 Register
             </Button>
-        </form>       
+        </form>
+        
+        <ul>{myContacts}</ul>
+              
       </Box>
     );
   };
