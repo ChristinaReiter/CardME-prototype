@@ -83,31 +83,36 @@ const Cards = () => {
   };
 
   const productsSort = () => {
-    var sortIndex = -1;
+
     
         if(sortFilter === "titlea") {
-          sortIndex = 0;
+          return products.sort((a,b) => a.title > b.title? 1: -1)
         }  
         if(sortFilter === "titlez") {
-          sortIndex = 1;
+          return products.sort((a,b) => a.title > b.title? -1: 1)
         }  
         if(sortFilter == "designera") {
-          sortIndex = 2;
+          return products.sort((a,b) => a.designer > b.designer? 1: -1)
         }  
         if(sortFilter == "designerz") {
-          sortIndex = 3;
-        }   
-    
-    if (sortIndex === 0)
-      return products.sort((a,b) => a.title > b.title? 1: -1)
-    else if (sortIndex === 1)
-      return products.sort((a,b) => a.title > b.title? -1: 1)
-    else if (sortIndex === 2)
-      return products.sort((a,b) => a.designer > b.designer? 1: -1)
-    else if (sortIndex === 3)
-      return products.sort((a,b) => a.designer > b.designer? -1: 1)
-    else
-      return products; //here we should sort by most trending
+          return products.sort((a,b) => a.designer > b.designer? -1: 1)
+        }  
+        if(sortFilter == "mostpopular") {
+          return products.sort(); //don't know what to do here lol
+        } 
+        if(sortFilter == "trending") {
+          return products.sort(() => Math.random() - 0.5);
+        } 
+        if(sortFilter == "newest") {
+          return products.sort((a,b) => a.date > b.date? -1 : 1);
+        } 
+        if(sortFilter == "oldest") {
+          return products.sort((a,b) => a.date > b.date? 1 : -1);
+        } 
+        else {
+          return products; 
+        }
+          
   };
   
   
