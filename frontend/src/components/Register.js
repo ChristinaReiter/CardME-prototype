@@ -2,9 +2,10 @@ import { useState } from 'react'
 import { TextField, Box, Button, InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material'; 
 import { useNavigate } from "react-router-dom";
+import AuthService from '../services/AuthService';
 
 
-function Register() {
+const Register = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -43,11 +44,21 @@ function Register() {
             navigate("/login");        
         }
     }
+
+    const handleRegister = (event) => {
+      event.preventDefault();
+      AuthService.register({name, email, password}).then(
+        () => {
+          navigate("/login");
+          //window.location.reload();
+        }
+      )
+  }
   
   
     return (
       <Box  display="flex" justifyContent="center" padding="5em">
-        <form onSubmit={createAccount}>
+        <form onSubmit={handleRegister}>
             <TextField 
                 sx={{ m: 1 }}
                 type="text"

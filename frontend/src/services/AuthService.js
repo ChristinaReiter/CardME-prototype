@@ -12,7 +12,7 @@ export default class AuthService {
           body: JSON.stringify(data),          
         });
   
-        response = await response.json();
+        response = await response.json(); //dont need this -- maybe want user to also get token after register?!
   
         return response;
       } catch (err) {
@@ -29,11 +29,11 @@ export default class AuthService {
             });
     
             const resp = await response.json();
-            if (resp) {
+            if (resp.token) {                                     //gotta check the validity!!!!!
                 localStorage.setItem("account", JSON.stringify(resp));
             }
     
-            return response;
+            return resp;
         } catch (err) {
             console.log(err);
         }
@@ -43,7 +43,7 @@ export default class AuthService {
       localStorage.removeItem("account");
     }
 
-    static async getMe() {
+    static getMe() {
       return JSON.parse(localStorage.getItem("account"));
     }
   }

@@ -12,6 +12,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Link, Outlet } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import jwt_decode from 'jwt-decode'; // temp
+import AuthService  from '../services/AuthService';
 
  
 const styles = {
@@ -25,26 +26,18 @@ const styles = {
  const ProfileOverview = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const navigate = useNavigate();
+  
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const account = jwt_decode(token);  // temporary -- gotta use middleware
-      if (!account) {
-        localStorage.removeItem('token');
-        navigate("/login");
-      } else {
-        //alert("U have a token")
-      }
-    }
-  }, [])  
-
+  
   const logOut = () => {
-    localStorage.removeItem('token');
+    AuthService.logout().then(
+      () => {
         navigate("/login");
+      }
+    )
   }
 
   return (

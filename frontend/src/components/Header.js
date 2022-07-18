@@ -105,7 +105,7 @@ const Header = () => {
               <Button sx={{ minWidth: 2 }} onClick={openShoppingCart}>
                 <ShoppingCartOutlined fontSize="large" />
               </Button>
-              <IconButton
+              <IconButton                        // functionality that different things are shown based on wether user is logged in still needs to be implemented
                 aria-haspopup="true"
                 color="inherit"
                 aria-controls="profile-menu"
