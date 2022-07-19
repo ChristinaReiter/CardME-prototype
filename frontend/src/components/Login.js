@@ -34,7 +34,7 @@ const Login = () => {
  
   return (
     <Box  display="flex" justifyContent="center" padding="5em">
-      <form onSubmit={ /* loginAccount */  handleLogin }>
+      <form onSubmit={ handleLogin }>
             <TextField
                 sx={{ m: 1 }} 
                 type="text"
