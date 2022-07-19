@@ -78,7 +78,7 @@ function App() {
               <Route
                 exact
                 path="/checkout-overview/:id"
-                element={<CheckoutOverview />}
+                element={<CheckoutOverview images={images}/>}
               />
               <Route path="profile" element={<ProfileOverview />}>
                 <Route path="view" element={<View />} />

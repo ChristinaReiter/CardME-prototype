@@ -15,7 +15,7 @@ import ShoppingCartService from "../services/ShoppingCartService";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import OrderService from "../services/OrderService";
 
-const CheckoutOverview = () => {
+const CheckoutOverview = ({images}) => {
   const imageUrl = "http://localhost:3001/public/";
   const [cartItem, setCartItem] = useState({});
   const [checkoutData, setCheckoutData] = useState({});
@@ -86,11 +86,20 @@ const CheckoutOverview = () => {
         >
           <Grid container>
             <Grid item xs={3}>
+              {cartItem.cardTitle !== "Own Card" &&
               <img
                 src={imageUrl + cartItem.cardImg}
                 crossOrigin="anonymous"
                 width="65%"
               ></img>
+              }
+              {cartItem.cardTitle === "Own Card" &&
+              <img
+                src={URL.createObjectURL(images[0])}
+                crossOrigin="anonymous"
+                width="65%"
+              ></img>
+              }
               <Typography fontFamily="Antic">
                 Delivery on {checkoutData.deliveryDate}
               </Typography>
