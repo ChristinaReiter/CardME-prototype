@@ -43,7 +43,7 @@ const register = async (req, res) => {
     if (isPasswordValid){
       
         const token = jwt.sign({
-         id: account.id, // changed from _id to id twice
+         id: account.id, 
         },
         config.jwtSecret,  // secret
         {
@@ -65,7 +65,7 @@ const register = async (req, res) => {
 };  
 
 const getMe = async (req, res) => {
-  const account = await Account.findById(req.account._id)
+  const account = await Account.findById(req.account.id)
   const user = await User.findById(account.user)
   
   res.status(200).json({

@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { TextField, Box, Button } from '@mui/material'; 
 import AcquaintanceService from '../services/AcquaintanceService';
 import AuthService from '../services/AuthService';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import UpdateIcon from '@mui/icons-material/Update';
 
 
 const Contacts = () => {
@@ -17,20 +19,54 @@ const Contacts = () => {
     const createContact = (e) => {
       e.preventDefault();
       const account = currentAccount._id;
-      AcquaintanceService.setAcquaintance({ name, street, number, zipcode, city, country, account });
+      AcquaintanceService.setAcquaintance({ name, street, number, zipcode, city, country, account }).then(
+        () => {              
+          alert("Contact created");
+        }
+      ).catch(
+        () => {              
+          alert("Contact not created");
+        }
+      );
     }
 
     useEffect(() => {
         AcquaintanceService.getAcquaintances().then(res => {
             setContacts(res);
         })
-    }, []); 
+    }, [/* contacts */]); 
+
+    const deleteContact = (id) => {
+        AcquaintanceService.deleteAcquaintance({id}).then(
+            () => {  
+              alert("Contact deleted");
+              
+            }
+          )
+    }
+
+    const updateContact = (id) => {
+        AcquaintanceService.updateAcquaintance({id}).then(
+            () => { 
+              alert("Contact updated");             
+              
+            }
+          )
+    }
 
     const myContacts = contacts?.map(contact => 
      <li key={contact._id}>
          <b>{contact.name}</b>
+         <Button  /* onClick={() => {deleteContact(contact._id)}} */  startIcon={<DeleteForeverIcon />} sx= {{marginLeft:'auto', color:'black', pr: '2em' }}>
+          Delete
+        </Button>  
+        <Button  /* onClick={() => {updateContact(contact._id)}} */ startIcon={<UpdateIcon />} sx= {{marginLeft:'auto', color:'black', pr: '2em' }}>
+          Update
+        </Button> 
      </li>
     );
+
+    
 
 
   
@@ -101,7 +137,7 @@ const Contacts = () => {
             </Button>
         </form>
         
-        <ul>{myContacts}</ul>
+         <ul>{myContacts}</ul> 
               
       </Box>
     );

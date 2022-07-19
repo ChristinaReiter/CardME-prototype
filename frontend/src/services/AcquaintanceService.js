@@ -8,15 +8,11 @@ export default class AcquaintanceService {
     
   
     static async getAcquaintances() {
-     /*  let account = JSON.parse(localStorage.getItem("account"));
-      let headers2 = new Headers();
-      if (account && account.token) {
-          headers2.append("Authorization", `JWT ${account.token}`);
-      } */
+     
       try {
         let response = await fetch(this.baseUrl + "/profile/contacts", {
           method: "GET",
-          headers: tokenHeader(), /* headers2  */                
+          headers: tokenHeader(),                 
         });
   
         const resp = await response.json(); 
@@ -43,7 +39,7 @@ export default class AcquaintanceService {
     }
     static async updateAcquaintance(data) {
         try {
-            let response = await fetch(this.baseUrl + "/profile/contacts", {
+            let response = await fetch(this.baseUrl + "/profile/contacts", { //needs ids
             method: "PUT",
             headers: this.headers,
             body: JSON.stringify(data)            
@@ -59,7 +55,7 @@ export default class AcquaintanceService {
 
     static async deleteAcquaintance(data) {
         try {
-            let response = await fetch(this.baseUrl + "/profile/contacts", {
+            let response = await fetch(this.baseUrl + "/profile/contacts", { //needs ids
             method: "DELETE",
             headers: this.headers,
             body: JSON.stringify(data)            
