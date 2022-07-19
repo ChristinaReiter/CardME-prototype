@@ -2,9 +2,10 @@ import { useState } from 'react'
 import { TextField, Box, Button, InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material'; 
 import { useNavigate } from "react-router-dom";
+import AuthService from '../services/AuthService';
 
 
-function Register() {
+const Register = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -19,35 +20,22 @@ function Register() {
     
       const handleMouseDownPassword = (event) => {
         event.preventDefault();
-      }; 
-    
+      };     
 
-    async function createAccount(event) {
-        event.preventDefault();
-        const response = await fetch('http://localhost:3001/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                name,
-                email,
-                password
-            })
-        });
-        const data = await response.json();
-        console.log(data);
-
-        if(data.status === 201) {
-            alert("Account Created");
-            navigate("/login");        
+    const handleRegister = (event) => {
+      event.preventDefault();
+      AuthService.register({name, email, password}).then(
+        () => {
+          navigate("/login");
+          //window.location.reload();
         }
-    }
+      )
+  }
   
   
     return (
       <Box  display="flex" justifyContent="center" padding="5em">
-        <form onSubmit={createAccount}>
+        <form onSubmit={handleRegister}>
             <TextField 
                 sx={{ m: 1 }}
                 type="text"

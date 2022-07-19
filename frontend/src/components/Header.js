@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import ShoppingCartOutlined from "@mui/icons-material/ShoppingCartOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import { useTheme } from "@emotion/react";
 
 import ShoppingCartService from "../services/ShoppingCartService";
@@ -96,7 +96,7 @@ const Header = () => {
             <NavLink style={styles.menuText} to="/cards">
               Seasonal
             </NavLink>
-            <NavLink style={styles.menuText} to="/create">
+            <NavLink style={styles.menuText} to={"/create/" + Math.floor(Math.random() * 100000000)}>
               Create
             </NavLink>
           </Box>
@@ -105,7 +105,7 @@ const Header = () => {
               <Button sx={{ minWidth: 2 }} onClick={openShoppingCart}>
                 <ShoppingCartOutlined fontSize="large" />
               </Button>
-              <IconButton
+              <IconButton                        // functionality that different things are shown based on wether user is logged in still needs to be implemented
                 aria-haspopup="true"
                 color="inherit"
                 aria-controls="profile-menu"
@@ -144,7 +144,7 @@ const Header = () => {
                 </MenuItem>
               </Menu>           
               <Button sx={{ minWidth: 2 }}>
-                <SearchOutlinedIcon fontSize="large" />
+                <QuestionMarkIcon fontSize="large" onClick={() => {navigate("/about")}}/>
               </Button>
             </Typography>
             <Popover

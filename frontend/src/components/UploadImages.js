@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import ShoppingCartService from "../services/ShoppingCartService";
 
 const styles = {
   uploadWindow: {
@@ -47,10 +48,24 @@ const styles = {
   },
 };
 
-export default function UploadImages() {
+export default function UploadImages({ id }) {
   const [images, setImages] = useState([]);
   const [imageURLs, setImageURLs] = useState([]);
   const uploadLabel = document.getElementById("upload-images-label");
+
+  // Executed only once
+  // Not working yet
+  /*useEffect(() => {
+    async function getItem() {
+      // if item with id already existing, then populate imageUrls
+      let item = await ShoppingCartService.findItemById(id);
+      if (item) {
+        setImageURLs([item.cardImg])
+        uploadLabel.style.display = "none";
+      }
+    }
+    getItem();
+  }, []);*/
 
   useEffect(() => {
     if (images.length < 1) return;
@@ -62,10 +77,23 @@ export default function UploadImages() {
     uploadLabel.style.display = "none";
   }, [images]);
 
-  function onImageChange(e) {
+  async function onImageChange(e) {
     setImages([...e.target.files]);
     uploadLabel.style.display = "none";
   }
+
+  // Wait for image change, then perfom cart item creation
+  useEffect(() => {
+    if (imageURLs.length > 0) {
+      let product = {
+        _id: id,
+        url: imageURLs[0],
+        title: "Own Card",
+        price: 9,
+      };
+      ShoppingCartService.addOwnCard(product);
+    }
+  }, [imageURLs]);
 
   return (
     <>

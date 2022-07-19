@@ -43,7 +43,7 @@ const register = async (req, res) => {
     if (isPasswordValid){
       
         const token = jwt.sign({
-        _id: account._id,
+         id: account.id, // changed from _id to id twice
         },
         config.jwtSecret,  // secret
         {
@@ -53,6 +53,7 @@ const register = async (req, res) => {
         return res.status(201).json({_id: account.id, user: user.id, email: user.email, name: user.name, token: token})
       
      }else {
+        console.log("im here")
         return res.json({status: 'error', message: 'Password Invalid'})
      }
     } catch (err) {

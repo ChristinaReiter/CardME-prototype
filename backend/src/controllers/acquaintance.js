@@ -1,9 +1,10 @@
 const Acquaintance = require("../models/acquaintance");
-const Adress = require("../models/address");
+const Address = require("../models/address");
 const Account = require("../models/account");
 
 const getAcquaintances = async (req, res) => { //TODO
     try {
+   
       const acquaintances = await Acquaintance.find({ account: req.account.id });
   
       return res.status(200).json(acquaintances);
@@ -20,7 +21,7 @@ const getAcquaintances = async (req, res) => { //TODO
   const setAcquaintance = async (req, res) => { //TODO
     try {
       console.log(req.body)
-      if (!req.body.name || !req.body.acquaintanceAddress) {
+      if (!req.body.name || !req.body.street || !req.body.number || !req.body.city || !req.body.zipcode || !req.body.country) {
         return res.status(400).json({error:"Missing Values"});
       }
       const acquaintanceAddress = await Address.create({
@@ -32,8 +33,8 @@ const getAcquaintances = async (req, res) => { //TODO
       }); 
       const acquaintance = await Acquaintance.create({
         name: req.body.name,
-        acquaintanceAdress: acquaintanceAddress._id,
-        account: req.account.id,
+        acquaintanceAddress: acquaintanceAddress._id,
+        account: req.body.account,
 
       });
   
