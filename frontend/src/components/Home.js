@@ -40,10 +40,24 @@ const Home = () => {
           flexDirection: "row",
         }}
       >
-        <Button style={styles.button} variant="contained" color="secondary" onClick={() => {navigate('/cards')}}>
-          Browse Cards
+        <Button
+          style={styles.button}
+          variant="contained"
+          color="secondary"
+          onClick={() => {
+            navigate("/cards");
+          }}
+        >
+          Browse Cards hi juli
         </Button>
-        <Button style={styles.button} variant="contained" color="secondary" onClick={() => {navigate('/create')}}>
+        <Button
+          style={styles.button}
+          variant="contained"
+          color="secondary"
+          onClick={() => {
+            navigate("/create");
+          }}
+        >
           Create your own Card
         </Button>
       </Box>
