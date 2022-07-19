@@ -52,7 +52,7 @@ function App() {
     <div>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <Header />
+          <Header images={images}/>
           <Box sx={{ mt: 6, position: "static" }}>
             <Routes>
               <Route path="/" element={<Home />} />

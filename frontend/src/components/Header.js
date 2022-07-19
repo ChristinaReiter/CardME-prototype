@@ -17,6 +17,7 @@ import ShoppingCartOutlined from "@mui/icons-material/ShoppingCartOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import { useTheme } from "@emotion/react";
+import ImageIcon from '@mui/icons-material/Image';
 
 import ShoppingCartService from "../services/ShoppingCartService";
 
@@ -37,7 +38,7 @@ const styles = {
   },
 };
 
-const Header = () => {
+const Header = ({images}) => {
   const theme = useTheme();
   const [popoverAnchor, setPopoverAnchor] = useState(null);
   const popoverOpened = Boolean(popoverAnchor);
@@ -59,6 +60,10 @@ const Header = () => {
     ShoppingCartService.removeItem(id);
     setShoppingCart(ShoppingCartService.getCart());
   };
+
+  const handleImage = () => {
+    return imageUrl;
+  }
 
   return (
     <Box
@@ -170,12 +175,25 @@ const Header = () => {
                     key={index}
                   >
                     <Grid item xs={4}>
+                      { item.cardTitle !== "Own Card" &&
                       <img
                         src={imageUrl + item.cardImg}
                         width="80%"
                         crossOrigin="anonymous"
                         alt="Product"
                       ></img>
+                      }
+                      { item.cardTitle === "Own Card" && images.length > 0 &&
+                      <img
+                        src={URL.createObjectURL(images[0])}
+                        width="80%"
+                        crossOrigin="anonymous"
+                        alt="Product"
+                      ></img>
+                      }
+                      { images.length == 0 &&
+                        <ImageIcon fontSize="large"></ImageIcon>
+                      }
                     </Grid>
                     <Grid item xs={8} textAlign="right">
                       <Typography>{item.cardTitle}</Typography>

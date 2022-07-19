@@ -29,14 +29,14 @@ const Create = ({ setImages, images }) => {
 
   return (
     <div>
-      <CreateFront id={id} setImages={setImages} images={images} />
+      <CreateFront setImages={setImages} images={images} />
       <CreateText
         text={text}
         handleTextPersist={handleTextPersist}
         setText={setText}
       />
       <CreateAddGift />
-      <CreateFinal text={text} />
+      <CreateFinal id={id} text={text} images={images}/>
     </div>
   );
 };

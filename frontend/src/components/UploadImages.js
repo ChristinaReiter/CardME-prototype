@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import ShoppingCartService from "../services/ShoppingCartService";
 
 const styles = {
   uploadWindow: {
@@ -48,7 +47,7 @@ const styles = {
   },
 };
 
-export default function UploadImages({ id, images, setImages }) {
+export default function UploadImages({images, setImages }) {
   const [imageURLs, setImageURLs] = useState([]);
 
   useEffect(() => {
