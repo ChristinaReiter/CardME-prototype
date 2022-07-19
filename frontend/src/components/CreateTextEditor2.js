@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import ReactDOM from "react-dom";
-import { RichUtils, EditorState } from "draft-js";
+import { RichUtils, EditorState, Modifier } from "draft-js";
 import Editor from "@draft-js-plugins/editor";
 import createToolbarPlugin from "@draft-js-plugins/static-toolbar";
 import "@draft-js-plugins/static-toolbar/lib/plugin.css";
@@ -13,7 +13,11 @@ import {
   OrderedListButton,
   BlockquoteButton,
   CodeBlockButton,
+  AlignTextCenterButton,
+  AlignTextRightButton,
+  AlignTextLeftButton,
 } from "@draft-js-plugins/buttons";
+import "./../styles/CreateTextEditor.css";
 
 const staticToolbarPlugin = createToolbarPlugin();
 const { Toolbar } = staticToolbarPlugin;
@@ -54,8 +58,57 @@ const CreateTextEditor2 = () => {
     setEditorState(editorState);
   };
 
+  const blockStyleFn = (block) => {
+    let alignment = "left";
+    block.findStyleRanges((e) => {
+      if (e.hasStyle("center")) {
+        alignment = "center";
+      }
+      if (e.hasStyle("right")) {
+        alignment = "right";
+      }
+    });
+    return `editor-alignment-${alignment}`;
+  };
+
+  const alignmentStyles = ["left", "right", "center"];
+  const applyAlignment = (newStyle) => {
+    let styleForRemove = alignmentStyles.filter((style) => style !== newStyle);
+    let currentContent = editorState.getCurrentContent();
+    let selection = editorState.getSelection();
+    let focusBlock = currentContent.getBlockForKey(selection.getFocusKey());
+    let anchorBlock = currentContent.getBlockForKey(selection.getAnchorKey());
+    let isBackward = selection.getIsBackward();
+
+    let selectionMerge = {
+      anchorOffset: 0,
+      focusOffset: focusBlock.getLength(),
+    };
+
+    if (isBackward) {
+      selectionMerge.anchorOffset = anchorBlock.getLength();
+    }
+    let finalSelection = selection.merge(selectionMerge);
+    let finalContent = styleForRemove.reduce(
+      (content, style) =>
+        Modifier.removeInlineStyle(content, finalSelection, style),
+      currentContent
+    );
+    let modifiedContent = Modifier.applyInlineStyle(
+      finalContent,
+      finalSelection,
+      newStyle
+    );
+    const nextEditorState = EditorState.push(
+      editorState,
+      modifiedContent,
+      "change-inline-style"
+    );
+    setEditorState(nextEditorState);
+  };
+
   return (
-    <div>
+    <Box sx={{ margin: "30 px" }}>
       <Toolbar>
         {(externalProps) => (
           <div className="icons-toolbar">
@@ -65,6 +118,9 @@ const CreateTextEditor2 = () => {
             <OrderedListButton {...externalProps} />
             <BlockquoteButton {...externalProps} />
             <CodeBlockButton {...externalProps} />
+            <AlignTextCenterButton {...externalProps} />
+            <AlignTextRightButton {...externalProps} />
+            <AlignTextLeftButton {...externalProps} />
           </div>
         )}
       </Toolbar>
@@ -81,12 +137,13 @@ const CreateTextEditor2 = () => {
               editorState={editorState}
               onChange={onChange}
               plugins={plugins}
+              blockStyleFn={blockStyleFn}
               ref={editor}
             />
           </Box>
         </Grid>
       </Grid>
-    </div>
+    </Box>
   );
 };
 

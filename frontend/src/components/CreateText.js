@@ -25,6 +25,7 @@ import FormatAlignJustifyIcon from "@mui/icons-material/FormatAlignJustify";
 import FormatAlignLeft from "@mui/icons-material/FormatAlignLeft";
 import CreateTextEditor from "./CreateTextEditor";
 import CreateTextEditor2 from "./CreateTextEditor2";
+import CreateTextEditor3 from "./CreateTextEditor3";
 
 const styles = {
   stepbar: {
@@ -585,7 +586,7 @@ const CreateText = ({ text, setText, handleTextPersist }) => {
             ></TextField>
           </Grid>
         </Grid>
-        <CreateTextEditor2 />
+        <CreateTextEditor3 />
       </Typography>
     </Box>
   );
