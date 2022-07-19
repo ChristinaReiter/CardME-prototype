@@ -48,7 +48,7 @@ const Home = () => {
             navigate("/cards");
           }}
         >
-          Browse Cards hi juli
+          Browse Cards
         </Button>
         <Button
           style={styles.button}
