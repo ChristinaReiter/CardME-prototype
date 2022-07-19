@@ -7,32 +7,36 @@ import CreateFinal from "./CreateFinal";
 import ShoppingCartService from "../services/ShoppingCartService";
 import { useParams } from "react-router-dom";
 
-const Create = () => {
-  const { id } = useParams()
-  const [text, setText] = useState(null)
+const Create = ({ setImages, images }) => {
+  const { id } = useParams();
+  const [text, setText] = useState(null);
 
   useEffect(() => {
-    async function getData(){
-      let item = await ShoppingCartService.findItemById(id)
-      if(item){
-        console.log(item.text)
-        setText(item.text)
+    async function getData() {
+      let item = await ShoppingCartService.findItemById(id);
+      if (item) {
+        console.log(item.text);
+        setText(item.text);
       }
     }
-    getData()
-  }, [])
+    getData();
+  }, []);
 
-  const handleTextPersist = (text) =>{
-    setText(text)
-    ShoppingCartService.updateText(id, text)
-  }
+  const handleTextPersist = (text) => {
+    setText(text);
+    ShoppingCartService.updateText(id, text);
+  };
 
   return (
     <div>
-      <CreateFront id={id}/>
-      <CreateText text={text} handleTextPersist={handleTextPersist} setText={setText}/>
+      <CreateFront setImages={setImages} images={images} />
+      <CreateText
+        text={text}
+        handleTextPersist={handleTextPersist}
+        setText={setText}
+      />
       <CreateAddGift />
-      <CreateFinal text={text}/>
+      <CreateFinal id={id} text={text} images={images}/>
     </div>
   );
 };

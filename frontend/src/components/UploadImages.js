@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import ShoppingCartService from "../services/ShoppingCartService";
 
 const styles = {
   uploadWindow: {
@@ -48,24 +47,8 @@ const styles = {
   },
 };
 
-export default function UploadImages({ id }) {
-  const [images, setImages] = useState([]);
+export default function UploadImages({images, setImages }) {
   const [imageURLs, setImageURLs] = useState([]);
-  const uploadLabel = document.getElementById("upload-images-label");
-
-  // Executed only once
-  // Not working yet
-  /*useEffect(() => {
-    async function getItem() {
-      // if item with id already existing, then populate imageUrls
-      let item = await ShoppingCartService.findItemById(id);
-      if (item) {
-        setImageURLs([item.cardImg])
-        uploadLabel.style.display = "none";
-      }
-    }
-    getItem();
-  }, []);*/
 
   useEffect(() => {
     if (images.length < 1) return;
@@ -74,29 +57,14 @@ export default function UploadImages({ id }) {
       newImageURLs.push(URL.createObjectURL(image));
     });
     setImageURLs(newImageURLs);
-    uploadLabel.style.display = "none";
   }, [images]);
 
   async function onImageChange(e) {
     setImages([...e.target.files]);
-    uploadLabel.style.display = "none";
   }
 
-  // Wait for image change, then perfom cart item creation
-  useEffect(() => {
-    if (imageURLs.length > 0) {
-      let product = {
-        _id: id,
-        url: imageURLs[0],
-        title: "Own Card",
-        price: 9,
-      };
-      ShoppingCartService.addOwnCard(product);
-    }
-  }, [imageURLs]);
-
   return (
-    <>
+    <div>
       <div>
         <input
           style={styles.hiddenUpload}
@@ -106,26 +74,30 @@ export default function UploadImages({ id }) {
           id="upload-images"
           name="upload-images"
         />
-        <label htmlFor="upload-images" id="upload-images-label">
-          <div style={styles.uploadWindow}>
-            <div style={styles.text1}>Upload your image</div>
-            <div style={styles.text2}>
-              Click here to upload from your computer. Your image needs to be at
-              least 1328x1820 in PNG or JPG format.
+        {images.length == 0 && (
+          <label htmlFor="upload-images" id="upload-images-label">
+            <div style={styles.uploadWindow}>
+              <div style={styles.text1}>Upload your image</div>
+              <div style={styles.text2}>
+                Click here to upload from your computer. Your image needs to be
+                at least 1328x1820 in PNG or JPG format.
+              </div>
             </div>
-          </div>
-        </label>
+          </label>
+        )}
       </div>
-      {imageURLs.map((imageSrc) => (
-        <img
-          src={imageSrc}
-          style={styles.cardWindow}
-          id="card-image"
-          className="card-image"
-          alt="card"
-          sx={{}}
-        />
-      ))}
-    </>
+      <div>
+        {imageURLs.map((imageSrc) => (
+          <img
+            src={imageSrc}
+            style={styles.cardWindow}
+            id="card-image"
+            className="card-image"
+            alt="card"
+            sx={{}}
+          />
+        ))}
+      </div>
+    </div>
   );
 }

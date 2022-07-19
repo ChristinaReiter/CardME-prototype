@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ShoppingCartService from "../services/ShoppingCartService";
 
 const styles = {
   stepbar: {
@@ -55,7 +56,17 @@ const styles = {
   },
 };
 
-const CreateFinal = ({text}) => {
+const CreateFinal = ({ id, text }) => {
+  const handleAddToCart = () => {
+    let product = {
+      _id: id,
+      url: "",
+      title: "Own Card",
+      price: 9,
+    };
+    ShoppingCartService.addOwnCard(product);
+  };
+
   return (
     <Box sx={{ flexGrow: 1, flexShrink: 1 }}>
       <Typography fontStyle="Annie Use Your Telescope">
@@ -91,7 +102,9 @@ const CreateFinal = ({text}) => {
                   marginLeft: "20px",
                   marginRight: "20px",
                 }}
-              >{text}</div>
+              >
+                {text}
+              </div>
             </Box>
           </Grid>
           <Grid item xs={3}>
@@ -118,6 +131,7 @@ const CreateFinal = ({text}) => {
               sx={{ float: "right" }}
               variant="contained"
               color="secondary"
+              onClick={handleAddToCart}
             >
               Add to shopping cart
             </Button>
