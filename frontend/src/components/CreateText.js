@@ -23,6 +23,8 @@ import FormatAlignLeftIcon from "@mui/icons-material/FormatAlignLeft";
 import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
 import FormatAlignJustifyIcon from "@mui/icons-material/FormatAlignJustify";
 import FormatAlignLeft from "@mui/icons-material/FormatAlignLeft";
+import CreateTextEditor from "./CreateTextEditor";
+import CreateTextEditor2 from "./CreateTextEditor2";
 
 const styles = {
   stepbar: {
@@ -142,7 +144,7 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-const CreateText = ({text, setText, handleTextPersist}) => {
+const CreateText = ({ text, setText, handleTextPersist }) => {
   const finaltext = document.getElementById("final-text-view");
   const cardtext = document.getElementById("card-text");
   const [styleEl, setStyleEl] = React.useState(null);
@@ -191,8 +193,8 @@ const CreateText = ({text, setText, handleTextPersist}) => {
   };
 
   const handleText = (event) => {
-    handleTextPersist(event.target.value)
-  } 
+    handleTextPersist(event.target.value);
+  };
 
   return (
     <Box sx={{ flexGrow: 1, flexShrink: 1 }}>
@@ -575,12 +577,15 @@ const CreateText = ({text, setText, handleTextPersist}) => {
               rows={18}
               style={styles.textWindow}
               onBlur={handleText}
-              onChange={(event) => {setText(event.target.value)}}
+              onChange={(event) => {
+                setText(event.target.value);
+              }}
               value={text || ""}
               type="text"
             ></TextField>
           </Grid>
         </Grid>
+        <CreateTextEditor2 />
       </Typography>
     </Box>
   );
