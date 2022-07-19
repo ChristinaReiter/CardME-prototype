@@ -95,7 +95,6 @@ export default function UploadImages() {
           id="card-image"
           className="card-image"
           alt="card"
-          filter="brightness(0.5)"
           sx={{}}
         />
       ))}
