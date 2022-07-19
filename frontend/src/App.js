@@ -46,6 +46,8 @@ export const theme = createTheme({
 });
 
 function App() {
+  const [images, setImages] = useState([]);
+
   return (
     <div>
       <ThemeProvider theme={theme}>
@@ -55,9 +57,18 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route exact path="/cards" element={<Cards />} />
-              <Route path="/create" element={<Create />}>
-                <Route path=":id" element={<Create />} />
-                <Route path="" element={<Create />} />
+              <Route
+                path="/create"
+                element={<Create setImages={setImages} images={images} />}
+              >
+                <Route
+                  path=":id"
+                  element={<Create setImages={setImages} images={images} />}
+                />
+                <Route
+                  path=""
+                  element={<Create setImages={setImages} images={images} />}
+                />
               </Route>
               <Route
                 exact
@@ -80,8 +91,12 @@ function App() {
               </Route>
               <Route exact path="/register" element={<Register />} />
               <Route exact path="/login" element={<Login />} />
-              <Route exact path="/successful-order/:id" element={<SuccessfulOrder />} />
-              <Route path="*" element={<Home />}/>
+              <Route
+                exact
+                path="/successful-order/:id"
+                element={<SuccessfulOrder />}
+              />
+              <Route path="*" element={<Home />} />
             </Routes>
           </Box>
         </BrowserRouter>

@@ -8,6 +8,7 @@ import {
   Button,
 } from "@mui/material";
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import CreateAdjustDesign from "./CreateAdjustDesign";
 import UploadImages, { UploadImages2 } from "./UploadImages";
 
@@ -54,7 +55,9 @@ const styles = {
   },
 };
 
-const CreateFront = ({id}) => {
+const CreateFront = ({ id, images, setImages }) => {
+  const navigate = useNavigate();
+
   return (
     <Box sx={{ flexGrow: 1, flexShrink: 1 }}>
       <Typography fontStyle="Annie Use Your Telescope">
@@ -74,7 +77,7 @@ const CreateFront = ({id}) => {
           marginTop="30px"
         >
           <Grid item xs={4}>
-            <UploadImages id={id}/>
+            <UploadImages id={id} setImages={setImages} images={images} />
           </Grid>
           <Grid item xs={4} textAlign="center">
             <Box style={styles.adjustwindow}>
@@ -98,7 +101,9 @@ const CreateFront = ({id}) => {
           style={styles.button}
           variant="contained"
           color="secondary"
-          href=".././Cards"
+          onClick={() => {
+            navigate("/cards");
+          }}
         >
           Browse card designs
         </Button>
