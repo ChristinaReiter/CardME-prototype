@@ -1,7 +1,7 @@
 const Acquaintance = require("../models/acquaintance");
 const Address = require("../models/address");
 const Account = require("../models/account");
-
+const mongoose = require('mongoose');
 const getAcquaintances = async (req, res) => { 
     try {
    
@@ -83,7 +83,9 @@ const getAcquaintances = async (req, res) => {
     } */
   };
 
-  const deleteAcquaintance = async (req, res) => { //TODO
+  const deleteAcquaintance = async (req, res) => { 
+    console.log("Hello")
+    console.log(mongoose.isValidObjectId(req.params.id))
     try {
       const acquaintance = await Acquaintance.findById(req.params.id); 
 
@@ -109,7 +111,7 @@ const getAcquaintances = async (req, res) => {
       console.log(err);
   
       return res.status(500).json({
-        error: "Internal server error",
+        error: "Internal server errorr",
         message: err.message,
       });
     }

@@ -52,7 +52,7 @@ export default class AcquaintanceService {
         try {
             let response = await fetch(this.baseUrl + "/profile/contacts", { //needs ids
             method: "PUT",
-            headers: this.headers,
+            headers: tokenHeader(),
             body: JSON.stringify(data)            
             });
     
@@ -64,12 +64,14 @@ export default class AcquaintanceService {
         }
     }
 
-    static async deleteAcquaintance(data) {
-        try {
-            let response = await fetch(this.baseUrl + "/profile/contacts", { //needs ids
+    static async deleteAcquaintance(id) {
+      let iddd = id.toString()
+      console.log(id.id)
+      console.log(iddd)
+        try {          
+            let response = await fetch(this.baseUrl + `/profile/contacts/${id.id}`, {
             method: "DELETE",
-            headers: this.headers,
-            body: JSON.stringify(data)            
+            headers: tokenHeader(),           
             });
     
             const resp = await response.json();
