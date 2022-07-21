@@ -59,18 +59,9 @@ function App() {
               <Route exact path="/cards" element={<Cards />} />
               <Route path="/ViewCard/:cardid" element={<ViewCard />} />
               <Route
-                path="/create"
+                path="/create/:mode/:id"
                 element={<Create setImages={setImages} images={images} />}
-              >
-                <Route
-                  path=":id"
-                  element={<Create setImages={setImages} images={images} />}
-                />
-                <Route
-                  path=""
-                  element={<Create setImages={setImages} images={images} />}
-                />
-              </Route>
+              />
               <Route
                 exact
                 path="/checkout-data/:id"

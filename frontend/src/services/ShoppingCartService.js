@@ -17,15 +17,16 @@ export default class ShoppingCartService {
     return null;
   }
 
-  static addItem(product) {
+  static addItem(product, text) {
     let cart = this.getCart();
 
+    console.log(text)
     let cartItem = {
       cardId: product._id,
       cardImg: product.url,
       cardTitle: product.title,
       cardPrice: product.price,
-      text: product.text,
+      text: text,
       giftId: null,
       giftPrice: 0
     };
@@ -34,7 +35,7 @@ export default class ShoppingCartService {
     localStorage.setItem(this.accessKey, JSON.stringify(cart));
   }
 
-  static async addOwnCard(product){
+  static async addOwnCard(product, text){
     let cart = this.getCart()
 
     // Find item with same id
@@ -47,7 +48,7 @@ export default class ShoppingCartService {
       cart[cardIndex].cardImg = product.url
       localStorage.setItem(this.accessKey, JSON.stringify(cart));
     }else{
-      this.addItem(product)
+      this.addItem(product, text)
     }
   }
 

@@ -56,16 +56,20 @@ const styles = {
   },
 };
 
-const CreateFinal = ({ id, text }) => {
+const CreateFinal = ({ id, text, product, mode }) => {
   const handleAddToCart = () => {
-    let product = {
-      _id: id,
-      url: "",
-      title: "Own Card",
-      price: 5.9,
-      text: text
-    };
-    ShoppingCartService.addOwnCard(product);
+    if(mode === "own"){
+      let customCard = {
+        _id: id,
+        url: "",
+        title: "Own Card",
+        price: 5.9,
+      };
+      ShoppingCartService.addOwnCard(customCard, text);
+    }else{
+      ShoppingCartService.addItem(product, text)
+    }
+
   };
 
   return (
