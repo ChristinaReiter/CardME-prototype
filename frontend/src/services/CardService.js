@@ -15,10 +15,8 @@ export default class CardService{
     }
 
     static async getSingleCard(id){
-        let response = await fetch(this.baseUrl + "/products/single", {
-            method: "POST",
-            body: JSON.stringify({"id" : id}),
-            header: this.headers,
+        let response = await fetch(this.baseUrl + "/products/single?id=" + id, {
+            method: "GET",
         })
 
         response = await response.json()

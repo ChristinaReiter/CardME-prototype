@@ -17,12 +17,11 @@ const list = async (req, res) => {
 
 const singleItem = async (req, res) => {
   try {
-    console.log(req.body);
-    if (!req.body.id) { 
+    if (!req.query.id) { 
       return res.status(400).json({error:"Missing Values"});
     }
     
-    let product = await Product.findById(req.body.id).exec();
+    let product = await Product.findById(req.query.id).exec();
     
 
     return res.status(200).json(product);
