@@ -101,7 +101,7 @@ const Header = ({images}) => {
             <NavLink style={styles.menuText} to="/cards">
               Seasonal
             </NavLink>
-            <NavLink style={styles.menuText} to={"/create/" + Math.floor(Math.random() * 100000000)}>
+            <NavLink style={styles.menuText} to={"/create/own/" + Math.floor(Math.random() * 100000000)}>
               Create
             </NavLink>
           </Box>
@@ -191,7 +191,7 @@ const Header = ({images}) => {
                         alt="Product"
                       ></img>
                       }
-                      { images.length == 0 &&
+                      { item.cardTitle === "Own Card" && images.length == 0 &&
                         <ImageIcon fontSize="large"></ImageIcon>
                       }
                     </Grid>
@@ -222,7 +222,8 @@ const Header = ({images}) => {
                         sx={{ ml: 4 }}
                         style={{ color: theme.palette.secondary.main }}
                         onClick={() => {
-                          navigate("/create/" + index);
+                          let path = (item.cardTitle === "Own Card") ? "own/" : "chosen/"
+                          navigate("/create/" + path + item.cardId);
                           closeShoppingCart()
                         }}
                       >

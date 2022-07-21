@@ -4,22 +4,22 @@ import CreateFront from "./CreateFront";
 import CreateText from "./CreateText";
 import CreateAddGift from "./CreateAddGift";
 import CreateFinal from "./CreateFinal";
+import ShowFront from "./ShowFront";
 import ShoppingCartService from "../services/ShoppingCartService";
 import { useParams } from "react-router-dom";
+import CardService from "../services/CardService";
 
 const Create = ({ setImages, images }) => {
-  const { id } = useParams();
+  const { mode, id } = useParams();
   const [text, setText] = useState(null);
+  const [product, setProduct] = useState();
 
   useEffect(() => {
-    async function getData() {
-      let item = await ShoppingCartService.findItemById(id);
-      if (item) {
-        console.log(item.text);
-        setText(item.text);
-      }
+    if (mode === "chosen") {
+      CardService.getSingleCard(id).then((item) => {
+        setProduct(item);
+      });
     }
-    getData();
   }, []);
 
   const handleTextPersist = (text) => {
@@ -29,14 +29,18 @@ const Create = ({ setImages, images }) => {
 
   return (
     <div>
-      <CreateFront setImages={setImages} images={images} />
+      {mode === "own" ? (
+        <CreateFront setImages={setImages} images={images} />
+      ) : (
+        <ShowFront product={product} />
+      )}
       <CreateText
         text={text}
         handleTextPersist={handleTextPersist}
         setText={setText}
       />
       <CreateAddGift />
-      <CreateFinal id={id} text={text} images={images}/>
+      <CreateFinal id={id} text={text} images={images} product={product} mode={mode}/>
     </div>
   );
 };
