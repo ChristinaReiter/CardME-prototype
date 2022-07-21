@@ -145,7 +145,7 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-const CreateText = ({ text, setText, handleTextPersist }) => {
+const CreateText = ({ text, setText }) => {
   const finaltext = document.getElementById("final-text-view");
   const cardtext = document.getElementById("card-text");
   const [styleEl, setStyleEl] = React.useState(null);
@@ -191,10 +191,6 @@ const CreateText = ({ text, setText, handleTextPersist }) => {
   };
   const handleIconsClose = () => {
     setIconsEl(null);
-  };
-
-  const handleText = (event) => {
-    handleTextPersist(event.target.value);
   };
 
   return (
@@ -577,7 +573,6 @@ const CreateText = ({ text, setText, handleTextPersist }) => {
               variant="outlined"
               rows={18}
               style={styles.textWindow}
-              onBlur={handleText}
               onChange={(event) => {
                 setText(event.target.value);
               }}

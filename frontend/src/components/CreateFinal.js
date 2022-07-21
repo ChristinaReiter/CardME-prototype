@@ -62,7 +62,8 @@ const CreateFinal = ({ id, text }) => {
       _id: id,
       url: "",
       title: "Own Card",
-      price: 9,
+      price: 5.9,
+      text: text
     };
     ShoppingCartService.addOwnCard(product);
   };

@@ -25,7 +25,7 @@ export default class ShoppingCartService {
       cardImg: product.url,
       cardTitle: product.title,
       cardPrice: product.price,
-      text: null,
+      text: product.text,
       giftId: null,
       giftPrice: 0
     };
