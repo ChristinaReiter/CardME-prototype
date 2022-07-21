@@ -13,13 +13,12 @@ const Contacts = () => {
     const [zipcode, setZipcode] = useState('');
     const [city, setCity] = useState('');
     const [country, setCountry] = useState('');
-    const currentAccount = AuthService.getMe();
     const [contacts, setContacts] = useState([]);
 
     const createContact = (e) => {
       e.preventDefault();
-      const account = currentAccount._id;
-      AcquaintanceService.setAcquaintance({ name, street, number, zipcode, city, country, account }).then(
+
+      AcquaintanceService.setAcquaintance({ name, street, number, zipcode, city, country}).then(
         () => {              
           alert("Contact created");
         }
