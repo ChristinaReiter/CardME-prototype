@@ -20,8 +20,8 @@ import Favorites from "./components/Favorites";
 import Contacts from "./components/Contacts";
 import AccountDetails from "./components/AccountDetails";
 import ShoppingCartService from "./services/ShoppingCartService";
-import FilterHeader from "./components/FilterHeader";
 import SuccessfulOrder from "./components/SuccessfulOrder";
+import ViewCard from "./components/ViewCard";
 
 export const theme = createTheme({
   palette: {
@@ -57,6 +57,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route exact path="/cards" element={<Cards />} />
+              <Route path="/ViewCard/:cardid" element={<ViewCard />} />
               <Route
                 path="/create"
                 element={<Create setImages={setImages} images={images} />}

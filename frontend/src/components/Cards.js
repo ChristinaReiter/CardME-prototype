@@ -26,6 +26,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
 import ShoppingCartService from "../services/ShoppingCartService";
 import FilterHeader from "./FilterHeader";
+import ViewCard from "./ViewCard";
 
 const Cards = () => {
   const imageUrl = "http://localhost:3001/public/";
@@ -232,9 +233,16 @@ const Cards = () => {
                     .toString()
                     .toLowerCase()
                     .includes(searchTerm.toString().toLowerCase())) &&
-                  filterArray
-                  .every(colors => 
-                    {return el.color.includes(colors)}
+                    filterArray
+                    .every(filter => 
+                      {
+                        return (
+                          el.vibe.includes(filter) || 
+                          el.color.includes(filter) || 
+                          el.style.includes(filter) || 
+                          el.recipient.includes(filter) ||
+                          el.occasion.includes(filter) ||
+                          el.season.includes(filter))}
                     )
                 );
               }
@@ -298,7 +306,10 @@ const Cards = () => {
                         variant="contained"
                         color="secondary"
                         style={styles.button}
-                        href=".././ViewCard"
+                        onClick={() => {
+                          navigate("/ViewCard/" + product._id);
+                        }}
+                        
                       >
                         View
                       </Button>
