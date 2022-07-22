@@ -20,8 +20,16 @@ useEffect(() => {
     (result) => {
       setSingleProduct(result);
       if (result.title === "Heartly Mother's Day Card") {
-        setdiffColorCards(["hmd_blue.png", "hmd_bright.png", "hmd_pale.png", "hmd_yellow.png"]);
-        
+        setdiffColorCards(["hmd_blue.png", "hmd_bright.png", "hmd_pale.png", "hmd_yellow.png"]);     
+      }
+      if (result.title === "Flowery Wishes") {
+        setdiffColorCards(["fw_blue.jpg", "fw_green.jpg", "fw_pink.jpg", "fw_orange.jpg"]);
+      }
+      if (result.title === "I Moustache You") {
+        setdiffColorCards(["imy_blue.jpg", "imy_gold.jpg", "imy_red.jpg", "imy_violet.jpg"]);
+      }
+      if (result.title === "Pastell Flowers") {
+        setdiffColorCards(["fp_green.jpg", "fp_violet.jpg", "fp_brown.jpg", "fp_pink.jpg"]);
       }
       setCurrentImage(result.url);
     },
