@@ -45,6 +45,7 @@ const Header = ({images}) => {
   const [shoppingCart, setShoppingCart] = useState([]);
   const navigate = useNavigate();
   const [profileMenu, setProfileMenu] = useState(null);
+  
 
   const openShoppingCart = (event) => {
     setShoppingCart(ShoppingCartService.getCart());

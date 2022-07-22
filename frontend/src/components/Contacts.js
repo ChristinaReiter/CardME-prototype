@@ -20,7 +20,7 @@ const Contacts = () => {
       e.preventDefault();
 
       AcquaintanceService.setAcquaintance({ name, street, number, zipcode, city, country}).then(
-        () => {              
+        res => {              
           alert("Contact created");
         }
       ).catch(
