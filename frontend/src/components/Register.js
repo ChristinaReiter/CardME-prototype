@@ -25,11 +25,10 @@ const Register = () => {
     const handleRegister = (event) => {
       event.preventDefault();
       AuthService.register({name, email, password}).then(
-        () => {
-          navigate("/login");
-          //window.location.reload();
-        }
-      )
+        res => {
+          res.status ? alert(res.message) : navigate("/login");
+        
+     })
   }
   
   

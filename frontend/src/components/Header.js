@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Logo from "./../assets/images/logo_transparent.png";
 import { NavLink, useNavigate, Link } from "react-router-dom";
 import {
@@ -18,7 +18,7 @@ import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import { useTheme } from "@emotion/react";
 import ImageIcon from '@mui/icons-material/Image';
-
+import AuthService from "../services/AuthService";
 import ShoppingCartService from "../services/ShoppingCartService";
 
 const imageUrl = "http://localhost:3001/public/";
@@ -45,6 +45,15 @@ const Header = ({images}) => {
   const [shoppingCart, setShoppingCart] = useState([]);
   const navigate = useNavigate();
   const [profileMenu, setProfileMenu] = useState(null);
+  const [currentAccount, setCurrentAccount] = useState(undefined);
+
+  useEffect(() => {
+    const account = AuthService.getMe();
+    if (account) {
+      setCurrentAccount(account);
+    }
+  }, []);
+
 
   const openShoppingCart = (event) => {
     setShoppingCart(ShoppingCartService.getCart());
@@ -126,27 +135,37 @@ const Header = ({images}) => {
                 onClose={() => setProfileMenu(null)}
                 disableAutoFocusItem
               >
-                <MenuItem
+                
+                {!currentAccount && <MenuItem
                   component={Link}
                   onClick={() => setProfileMenu(null)}
                   to="/login"
                 >
                   Log In
-                </MenuItem>
-                <MenuItem
+                </MenuItem>}
+                { !currentAccount && <MenuItem
                   component={Link}
                   onClick={() => setProfileMenu(null)}
                   to="/register"
                 >
                   Register
-                </MenuItem>
-                <MenuItem
+                </MenuItem>}
+                {currentAccount && <MenuItem
                   component={Link}
                   onClick={() => setProfileMenu(null)}
                   to="/profile/view"
                 >
-                  Profile-Temporary
-                </MenuItem>
+                  Profile
+                </MenuItem>}
+                {currentAccount && <MenuItem
+                  component={Link}
+                  onClick={() => {setProfileMenu(null); AuthService.logout()}}
+                  to="/login"
+                >
+                  LogOut
+                </MenuItem>}
+                
+                
               </Menu>           
               <Button sx={{ minWidth: 2 }}>
                 <QuestionMarkIcon fontSize="large" onClick={() => {navigate("/about")}}/>

@@ -25,7 +25,7 @@ const register = async (req, res) => {
     
     } catch (err) {
       console.log(err)
-     return res.json({status: "error", error: "Duplicate Email"})
+     return res.status(404).json({status: "error", message: "Email already belongs to an account"})
     }
     
   }
@@ -54,12 +54,12 @@ const register = async (req, res) => {
       
      }else {
         console.log("im here")
-        return res.json({status: 'error', message: 'Password Invalid'})
+        return res.status(404).json({status: 'error', message: 'Password Invalid'})
      }
     } catch (err) {
         return res.status(404).json({
-          error: "Account Not Found",
-          message: err.message,
+          status: 'error',
+          message: "Account Not Found",
         });
     }
 };  

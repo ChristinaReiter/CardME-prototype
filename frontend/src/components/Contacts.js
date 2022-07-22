@@ -4,6 +4,7 @@ import AcquaintanceService from '../services/AcquaintanceService';
 import AuthService from '../services/AuthService';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import UpdateIcon from '@mui/icons-material/Update';
+import ContactItem from './ContactItem';
 
 
 const Contacts = () => {
@@ -13,14 +14,13 @@ const Contacts = () => {
     const [zipcode, setZipcode] = useState('');
     const [city, setCity] = useState('');
     const [country, setCountry] = useState('');
-    const currentAccount = AuthService.getMe();
     const [contacts, setContacts] = useState([]);
 
     const createContact = (e) => {
       e.preventDefault();
-      const account = currentAccount._id;
-      AcquaintanceService.setAcquaintance({ name, street, number, zipcode, city, country, account }).then(
-        () => {              
+
+      AcquaintanceService.setAcquaintance({ name, street, number, zipcode, city, country}).then(
+        res => {              
           alert("Contact created");
         }
       ).catch(
@@ -35,42 +35,9 @@ const Contacts = () => {
             setContacts(res);
         })
     }, [/* contacts */]); 
-
-    const deleteContact = (id) => {
-        AcquaintanceService.deleteAcquaintance({id}).then(
-            () => {  
-              alert("Contact deleted");
-              
-            }
-          )
-    }
-
-    const updateContact = (id) => {
-        AcquaintanceService.updateAcquaintance({id}).then(
-            () => { 
-              alert("Contact updated");             
-              
-            }
-          )
-    }
-
-    const myContacts = contacts?.map(contact => 
-     <li key={contact._id}>
-         <b>{contact.name}</b>
-         <Button  /* onClick={() => {deleteContact(contact._id)}} */  startIcon={<DeleteForeverIcon />} sx= {{marginLeft:'auto', color:'black', pr: '2em' }}>
-          Delete
-        </Button>  
-        <Button  /* onClick={() => {updateContact(contact._id)}} */ startIcon={<UpdateIcon />} sx= {{marginLeft:'auto', color:'black', pr: '2em' }}>
-          Update
-        </Button> 
-     </li>
-    );
-
-    
-
-
-  
+   
     return (
+      <>
       <Box  display="flex" justifyContent="center" padding="5em">
         <form onSubmit={createContact}>
             <TextField 
@@ -135,11 +102,23 @@ const Contacts = () => {
                 type="submit">
                 Register
             </Button>
-        </form>
-        
-         <ul>{myContacts}</ul> 
+        </form>             
               
       </Box>
+      <section className="content">
+        {contacts.length > 0 ? (
+          <div className ="contacts">
+            {contacts.map((contact) => (
+              <ContactItem key={contact._id} contact={contact} />
+            ))}
+          </div>
+        ) : (<h3> No Contacts </h3>)}
+
+      </section>
+
+
+      </>
+
     );
   };
   

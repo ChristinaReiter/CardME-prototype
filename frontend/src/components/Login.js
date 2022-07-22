@@ -24,11 +24,10 @@ const Login = () => {
      const handleLogin = (e) => {
       e.preventDefault();
       AuthService.login({ email, password }).then(
-        () => {
-          navigate("/profile/view");
-          //window.location.reload();
-        }
-      )
+        res => {
+          res.status ? alert(res.message) : navigate("/profile/view");
+        
+     })
 
     }
  
