@@ -275,7 +275,7 @@ const Cards = () => {
                       style={styles.image}
                       component="img"
                       sx={{ width: 146.67, height: 220, objectFit: "cover" }}
-                      src={imageUrl + product.url}
+                      src={imageUrl + product.foldername + "/" + product.url}
                       alt="Card-Preview"
                       crossOrigin="anonymous"
                     />

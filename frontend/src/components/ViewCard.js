@@ -10,14 +10,20 @@ const ViewCard = () => {
 
  const {cardid} = useParams();
  const [singleProduct, setSingleProduct] = useState();
+ const [diffColorCards, setdiffColorCards] = useState([]);
  const imageUrl = "http://localhost:3001/public/";
+ const [currentImage, setCurrentImage] = useState(null);
  const navigate = useNavigate();
 
 useEffect(() => {
   CardService.getSingleCard(cardid).then(
     (result) => {
       setSingleProduct(result);
-      console.log(result);
+      if (result.title === "Heartly Mother's Day Card") {
+        setdiffColorCards(["hmd_blue.png", "hmd_bright.png", "hmd_pale.png", "hmd_yellow.png"]);
+        
+      }
+      setCurrentImage(result.url);
     },
     (error) => {
       console.log(error);
@@ -41,18 +47,24 @@ const addProductToCart = async (product) => {
   navigate("/create/chosen/" + product._id);
 };
 
+const changeDisplayImage= (displayImage) => {
+  setCurrentImage(displayImage);
+  console.log(displayImage);
+}
+
   return(
     <div style= {{display:"flex", flexDirection: "row", justifyContent: "space-between", paddingTop: "7%"}}>
-      <div style = {{position:"absolute", left: "13%", paddingTop:"2%"}}>
+      <div style = {{position:"absolute", paddingLeft: "8%", paddingTop:"2%"}}>
         <Card style={{
             backgroundColor: "#F3F3F3", 
             width: "400px", 
             height: "560px", 
-            objectFit: "contain"
+            objectFit: "contain",
+            marginLeft:"7%"
           }} elevation={22}>
           <CardMedia 
             component="img" 
-            src={singleProduct? (imageUrl + singleProduct.url): ""} 
+            src={singleProduct? (imageUrl + "/" + singleProduct.foldername + "/" + currentImage) : ""} 
             alt="Card-Preview" 
             crossOrigin="anonymous" 
             style={{
@@ -62,11 +74,34 @@ const addProductToCart = async (product) => {
               height:"100%"
             }} />
         </Card>
-        <div style={{display:"flex", flexDirection: "row", justifyContent: "center", paddingTop:"30px"}}>
-          <Box variant="outlined" style={{width:"100px", height:"100px", borderColor: "black", backgroundColor:"#E8E8E8"}}>
+        <div style={{display:"flex", flexDirection: "row", justifyContent: "center", position:"absolute", paddingTop:"30px", paddingRight:"10%"}}>
+          <Box 
+            variant="outlined" 
+            style={{width:"100px", height:"100px", borderColor: "black", backgroundColor:"#E8E8E8", marginRight:"5%"}} 
+            onClick={() => changeDisplayImage(singleProduct? singleProduct.url : "")}>
             <CardMedia 
                 component="img"
-                src= {singleProduct? (imageUrl + singleProduct.url): ""} 
+                src= {singleProduct? (imageUrl + "/" + singleProduct.foldername + "/" + singleProduct.url) : ""} 
+                alt="Card-Preview" 
+                crossOrigin="anonymous" 
+                style={{
+                  marginLeft: "10%", 
+                  marginTop:"10%", 
+                  width:"80%", 
+                  height:"80%"
+                }}
+                 />
+          </Box>
+          {diffColorCards.map((otherCol) => (
+            <Box 
+              key={otherCol.toString()} 
+              variant="outlined" 
+              style={{width:"100px", height:"100px", borderColor: "black", backgroundColor:"#E8E8E8", marginRight:"5%"}}
+              onClick={() => changeDisplayImage(otherCol)}
+            >
+              <CardMedia 
+                component="img"
+                src= {singleProduct? (imageUrl + singleProduct.foldername + "/" + otherCol): ""} 
                 alt="Card-Preview" 
                 crossOrigin="anonymous" 
                 style={{
@@ -75,9 +110,10 @@ const addProductToCart = async (product) => {
                   width:"80%", 
                   height:"80%"
                 }} />
-          </Box>
+            </Box>
+          ))}
         </div>
-      </div>"
+      </div>
       
       <div style={{
             position:"absolute", 
