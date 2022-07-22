@@ -66,7 +66,7 @@ export default class AcquaintanceService {
 
     static async deleteAcquaintance(id) {
       let iddd = id.toString()
-      console.log(id.id)
+      console.log(id)
       console.log(iddd)
         try {          
             let response = await fetch(this.baseUrl + `/profile/contacts/${id.id}`, {

@@ -69,7 +69,7 @@ const getAcquaintances = async (req, res) => {
         return res.status(401).json({error:"You are not allowed to edit this acquaintance"});
       }
 
-      const updatedAcquaintance = await Acquaintance.findByIdAndUpdate(req.body.id, req.body, {new: true});
+      const updatedAcquaintance = await Acquaintance.findByIdAndUpdate(req.params.id, req.body, {new: true});
   
       return res.status(200).json(updatedAcquaintance);
       
