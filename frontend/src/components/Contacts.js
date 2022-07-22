@@ -1,17 +1,14 @@
 import { useState, useEffect } from 'react';
 import { TextField, Box, Button } from '@mui/material'; 
 import AcquaintanceService from '../services/AcquaintanceService';
-import AuthService from '../services/AuthService';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import UpdateIcon from '@mui/icons-material/Update';
 import ContactItem from './ContactItem';
 
 
 const Contacts = () => {
     const [name, setName] = useState('');
     const [street, setStreet] = useState('');
-    const [number, setNumber] = useState('');
-    const [zipcode, setZipcode] = useState('');
+    const [streetNumber, setStreetNumber] = useState('');
+    const [zipCode, setZipCode] = useState('');
     const [city, setCity] = useState('');
     const [country, setCountry] = useState('');
     const [contacts, setContacts] = useState([]);
@@ -19,9 +16,12 @@ const Contacts = () => {
     const createContact = (e) => {
       e.preventDefault();
 
-      AcquaintanceService.setAcquaintance({ name, street, number, zipcode, city, country}).then(
-        res => {              
-          alert("Contact created");
+      AcquaintanceService.setAcquaintance({ name, street, streetNumber, zipCode, city, country}).then(
+        () => {              
+          /*  AcquaintanceService.getAcquaintances().then(res => {
+            setContacts(res);
+        })  */
+        alert("Contact created");
         }
       ).catch(
         () => {              
@@ -34,7 +34,7 @@ const Contacts = () => {
         AcquaintanceService.getAcquaintances().then(res => {
             setContacts(res);
         })
-    }, [/* contacts */]); 
+    }, []); 
    
     return (
       <>
@@ -61,19 +61,19 @@ const Contacts = () => {
             <TextField
                 sx={{ m: 1 }}
                 type="text"
-                label="Number"
-                name="number"
-                value={number}
-                onChange={(e) => setNumber(e.target.value)}
+                label="Street-Number"
+                name="streetNumber"
+                value={streetNumber}
+                onChange={(e) => setStreetNumber(e.target.value)}
                 required>
             </TextField>
             <TextField
                 sx={{ m: 1 }}
                 type="text"
                 label="Zipcode"
-                name="zipcode"
-                value={zipcode}
-                onChange={(e) => setZipcode(e.target.value)}
+                name="zipCode"
+                value={zipCode}
+                onChange={(e) => setZipCode(e.target.value)}
                 required>
             </TextField>
             <TextField

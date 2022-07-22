@@ -21,13 +21,13 @@ const getAcquaintances = async (req, res) => {
   const setAcquaintance = async (req, res) => { 
     try {
       console.log(req.body)
-      if (!req.body.name || !req.body.street || !req.body.number || !req.body.city || !req.body.zipcode || !req.body.country) {
+      if (!req.body.name || !req.body.street || !req.body.streetNumber || !req.body.city || !req.body.zipCode || !req.body.country) {
         return res.status(400).json({error:"Missing Values"});
       } 
       const acquaintanceAddress = await Address.create({
         street: req.body.street,
-        streetNumber: req.body.number,
-        zipCode: req.body.zipcode,
+        streetNumber: req.body.streetNumber,
+        zipCode: req.body.zipCode,
         city: req.body.city,
         country: req.body.country,
       }); 
@@ -50,10 +50,11 @@ const getAcquaintances = async (req, res) => {
   };
 
   const updateAcquaintance = async (req, res) => { //TODO
-    res.status(200).json({message: `Update ${req.params.id}`})
-  
-    /* try {
-      const acquaintance = await Acquaintance.findById(req.params.id); //params.id
+   
+     try {
+      const acquaintance = await Acquaintance.findById(req.params.id); 
+
+
 
       if(!acquaintance) {
         return res.status(400).json({error:"Acquaintance not found"});
@@ -70,6 +71,9 @@ const getAcquaintances = async (req, res) => {
       }
 
       const updatedAcquaintance = await Acquaintance.findByIdAndUpdate(req.params.id, req.body, {new: true});
+      const updatedAddress = await Address.findByIdAndUpdate(acquaintance.acquaintanceAddress, req.body, {new: true});
+      //console.log(updatedAcquaintance)
+      //console.log(updatedAddress)
   
       return res.status(200).json(updatedAcquaintance);
       
@@ -80,7 +84,7 @@ const getAcquaintances = async (req, res) => {
         error: "Internal server error",
         message: err.message,
       });
-    } */
+    } 
   };
 
   const deleteAcquaintance = async (req, res) => { 
@@ -88,6 +92,7 @@ const getAcquaintances = async (req, res) => {
     console.log(mongoose.isValidObjectId(req.params.id))
     try {
       const acquaintance = await Acquaintance.findById(req.params.id); 
+      const address = await Address.findById(acquaintance.acquaintanceAddress);
 
       if(!acquaintance) {
         return res.status(400).json({error:"Acquaintance not found"});
@@ -104,6 +109,7 @@ const getAcquaintances = async (req, res) => {
       } 
 
       await acquaintance.remove();
+      await address.remove();
 
   
       return res.status(200).json({id: req.params.id}); 

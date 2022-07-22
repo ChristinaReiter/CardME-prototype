@@ -8,16 +8,13 @@ import UpdateIcon from '@mui/icons-material/Update';
 
 
 
-function ContactItem({contact}) {
-
-  const address = AddressService.getAddress(contact.acquaintanceAddress)
-  
+function ContactItem({contact}) {  
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [name, setName] = useState("");
   const [street, setStreet] = useState("");
-  const [number, setNumber] = useState("");
-  const [zipcode, setZipcode] = useState("");
+  const [streetNumber, setStreetNumber] = useState("");
+  const [zipCode, setZipCode] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
 
@@ -35,32 +32,40 @@ function ContactItem({contact}) {
 const deleteContact = (id) => {
     AcquaintanceService.deleteAcquaintance({id}).then(
         () => {  
-          alert("Contact deleted");
+          //alert("Contact deleted");
+          console.log("Contact deleted");
           
         }
       )
 }
 
-const updateContact = (id) => {
-    AcquaintanceService.updateAcquaintance({id}).then(
-        () => { 
-          alert("Contact updated");             
+const updateContact = (e, id) => {
+  e.preventDefault(); // w/o this, the page will refresh which might be good ...
+   const data = {name, street, streetNumber, zipCode, city, country}
+   //console.log(data, id)
+  
+    AcquaintanceService.updateAcquaintance({data, id}).then(
+        res => { 
+          //alert("Contact updated"); 
+          console.log(res)
+          console.log("Contact updated")
+               
           
         }
       )
 }
 
-useEffect(() => {
+/* useEffect(() => {
   AddressService.getAddress(contact.acquaintanceAddress).then(res => {
       setName(contact.name);
       setStreet(res.street);
-      setNumber(res.streetNumber);
-      setZipcode(res.zipCode);
+      setStreetNumber(res.streetNumber);
+      setZipCode(res.zipCode);
       setCity(res.city);
       setCountry(res.country);
   })
-}, [/* contacts */]); 
-//onClick={() => {updateContact(contact._id)}}
+}, []);  
+ */
   return (
     <div className= "contact">
         <div><Typography>{contact.name}</Typography></div>
@@ -81,7 +86,7 @@ useEffect(() => {
         }}
       >
        
-        <form onSubmit={updateContact}>
+        <form onSubmit={(e) => updateContact(e, contact._id)}>
             <TextField 
                 sx={{ m: 1 }}
                 type="text"
@@ -103,19 +108,19 @@ useEffect(() => {
             <TextField
                 sx={{ m: 1 }}
                 type="text"
-                label="Number"
-                name="number"
-                value={number}
-                onChange={(e) => setNumber(e.target.value)}
+                label="Street-Number"
+                name="streetNumber"
+                value={streetNumber}
+                onChange={(e) => setStreetNumber(e.target.value)}
                 required>
             </TextField>
             <TextField
                 sx={{ m: 1 }}
                 type="text"
                 label="Zipcode"
-                name="zipcode"
-                value={zipcode}
-                onChange={(e) => setZipcode(e.target.value)}
+                name="zipCode"
+                value={zipCode}
+                onChange={(e) => setZipCode(e.target.value)}
                 required>
             </TextField>
             <TextField
@@ -142,7 +147,7 @@ useEffect(() => {
                 color="secondary"
                 variant="contained"
                 type="submit">
-                Register
+                Update
             </Button>
         </form>
         
