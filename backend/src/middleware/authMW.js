@@ -7,7 +7,7 @@ const secured = async (req, res, next) => {
         if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {            
         const token = req.headers.authorization.split(" ")[1]; //token from header
         const decoded = jwt.verify(token, config.jwtSecret); //verify the token
-        const account = await Account.findById(decoded.id); // this or _id?!
+        const account = await Account.findById(decoded.id); 
         if (!account) {
             return res.status(401).json({ error: "Account not found" });
         }

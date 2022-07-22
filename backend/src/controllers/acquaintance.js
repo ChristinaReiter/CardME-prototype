@@ -1,7 +1,6 @@
 const Acquaintance = require("../models/acquaintance");
 const Address = require("../models/address");
 const Account = require("../models/account");
-const mongoose = require('mongoose');
 const getAcquaintances = async (req, res) => { 
     try {
    
@@ -88,8 +87,6 @@ const getAcquaintances = async (req, res) => {
   };
 
   const deleteAcquaintance = async (req, res) => { 
-    console.log("Hello")
-    console.log(mongoose.isValidObjectId(req.params.id))
     try {
       const acquaintance = await Acquaintance.findById(req.params.id); 
       const address = await Address.findById(acquaintance.acquaintanceAddress);

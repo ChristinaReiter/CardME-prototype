@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Button, Popover, Typography, TextField } from '@mui/material';
 import AcquaintanceService from '../services/AcquaintanceService';
-import AddressService from '../services/AddressService';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import UpdateIcon from '@mui/icons-material/Update';
 
@@ -40,9 +39,9 @@ const deleteContact = (id) => {
 }
 
 const updateContact = (e, id) => {
-  e.preventDefault(); // w/o this, the page will refresh which might be good ...
+  e.preventDefault(); // w/o this, the page will refresh which might be good but is annoying for testing...
    const data = {name, street, streetNumber, zipCode, city, country}
-   //console.log(data, id)
+
   
     AcquaintanceService.updateAcquaintance({data, id}).then(
         res => { 
@@ -55,8 +54,8 @@ const updateContact = (e, id) => {
       )
 }
 
-/* useEffect(() => {
-  AddressService.getAddress(contact.acquaintanceAddress).then(res => {
+ /* useEffect(() => {
+  AddressService.getAddress(contact.acquaintanceAddress).then(res => {         // a lot of get requests but all update fields are prefilled ->> annoyiing when testing
       setName(contact.name);
       setStreet(res.street);
       setStreetNumber(res.streetNumber);
@@ -64,8 +63,8 @@ const updateContact = (e, id) => {
       setCity(res.city);
       setCountry(res.country);
   })
-}, []);  
- */
+}, []);   */
+ 
   return (
     <div className= "contact">
         <div><Typography>{contact.name}</Typography></div>
