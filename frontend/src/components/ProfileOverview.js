@@ -26,7 +26,7 @@ const styles = {
  const ProfileOverview = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const navigate = useNavigate();
-  const account = AuthService.getMe();
+  const account = JSON.parse(localStorage.getItem("account"));
 
 useEffect(() => {
   if (!account) {

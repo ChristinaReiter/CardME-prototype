@@ -1,3 +1,5 @@
+import tokenHeader from "./TokenHeader";
+
 export default class AuthService {
     static baseUrl = "http://localhost:3001";
     static headers = new Headers({
@@ -43,8 +45,23 @@ export default class AuthService {
       localStorage.removeItem("account");
     }
 
-    static getMe() {
-      return JSON.parse(localStorage.getItem("account"));
+    static async getMe() {
+      //return JSON.parse(localStorage.getItem("account"));
+      
+      try {
+        
+        let response = await fetch(this.baseUrl + "/me", {
+          method: "GET",
+          headers: tokenHeader(),               
+        });
+  
+        const resp = await response.json(); 
+  
+        return resp;
+      } catch (err) {
+        console.log(err);
+      }
+
     }
   }
   
