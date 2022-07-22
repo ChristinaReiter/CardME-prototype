@@ -139,7 +139,7 @@ const CheckoutOverview = ({images}) => {
             <Grid item xs={3} textAlign="right">
               <Typography fontFamily="Antic" variant="h6">
                 Free delivery: 0,- <br />
-                incl. VAT: {(cartItem.cardPrice + cartItem.giftPrice) * 0.16},-
+                incl. VAT: {((cartItem.cardPrice + cartItem.giftPrice) * 0.16).toLocaleString(undefined, {maximumFractionDigits: 2})},-
               </Typography>
               <Divider></Divider>
               <Typography fontFamily="Antic" variant="h3">

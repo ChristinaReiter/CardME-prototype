@@ -48,11 +48,18 @@ export default class AcquaintanceService {
             console.log(err);
         }
     }
-    static async updateAcquaintance(data) {
+    static async updateAcquaintance({data, id}) {
+   
         try {
-            let response = await fetch(this.baseUrl + "/profile/contacts", { //needs ids
+          let account = JSON.parse(localStorage.getItem("account"));
+          let header = new Headers();
+          if (account && account.token) {
+            header.append('Authorization', `Bearer ${account.token}`)
+          }
+          header.append("Content-Type", "application/json")
+            let response = await fetch(this.baseUrl + `/profile/contacts/${id}`, { 
             method: "PUT",
-            headers: tokenHeader(),
+            headers: header,
             body: JSON.stringify(data)            
             });
     
@@ -65,9 +72,7 @@ export default class AcquaintanceService {
     }
 
     static async deleteAcquaintance(id) {
-      let iddd = id.toString()
-      console.log(id)
-      console.log(iddd)
+
         try {          
             let response = await fetch(this.baseUrl + `/profile/contacts/${id.id}`, {
             method: "DELETE",

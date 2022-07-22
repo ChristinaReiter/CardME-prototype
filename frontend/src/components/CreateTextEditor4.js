@@ -21,7 +21,7 @@ function myBlockStyleFn(contentBlock) {
   }
 }
 
-const CreateTextEditor3 = (props) => {
+const CreateTextEditor4 = (props) => {
   const [editorState, setEditorState] = useState(props.value);
   const onEditorStateChange = (newValue) => {
     setEditorState(newValue);
@@ -76,6 +76,7 @@ const CreateTextEditor3 = (props) => {
               alignContent: "center",
               textAlign: "center",
               justifyContent: "center",
+              marginLeft: "375px",
             }}
             wrapperStyle={{}}
             onEditorStateChange={onEditorStateChange}
@@ -319,4 +320,4 @@ const CreateTextEditor3 = (props) => {
   );
 };
 
-export default CreateTextEditor3;
+export default CreateTextEditor4;

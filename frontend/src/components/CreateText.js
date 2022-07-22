@@ -7,7 +7,7 @@ import {
   Grid,
   TextField,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 import RotateRightIcon from "@mui/icons-material/RotateRight";
 import { styled, alpha } from "@mui/material/styles";
@@ -146,6 +146,14 @@ const StyledMenu = styled((props) => (
 }));
 
 const CreateText = ({ text, setText }) => {
+  //history for undo and redo
+  const [history, setHistory] = React.useState([""]);
+  const [historyPointer, setHistoryPointer] = React.useState(0);
+
+  useEffect(() => {
+    setHistoryPointer(history.length - 1);
+  }, [history]);
+
   const finaltext = document.getElementById("final-text-view");
   const cardtext = document.getElementById("card-text");
   const [styleEl, setStyleEl] = React.useState(null);
@@ -515,8 +523,8 @@ const CreateText = ({ text, setText }) => {
                   >
                     <MenuItem
                       onClick={() => {
-                        cardtext.text += <FavoriteIcon />;
                         setStyleEl(null);
+                        setText(text + "😀");
                       }}
                       disableRipple
                     >
@@ -525,7 +533,6 @@ const CreateText = ({ text, setText }) => {
                     </MenuItem>
                     <MenuItem
                       onClick={() => {
-                        //finaltext.innerHTML = cardtext.value;
                         setStyleEl(null);
                       }}
                       disableRipple
@@ -556,10 +563,26 @@ const CreateText = ({ text, setText }) => {
                   </StyledMenu>
                 </Grid>
                 <Grid item xs={1}>
-                  <RotateLeftIcon />
+                  <RotateLeftIcon
+                    onClick={() => {
+                      let newValue = historyPointer - 1;
+                      if (newValue >= 0) {
+                        setText(history[newValue]);
+                        setHistoryPointer(newValue);
+                      }
+                    }}
+                  />
                 </Grid>
                 <Grid item xs={1}>
-                  <RotateRightIcon />
+                  <RotateRightIcon
+                    onClick={() => {
+                      let newValue = historyPointer + 1;
+                      if (newValue < history.length) {
+                        setText(history[newValue]);
+                        setHistoryPointer(newValue);
+                      }
+                    }}
+                  />
                 </Grid>
               </Grid>
             </Box>
@@ -575,6 +598,19 @@ const CreateText = ({ text, setText }) => {
               style={styles.textWindow}
               onChange={(event) => {
                 setText(event.target.value);
+              }}
+              onKeyUp={(event) => {
+                if (event.key === " ") {
+                  let newHistoryStates = [...history];
+                  if (newHistoryStates.length - 1 > historyPointer) {
+                    newHistoryStates = newHistoryStates.slice(
+                      0,
+                      historyPointer + 1
+                    );
+                  }
+                  newHistoryStates.push(event.target.value);
+                  setHistory(newHistoryStates);
+                }
               }}
               value={text || ""}
               type="text"
