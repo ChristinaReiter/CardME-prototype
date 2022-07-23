@@ -11,52 +11,65 @@ import { useEffect, useState } from "react";
 import CardService from "../services/CardService";
 import { useNavigate, NavLink } from "react-router-dom";
 
-const styles = {
-  image: {
-    position: "relative",
-    width: "300px",
-    height: "390px",
-    boxShadow:
-      "2px 2px 30px rgba(0, 0, 0, 0.1), -2px -2px 30px rgba(0, 0, 0, 0.1)",
-    marginTop: "40px",
-    marginDown: "40px",
-  },
-  stepbar: {
-    position: "relative",
-    width: "100%",
-    height: "60px",
-    background: "#A7CDA7",
-    boxShadow:
-      "0px 6px 4px rgba(51, 97, 50, 0.25), inset 0px 6px 4px rgba(51, 97, 50, 0.25)",
-    top: "10px",
-    fontSize: "30px",
-    zIndex: "1",
-  },
-  kreis: {
-    fontFamily: '"Annie Use Your Telescope"',
-    position: "relative",
-    width: "40px",
-    height: "40px",
-    borderRadius: "50%",
-    background: "#0A5108",
-    color: "white",
-    fontSize: "30px",
-    textAlign: "center",
-    lineHeight: "40px",
-  },
-  button: {
-    fontFamily: "typography",
-    display: "block",
-    fontSize: 15,
-    position: "relative",
-    width: "300px",
-    margin: "10px",
-  },
-};
-
-const ShowFront = ({ product }) => {
+const ShowFront = ({ product, setChosenImage, chosenImage, mode }) => {
+  const styles = {
+    image: {
+      position: "relative",
+      width: "300px",
+      height: "390px",
+      boxShadow:
+        "2px 2px 30px rgba(0, 0, 0, 0.1), -2px -2px 30px rgba(0, 0, 0, 0.1)",
+      marginTop: "40px",
+      marginDown: "40px",
+    },
+    stepbar: {
+      position: "relative",
+      width: "100%",
+      height: "60px",
+      background: "#A7CDA7",
+      boxShadow:
+        "0px 6px 4px rgba(51, 97, 50, 0.25), inset 0px 6px 4px rgba(51, 97, 50, 0.25)",
+      top: "10px",
+      fontSize: "30px",
+      zIndex: "1",
+    },
+    kreis: {
+      fontFamily: '"Annie Use Your Telescope"',
+      position: "relative",
+      width: "40px",
+      height: "40px",
+      borderRadius: "50%",
+      background: "#0A5108",
+      color: "white",
+      fontSize: "30px",
+      textAlign: "center",
+      lineHeight: "40px",
+    },
+    button: {
+      fontFamily: "typography",
+      display: "block",
+      fontSize: 15,
+      position: "relative",
+      width: "300px",
+      margin: "10px",
+    },
+  };
   const navigate = useNavigate();
   const baseUrl = "http://localhost:3001/public/";
+
+  useEffect(() => {
+    // Get image from backend, convert to blob for further usage
+    async function getImage() {
+      if (mode !== "edit") {
+        let result = await fetch(
+          baseUrl + product.foldername + "/" + product.url,
+          { method: "GET" }
+        );
+        setChosenImage(await result.blob());
+      }
+    }
+    getImage();
+  }, [product]);
 
   return (
     <Box sx={{ flexGrow: 1, flexShrink: 1 }}>
@@ -71,11 +84,11 @@ const ShowFront = ({ product }) => {
         </AppBar>
       </Typography>
       <Box display="flex" justifyContent="center">
-        {product && (
+        {chosenImage && (
           <img
-            style={styles.image}
-            src={baseUrl + product.url}
+            src={URL.createObjectURL(chosenImage)}
             crossOrigin="anonymous"
+            style={styles.image}
           />
         )}
       </Box>

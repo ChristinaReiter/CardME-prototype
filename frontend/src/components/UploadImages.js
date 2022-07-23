@@ -47,21 +47,47 @@ const styles = {
   },
 };
 
-export default function UploadImages({images, setImages }) {
-  const [imageURLs, setImageURLs] = useState([]);
+export default function UploadImages({ id, images, setImages }) {
+  const [imageURL, setImageURL] = useState(null);
+
+  // Setting the imageUrl for below display if already existing in state with id else setting to null
+  const getImage = async () => {
+    console.log(images)
+    if (images.length < 1) return;
+    let image = await images.find((element) => {
+      return element.id === id;
+    });
+    if (image !== undefined) {
+      setImageURL(URL.createObjectURL(image.file));
+    } else {
+      setImageURL(null);
+    }
+  };
 
   useEffect(() => {
-    if (images.length < 1) return;
-    const newImageURLs = [];
-    images.forEach((image) => {
-      newImageURLs.push(URL.createObjectURL(image));
-    });
-    setImageURLs(newImageURLs);
-  }, [images]);
+    getImage();
+  }, [images, id]);
 
-  async function onImageChange(e) {
-    setImages([...e.target.files]);
-  }
+  const onImageChange = async (e) => {
+    // Search for image in state with id
+    let image = await images.find((element) => {
+      return element.id === id;
+    });
+
+    if (image !== undefined) {
+      // Already there, update file value
+      const updatedImages = images.map((image) => {
+        if (image.id === id) {
+          return { id: id, file: e.target.files[0] };
+        }
+        return image;
+      });
+      setImages(updatedImages);
+    } else {
+      // just add
+      setImages((images) => [...images, { id: id, file: e.target.files[0] }]);
+    }
+  };
 
   return (
     <div>
@@ -74,7 +100,7 @@ export default function UploadImages({images, setImages }) {
           id="upload-images"
           name="upload-images"
         />
-        {images.length == 0 && (
+        {imageURL === null && (
           <label htmlFor="upload-images" id="upload-images-label">
             <div style={styles.uploadWindow}>
               <div style={styles.text1}>Upload your image</div>
@@ -87,16 +113,15 @@ export default function UploadImages({images, setImages }) {
         )}
       </div>
       <div>
-        {imageURLs.map((imageSrc) => (
+        {imageURL && (
           <img
-            src={imageSrc}
+            src={imageURL}
             style={styles.cardWindow}
             id="card-image"
             className="card-image"
             alt="card"
-            sx={{}}
           />
-        ))}
+        )}
       </div>
     </div>
   );

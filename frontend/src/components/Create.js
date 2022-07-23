@@ -9,30 +9,48 @@ import ShoppingCartService from "../services/ShoppingCartService";
 import { useParams } from "react-router-dom";
 import CardService from "../services/CardService";
 
-const Create = ({ setImages, images }) => {
-  const { mode, id } = useParams();
+const Create = () => {
+  const { cardStyle, id, mode } = useParams();
   const [text, setText] = useState(null);
   const [product, setProduct] = useState();
 
+  // Used to save custom images
+  const [images, setImages] = useState([]);
+
+  // Used as state for chosen image
+  const [chosenImage, setChosenImage] = useState(null);
+
   useEffect(() => {
-    if (mode === "chosen") {
+    if (cardStyle === "chosen" && mode !== "edit") {
       CardService.getSingleCard(id).then((item) => {
         setProduct(item);
       });
+    }else if(mode === "edit"){
+      let key = parseInt(id)
+      ShoppingCartService.getItem(key).then((item) =>{
+        console.log(item)
+        setProduct(item)
+
+        if(cardStyle === "chosen"){
+          setChosenImage(item.cardImage)
+        }else{
+          setImages([{id: id, file: item.cardImage}])
+        }
+        setText(item.cardText)
+      })
     }
-  }, []);
+  }, [cardStyle, mode]);
 
   const handleTextPersist = (text) => {
     setText(text);
-    ShoppingCartService.updateText(id, text);
   };
 
   return (
     <div>
-      {mode === "own" ? (
-        <CreateFront setImages={setImages} images={images} />
+      {cardStyle === "own" ? (
+        <CreateFront setImages={setImages} images={images} id={id}/>
       ) : (
-        <ShowFront product={product} />
+        <ShowFront product={product} setChosenImage={setChosenImage} chosenImage={chosenImage} mode={mode}/>
       )}
       <CreateText
         text={text}
@@ -40,7 +58,7 @@ const Create = ({ setImages, images }) => {
         setText={setText}
       />
       <CreateAddGift />
-      <CreateFinal id={id} text={text} images={images} product={product} mode={mode}/>
+      <CreateFinal id={id} text={text} images={images} product={product} cardStyle={cardStyle} chosenImage={chosenImage} mode={mode}/>
     </div>
   );
 };

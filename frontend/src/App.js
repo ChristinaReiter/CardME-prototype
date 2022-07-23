@@ -46,22 +46,23 @@ export const theme = createTheme({
 });
 
 function App() {
-  const [images, setImages] = useState([]);
 
   return (
     <div>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <Header images={images}/>
+          <Header/>
           <Box sx={{ mt: 6, position: "static" }}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route exact path="/cards" element={<Cards />} />
               <Route path="/ViewCard/:cardid" element={<ViewCard />} />
               <Route
-                path="/create/:mode/:id"
-                element={<Create setImages={setImages} images={images} />}
-              />
+                path="/create/:cardStyle/:id"
+              >
+                <Route path="" element={<Create />}></Route>
+                <Route path=":mode" element={<Create />}></Route>
+              </Route>
               <Route
                 exact
                 path="/checkout-data/:id"
@@ -70,7 +71,7 @@ function App() {
               <Route
                 exact
                 path="/checkout-overview/:id"
-                element={<CheckoutOverview images={images}/>}
+                element={<CheckoutOverview/>}
               />
               <Route path="profile" element={<ProfileOverview />}>
                 <Route path="view" element={<View />} />

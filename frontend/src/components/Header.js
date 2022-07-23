@@ -11,13 +11,13 @@ import {
   Grid,
   Menu,
   MenuItem,
-  IconButton
+  IconButton,
 } from "@mui/material";
 import ShoppingCartOutlined from "@mui/icons-material/ShoppingCartOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import { useTheme } from "@emotion/react";
-import ImageIcon from '@mui/icons-material/Image';
+import ImageIcon from "@mui/icons-material/Image";
 import AuthService from "../services/AuthService";
 import ShoppingCartService from "../services/ShoppingCartService";
 
@@ -38,7 +38,7 @@ const styles = {
   },
 };
 
-const Header = ({images}) => {
+const Header = ({ images }) => {
   const theme = useTheme();
   const [popoverAnchor, setPopoverAnchor] = useState(null);
   const popoverOpened = Boolean(popoverAnchor);
@@ -54,10 +54,10 @@ const Header = ({images}) => {
    
   }, []);
 
-
   const openShoppingCart = (event) => {
-    setShoppingCart(ShoppingCartService.getCart());
-
+    ShoppingCartService.getCart().then((card) => {
+      setShoppingCart(card);
+    });
     setPopoverAnchor(event.currentTarget);
   };
 
@@ -67,12 +67,15 @@ const Header = ({images}) => {
 
   const handleRemove = (id) => {
     ShoppingCartService.removeItem(id);
-    setShoppingCart(ShoppingCartService.getCart());
+
+    ShoppingCartService.getCart().then((card) => {
+      setShoppingCart(card);
+    });
   };
 
   const handleImage = () => {
     return imageUrl;
-  }
+  };
 
   return (
     <Box
@@ -110,7 +113,10 @@ const Header = ({images}) => {
             <NavLink style={styles.menuText} to="/cards">
               Seasonal
             </NavLink>
-            <NavLink style={styles.menuText} to={"/create/own/" + Math.floor(Math.random() * 100000000)}>
+            <NavLink
+              style={styles.menuText}
+              to={"/create/own/" + Math.floor(Math.random() * 100000000)}
+            >
               Create
             </NavLink>
           </Box>
@@ -119,11 +125,11 @@ const Header = ({images}) => {
               <Button sx={{ minWidth: 2 }} onClick={openShoppingCart}>
                 <ShoppingCartOutlined fontSize="large" />
               </Button>
-              <IconButton                        // functionality that different things are shown based on wether user is logged in still needs to be implemented
+              <IconButton // functionality that different things are shown based on wether user is logged in still needs to be implemented
                 aria-haspopup="true"
                 color="inherit"
                 aria-controls="profile-menu"
-                onClick={e => setProfileMenu(e.currentTarget)}
+                onClick={(e) => setProfileMenu(e.currentTarget)}
               >
                 <PermIdentityOutlinedIcon fontSize="large" />
               </IconButton>
@@ -135,40 +141,53 @@ const Header = ({images}) => {
                 onClose={() => setProfileMenu(null)}
                 disableAutoFocusItem
               >
-                
-                {!currentAccount && <MenuItem
-                  component={Link}
-                  onClick={() => setProfileMenu(null)}
-                  to="/login"
-                >
-                  Log In
-                </MenuItem>}
-                { !currentAccount && <MenuItem
-                  component={Link}
-                  onClick={() => setProfileMenu(null)}
-                  to="/register"
-                >
-                  Register
-                </MenuItem>}
-                {currentAccount && <MenuItem
-                  component={Link}
-                  onClick={() => setProfileMenu(null)}
-                  to="/profile/view"
-                >
-                  Profile
-                </MenuItem>}
-                {currentAccount && <MenuItem
-                  component={Link}
-                  onClick={() => {setProfileMenu(null); AuthService.logout()}}
-                  to="/login"
-                >
-                  LogOut
-                </MenuItem>}
-                
-                
-              </Menu>           
+                {!currentAccount && (
+                  <MenuItem
+                    component={Link}
+                    onClick={() => setProfileMenu(null)}
+                    to="/login"
+                  >
+                    Log In
+                  </MenuItem>
+                )}
+                {!currentAccount && (
+                  <MenuItem
+                    component={Link}
+                    onClick={() => setProfileMenu(null)}
+                    to="/register"
+                  >
+                    Register
+                  </MenuItem>
+                )}
+                {currentAccount && (
+                  <MenuItem
+                    component={Link}
+                    onClick={() => setProfileMenu(null)}
+                    to="/profile/view"
+                  >
+                    Profile
+                  </MenuItem>
+                )}
+                {currentAccount && (
+                  <MenuItem
+                    component={Link}
+                    onClick={() => {
+                      setProfileMenu(null);
+                      AuthService.logout();
+                    }}
+                    to="/login"
+                  >
+                    LogOut
+                  </MenuItem>
+                )}
+              </Menu>
               <Button sx={{ minWidth: 2 }}>
-                <QuestionMarkIcon fontSize="large" onClick={() => {navigate("/about")}}/>
+                <QuestionMarkIcon
+                  fontSize="large"
+                  onClick={() => {
+                    navigate("/about");
+                  }}
+                />
               </Button>
             </Typography>
             <Popover
@@ -184,35 +203,21 @@ const Header = ({images}) => {
                 {shoppingCart.length === 0 && (
                   <Typography>No products in your cart, add some...</Typography>
                 )}
-                {shoppingCart.map((item, index) => (
+                {shoppingCart.map((item) => (
                   <Grid
                     container
                     bgcolor={theme.palette.tertiary.main}
                     padding="2em"
                     borderRadius="25px"
                     marginTop="1em"
-                    key={index}
+                    key={item.id}
                   >
                     <Grid item xs={4}>
-                      { item.cardTitle !== "Own Card" &&
                       <img
-                        src={imageUrl + item.cardImg}
+                        src={URL.createObjectURL(item.cardImage)}
                         width="80%"
-                        crossOrigin="anonymous"
                         alt="Product"
                       ></img>
-                      }
-                      { item.cardTitle === "Own Card" && images.length > 0 &&
-                      <img
-                        src={URL.createObjectURL(images[0])}
-                        width="80%"
-                        crossOrigin="anonymous"
-                        alt="Product"
-                      ></img>
-                      }
-                      { item.cardTitle === "Own Card" && images.length == 0 &&
-                        <ImageIcon fontSize="large"></ImageIcon>
-                      }
                     </Grid>
                     <Grid item xs={8} textAlign="right">
                       <Typography>{item.cardTitle}</Typography>
@@ -231,7 +236,7 @@ const Header = ({images}) => {
                         variant="contained"
                         style={{ color: theme.palette.secondary.main }}
                         onClick={() => {
-                          handleRemove(index);
+                          handleRemove(item.id);
                         }}
                       >
                         Remove
@@ -241,9 +246,10 @@ const Header = ({images}) => {
                         sx={{ ml: 4 }}
                         style={{ color: theme.palette.secondary.main }}
                         onClick={() => {
-                          let path = (item.cardTitle === "Own Card") ? "own/" : "chosen/"
-                          navigate("/create/" + path + item.cardId);
-                          closeShoppingCart()
+                          let path =
+                            item.cardTitle === "Own Card" ? "own/" : "chosen/";
+                          navigate("/create/" + path + item.id + "/edit");
+                          closeShoppingCart();
                         }}
                       >
                         Edit
@@ -253,8 +259,8 @@ const Header = ({images}) => {
                         color="secondary"
                         sx={{ ml: 4 }}
                         onClick={() => {
-                          navigate("/checkout-data/" + index);
-                          closeShoppingCart()
+                          navigate("/checkout-data/" + item.id);
+                          closeShoppingCart();
                         }}
                       >
                         Checkout
