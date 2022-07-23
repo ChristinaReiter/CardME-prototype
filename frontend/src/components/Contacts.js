@@ -98,7 +98,7 @@ const Contacts = () => {
                 color="secondary"
                 variant="contained"
                 type="submit">
-                Register
+                Create Contact
             </Button>
         </form>             
               
@@ -110,7 +110,7 @@ const Contacts = () => {
               <ContactItem key={contact._id} contact={contact} changeContact = {setContacts} allContacts = {contacts} />
             ))}
           </div>
-        ) : (<h3> No Contacts </h3>)}
+        ) : (<h3> You have no Contacts </h3>)}
 
       </section>
 
