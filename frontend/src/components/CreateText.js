@@ -617,7 +617,6 @@ const CreateText = ({ text, setText }) => {
             ></TextField>
           </Grid>
         </Grid>
-        <CreateTextEditor3 />
       </Typography>
     </Box>
   );
