@@ -36,11 +36,11 @@ export default class CardService{
         return response
     }
 
-    static async removeFavorite(userID, productID) {
-        let response = await fetch(this.baseUrl + "/profile/favorites?id=" + userID, {
-                method:"DELETE",
+    static async removeFavorite(data) {
+        let response = await fetch(this.baseUrl + "/profile/favorites", {
+                method:"PUT",
                 headers: tokenHeader(),
-                body: JSON.stringify(productID),
+                body: JSON.stringify(data),
             })
             
     

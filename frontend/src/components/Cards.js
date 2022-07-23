@@ -31,6 +31,7 @@ const Cards = () => {
   const [seasonFilter, setSeasonFilter] = useState({});
   const [sortFilter, setSortFilter] = useState("trending");
   const [favorites, setFavorites] = useState([]);
+  const [userID, setUserID] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,6 +45,7 @@ const Cards = () => {
     );
     AuthService.getMe().then(
       (result) => {
+        setUserID(result._id);
         CardService.getFavorites(result._id).then(
           (res) => {
             setFavorites(res);
@@ -135,7 +137,7 @@ const Cards = () => {
           style={styles.favorites}
           sx={{color:"#DC9292"}}
           onClick={(event) => {
-            CardService.removeFavorite(AuthService.getMe(), props.productID).then(
+            CardService.removeFavorite({userID: userID, productID: props.productID}).then(
               (result) => {
                 console.log(result);
                 setFavorites(result);

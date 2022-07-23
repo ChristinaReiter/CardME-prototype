@@ -2,7 +2,6 @@ const Users = require("../models/user");
 
 const getFavorite = async (req, res) => { //TODO
     try {
-
       if (!req.query.id) { 
         return res.status(400).json({error:"Missing Values"});
       }
@@ -28,7 +27,7 @@ const getFavorite = async (req, res) => { //TODO
   const setFavorite = async (req, res) => { //TODO
     try {
       const users = await Users.find();
-  
+      
       return res.status(200).json(users);
     } catch (err) {
       console.log(err);
@@ -40,17 +39,19 @@ const getFavorite = async (req, res) => { //TODO
     }
   };
 
-  const deleteFavorite = async (req, res) => { //TODO
+  const removeFavorite = async (req, res) => { 
     try {
-      const users = await Users.find();
+      console.log(res);
+      const user = await Users.findById(req.body.userID).exec();
+      
 
-      if (!users) {
+      if (!user) {
         return res.status(400).json({error:"User not found"});
       }
 
-      const favorites = users.favorites;
+      const favorites = user.favorites;
   
-      return res.status(200).json(favorites);
+      return res.status(200).json(user);
     } catch (err) {
       console.log(err);
   
@@ -64,5 +65,5 @@ const getFavorite = async (req, res) => { //TODO
   module.exports = {
     getFavorite,
     setFavorite,
-    deleteFavorite,
+    removeFavorite,
   };
