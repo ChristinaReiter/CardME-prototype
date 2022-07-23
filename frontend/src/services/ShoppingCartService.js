@@ -1,103 +1,63 @@
+import { db } from "./IndexedDBService";
+
 export default class ShoppingCartService {
   static accessKey = "cart";
 
-  static getCart() {
-    let cart = localStorage.getItem(this.accessKey);
-    if (cart) {
-      return JSON.parse(cart);
-    }
-    return [];
+  static async getCart() {
+    return db.cart.toArray();
   }
 
-  static getItem(itemIndex) {
-    let cart = this.getCart();
-    if (cart) {
-      return cart[itemIndex];
-    }
-    return null;
+  static async getItem(id) {
+    let key = parseInt(id);
+    return db.cart.get(key);
   }
 
   static addItem(product, text) {
-    let cart = this.getCart();
-
-    console.log(text)
-    let cartItem = {
-      cardId: product._id,
-      cardImg: product.url,
+    db.cart.add({
+      cardImage: product.image,
       cardTitle: product.title,
       cardPrice: product.price,
-      text: text,
+      cardText: text,
       giftId: null,
-      giftPrice: 0
-    };
-
-    cart.push(cartItem);
-    localStorage.setItem(this.accessKey, JSON.stringify(cart));
+      giftPrice: 0,
+      giftImage: "",
+    });
   }
 
-  static async addOwnCard(product, text){
-    let cart = this.getCart()
+  static async addOwnCard(product, text) {
+    let cart = this.getCart();
 
     // Find item with same id
     let cardIndex = await cart.findIndex((element) => {
-      return element.cardId === product._id
-    })
-
-    // Only create new product if not found
-    if (cardIndex !== -1){
-      cart[cardIndex].cardImg = product.url
-      localStorage.setItem(this.accessKey, JSON.stringify(cart));
-    }else{
-      this.addItem(product, text)
-    }
-  }
-
-  static removeItem(itemIndex) {
-    let cart = this.getCart();
-
-    // If string provided
-    itemIndex = parseInt(itemIndex)
-
-    let remainingItems = cart.find((element, index) => {
-      return index !== itemIndex;
+      return element.cardId === product._id;
     });
 
-    console.log(remainingItems)
-
-    if (remainingItems !== undefined) {
-      localStorage.setItem(this.accessKey, JSON.stringify([remainingItems]));
+    // Only create new product if not found
+    if (cardIndex !== -1) {
+      cart[cardIndex].cardImg = product.url;
+      localStorage.setItem(this.accessKey, JSON.stringify(cart));
     } else {
-      localStorage.removeItem(this.accessKey);
+      this.addItem(product, text);
     }
   }
 
-  static async updateText(id, text) {
-    let cart = this.getCart();
-
-    let itemIndex = await cart.findIndex((element) => {
-      return element.cardId === id
-    })
-
-    cart[itemIndex].text = text;
-
-    localStorage.setItem(this.accessKey, JSON.stringify(cart));
+  static removeItem(id) {
+    db.cart.delete(id);
   }
 
-  static updateGift(itemIndex, giftId = null) {
-    let cart = this.getCart();
-
-    cart[itemIndex].giftId = giftId;
-
-    localStorage.setItem(this.accessKey, JSON.stringify(cart));
+  static async updateItem(id, changedFields) {
+    console.log(changedFields);
+    let key = parseInt(id);
+    db.cart.update(key, changedFields);
   }
 
-  static async findItemById(id){
-    let cart = this.getCart()
+  static async findItemById(id) {
+    let cart = this.getCart();
 
-    let item =  cart.find((element) => {
-      return element.cardId === id
-    })
+    let item = cart.find((element) => {
+      return element.cardId === id;
+    });
 
-    return item
+    return item;
   }
 }

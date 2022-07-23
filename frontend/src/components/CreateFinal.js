@@ -10,6 +10,7 @@ import {
 import React from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ShoppingCartService from "../services/ShoppingCartService";
+import { db } from "../services/IndexedDBService";
 
 const styles = {
   stepbar: {
@@ -56,20 +57,47 @@ const styles = {
   },
 };
 
-const CreateFinal = ({ id, text, product, mode }) => {
-  const handleAddToCart = () => {
-    if(mode === "own"){
+const CreateFinal = ({
+  id,
+  text,
+  product,
+  cardStyle,
+  images,
+  chosenImage,
+  mode,
+}) => {
+  const handleAddToCart = async () => {
+    if (cardStyle === "own") {
+      const image = await images.find((image) => {
+        return image.id === id;
+      });
+
       let customCard = {
-        _id: id,
-        url: "",
+        image: image.file,
         title: "Own Card",
         price: 5.9,
       };
-      ShoppingCartService.addOwnCard(customCard, text);
-    }else{
-      ShoppingCartService.addItem(product, text)
+
+      ShoppingCartService.addItem(customCard, text);
+    } else {
+      let itemToAdd = {
+        image: chosenImage,
+        title: product.title,
+        price: product.price,
+      };
+      ShoppingCartService.addItem(itemToAdd, text);
+    }
+  };
+
+  const handleUpdate = () => {
+    let changedFields = {
+      cardText: text,
+    };
+    if (cardStyle === "own") {
+      changedFields.cardImage = images[0].file;
     }
 
+    ShoppingCartService.updateItem(id, changedFields);
   };
 
   return (
@@ -131,15 +159,28 @@ const CreateFinal = ({ id, text, product, mode }) => {
           textAlign="center"
         >
           <Grid item xs={3}>
-            <Button
-              style={styles.button}
-              sx={{ float: "right" }}
-              variant="contained"
-              color="secondary"
-              onClick={handleAddToCart}
-            >
-              Add to shopping cart
-            </Button>
+            {mode === "edit" && (
+              <Button
+                style={styles.button}
+                sx={{ float: "right" }}
+                variant="contained"
+                color="secondary"
+                onClick={handleUpdate}
+              >
+                Update in shopping cart
+              </Button>
+            )}
+            {mode !== "edit" && (
+              <Button
+                style={styles.button}
+                sx={{ float: "right" }}
+                variant="contained"
+                color="secondary"
+                onClick={handleAddToCart}
+              >
+                Add to shopping cart
+              </Button>
+            )}
           </Grid>
           <Grid item xs={3}>
             <Button style={styles.button} variant="contained" color="secondary">

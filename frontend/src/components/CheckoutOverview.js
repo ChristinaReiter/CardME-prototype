@@ -15,8 +15,7 @@ import ShoppingCartService from "../services/ShoppingCartService";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import OrderService from "../services/OrderService";
 
-const CheckoutOverview = ({images}) => {
-  const imageUrl = "http://localhost:3001/public/";
+const CheckoutOverview = () => {
   const [cartItem, setCartItem] = useState({});
   const [checkoutData, setCheckoutData] = useState({});
   const { id } = useParams();
@@ -40,17 +39,18 @@ const CheckoutOverview = ({images}) => {
     let checkoutData = CheckoutService.getCheckoutData();
     setCheckoutData(checkoutData);
 
-    let cartItem = ShoppingCartService.getItem(id);
-    setCartItem(cartItem);
+    let key = parseInt(id)
+    ShoppingCartService.getItem(key).then(item => {
+      setCartItem(item);
+    });
   }, []);
 
   const handleSuccessfulCheckout = async () => {
-    const response = await OrderService.createOrder(checkoutData, cartItem)
-    if (response.response == "success"){
-      CheckoutService.removeData()
-      ShoppingCartService.removeItem(id)
+    const response = await OrderService.createOrder(checkoutData, cartItem);
+    if (response.response == "success") {
+      CheckoutService.removeData();
+      ShoppingCartService.removeItem(id);
       navigate("/successful-order/" + response.order._id);
-
     }
   };
 
@@ -86,24 +86,19 @@ const CheckoutOverview = ({images}) => {
         >
           <Grid container>
             <Grid item xs={3}>
-              {cartItem.cardTitle !== "Own Card" &&
-              <img
-                src={imageUrl + cartItem.cardImg}
-                crossOrigin="anonymous"
-                width="65%"
-              ></img>
-              }
-              {cartItem.cardTitle === "Own Card" &&
-              <img
-                src={URL.createObjectURL(images[0])}
-                crossOrigin="anonymous"
-                width="65%"
-              ></img>
-              }
+              {cartItem.cardImage && (
+                <img
+                  src={URL.createObjectURL(cartItem.cardImage)}
+                  width="65%"
+                ></img>
+              )}
               <Typography fontFamily="Antic">
                 Delivery on {checkoutData.deliveryDate}
               </Typography>
-              <Typography fontFamily="Antic">Recurring delivery: {checkoutData.recurrentDelivery ? "yearly" : "no"}</Typography>
+              <Typography fontFamily="Antic">
+                Recurring delivery:{" "}
+                {checkoutData.recurrentDelivery ? "yearly" : "no"}
+              </Typography>
             </Grid>
             <Grid item xs={5}>
               <Typography variant="h5">Text:</Typography>
@@ -139,7 +134,12 @@ const CheckoutOverview = ({images}) => {
             <Grid item xs={3} textAlign="right">
               <Typography fontFamily="Antic" variant="h6">
                 Free delivery: 0,- <br />
-                incl. VAT: {((cartItem.cardPrice + cartItem.giftPrice) * 0.16).toLocaleString(undefined, {maximumFractionDigits: 2})},-
+                incl. VAT:{" "}
+                {(
+                  (cartItem.cardPrice + cartItem.giftPrice) *
+                  0.16
+                ).toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                ,-
               </Typography>
               <Divider></Divider>
               <Typography fontFamily="Antic" variant="h3">
@@ -171,12 +171,19 @@ const CheckoutOverview = ({images}) => {
             </Grid>
             <Grid item xs={3} style={styles.detailBox}>
               <Typography variant="h5">Your details</Typography>
-              <Typography color="#808080" fontSize="14px">For sending the order confirmation and to notify about the delivery.</Typography>
-              <Typography fontFamily="Antic" paddingTop="1em">{checkoutData.email}</Typography>
+              <Typography color="#808080" fontSize="14px">
+                For sending the order confirmation and to notify about the
+                delivery.
+              </Typography>
+              <Typography fontFamily="Antic" paddingTop="1em">
+                {checkoutData.email}
+              </Typography>
             </Grid>
             <Grid item xs={3} style={styles.detailBox}>
               <Typography variant="h5">Billing address</Typography>
-              <Typography color="#808080" fontSize="14px">For sending the bill</Typography>
+              <Typography color="#808080" fontSize="14px">
+                For sending the bill
+              </Typography>
               <Typography fontFamily="Antic" paddingTop="1em">
                 {checkoutData.billingFirstName} {checkoutData.billingLastName}
                 <br />
@@ -187,7 +194,9 @@ const CheckoutOverview = ({images}) => {
             </Grid>
             <Grid item xs={3} style={styles.detailBox}>
               <Typography variant="h5">Recipient address</Typography>
-              <Typography color="#808080" fontSize="14px">Who are you sending to?</Typography>
+              <Typography color="#808080" fontSize="14px">
+                Who are you sending to?
+              </Typography>
               <Typography fontFamily="Antic" paddingTop="1em">
                 {checkoutData.recipientFirstName}{" "}
                 {checkoutData.recipientLastName}
@@ -224,7 +233,7 @@ const CheckoutOverview = ({images}) => {
                     purchase_units: [
                       {
                         amount: {
-                          value: (cartItem.cardPrice + cartItem.giftPrice),
+                          value: cartItem.cardPrice + cartItem.giftPrice,
                         },
                         shipping: {
                           name: {
@@ -276,7 +285,7 @@ const CheckoutOverview = ({images}) => {
                     purchase_units: [
                       {
                         amount: {
-                          value: (cartItem.cardPrice + cartItem.giftPrice),
+                          value: cartItem.cardPrice + cartItem.giftPrice,
                         },
                       },
                     ],
