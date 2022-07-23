@@ -7,7 +7,7 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ShoppingCartService from "../services/ShoppingCartService";
 
@@ -37,14 +37,20 @@ const styles = {
   },
   cardWindows: {
     position: "relative",
-    textAlign: "center",
-    width: "370px",
-    height: "464px",
+    width: "390px",
+    height: "484px",
     background: "#FFFFFF",
     boxShadow:
       "2px 2px 30px rgba(0, 0, 0, 0.1), -2px -2px 30px rgba(0, 0, 0, 0.1)",
     marginTop: "40px",
     marginDown: "40px",
+  },
+  image: {
+    position: "relative",
+    width: "390px",
+    height: "484px",
+    boxShadow:
+      "2px 2px 30px rgba(0, 0, 0, 0.1), -2px -2px 30px rgba(0, 0, 0, 0.1)",
   },
   button: {
     fontFamily: "typography",
@@ -56,9 +62,11 @@ const styles = {
   },
 };
 
-const CreateFinal = ({ id, text, product, mode }) => {
+const CreateFinal = ({ id, text, product, mode, images }) => {
+  const [viewState, setViewState] = React.useState(true);
+
   const handleAddToCart = () => {
-    if(mode === "own"){
+    if (mode === "own") {
       let customCard = {
         _id: id,
         url: "",
@@ -66,10 +74,9 @@ const CreateFinal = ({ id, text, product, mode }) => {
         price: 5.9,
       };
       ShoppingCartService.addOwnCard(customCard, text);
-    }else{
-      ShoppingCartService.addItem(product, text)
+    } else {
+      ShoppingCartService.addItem(product, text);
     }
-
   };
 
   return (
@@ -92,30 +99,51 @@ const CreateFinal = ({ id, text, product, mode }) => {
         >
           <Grid item xs={3}>
             <IconButton sx={{ float: "right", marginRight: "20px" }}>
-              <ArrowBackIosIcon sx={{ fontSize: "60px" }} />
+              <ArrowBackIosIcon
+                onClick={() => {
+                  setViewState(false);
+                }}
+                sx={{ fontSize: "60px" }}
+              />
             </IconButton>
           </Grid>
           <Grid item xs={3}>
-            <Box style={styles.cardWindows} sx={{ float: "right" }}></Box>
+            {viewState ? (
+              <Box style={styles.cardWindows} sx={{ float: "right" }}></Box>
+            ) : (
+              <div></div>
+            )}
           </Grid>
           <Grid item xs={3}>
-            <Box style={styles.cardWindows} sx={{ float: "left" }}>
-              <div
-                id="final-text-view"
-                sx={{
-                  marginTop: "20px",
-                  marginLeft: "20px",
-                  marginRight: "20px",
-                }}
-              >
-                {text}
-              </div>
-            </Box>
+            {viewState ? (
+              <Box style={styles.cardWindows} sx={{ float: "left" }}>
+                <Box id="final-text-view" margin={"30px"}>
+                  {text}
+                </Box>
+              </Box>
+            ) : images[0] != null ? (
+              <Box style={styles.cardWindows} sx={{ float: "left" }}>
+                <img
+                  style={styles.image}
+                  src={URL.createObjectURL(images[0])}
+                  crossOrigin="anonymous"
+                ></img>
+              </Box>
+            ) : (
+              <Box
+                style={styles.cardWindows}
+                sx={{ float: "left" }}
+                sx={{ textAlign: "center" }}
+              ></Box>
+            )}
           </Grid>
           <Grid item xs={3}>
             <Box>
               <IconButton>
                 <ArrowBackIosIcon
+                  onClick={() => {
+                    setViewState(true);
+                  }}
                   sx={{ transform: "rotate(180deg)", fontSize: "60px" }}
                 />
               </IconButton>
