@@ -7,7 +7,7 @@ import UpdateIcon from '@mui/icons-material/Update';
 
 
 
-function ContactItem({contact}) {  
+function ContactItem({contact, changeContact, allContacts}) {  
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [name, setName] = useState("");
@@ -33,6 +33,8 @@ const deleteContact = (id) => {
         () => {  
           //alert("Contact deleted");
           console.log("Contact deleted");
+          const updated = allContacts.filter(con => con._id !== id);
+          changeContact(updated);
           
         }
       )
@@ -48,11 +50,20 @@ const updateContact = (e, id) => {
           //alert("Contact updated"); 
           console.log(res)
           console.log("Contact updated")
-               
-          
-        }
-      )
-}
+
+          changeContact(prevState => {
+            const updated = prevState.map(con => {
+              if (con._id === id) {
+                return res
+              }else {
+                return con
+              }
+            })         
+          return updated
+        })
+
+    })
+  }
 
  /* useEffect(() => {
   AddressService.getAddress(contact.acquaintanceAddress).then(res => {         // a lot of get requests but all update fields are prefilled ->> annoyiing when testing

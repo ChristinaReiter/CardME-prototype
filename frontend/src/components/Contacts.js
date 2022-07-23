@@ -17,11 +17,9 @@ const Contacts = () => {
       e.preventDefault();
 
       AcquaintanceService.setAcquaintance({ name, street, streetNumber, zipCode, city, country}).then(
-        () => {              
-          /*  AcquaintanceService.getAcquaintances().then(res => {
-            setContacts(res);
-        })  */
-        alert("Contact created");
+        res => {  
+          setContacts([...contacts, res]);
+        console.log("Contact created")
         }
       ).catch(
         () => {              
@@ -109,7 +107,7 @@ const Contacts = () => {
         {contacts.length > 0 ? (
           <div className ="contacts">
             {contacts.map((contact) => (
-              <ContactItem key={contact._id} contact={contact} />
+              <ContactItem key={contact._id} contact={contact} changeContact = {setContacts} allContacts = {contacts} />
             ))}
           </div>
         ) : (<h3> No Contacts </h3>)}

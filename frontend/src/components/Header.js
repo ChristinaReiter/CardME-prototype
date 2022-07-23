@@ -48,10 +48,10 @@ const Header = ({images}) => {
   const [currentAccount, setCurrentAccount] = useState(undefined);
 
   useEffect(() => {
-    const account = AuthService.getMe();
-    if (account) {
-      setCurrentAccount(account);
-    }
+    AuthService.getMe().then(res => {
+      setCurrentAccount(res);
+    })
+   
   }, []);
 
 
