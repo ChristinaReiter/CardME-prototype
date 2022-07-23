@@ -18,7 +18,7 @@ import View from "./components/View";
 import Calendar from "./components/Calendar";
 import Favorites from "./components/Favorites";
 import Contacts from "./components/Contacts";
-import AccountDetails from "./components/AccountDetails";
+import Details from "./components/Details";
 import ShoppingCartService from "./services/ShoppingCartService";
 import SuccessfulOrder from "./components/SuccessfulOrder";
 import ViewCard from "./components/ViewCard";
@@ -80,7 +80,7 @@ function App() {
                 <Route path="calendar" element={<Calendar />} />
                 <Route path="favorites" element={<Favorites />} />
                 <Route path="contacts" element={<Contacts />} />
-                <Route path="details" element={<AccountDetails />} />
+                <Route path="details" element={<Details />} />
               </Route>
               <Route exact path="/register" element={<Register />} />
               <Route exact path="/login" element={<Login />} />

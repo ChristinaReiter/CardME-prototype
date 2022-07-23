@@ -14,6 +14,7 @@ const calendarEvent = require("./src/routes/calendarEvent");
 const favorite = require("./src/routes/favorite");
 const acquaintance = require("./src/routes/acquaintance");
 const addresss = require("./src/routes/address");
+const details = require("./src/routes/details");
 
 mongoose.connect(config.mongoURI).then(
   () => {
@@ -60,6 +61,8 @@ app.use("/profile/favorites", favorite);
 app.use("/profile/contacts", acquaintance);
 
 app.use("/profile/address", addresss);
+
+app.use("/profile/details", details);
 
 
 

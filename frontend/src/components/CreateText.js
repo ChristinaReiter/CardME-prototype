@@ -23,9 +23,6 @@ import FormatAlignLeftIcon from "@mui/icons-material/FormatAlignLeft";
 import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
 import FormatAlignJustifyIcon from "@mui/icons-material/FormatAlignJustify";
 import FormatAlignLeft from "@mui/icons-material/FormatAlignLeft";
-import CreateTextEditor from "./CreateTextEditor";
-import CreateTextEditor2 from "./CreateTextEditor2";
-import CreateTextEditor3 from "./CreateTextEditor3";
 
 const styles = {
   stepbar: {
@@ -523,42 +520,75 @@ const CreateText = ({ text, setText }) => {
                   >
                     <MenuItem
                       onClick={() => {
+                        setText(text + "💖");
                         setStyleEl(null);
-                        setText(text + "😀");
+                        let newHistoryStates = [...history];
+                        if (newHistoryStates.length - 1 > historyPointer) {
+                          newHistoryStates = newHistoryStates.slice(
+                            0,
+                            historyPointer + 1
+                          );
+                        }
+                        newHistoryStates.push(text + "💖");
+                        setHistory(newHistoryStates);
                       }}
                       disableRipple
                     >
-                      <FavoriteIcon />
-                      Heart
+                      💖 Heart
                     </MenuItem>
                     <MenuItem
                       onClick={() => {
+                        setText(text + "😊");
                         setStyleEl(null);
+                        let newHistoryStates = [...history];
+                        if (newHistoryStates.length - 1 > historyPointer) {
+                          newHistoryStates = newHistoryStates.slice(
+                            0,
+                            historyPointer + 1
+                          );
+                        }
+                        newHistoryStates.push(text + "😊");
+                        setHistory(newHistoryStates);
                       }}
                       disableRipple
                     >
-                      <SentimentVerySatisfiedIcon />
-                      Happy
+                      😊 Happy
                     </MenuItem>
                     <MenuItem
                       onClick={() => {
-                        cardtext.style.textAlign = "right";
+                        setText(text + "😥");
                         setStyleEl(null);
+                        let newHistoryStates = [...history];
+                        if (newHistoryStates.length - 1 > historyPointer) {
+                          newHistoryStates = newHistoryStates.slice(
+                            0,
+                            historyPointer + 1
+                          );
+                        }
+                        newHistoryStates.push(text + "😥");
+                        setHistory(newHistoryStates);
                       }}
                       disableRipple
                     >
-                      <SentimentVeryDissatisfiedIcon />
-                      Sad
+                      😥 Sad
                     </MenuItem>
                     <MenuItem
                       onClick={() => {
-                        cardtext.style.textAlign = "right";
+                        setText(text + "🌞");
                         setStyleEl(null);
+                        let newHistoryStates = [...history];
+                        if (newHistoryStates.length - 1 > historyPointer) {
+                          newHistoryStates = newHistoryStates.slice(
+                            0,
+                            historyPointer + 1
+                          );
+                        }
+                        newHistoryStates.push(text + "🌞");
+                        setHistory(newHistoryStates);
                       }}
                       disableRipple
                     >
-                      <WbSunnyIcon />
-                      Sun
+                      🌞 Sun
                     </MenuItem>
                   </StyledMenu>
                 </Grid>
@@ -617,7 +647,6 @@ const CreateText = ({ text, setText }) => {
             ></TextField>
           </Grid>
         </Grid>
-        <CreateTextEditor3 />
       </Typography>
     </Box>
   );

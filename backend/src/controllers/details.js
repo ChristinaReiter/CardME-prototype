@@ -1,25 +1,36 @@
-const Order = require("../models/order");
+const Account = require("../models/account");
+const User = require("../models/user");
 
-const getAccount = async (req, res) => { //TODO
-    try {
-      const orders = await Order.find();
-  
-      return res.status(200).json(orders);
-    } catch (err) {
-      console.log(err);
-  
-      return res.status(500).json({
-        error: "Internal server error",
-        message: err.message,
-      });
-    }
-  };
 
   const updateAccount = async (req, res) => { //TODO
     try {
-      const orders = await Order.find();
+      console.log(req.body);
+      const account = await Account.findById(req.account.id); 
+
+
+
+      if(!account) {
+        return res.status(400).json({error:"Account not found"});
+      }
+
+      const user = await User.findById(account.user);
+      console.log(user);
+
+      if(!user) {
+        res.status(401).json({error:"User not found"});
+      }
+
+      if(account.user.toString() !== user.id) {
+        return res.status(401).json({error:"You are not allowed to edit this acquaintance"});
+      }
+
+      const updatedUser = await User.findByIdAndUpdate(user._id, req.body, {new: true});
+    
+      console.log(updatedUser)
+
   
-      return res.status(200).json(orders);
+      return res.status(200).json(updatedUser);
+      
     } catch (err) {
       console.log(err);
   
@@ -27,10 +38,9 @@ const getAccount = async (req, res) => { //TODO
         error: "Internal server error",
         message: err.message,
       });
-    }
+    } 
   };
 
   module.exports = {
-    getAccount,
     updateAccount,
   };
