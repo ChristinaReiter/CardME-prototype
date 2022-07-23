@@ -5,6 +5,15 @@ const ProductSchema = new mongoose.Schema({
   title: String,
   designer: String,
   description: String,
+  url: String,
+  color: Array,
+  vibe: Array,
+  style: Array,
+  recipient: Array,
+  occasion: Array,
+  season: Array,
+  date: Date,
+  foldername: String
 });
 
 ProductSchema.set("versionKey", false);

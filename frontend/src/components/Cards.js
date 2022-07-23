@@ -8,25 +8,16 @@ import {
   CardActions,
   CardContent,
   CardMedia,
-  Checkbox,
-  FormGroup,
-  FormControlLabel,
   IconButton,
   Input,
   InputAdornment,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
 } from "@mui/material";
-import FilterList from "@mui/icons-material/FilterList";
 import CardService from "../services/CardService";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
-import ShoppingCartService from "../services/ShoppingCartService";
 import FilterHeader from "./FilterHeader";
-import ViewCard from "./ViewCard";
+import AuthService from "../services/AuthService";
 
 const Cards = () => {
   const imageUrl = "http://localhost:3001/public/";
@@ -39,17 +30,34 @@ const Cards = () => {
   const [occasionFilter, setOccasionFilter] = useState({});
   const [seasonFilter, setSeasonFilter] = useState({});
   const [sortFilter, setSortFilter] = useState("trending");
+  const [favorites, setFavorites] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     CardService.getAllCards().then(
       (result) => {
-        setProducts(result);
+        setProducts(result);     
       },
       (error) => {
         console.log(error);
       }
     );
+    AuthService.getMe().then(
+      (result) => {
+        CardService.getFavorites(result._id).then(
+          (res) => {
+            setFavorites(res);
+          },
+          (err) => {
+            console.log(err);
+          }
+        )
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
+    
   }, []);
 
   const styles = {
@@ -117,7 +125,47 @@ const Cards = () => {
   };
   
   
-
+  function FavoriteButton(props) {
+    if(favorites.toString().includes(props.productID)) {
+       
+      return(         
+      <CardActions>
+        <IconButton
+          aria-label="add to favorites"
+          style={styles.favorites}
+          sx={{color:"#DC9292"}}
+          onClick={(event) => {
+            CardService.removeFavorite(AuthService.getMe(), props.productID).then(
+              (result) => {
+                console.log(result);
+                setFavorites(result);
+              }
+            )
+          }}
+        >
+          <FavoriteIcon />
+        </IconButton>
+      </CardActions>    
+      )      
+    
+  }
+  else {
+    return(
+    <CardActions>
+        <IconButton
+          aria-label="add to favorites"
+          style={styles.favorites}
+          sx={{color:"grey"}}
+          onClick={(event) => {
+            
+          }}
+        >
+          <FavoriteIcon />
+        </IconButton>
+      </CardActions> 
+    )
+  }
+  }
   
 
   return (
@@ -256,14 +304,7 @@ const Cards = () => {
                     bgcolor: "#F3F3F3",
                   }}
                 >
-                  <CardActions>
-                    <IconButton
-                      aria-label="add to favorites"
-                      style={styles.favorites}
-                    >
-                      <FavoriteIcon />
-                    </IconButton>
-                  </CardActions>
+                  <FavoriteButton productID={product._id} res=""></FavoriteButton>
                   <div
                     style={{
                       display: "flex",

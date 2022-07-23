@@ -1,3 +1,5 @@
+import tokenHeader from "./TokenHeader";
+
 export default class CardService{
     static baseUrl = "http://localhost:3001";
     static headers = new Headers({
@@ -23,4 +25,27 @@ export default class CardService{
 
         return response
     }
+
+    static async getFavorites(userID) {
+    let response = await fetch(this.baseUrl + "/profile/favorites?id=" + userID, {
+            method:"GET"
+        })
+
+        response = await response.json()
+
+        return response
+    }
+
+    static async removeFavorite(userID, productID) {
+        let response = await fetch(this.baseUrl + "/profile/favorites?id=" + userID, {
+                method:"DELETE",
+                headers: tokenHeader(),
+                body: JSON.stringify(productID),
+            })
+            
+    
+            response = await response.json()
+    
+            return response
+        }
 }

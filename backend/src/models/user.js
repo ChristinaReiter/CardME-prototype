@@ -10,6 +10,9 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  favorites: {
+    productID: String,
+  }
 });
 
 UserSchema.set("versionKey", false);
