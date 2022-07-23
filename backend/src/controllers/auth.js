@@ -68,12 +68,13 @@ const getMe = async (req, res) => {
   const account = await Account.findById(req.account.id)
   const user = await User.findById(account.user)
   
-  res.status(200).json({
-    _id: account.id,
+  res.status(200).json(
+/*     _id: account.id,
     user: user.id,
     email: user.email,
-    name: user.name,    
-  })
+    name: user.name,  */  
+     user 
+  )
 }
 
 

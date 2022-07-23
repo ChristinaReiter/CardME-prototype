@@ -1,4 +1,5 @@
 export default class AcquaintanceService {
+static baseUrl = "http://localhost:3001";
 
 static async updateAccount(data) {
    
@@ -9,7 +10,7 @@ static async updateAccount(data) {
         header.append('Authorization', `Bearer ${account.token}`)
       }
       header.append("Content-Type", "application/json")
-        let response = await fetch(this.baseUrl + "profile/details", {
+        let response = await fetch(this.baseUrl + "/profile/details", {
         method: "PUT",
         headers: header,
         body: JSON.stringify(data)            
