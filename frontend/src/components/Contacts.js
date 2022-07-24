@@ -103,7 +103,7 @@ const Contacts = () => {
         </form>             
               
       </Box>
-      <section className="content">
+      <Box>
         {contacts.length > 0 ? (
           <div className ="contacts">
             {contacts.map((contact) => (
@@ -112,10 +112,11 @@ const Contacts = () => {
           </div>
         ) : (<h3> You have no Contacts </h3>)}
 
-      </section>
-
-
+      </Box>
       </>
+
+
+      
 
     );
   };

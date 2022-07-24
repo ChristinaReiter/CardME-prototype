@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Button, Popover, Typography, TextField } from '@mui/material';
 import AcquaintanceService from '../services/AcquaintanceService';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';

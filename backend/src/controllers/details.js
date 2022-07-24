@@ -2,7 +2,7 @@ const Account = require("../models/account");
 const User = require("../models/user");
 
 
-  const updateAccount = async (req, res) => { //TODO
+  const updateAccount = async (req, res) => { 
     try {
       console.log(req.body);
       const account = await Account.findById(req.account.id); 

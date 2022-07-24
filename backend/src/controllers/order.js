@@ -1,6 +1,7 @@
 const Order = require("../models/order");
 const Address = require("../models/address");
 const User = require("../models/user");
+const Account = require("../models/account");
 
 const create = async (req, res) => {
   try {
@@ -62,9 +63,15 @@ const create = async (req, res) => {
 };
 
 const getOrder = async (req, res) => {
-  //TODO
+  
   try {
-    const orders = await Order.find();
+    
+    const account = await Account.findById(req.account.id);
+
+   
+    const orders = await Order.find({ user: account.user });
+    console.log(account.user);
+    console.log(orders)
 
     return res.status(200).json(orders);
   } catch (err) {
@@ -77,41 +84,9 @@ const getOrder = async (req, res) => {
   }
 };
 
-const updateOrder = async (req, res) => {
-  //TODO
-  try {
-    const orders = await Order.find();
-
-    return res.status(200).json(orders);
-  } catch (err) {
-    console.log(err);
-
-    return res.status(500).json({
-      error: "Internal server error",
-      message: err.message,
-    });
-  }
-};
-
-const deleteOrder = async (req, res) => {
-  //TODO
-  try {
-    const orders = await Order.find();
-
-    return res.status(200).json(orders);
-  } catch (err) {
-    console.log(err);
-
-    return res.status(500).json({
-      error: "Internal server error",
-      message: err.message,
-    });
-  }
-};
+// user cant update/delete by himself => needs to write a email 
 
 module.exports = {
   create,
   getOrder,
-  updateOrder,
-  deleteOrder,
 };
