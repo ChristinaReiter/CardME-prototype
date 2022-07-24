@@ -143,7 +143,26 @@ const StyledMenu = styled((props) => (
 }));
 
 const CreateText = ({ text, setText }) => {
-  //history for undo and redo
+  const finaltext = document.getElementById("final-text-view");
+  const cardtext = document.getElementById("card-text");
+
+  //states for fontstyle
+  const [fontstyle, setfontstyle] = React.useState("Annie Use Your Telescope");
+  const [fontstylePointer, setfontstylePointer] = React.useState(0);
+  useEffect(() => {
+    //setfontstylePointer(fontstyle.length - 1);
+    if (cardtext) {
+      cardtext.style.fontFamily = "" + fontstyle;
+    }
+  }, [fontstyle]);
+
+  //Update all text filter
+  function updateFilters() {
+    cardtext.style.fontFamily = fontstyle;
+    console.log(fontstyle);
+  }
+
+  //historystate for undo and redo
   const [history, setHistory] = React.useState([""]);
   const [historyPointer, setHistoryPointer] = React.useState(0);
 
@@ -151,8 +170,7 @@ const CreateText = ({ text, setText }) => {
     setHistoryPointer(history.length - 1);
   }, [history]);
 
-  const finaltext = document.getElementById("final-text-view");
-  const cardtext = document.getElementById("card-text");
+  //Menubuttonstate for fontstyle
   const [styleEl, setStyleEl] = React.useState(null);
   const openStyle = Boolean(styleEl);
   const handleStyleClick = (event) => {
@@ -161,7 +179,7 @@ const CreateText = ({ text, setText }) => {
   const handleStyleClose = () => {
     setStyleEl(null);
   };
-
+  //Menubuttonstate for fontcolor
   const [colorEl, setColorEl] = React.useState(null);
   const openColor = Boolean(colorEl);
   const handleColorClick = (event) => {
@@ -170,7 +188,7 @@ const CreateText = ({ text, setText }) => {
   const handleColorClose = () => {
     setColorEl(null);
   };
-
+  //Menubuttonstate for fontsize
   const [sizeEl, setSizeEl] = React.useState(null);
   const openSize = Boolean(sizeEl);
   const handleSizeClick = (event) => {
@@ -179,7 +197,7 @@ const CreateText = ({ text, setText }) => {
   const handleSizeClose = () => {
     setSizeEl(null);
   };
-
+  //Menubuttonstate for alignment
   const [alignmentEl, setAlignmentEl] = React.useState(null);
   const openAlignment = Boolean(alignmentEl);
   const handleAlignmentClick = (event) => {
@@ -188,7 +206,7 @@ const CreateText = ({ text, setText }) => {
   const handleAlignmentClose = () => {
     setAlignmentEl(null);
   };
-
+  //Menubuttonstate for icons
   const [iconsEl, setIconsEl] = React.useState(null);
   const openIcons = Boolean(iconsEl);
   const handleIconsClick = (event) => {
@@ -277,7 +295,7 @@ const CreateText = ({ text, setText }) => {
                   >
                     <MenuItem
                       onClick={() => {
-                        cardtext.style.fontFamily = "Times New Roman";
+                        setfontstyle("Times New Roman");
                         setStyleEl(null);
                       }}
                       disableRipple
@@ -286,7 +304,7 @@ const CreateText = ({ text, setText }) => {
                     </MenuItem>
                     <MenuItem
                       onClick={() => {
-                        cardtext.style.fontFamily = "Annie Use Your Telescope";
+                        setfontstyle("Annie Use Your Telescope");
                         setStyleEl(null);
                       }}
                       disableRipple
@@ -295,7 +313,7 @@ const CreateText = ({ text, setText }) => {
                     </MenuItem>
                     <MenuItem
                       onClick={() => {
-                        cardtext.style.fontFamily = "Arial";
+                        setfontstyle("Arial");
                         setStyleEl(null);
                       }}
                       disableRipple
@@ -304,7 +322,7 @@ const CreateText = ({ text, setText }) => {
                     </MenuItem>
                     <MenuItem
                       onClick={() => {
-                        cardtext.style.fontFamily = "Monaco";
+                        setfontstyle("Monaco");
                         setStyleEl(null);
                       }}
                       disableRipple
@@ -313,7 +331,7 @@ const CreateText = ({ text, setText }) => {
                     </MenuItem>
                     <MenuItem
                       onClick={() => {
-                        cardtext.style.fontFamily = "Courier New";
+                        setfontstyle("Courier New");
                         setStyleEl(null);
                       }}
                       disableRipple
@@ -596,10 +614,12 @@ const CreateText = ({ text, setText }) => {
                   <RotateLeftIcon
                     onClick={() => {
                       let newValue = historyPointer - 1;
+                      //if (history[newValue] instanceof String)
                       if (newValue >= 0) {
                         setText(history[newValue]);
                         setHistoryPointer(newValue);
                       }
+                      //else { }
                     }}
                   />
                 </Grid>
