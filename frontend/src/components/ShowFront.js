@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import CardService from "../services/CardService";
 import { useNavigate, NavLink } from "react-router-dom";
 
-const ShowFront = ({ product, setChosenImage, chosenImage, mode }) => {
+const ShowFront = ({ product, setImage, image, mode }) => {
   const styles = {
     image: {
       position: "relative",
@@ -65,7 +65,7 @@ const ShowFront = ({ product, setChosenImage, chosenImage, mode }) => {
           baseUrl + product.foldername + "/" + product.url,
           { method: "GET" }
         );
-        setChosenImage(await result.blob());
+        setImage(await result.blob());
       }
     }
     getImage();
@@ -84,9 +84,9 @@ const ShowFront = ({ product, setChosenImage, chosenImage, mode }) => {
         </AppBar>
       </Typography>
       <Box display="flex" justifyContent="center">
-        {chosenImage && (
+        {image !== null && (
           <img
-            src={URL.createObjectURL(chosenImage)}
+            src={URL.createObjectURL(image)}
             crossOrigin="anonymous"
             style={styles.image}
           />
