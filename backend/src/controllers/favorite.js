@@ -1,4 +1,3 @@
-const Users = require("../models/user");
 const Account = require("../models/account");
 
 const getFavorite = async (req, res) => { //TODO
@@ -13,7 +12,6 @@ const getFavorite = async (req, res) => { //TODO
       }
       
       const favorites = account.favorites;
-      console.log(account);
       
       return res.status(200).json(favorites);
     } catch (err) {
@@ -30,6 +28,7 @@ const getFavorite = async (req, res) => { //TODO
     try {
       const account = await Account.findById(req.account.id);
 
+
       if (!account) {
         return res.status(400).json({error:"Account not found"});
       }
@@ -38,9 +37,9 @@ const getFavorite = async (req, res) => { //TODO
         $addToSet: {favorites: req.body.product}
       }
       
-      const updatedAccount = await Account.findOneAndUpdate({id: req.account.id}, newFaves);
+      const updatedAccount = await Account.findByIdAndUpdate(account.id, newFaves);
   
-      return res.status(200).json(updatedAccount);
+      return res.status(200).json(updatedAccount.favorites);
       
     } catch (err) {
       console.log(err);
@@ -61,11 +60,10 @@ const getFavorite = async (req, res) => { //TODO
       }
 
       var newFaves = {
-        $pullAll: {favorites: req.params.deleteUId}
+        $pullAll: {favorites: [req.body.product]}
       }
-      console.log(req.params.deleteUId);
       
-      const updatedAccount = await Account.findOneAndUpdate({id: req.account.id}, newFaves);
+      const updatedAccount = await Account.findByIdAndUpdate(account.id, newFaves);
   
       return res.status(200).json(updatedAccount.favorites);
       

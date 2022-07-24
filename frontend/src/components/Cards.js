@@ -113,7 +113,9 @@ const Cards = () => {
           return products.sort(); //don't know what to do here lol
         } 
         if(sortFilter == "trending") {
-          return products.sort(() => Math.random() - 0.5);
+          var randomNumber = 0;
+          randomNumber = Math.floor(Math.random());
+          return products.sort(() => randomNumber - 0.5);
         } 
         if(sortFilter == "newest") {
           return products.sort((a,b) => a.date > b.date? -1 : 1);
@@ -126,11 +128,100 @@ const Cards = () => {
         }
           
   };
+
+  const filteredCards = productsSort().filter (
+    (el) => {
+      var filterArray = [];
+      Object.keys(colorFilter).map((key) => {
+          if (colorFilter[key]) {
+            filterArray.push(key);
+          }
+      })
+      Object.keys(vibeFilter).map((key) => {
+        if(vibeFilter[key]) {
+          filterArray.push(key);
+        }
+      })
+      Object.keys(styleFilter).map((key) => {
+        if(styleFilter[key]) {
+          filterArray.push(key);
+        }
+      })
+      Object.keys(recipientsFilter).map((key) => {
+        if(recipientsFilter[key]) {
+          filterArray.push(key);
+        }
+      })
+      Object.keys(occasionFilter).map((key) => {
+        if(occasionFilter[key]) {
+          filterArray.push(key);
+        }
+      })
+      Object.keys(seasonFilter).map((key) => {
+        if(seasonFilter[key]) {
+          filterArray.push(key);
+        }
+      })
+      if (searchTerm.length === 0 && filterArray.length === 0) {
+        return el;
+        
+      } 
+      else if(searchTerm.length === 0 && filterArray.length !== 0) {
+        return(
+          filterArray
+          .every(filter => 
+            {
+              return (
+                el.vibe.includes(filter) || 
+                el.color.includes(filter) || 
+                el.style.includes(filter) || 
+                el.recipient.includes(filter) ||
+                el.occasion.includes(filter) ||
+                el.season.includes(filter))}
+          )
+        )
+      }
+      else if(searchTerm.length !== 0 && filterArray.length === 0) {
+        return (
+          el.title
+            .toString()
+            .toLowerCase()
+            .includes(searchTerm.toString().toLowerCase()) ||
+          el.designer
+            .toString()
+            .toLowerCase()
+            .includes(searchTerm.toString().toLowerCase()))
+      }
+      else {
+        return (
+          (el.title
+            .toString()
+            .toLowerCase()
+            .includes(searchTerm.toString().toLowerCase()) ||
+          el.designer
+            .toString()
+            .toLowerCase()
+            .includes(searchTerm.toString().toLowerCase())) &&
+            filterArray
+            .every(filter => 
+              {
+                return (
+                  el.vibe.includes(filter) || 
+                  el.color.includes(filter) || 
+                  el.style.includes(filter) || 
+                  el.recipient.includes(filter) ||
+                  el.occasion.includes(filter) ||
+                  el.season.includes(filter))}
+            )
+        );
+      }
+    }
+  )
   
   
   function FavoriteButton(props) {
-    if(favorites.toString().includes(props.productID)) {
-       
+    const found = favorites.find(element => element._id === props.productObject._id);
+    if(found) {    
       return(         
       <CardActions>
         <IconButton
@@ -138,10 +229,9 @@ const Cards = () => {
           style={styles.favorites}
           sx={{color:"#DC9292"}}
           onClick={(event) => {
-            CardService.removeFavorite({product:props.productObject}).then(
+            CardService.removeFavorite({product: props.productObject}).then(
               (result) => {
                 setFavorites(result);
-                
               }
             )
           }}
@@ -163,6 +253,7 @@ const Cards = () => {
             CardService.setFavorites({product: props.productObject}).then(
               (result) => {
                 setFavorites(result);
+                
               }
             )
           }}
@@ -209,175 +300,97 @@ const Cards = () => {
       </Box>
       <Box sx={{ margin: "30px 30px 30px 30px" }}>
         <Typography variant="h4">All Cards:</Typography>
-        <Grid
-          container
-          rowSpacing={1}
-          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-          sx={{ margin: "20px 10px 10px 10px" }}
-        >
-          {productsSort()
-            .filter((el) => {
-              var filterArray = [];
-              Object.keys(colorFilter).map((key) => {
-                  if (colorFilter[key]) {
-                    filterArray.push(key);
-                  }
-              })
-              Object.keys(vibeFilter).map((key) => {
-                if(vibeFilter[key]) {
-                  filterArray.push(key);
-                }
-              })
-              Object.keys(styleFilter).map((key) => {
-                if(styleFilter[key]) {
-                  filterArray.push(key);
-                }
-              })
-              Object.keys(recipientsFilter).map((key) => {
-                if(recipientsFilter[key]) {
-                  filterArray.push(key);
-                }
-              })
-              Object.keys(occasionFilter).map((key) => {
-                if(occasionFilter[key]) {
-                  filterArray.push(key);
-                }
-              })
-              Object.keys(seasonFilter).map((key) => {
-                if(seasonFilter[key]) {
-                  filterArray.push(key);
-                }
-              })
-              if (searchTerm.length === 0 && filterArray.length === 0) {
-                return el;
-                
-              } 
-              else if(searchTerm.length === 0 && filterArray.length !== 0) {
-                return(
-                  filterArray
-                  .every(filter => 
-                    {
-                      return (
-                        el.vibe.includes(filter) || 
-                        el.color.includes(filter) || 
-                        el.style.includes(filter) || 
-                        el.recipient.includes(filter) ||
-                        el.occasion.includes(filter) ||
-                        el.season.includes(filter))}
-                  )
-                )
-              }
-              else if(searchTerm.length !== 0 && filterArray.length === 0) {
-                return (
-                  el.title
-                    .toString()
-                    .toLowerCase()
-                    .includes(searchTerm.toString().toLowerCase()) ||
-                  el.designer
-                    .toString()
-                    .toLowerCase()
-                    .includes(searchTerm.toString().toLowerCase()))
-              }
-              else {
-                return (
-                  (el.title
-                    .toString()
-                    .toLowerCase()
-                    .includes(searchTerm.toString().toLowerCase()) ||
-                  el.designer
-                    .toString()
-                    .toLowerCase()
-                    .includes(searchTerm.toString().toLowerCase())) &&
-                    filterArray
-                    .every(filter => 
-                      {
-                        return (
-                          el.vibe.includes(filter) || 
-                          el.color.includes(filter) || 
-                          el.style.includes(filter) || 
-                          el.recipient.includes(filter) ||
-                          el.occasion.includes(filter) ||
-                          el.season.includes(filter))}
-                    )
-                );
-              }
-            })
-            .map((product) => (
-              <Grid item xs={3} key={product._id}>
-                <Card
-                  sx={{
-                    width: 270,
-                    height: 430,
-                    bgcolor: "#F3F3F3",
-                  }}
-                >
-                  <FavoriteButton productObject={product} res=""></FavoriteButton>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
+          <div>
+          { filteredCards.length > 0 ? 
+            (
+              <Grid
+                container
+                rowSpacing={1}
+                columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                sx={{ margin: "20px 10px 10px 10px" }}
+              >
+              {filteredCards.map((product) => (
+              
+                <Grid item xs={3} key={product._id}>
+                  <Card
+                    sx={{
+                      width: 270,
+                      height: 430,
+                      bgcolor: "#F3F3F3",
                     }}
                   >
-                    <CardMedia
-                      style={styles.image}
-                      component="img"
-                      sx={{ width: 146.67, height: 220, objectFit: "cover" }}
-                      src={imageUrl + product.foldername + "/" + product.url}
-                      alt="Card-Preview"
-                      crossOrigin="anonymous"
-                    />
-                  </div>
-                  <CardContent>
-                    <Typography
-                      fontFamily={"Antic"}
-                      fontSize="20px"
-                      fontWeight={"500"}
-                      textAlign="center"
-                      component="div"
+                    <FavoriteButton productObject={product} res=""></FavoriteButton>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
                     >
-                      {product.title}
-                    </Typography>
-                    <Typography
-                      fontFamily={"Antic"}
-                      fontSize="16px"
-                      textAlign={"center"}
-                      component="div"
-                    >
-                      by {product.designer}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <div style={{ display: "flex", justifyContent: "center" }}>
-                      <Button
-                        size="small"
-                        variant="contained"
-                        color="secondary"
-                        style={styles.button}
-                        onClick={() => {
-                          navigate("/ViewCard/" + product._id);
-                        }}
-                        
-                      >
-                        View
-                      </Button>
-                      <Button
-                        size="small"
-                        variant="contained"
-                        color="secondary"
-                        style={styles.button}
-                        onClick={() => {
-                          addProductToCart(product);
-                        }}
-                      >
-                        Write
-                      </Button>
+                      <CardMedia
+                        style={styles.image}
+                        component="img"
+                        sx={{ width: 146.67, height: 220, objectFit: "cover" }}
+                        src={imageUrl + product.foldername + "/" + product.url}
+                        alt="Card-Preview"
+                        crossOrigin="anonymous"
+                      />
                     </div>
-                  </CardActions>
-                </Card>
+                    <CardContent>
+                      <Typography
+                        fontFamily={"Antic"}
+                        fontSize="20px"
+                        fontWeight={"500"}
+                        textAlign="center"
+                        component="div"
+                      >
+                        {product.title}
+                      </Typography>
+                      <Typography
+                        fontFamily={"Antic"}
+                        fontSize="16px"
+                        textAlign={"center"}
+                        component="div"
+                      >
+                        by {product.designer}
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <div style={{ display: "flex", justifyContent: "center" }}>
+                        <Button
+                          size="small"
+                          variant="contained"
+                          color="secondary"
+                          style={styles.button}
+                          onClick={() => {
+                            navigate("/ViewCard/" + product._id);
+                          }}
+                          
+                        >
+                          View
+                        </Button>
+                        <Button
+                          size="small"
+                          variant="contained"
+                          color="secondary"
+                          style={styles.button}
+                          onClick={() => {
+                            addProductToCart(product);
+                          }}
+                        >
+                          Write
+                        </Button>
+                      </div>
+                    </CardActions>
+                  </Card>
+                </Grid>))}
               </Grid>
-            ))}
-        </Grid>
+            ): 
+            <Typography style={{alignContent:"center", marginLeft:"1%", marginTop:"1%", fontSize:"24px"}}>
+              No Cards Available.
+            </Typography>}
+            </div>
+        
       </Box>
     </div>
   );

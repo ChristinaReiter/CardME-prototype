@@ -13,6 +13,7 @@ import CheckoutService from "../services/CheckoutService";
 
 const CheckoutData = () => {
   const [checkoutData, setCheckoutData] = useState({});
+  const [firstShipmentDate, setFirstShipmentDate] = useState(null);
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -31,6 +32,11 @@ const CheckoutData = () => {
     if (checkoutData) {
       setCheckoutData(checkoutData);
     }
+
+    // Set date for delivery date picker
+    let date = new Date();
+    date.setDate(date.getDate() + 3);
+    setFirstShipmentDate(date.toISOString().split("T")[0]);
   }, []);
 
   const handleChange = (event) => {
@@ -42,10 +48,10 @@ const CheckoutData = () => {
   };
 
   const handleToggle = (event) => {
-    const value = event.target.checked
+    const value = event.target.checked;
 
-    setCheckoutData((values) => ({...values, "recurrentDelivery": value}))
-  }
+    setCheckoutData((values) => ({ ...values, recurrentDelivery: value }));
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -217,11 +223,16 @@ const CheckoutData = () => {
               value={checkoutData.deliveryDate || ""}
               name="deliveryDate"
               onChange={handleChange}
+              InputProps={{ inputProps: { min: firstShipmentDate } }}
               required
             ></TextField>
             <FormControlLabel
               control={
-                <Checkbox name="recurrentDelivery" onChange={handleToggle} checked={checkoutData.recurrentDelivery || false}/>
+                <Checkbox
+                  name="recurrentDelivery"
+                  onChange={handleToggle}
+                  checked={checkoutData.recurrentDelivery || false}
+                />
               }
               label="Recurring delivery"
             />{" "}

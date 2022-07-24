@@ -29,7 +29,6 @@ export default class CardService{
     static async getFavorites(userID) {
 
         let account = JSON.parse(localStorage.getItem("account"));
-        console.log(account)
           let header = new Headers();
           if (account && account.token) {
             header.append('Authorization', `Bearer ${account.token}`)
@@ -74,9 +73,10 @@ export default class CardService{
         }
         header.append("Content-Type", "application/json");
 
-        let response = await fetch(this.baseUrl + "/profile/favorites?deleteUId=" + data, {
-                method:"DELETE",
+        let response = await fetch(this.baseUrl + "/profile/favorites", {
+                method:"PUT",
                 headers: header,
+                body:JSON.stringify(data),
             })
             
     
