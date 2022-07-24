@@ -10,12 +10,9 @@ const AccountSchema = new mongoose.Schema({
 
   // Not quite sure if below are referenced correctly 
  favorites: {
-    type: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.Array,
         ref: "Product",
-      },
-    ],
+
   },
    /* 
   calendarEvents: {
