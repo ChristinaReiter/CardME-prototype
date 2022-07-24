@@ -77,6 +77,10 @@ const CreateFinal = ({
   grayscale,
   sepia,
   imageFilters,
+  fontstyle,
+  fontcolor,
+  fontsize,
+  fontalign,
 }) => {
   const [viewState, setViewState] = React.useState(true);
   const navigate = useNavigate();
