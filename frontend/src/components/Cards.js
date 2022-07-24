@@ -113,7 +113,9 @@ const Cards = () => {
           return products.sort(); //don't know what to do here lol
         } 
         if(sortFilter == "trending") {
-          return products.sort(() => Math.random() - 0.5);
+          var randomNumber = 0;
+          randomNumber = Math.floor(Math.random());
+          return products.sort(() => randomNumber - 0.5);
         } 
         if(sortFilter == "newest") {
           return products.sort((a,b) => a.date > b.date? -1 : 1);
@@ -129,8 +131,9 @@ const Cards = () => {
   
   
   function FavoriteButton(props) {
-    if(favorites.toString().includes(props.productID)) {
-       
+    console.log(favorites);
+    const found = favorites.find(element => element._id === props.productObject._id);
+    if(found) {    
       return(         
       <CardActions>
         <IconButton
@@ -138,10 +141,9 @@ const Cards = () => {
           style={styles.favorites}
           sx={{color:"#DC9292"}}
           onClick={(event) => {
-            CardService.removeFavorite({product:props.productObject}).then(
+            CardService.removeFavorite({product: props.productObject}).then(
               (result) => {
                 setFavorites(result);
-                
               }
             )
           }}
@@ -163,6 +165,7 @@ const Cards = () => {
             CardService.setFavorites({product: props.productObject}).then(
               (result) => {
                 setFavorites(result);
+                
               }
             )
           }}
