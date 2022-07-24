@@ -15,6 +15,7 @@ const favorite = require("./src/routes/favorite");
 const acquaintance = require("./src/routes/acquaintance");
 const addresss = require("./src/routes/address");
 const details = require("./src/routes/details");
+const gifts = require("./src/routes/gifts");
 
 mongoose.connect(config.mongoURI).then(
   () => {
@@ -46,6 +47,8 @@ app.get("/", (req, res) => {
 
 app.use("/products", product);
 
+app.use("/gifts", gifts);
+
 app.use("/", auth) 
 
 //app.use("/order", order);
@@ -63,6 +66,7 @@ app.use("/profile/contacts", acquaintance);
 app.use("/profile/address", addresss);
 
 app.use("/profile/details", details);
+
 
 
 

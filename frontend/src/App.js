@@ -22,6 +22,8 @@ import Details from "./components/Details";
 import ShoppingCartService from "./services/ShoppingCartService";
 import SuccessfulOrder from "./components/SuccessfulOrder";
 import ViewCard from "./components/ViewCard";
+import ViewGift from "./components/ViewGift";
+import Gifts from "./components/Gifts";
 
 export const theme = createTheme({
   palette: {
@@ -57,6 +59,8 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route exact path="/cards" element={<Cards />} />
               <Route path="/ViewCard/:cardid" element={<ViewCard />} />
+              <Route path="/ViewGift/:giftid" element={<ViewGift />} />
+              <Route exact path ="/gifts" element={<Gifts />} />
               <Route
                 path="/create/:cardStyle/:id"
               >

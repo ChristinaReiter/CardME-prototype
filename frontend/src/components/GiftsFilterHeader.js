@@ -21,7 +21,7 @@ import {
  
 
 
-const FilterHeader = ({
+const ProductsFilterHeader = ({
       colorFilter, setColorFilter, 
       vibeFilter, setVibeFilter, 
       styleFilter, setStyleFilter, 
@@ -285,4 +285,4 @@ const FilterHeader = ({
      
     
 }
-export default FilterHeader;
+export default ProductsFilterHeader;

@@ -2,38 +2,23 @@ import { Box, Button, Card, CardMedia, Typography } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import CardService from "../services/CardService";
+import GiftService from "../services/GiftService";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../services/AuthService";
 
 const ViewCard = () => {
 
- const {cardid} = useParams();
+ const {giftid} = useParams();
  const [singleProduct, setSingleProduct] = useState();
- const [diffColorCards, setdiffColorCards] = useState([]);
  const imageUrl = "http://localhost:3001/public/";
- const [currentImage, setCurrentImage] = useState(null);
  const [favorites, setFavorites] = useState([]);
  const navigate = useNavigate();
 
 useEffect(() => {
-  console.log(cardid);
-  CardService.getSingleCard(cardid).then(
+    console.log(giftid);
+  GiftService.getSingleGift(giftid).then(
     (result) => {
       setSingleProduct(result);
-      if (result.title === "Heartly Mother's Day Card") {
-        setdiffColorCards(["hmd_blue.png", "hmd_bright.png", "hmd_pale.png", "hmd_yellow.png"]);     
-      }
-      if (result.title === "Flowery Wishes") {
-        setdiffColorCards(["fw_blue.jpg", "fw_green.jpg", "fw_pink.jpg", "fw_orange.jpg"]);
-      }
-      if (result.title === "I Moustache You") {
-        setdiffColorCards(["imy_blue.jpg", "imy_gold.jpg", "imy_red.jpg", "imy_violet.jpg"]);
-      }
-      if (result.title === "Pastell Flowers") {
-        setdiffColorCards(["fp_green.jpg", "fp_violet.jpg", "fp_brown.jpg", "fp_pink.jpg"]);
-      }
-      setCurrentImage(result.url);
     },
     (error) => {
       console.log(error);
@@ -41,7 +26,7 @@ useEffect(() => {
   );
   AuthService.getMe().then(
     (result) => {
-      CardService.getFavorites(result._id).then(
+      GiftService.getFavorites(result._id).then(
         (res) => {
           setFavorites(res);
         }
@@ -68,17 +53,13 @@ const addProductToCart = async (product) => {
   navigate("/create/chosen/" + product._id);
 };
 
-const changeDisplayImage= (displayImage) => {
-  setCurrentImage(displayImage);
-}
-
 function SwitchFavoriteButton() {
   const found = favorites.find(element => element._id === singleProduct._id);
   if(found) {
     return (
       <FavoriteIcon style={{fontSize: "90px", color: "#DC9292"}}
         onClick={(event) => {
-          CardService.removeFavorite({product: singleProduct}).then(
+          GiftService.removeFavorite({product: singleProduct}).then(
             (result) => {
               setFavorites(result);
             }
@@ -91,7 +72,7 @@ function SwitchFavoriteButton() {
     return (
       <FavoriteIcon style={{fontSize: "90px", color: "grey"}}
         onClick={(event) => {
-          CardService.setFavorites({product: singleProduct}).then(
+          GiftService.setFavorites({product: singleProduct}).then(
             (result) => {
               setFavorites(result);
             }
@@ -107,14 +88,14 @@ function SwitchFavoriteButton() {
       <div style = {{position:"absolute", paddingLeft: "8%", paddingTop:"2%"}}>
         <Card style={{
             backgroundColor: "#F3F3F3", 
-            width: "400px", 
-            height: "560px", 
+            width: "450px", 
+            height: "500px", 
             objectFit: "contain",
             marginLeft:"7%"
           }} elevation={22}>
           <CardMedia 
             component="img" 
-            src={singleProduct? (imageUrl + "/" + singleProduct.foldername + "/" + currentImage) : ""} 
+            src={singleProduct? (imageUrl + "/" + singleProduct.foldername + "/" + singleProduct.url) : ""} 
             alt="Card-Preview" 
             crossOrigin="anonymous" 
             style={{
@@ -124,46 +105,8 @@ function SwitchFavoriteButton() {
               height:"100%"
             }} />
         </Card>
-        <div style={{display:"flex", flexDirection: "row", justifyContent: "center", position:"absolute", paddingTop:"30px", paddingRight:"10%"}}>
-          <Box 
-            variant="outlined" 
-            style={{width:"100px", height:"100px", borderColor: "black", backgroundColor:"#E8E8E8", marginRight:"5%"}} 
-            onClick={() => changeDisplayImage(singleProduct? singleProduct.url : "")}>
-            <CardMedia 
-                component="img"
-                src= {singleProduct? (imageUrl + "/" + singleProduct.foldername + "/" + singleProduct.url) : ""} 
-                alt="Card-Preview" 
-                crossOrigin="anonymous" 
-                style={{
-                  marginLeft: "10%", 
-                  marginTop:"10%", 
-                  width:"80%", 
-                  height:"80%"
-                }}
-                 />
-          </Box>
-          {diffColorCards.map((otherCol) => (
-            <Box 
-              key={otherCol.toString()} 
-              variant="outlined" 
-              style={{width:"100px", height:"100px", borderColor: "black", backgroundColor:"#E8E8E8", marginRight:"5%"}}
-              onClick={() => changeDisplayImage(otherCol)}
-            >
-              <CardMedia 
-                component="img"
-                src= {singleProduct? (imageUrl + singleProduct.foldername + "/" + otherCol): ""} 
-                alt="Card-Preview" 
-                crossOrigin="anonymous" 
-                style={{
-                  marginLeft: "10%", 
-                  marginTop:"10%", 
-                  width:"80%", 
-                  height:"80%"
-                }} />
-            </Box>
-          ))}
         </div>
-      </div>
+    
       
       <div style={{
             position:"absolute", 
@@ -183,10 +126,6 @@ function SwitchFavoriteButton() {
             fontSize:"50px", 
             fontWeight:"400"
           }}>{singleProduct? singleProduct.title : ""}</Typography>
-        <Typography style={{
-            fontSize:"30px", 
-            paddingLeft:"70px"
-          }}>by {singleProduct? singleProduct.designer : ""}</Typography>
         <Typography style={{
             fontSize:"30px", 
             paddingTop:"40px"
@@ -209,7 +148,7 @@ function SwitchFavoriteButton() {
               addProductToCart(singleProduct? singleProduct: null);
             }}   
           >
-            Write on Card
+            Add to Basket
           </Button>
           <div style={{fontSize: "30px"}}>
             {singleProduct? singleProduct.price: ""} €
