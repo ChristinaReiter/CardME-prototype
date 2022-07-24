@@ -93,10 +93,20 @@ const CreateFinal = ({
       itemToAdd.title = "Own Card";
       itemToAdd.price = 5.9;
       itemToAdd.imageFilters = imageFilters;
+      // To restore slider on edit
+      itemToAdd.imageFilterValues = {
+        rotation: rotation,
+        brightness: brightness,
+        contrast: contrast,
+        saturate: saturate,
+        grayscale: grayscale,
+        sepia: sepia,
+      };
     } else {
       itemToAdd.title = product.title;
       itemToAdd.price = product.price;
       itemToAdd.imageFilters = {};
+      itemToAdd.imageFilterValues = {};
     }
     return ShoppingCartService.addItem(itemToAdd, text);
   };

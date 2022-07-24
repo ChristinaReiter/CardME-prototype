@@ -41,6 +41,13 @@ const Create = () => {
         setProduct(item);
         setImage(item.cardImage);
         setText(item.cardText);
+
+        setRotation(item.cardImageFilterValues.rotation);
+        setBrightness(item.cardImageFilterValues.brightness);
+        setContrast(item.cardImageFilterValues.contrast);
+        setSaturate(item.cardImageFilterValues.saturate);
+        setGrayscale(item.cardImageFilterValues.grayscale);
+        setSepia(item.cardImageFilterValues.sepia);
       });
     } else {
       // Reset all states for new card
