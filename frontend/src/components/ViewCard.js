@@ -1,10 +1,10 @@
-import { Box, Button, Card, CardMedia, Paper, Typography } from "@mui/material";
+import { Box, Button, Card, CardMedia, Typography } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { shadows } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CardService from "../services/CardService";
 import { useNavigate } from "react-router-dom";
+import AuthService from "../services/AuthService";
 
 const ViewCard = () => {
 
@@ -13,6 +13,7 @@ const ViewCard = () => {
  const [diffColorCards, setdiffColorCards] = useState([]);
  const imageUrl = "http://localhost:3001/public/";
  const [currentImage, setCurrentImage] = useState(null);
+ const [favorites, setFavorites] = useState([]);
  const navigate = useNavigate();
 
 useEffect(() => {
@@ -37,6 +38,18 @@ useEffect(() => {
       console.log(error);
     }
   );
+  AuthService.getMe().then(
+    (result) => {
+      CardService.getFavorites(result._id).then(
+        (res) => {
+          setFavorites(res);
+        }
+      )
+    },
+    (error) => {
+      console.log(error);
+    }
+  )
 }, []);
 
 const styles = {
@@ -51,13 +64,41 @@ const styles = {
 };
 
 const addProductToCart = async (product) => {
-  //let index = await ShoppingCartService.addItem(product);
   navigate("/create/chosen/" + product._id);
 };
 
 const changeDisplayImage= (displayImage) => {
   setCurrentImage(displayImage);
-  console.log(displayImage);
+}
+
+function SwitchFavoriteButton() {
+  const found = favorites.find(element => element._id === singleProduct._id);
+  if(found) {
+    return (
+      <FavoriteIcon style={{fontSize: "90px", color: "#DC9292"}}
+        onClick={(event) => {
+          CardService.removeFavorite({product: singleProduct}).then(
+            (result) => {
+              setFavorites(result);
+            }
+          )
+        }
+      } />
+    )
+  }
+  else {
+    return (
+      <FavoriteIcon style={{fontSize: "90px", color: "grey"}}
+        onClick={(event) => {
+          CardService.setFavorites({product: singleProduct}).then(
+            (result) => {
+              setFavorites(result);
+            }
+          )
+        }
+      } />
+    )
+  }
 }
 
   return(
@@ -127,7 +168,7 @@ const changeDisplayImage= (displayImage) => {
             position:"absolute", 
             left:"48%"
           }}>
-        <FavoriteIcon style={{fontSize: "90px"}}></FavoriteIcon>
+        <SwitchFavoriteButton></SwitchFavoriteButton>
       </div>
 
       <div style={{
