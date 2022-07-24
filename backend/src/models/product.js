@@ -13,7 +13,7 @@ const ProductSchema = new mongoose.Schema({
   occasion: Array,
   season: Array,
   date: Date,
-  foldername: String
+  foldername: String,
 });
 
 ProductSchema.set("versionKey", false);

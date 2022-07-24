@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import OrderService from '../services/OrderService'
 import OrderItem from './OrderItem'
-import { Box, Typography } from '@mui/material'
+import { Box, Grid, Typography } from '@mui/material'
 
 
 
@@ -17,17 +17,26 @@ useEffect(() => {
 }, []); 
 
   return (
+    <>
+    <Typography>My Orders</Typography>
     
       <Box>
+        
         {orders.length > 0 ? (
-          <div className ="contacts">
+          <div>
+            <Grid container spacing={2}>
             {orders.map((order) => (
-              <OrderItem key={order._id} order={order}/>
-            ))}
+              <Grid key={order._id} item xs={12} md = {6} lg={4} >
+              <OrderItem  order={order}/>
+              </Grid>))}
+            
+            </Grid>
           </div>
         ) : (<h3> You have no Orders </h3>)}
 
       </Box>
+
+      </>
 
 
       

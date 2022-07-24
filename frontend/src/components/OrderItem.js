@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Typography, Button } from '@mui/material'
+import { Typography, Button, Card, CardHeader, CardContent, CardActions } from '@mui/material'
 import SubscriptionService from '../services/SubscriptionService'
 
 function OrderItem({ order }) {
@@ -37,13 +37,32 @@ function OrderItem({ order }) {
   return (
     <>
     
-    <div><Typography>{order.recipientName}</Typography>
+    <div>
+    <Card sx={{backgroundColor: "#a7cda7"}}>
+        <CardHeader
+          
+            
+        
+          title={order._id}
+            />
+        <CardContent>
+          <Typography variant="h6">Details:</Typography>
+          <Typography variant="body1">{order.deliveryDate} </Typography>
+        </CardContent>
+        <CardActions disableSpacing>
+        {isSub ?   
+            (<Button  color="secondary" variant="contained" disabled>Already Subscribed!</Button>):
+            (<Button onClick={() => subscribe(order._id)} color="secondary" variant="contained">Set as Subscription</Button>)}
+        </CardActions>
+      </Card>
+      
+     {/*  <Typography>{order.recipientName}</Typography>
     <Typography>{order.deliveryDate}</Typography>   
     <Typography>{order._id}</Typography>
     <Typography>{order.user.name}</Typography>
     {isSub ?   
             (<Button  color="secondary" variant="contained" disabled>Already Subscribed!</Button>):
-            (<Button onClick={() => subscribe(order._id)} color="secondary" variant="contained">Set as Subscription</Button>)}
+            (<Button onClick={() => subscribe(order._id)} color="secondary" variant="contained">Set as Subscription</Button>)} */}
     
    </div> 
    <p></p>

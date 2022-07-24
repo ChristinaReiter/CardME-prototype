@@ -51,6 +51,7 @@ const AccountDetails = () => {
       }
     )  */
     let account = JSON.parse(localStorage.getItem("account")) // above takes ages to get but is secure?!?!?
+    console.log(account)
  
     setName(account.name)
     setEmail(account.email)
