@@ -114,11 +114,11 @@ const updateContact = (e, id) => {
           <Typography variant="body1">{zipCode} {city}</Typography>
           <Typography variant="body1">{country}</Typography>
         </CardContent>
-         <CardActions disableSpacing>
+        <CardActions disableSpacing>
          <Button aria-describedby={id} onClick={handleClick}  startIcon={<UpdateIcon />} sx= {{marginLeft:'auto', color:'black', pr: '2em' }}>
           Update
         </Button>
-      </CardActions>
+        </CardActions>
       <Popover
         id={id}
         open={open}

@@ -29,6 +29,7 @@ export default class CardService{
     static async getFavorites(userID) {
 
         let account = JSON.parse(localStorage.getItem("account"));
+        console.log(account)
           let header = new Headers();
           if (account && account.token) {
             header.append('Authorization', `Bearer ${account.token}`)
