@@ -10,6 +10,8 @@ import { useParams } from "react-router-dom";
 import CardService from "../services/CardService";
 
 const Create = () => {
+  const cardtext = document.getElementById("card-text");
+
   const { cardStyle, id, mode } = useParams();
   const [text, setText] = useState(null);
   const [product, setProduct] = useState();
@@ -66,6 +68,25 @@ const Create = () => {
     setText(text);
   };
 
+  //states for text styles
+  const [textFilters, setTextFilters] = useState(null);
+  const [fontstyle, setfontstyle] = React.useState("Annie Use Your Telescope");
+  const [fontcolor, setfontcolor] = React.useState("black");
+  const [fontsize, setfontsize] = React.useState(20);
+  const [fontalign, setfontalign] = React.useState("left");
+  const [lineHeight, setlineHeight] = React.useState(1);
+
+  //updating styles of the text
+  useEffect(() => {
+    if (cardtext) {
+      cardtext.style.fontFamily = "" + fontstyle;
+      cardtext.style.color = "" + fontcolor;
+      cardtext.style.fontSize = "" + fontsize + "px";
+      cardtext.style.textAlign = "" + fontalign;
+      cardtext.style.lineHeight = "" + lineHeight;
+    }
+  }, [fontstyle, fontcolor, fontsize, fontalign, textFilters, lineHeight]);
+
   return (
     <div>
       {cardStyle === "own" ? (
@@ -99,6 +120,10 @@ const Create = () => {
         text={text}
         handleTextPersist={handleTextPersist}
         setText={setText}
+        setfontstyle={setfontstyle}
+        setfontcolor={setfontcolor}
+        setfontsize={setfontsize}
+        setfontalign={setfontalign}
       />
       <CreateAddGift />
       <CreateFinal
@@ -115,6 +140,10 @@ const Create = () => {
         grayscale={grayscale}
         sepia={sepia}
         imageFilters={imageFilters}
+        fontstyle={fontstyle}
+        fontcolor={fontcolor}
+        fontsize={fontsize}
+        fontalign={fontalign}
       />
     </div>
   );

@@ -77,6 +77,10 @@ const CreateFinal = ({
   grayscale,
   sepia,
   imageFilters,
+  fontstyle,
+  fontcolor,
+  fontsize,
+  fontalign,
 }) => {
   const [viewState, setViewState] = React.useState(true);
 
@@ -87,11 +91,11 @@ const CreateFinal = ({
     if (cardStyle === "own") {
       itemToAdd.title = "Own Card";
       itemToAdd.price = 5.9;
-      itemToAdd.imageFilters = imageFilters
+      itemToAdd.imageFilters = imageFilters;
     } else {
       itemToAdd.title = product.title;
       itemToAdd.price = product.price;
-      itemToAdd.imageFilters = {}
+      itemToAdd.imageFilters = {};
     }
     ShoppingCartService.addItem(itemToAdd, text);
   };
@@ -152,7 +156,11 @@ const CreateFinal = ({
             ) : image !== null ? (
               <Box style={styles.cardWindows} sx={{ float: "left" }}>
                 <img
-                  style={cardStyle === "own" ? {...styles.image, ...imageFilters} : styles.image}
+                  style={
+                    cardStyle === "own"
+                      ? { ...styles.image, ...imageFilters }
+                      : styles.image
+                  }
                   src={URL.createObjectURL(image)}
                 ></img>
               </Box>
