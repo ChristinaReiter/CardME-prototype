@@ -62,7 +62,7 @@ const create = async (req, res) => {
   }
 };
 
-const getOrder = async (req, res) => {
+const getOrders = async (req, res) => {
   
   try {
     
@@ -88,5 +88,5 @@ const getOrder = async (req, res) => {
 
 module.exports = {
   create,
-  getOrder,
+  getOrders,
 };

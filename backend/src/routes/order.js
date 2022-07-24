@@ -6,6 +6,6 @@ const OrderController = require("../controllers/order");
 
 router.post("/order", OrderController.create); //router.post("/", OrderController.create);
 
-router.route("/profile/orders").get( secured, OrderController.getOrder)
+router.route("/profile/orders").get( secured, OrderController.getOrders)
 
 module.exports = router;

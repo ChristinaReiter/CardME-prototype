@@ -26,6 +26,7 @@ export default class AcquaintanceService {
     }
 
     static async setAcquaintance(data) {
+      
         try {
           let account = JSON.parse(localStorage.getItem("account"));
           let header = new Headers();
