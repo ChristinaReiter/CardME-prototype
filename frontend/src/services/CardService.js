@@ -1,4 +1,4 @@
-import tokenHeader from "./TokenHeader";
+import AuthService from "./AuthService";
 
 export default class CardService{
     static baseUrl = "http://localhost:3001";
@@ -29,6 +29,7 @@ export default class CardService{
     static async getFavorites(userID) {
 
         let account = JSON.parse(localStorage.getItem("account"));
+        console.log(account);
           let header = new Headers();
           if (account && account.token) {
             header.append('Authorization', `Bearer ${account.token}`)
@@ -45,18 +46,37 @@ export default class CardService{
         return response
     }
 
-    static async removeFavorite(data) {
+    static async setFavorites(data) {
+
         let account = JSON.parse(localStorage.getItem("account"));
-          let header = new Headers();
-          if (account && account.token) {
+            let header = new Headers();
+            if (account && account.token) {
             header.append('Authorization', `Bearer ${account.token}`)
-          }
-          header.append("Content-Type", "application/json");
+            }
+            header.append("Content-Type", "application/json");
 
         let response = await fetch(this.baseUrl + "/profile/favorites", {
-                method:"PUT",
+                method:"POST",
                 headers: header,
                 body: JSON.stringify(data),
+            })
+
+        response = await response.json()
+
+        return response
+    }
+
+    static async removeFavorite(data) {
+        let account = JSON.parse(localStorage.getItem("account"));
+        let header = new Headers();
+        if (account && account.token) {
+            header.append('Authorization', `Bearer ${account.token}`)
+        }
+        header.append("Content-Type", "application/json");
+
+        let response = await fetch(this.baseUrl + "/profile/favorites?deleteUId=" + data, {
+                method:"DELETE",
+                headers: header,
             })
             
     

@@ -48,6 +48,7 @@ const Cards = () => {
         setUserID(result._id);
         CardService.getFavorites(result._id).then(
           (res) => {
+            console.log(res);
             setFavorites(res);
           },
           (err) => {
@@ -137,10 +138,10 @@ const Cards = () => {
           style={styles.favorites}
           sx={{color:"#DC9292"}}
           onClick={(event) => {
-            CardService.removeFavorite({userID: userID, productID: props.productID}).then(
+            CardService.removeFavorite({product:props.productObject}).then(
               (result) => {
-                console.log(result);
                 setFavorites(result);
+                
               }
             )
           }}
@@ -159,7 +160,11 @@ const Cards = () => {
           style={styles.favorites}
           sx={{color:"grey"}}
           onClick={(event) => {
-            
+            CardService.setFavorites({product: props.productObject}).then(
+              (result) => {
+                setFavorites(result);
+              }
+            )
           }}
         >
           <FavoriteIcon />
@@ -306,7 +311,7 @@ const Cards = () => {
                     bgcolor: "#F3F3F3",
                   }}
                 >
-                  <FavoriteButton productID={product._id} res=""></FavoriteButton>
+                  <FavoriteButton productObject={product} res=""></FavoriteButton>
                   <div
                     style={{
                       display: "flex",
