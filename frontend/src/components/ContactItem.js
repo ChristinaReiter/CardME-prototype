@@ -1,8 +1,9 @@
-import { useState } from 'react'
-import { Button, Popover, Typography, TextField } from '@mui/material';
+import { useState, useEffect } from 'react'
+import { Button, IconButton, Popover, Typography, TextField, Card, CardHeader, CardContent, CardActions } from '@mui/material';
 import AcquaintanceService from '../services/AcquaintanceService';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import UpdateIcon from '@mui/icons-material/Update';
+import AddressService from '../services/AddressService';
 
 
 
@@ -16,6 +17,14 @@ function ContactItem({contact, changeContact, allContacts}) {
   const [zipCode, setZipCode] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
+
+  const [newStreet, setNewStreet] = useState("");
+  const [newStreetNumber, setNewStreetNumber] = useState("");
+  const [newZipCode, setNewZipCode] = useState("");
+  const [newCity, setNewCity] = useState("");
+  const [newCountry, setNewCountry] = useState("");
+  
+  
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -42,7 +51,7 @@ const deleteContact = (id) => {
 
 const updateContact = (e, id) => {
   e.preventDefault(); // w/o this, the page will refresh which might be good but is annoying for testing...
-   const data = {name, street, streetNumber, zipCode, city, country}
+   const data = {name: name, street: newStreet, streetNumber: newStreetNumber, zipCode: newZipCode, city: newCity, country: newCountry};
 
   
     AcquaintanceService.updateAcquaintance({data, id}).then(
@@ -61,11 +70,16 @@ const updateContact = (e, id) => {
             })         
           return updated
         })
+        setStreet(newStreet)
+        setStreetNumber(newStreetNumber)
+        setZipCode(newZipCode)
+        setCity(newCity)
+        setCountry(newCountry)
 
     })
   }
 
- /* useEffect(() => {
+ useEffect(() => {
   AddressService.getAddress(contact.acquaintanceAddress).then(res => {         // a lot of get requests but all update fields are prefilled ->> annoyiing when testing
       setName(contact.name);
       setStreet(res.street);
@@ -73,19 +87,39 @@ const updateContact = (e, id) => {
       setZipCode(res.zipCode);
       setCity(res.city);
       setCountry(res.country);
+
+      setNewStreet(res.street);
+      setNewStreetNumber(res.streetNumber);
+      setNewZipCode(res.zipCode);
+      setNewCity(res.city);
+      setNewCountry(res.country);
   })
-}, []);   */
+}, []);   
  
   return (
-    <div className= "contact">
-        <div><Typography>{contact.name}</Typography></div>
-        <Button  onClick={() => deleteContact(contact._id)} startIcon={<DeleteForeverIcon />} sx= {{marginLeft:'auto', color:'black', pr: '2em' }}>
-          Delete
-        </Button>  
-        <Button aria-describedby={id} onClick={handleClick}  startIcon={<UpdateIcon />} sx= {{marginLeft:'auto', color:'black', pr: '2em' }}>
+    <div>
+      <Card sx={{backgroundColor: "#a7cda7"}}>
+        <CardHeader
+          action={
+            <IconButton onClick={() => deleteContact(contact._id)}>
+              <DeleteForeverIcon />
+            </IconButton>
+            
+          }
+          title={contact.name}
+            />
+        <CardContent>
+          <Typography variant="h6">Adress:</Typography>
+          <Typography variant="body1">{street} {streetNumber}</Typography>
+          <Typography variant="body1">{zipCode} {city}</Typography>
+          <Typography variant="body1">{country}</Typography>
+        </CardContent>
+         <CardActions disableSpacing>
+         <Button aria-describedby={id} onClick={handleClick}  startIcon={<UpdateIcon />} sx= {{marginLeft:'auto', color:'black', pr: '2em' }}>
           Update
-        </Button> 
-        <Popover
+        </Button>
+      </CardActions>
+      <Popover
         id={id}
         open={open}
         anchorEl={anchorEl}
@@ -110,45 +144,45 @@ const updateContact = (e, id) => {
                 sx={{ m: 1 }} 
                 type="text"
                 label="Street"
-                name="street"
-                value={street}
-                onChange={(e) => setStreet(e.target.value)}
+                name="newStreet"
+                value={newStreet}
+                onChange={(e) => setNewStreet(e.target.value)}
                 required> 
             </TextField>
             <TextField
                 sx={{ m: 1 }}
                 type="text"
                 label="Street-Number"
-                name="streetNumber"
-                value={streetNumber}
-                onChange={(e) => setStreetNumber(e.target.value)}
+                name="newStreetNumber"
+                value={newStreetNumber}
+                onChange={(e) => setNewStreetNumber(e.target.value)}
                 required>
             </TextField>
             <TextField
                 sx={{ m: 1 }}
                 type="text"
                 label="Zipcode"
-                name="zipCode"
-                value={zipCode}
-                onChange={(e) => setZipCode(e.target.value)}
+                name="newZipCode"
+                value={newZipCode}
+                onChange={(e) => setNewZipCode(e.target.value)}
                 required>
             </TextField>
             <TextField
                 sx={{ m: 1 }}
                 type="text"
                 label="City"
-                name="city"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
+                name="newCity"
+                value={newCity}
+                onChange={(e) => setNewCity(e.target.value)}
                 required>
             </TextField>
             <TextField
                 sx={{ m: 1 }}
                 type="text"
                 label="Country"
-                name="country"
-                value={country}
-                onChange={(e) => setCountry(e.target.value)}
+                name="newCountry"
+                value={newCountry}
+                onChange={(e) => setNewCountry(e.target.value)}
                 required>
             </TextField>
             
@@ -162,6 +196,8 @@ const updateContact = (e, id) => {
         </form>
         
       </Popover>
+      </Card> 
+        
     </div>
   )
 }
