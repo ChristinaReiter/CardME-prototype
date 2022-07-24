@@ -76,7 +76,6 @@ const styles = {
     height: "444px",
     background: "#F3F3F3",
     marginRight: "20px",
-    fontSize: "30px",
     boxShadow:
       "2px 2px 30px rgba(0, 0, 0, 0.1), -2px -2px 30px rgba(0, 0, 0, 0.1)",
   },
@@ -96,6 +95,12 @@ const styles = {
     display: "center",
     top: "80px",
     color: "rgba(0, 0, 0, 0.5)",
+  },
+  textInput: {
+    fontSize: "20px",
+    fontFamily: "Annie Use Your Telescope",
+    textAlign: "left",
+    color: "black",
   },
 };
 
@@ -142,26 +147,15 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-const CreateText = ({ text, setText }) => {
-  const finaltext = document.getElementById("final-text-view");
-  const cardtext = document.getElementById("card-text");
-
-  //states for fontstyle
-  const [fontstyle, setfontstyle] = React.useState("Annie Use Your Telescope");
-  const [fontstylePointer, setfontstylePointer] = React.useState(0);
-  useEffect(() => {
-    //setfontstylePointer(fontstyle.length - 1);
-    if (cardtext) {
-      cardtext.style.fontFamily = "" + fontstyle;
-    }
-  }, [fontstyle]);
-
-  //Update all text filter
-  function updateFilters() {
-    cardtext.style.fontFamily = fontstyle;
-    console.log(fontstyle);
-  }
-
+const CreateText = ({
+  text,
+  setText,
+  setfontstyle,
+  setfontcolor,
+  setfontsize,
+  setfontalign,
+  textFilters,
+}) => {
   //historystate for undo and redo
   const [history, setHistory] = React.useState([""]);
   const [historyPointer, setHistoryPointer] = React.useState(0);
@@ -364,7 +358,7 @@ const CreateText = ({ text, setText }) => {
                   >
                     <MenuItem
                       onClick={() => {
-                        cardtext.style.color = "black";
+                        setfontcolor("black");
                         setStyleEl(null);
                       }}
                       disableRipple
@@ -373,7 +367,7 @@ const CreateText = ({ text, setText }) => {
                     </MenuItem>
                     <MenuItem
                       onClick={() => {
-                        cardtext.style.color = "blue";
+                        setfontcolor("blue");
                         setStyleEl(null);
                       }}
                       disableRipple
@@ -382,7 +376,7 @@ const CreateText = ({ text, setText }) => {
                     </MenuItem>
                     <MenuItem
                       onClick={() => {
-                        cardtext.style.color = "red";
+                        setfontcolor("red");
                         setStyleEl(null);
                       }}
                       disableRipple
@@ -391,7 +385,7 @@ const CreateText = ({ text, setText }) => {
                     </MenuItem>
                     <MenuItem
                       onClick={() => {
-                        cardtext.style.color = "coral";
+                        setfontcolor("coral");
                         setStyleEl(null);
                       }}
                       disableRipple
@@ -424,7 +418,7 @@ const CreateText = ({ text, setText }) => {
                   >
                     <MenuItem
                       onClick={() => {
-                        cardtext.style.fontSize = "16px";
+                        setfontsize("16");
                         setStyleEl(null);
                       }}
                       disableRipple
@@ -433,7 +427,7 @@ const CreateText = ({ text, setText }) => {
                     </MenuItem>
                     <MenuItem
                       onClick={() => {
-                        cardtext.style.fontSize = "20px";
+                        setfontsize("20");
                         setStyleEl(null);
                       }}
                       disableRipple
@@ -442,7 +436,7 @@ const CreateText = ({ text, setText }) => {
                     </MenuItem>
                     <MenuItem
                       onClick={() => {
-                        cardtext.style.fontSize = "25px";
+                        setfontsize("25");
                         setStyleEl(null);
                       }}
                       disableRipple
@@ -451,7 +445,7 @@ const CreateText = ({ text, setText }) => {
                     </MenuItem>
                     <MenuItem
                       onClick={() => {
-                        cardtext.style.fontSize = "32px";
+                        setfontsize("32");
                         setStyleEl(null);
                       }}
                       disableRipple
@@ -484,7 +478,7 @@ const CreateText = ({ text, setText }) => {
                   >
                     <MenuItem
                       onClick={() => {
-                        cardtext.style.textAlign = "left";
+                        setfontalign("left");
                         setStyleEl(null);
                       }}
                       disableRipple
@@ -494,7 +488,7 @@ const CreateText = ({ text, setText }) => {
                     </MenuItem>
                     <MenuItem
                       onClick={() => {
-                        cardtext.style.textAlign = "center";
+                        setfontalign("center");
                         setStyleEl(null);
                       }}
                       disableRipple
@@ -504,7 +498,7 @@ const CreateText = ({ text, setText }) => {
                     </MenuItem>
                     <MenuItem
                       onClick={() => {
-                        cardtext.style.textAlign = "right";
+                        setfontalign("right");
                         setStyleEl(null);
                       }}
                       disableRipple
@@ -640,15 +634,15 @@ const CreateText = ({ text, setText }) => {
           <Grid item xs={12}>
             <TextField
               fullWidth
-              id="card-text"
               label="Type your text here"
               multiline
               variant="outlined"
-              rows={18}
+              maxRows={14}
               style={styles.textWindow}
               onChange={(event) => {
                 setText(event.target.value);
               }}
+              onDragEnter
               onKeyUp={(event) => {
                 if (event.key === " ") {
                   let newHistoryStates = [...history];
@@ -662,8 +656,16 @@ const CreateText = ({ text, setText }) => {
                   setHistory(newHistoryStates);
                 }
               }}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  let newText = event.target.value;
+                  newText = newText.push();
+                  setText(newText + "\n");
+                }
+              }}
               value={text || ""}
               type="text"
+              inputProps={{ style: textFilters }}
             ></TextField>
           </Grid>
         </Grid>

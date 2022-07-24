@@ -10,6 +10,8 @@ import { useParams } from "react-router-dom";
 import CardService from "../services/CardService";
 
 const Create = () => {
+  const cardtext = document.getElementById("card-text");
+
   const { cardStyle, id, mode } = useParams();
   const [text, setText] = useState(null);
   const [product, setProduct] = useState();
@@ -39,6 +41,13 @@ const Create = () => {
         setProduct(item);
         setImage(item.cardImage);
         setText(item.cardText);
+
+        setRotation(item.cardImageFilterValues.rotation);
+        setBrightness(item.cardImageFilterValues.brightness);
+        setContrast(item.cardImageFilterValues.contrast);
+        setSaturate(item.cardImageFilterValues.saturate);
+        setGrayscale(item.cardImageFilterValues.grayscale);
+        setSepia(item.cardImageFilterValues.sepia);
       });
     } else {
       // Reset all states for new card
@@ -65,6 +74,43 @@ const Create = () => {
   const handleTextPersist = (text) => {
     setText(text);
   };
+
+  //states for text styles
+  const [textFilters, setTextFilters] = useState(null);
+  const [fontstyle, setfontstyle] = React.useState("Annie Use Your Telescope");
+  const [fontcolor, setfontcolor] = React.useState("black");
+  const [fontsize, setfontsize] = React.useState(20);
+  const [fontalign, setfontalign] = React.useState("left");
+  const [lineHeight, setlineHeight] = React.useState(1);
+
+  const tobedeleted = () => {
+    const newFilters = {
+      fontFamily: `${fontstyle}`,
+      color: `${fontcolor}`,
+      fontSize: `${fontsize}px`,
+      textAlign: `${fontalign}`,
+      lineHeight: `${lineHeight}`,
+    };
+
+    cardtext.style.fontFamily = "" + fontstyle;
+    cardtext.style.color = "" + fontcolor;
+    cardtext.style.fontSize = "" + fontsize + "px";
+    cardtext.style.textAlign = "" + fontalign;
+    cardtext.style.lineHeight = "" + lineHeight;
+  };
+
+  //updating styles of the text
+  useEffect(() => {
+    const newFilters = {
+      fontFamily: `${fontstyle}`,
+      color: `${fontcolor}`,
+      fontSize: `${fontsize}px`,
+      textAlign: `${fontalign}`,
+      lineHeight: `${lineHeight}`,
+    };
+
+    setTextFilters(newFilters);
+  }, [fontstyle, fontcolor, fontsize, fontalign, textFilters, lineHeight]);
 
   return (
     <div>
@@ -99,6 +145,11 @@ const Create = () => {
         text={text}
         handleTextPersist={handleTextPersist}
         setText={setText}
+        setfontstyle={setfontstyle}
+        setfontcolor={setfontcolor}
+        setfontsize={setfontsize}
+        setfontalign={setfontalign}
+        textFilters={textFilters}
       />
       <CreateAddGift />
       <CreateFinal
@@ -115,6 +166,11 @@ const Create = () => {
         grayscale={grayscale}
         sepia={sepia}
         imageFilters={imageFilters}
+        fontstyle={fontstyle}
+        fontcolor={fontcolor}
+        fontsize={fontsize}
+        fontalign={fontalign}
+        textFilters={textFilters}
       />
     </div>
   );

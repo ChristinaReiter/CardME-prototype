@@ -12,14 +12,14 @@ import {
   Input,
   InputAdornment,
 } from "@mui/material";
-import CardService from "../services/CardService";
+import GiftService from "../services/GiftService";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
 import CardsFilterHeader from "./CardsFilterHeader";
 import AuthService from "../services/AuthService";
 
-const Cards = () => {
+const Gifts = () => {
   const imageUrl = "http://localhost:3001/public/";
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState([]);
@@ -35,8 +35,9 @@ const Cards = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    CardService.getAllCards().then(
+    GiftService.getAllGifts().then(
       (result) => {
+        console.log(result);
         setProducts(result);     
       },
       (error) => {
@@ -46,7 +47,7 @@ const Cards = () => {
     AuthService.getMe().then(
       (result) => {
         setUserID(result._id);
-        CardService.getFavorites(result._id).then(
+        GiftService.getFavorites(result._id).then(
           (res) => {
             console.log(res);
             setFavorites(res);
@@ -70,7 +71,7 @@ const Cards = () => {
       fontSize: 18,
       marginRight: 20,
       marginLeft: 20,
-      width: "92px",
+      width: "110px",
     },
     favorites: {
       marginLeft: "auto",
@@ -229,7 +230,7 @@ const Cards = () => {
           style={styles.favorites}
           sx={{color:"#DC9292"}}
           onClick={(event) => {
-            CardService.removeFavorite({product: props.productObject}).then(
+            GiftService.removeFavorite({product: props.productObject}).then(
               (result) => {
                 setFavorites(result);
               }
@@ -250,7 +251,7 @@ const Cards = () => {
           style={styles.favorites}
           sx={{color:"grey"}}
           onClick={(event) => {
-            CardService.setFavorites({product: props.productObject}).then(
+            GiftService.setFavorites({product: props.productObject}).then(
               (result) => {
                 setFavorites(result);
                 
@@ -299,22 +300,21 @@ const Cards = () => {
         ></Input>
       </Box>
       <Box sx={{ margin: "30px 30px 30px 30px" }}>
-        <Typography variant="h4">All Cards:</Typography>
+        <Typography variant="h4">All Gifts:</Typography>
           <div>
           { filteredCards.length > 0 ? 
             (
               <Grid
                 container
-                rowSpacing={1}
-                columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-                sx={{ margin: "20px 10px 10px 10px" }}
+                spacing = {2}
+                style={{width:"100%", marginTop: "2%"}}
               >
               {filteredCards.map((product) => (
               
-                <Grid item xs={3} key={product._id}>
+                <Grid item xs={3} key={product._id} style={{marginLeft:"5%", marginBottom:"2%"}}>
                   <Card
                     sx={{
-                      width: 270,
+                      width: 300,
                       height: 430,
                       bgcolor: "#F3F3F3",
                     }}
@@ -330,7 +330,7 @@ const Cards = () => {
                       <CardMedia
                         style={styles.image}
                         component="img"
-                        sx={{ width: 146.67, height: 220, objectFit: "cover" }}
+                        sx={{ width: 240, height: 220, objectFit: "cover" }}
                         src={imageUrl + product.foldername + "/" + product.url}
                         alt="Card-Preview"
                         crossOrigin="anonymous"
@@ -346,24 +346,16 @@ const Cards = () => {
                       >
                         {product.title}
                       </Typography>
-                      <Typography
-                        fontFamily={"Antic"}
-                        fontSize="16px"
-                        textAlign={"center"}
-                        component="div"
-                      >
-                        by {product.designer}
-                      </Typography>
                     </CardContent>
                     <CardActions>
-                      <div style={{ display: "flex", justifyContent: "center" }}>
+                      <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
                         <Button
                           size="small"
                           variant="contained"
                           color="secondary"
                           style={styles.button}
                           onClick={() => {
-                            navigate("/ViewCard/" + product._id);
+                            navigate("/ViewGift/" + product._id);
                           }}
                           
                         >
@@ -378,7 +370,7 @@ const Cards = () => {
                             addProductToCart(product);
                           }}
                         >
-                          Write
+                          Add
                         </Button>
                       </div>
                     </CardActions>
@@ -387,7 +379,7 @@ const Cards = () => {
               </Grid>
             ): 
             <Typography style={{alignContent:"center", marginLeft:"1%", marginTop:"1%", fontSize:"24px"}}>
-              No Cards Available.
+              No Gifts Available.
             </Typography>}
             </div>
         
@@ -396,4 +388,4 @@ const Cards = () => {
   );
 };
 
-export default Cards;
+export default Gifts;

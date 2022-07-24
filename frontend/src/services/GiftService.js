@@ -1,13 +1,13 @@
 import AuthService from "./AuthService";
 
-export default class CardService{
+export default class GiftService{
     static baseUrl = "http://localhost:3001";
     static headers = new Headers({
       "Content-Type": "application/json",
     });
 
-    static async getAllCards(){
-        let response = await fetch(this.baseUrl + "/products", {
+    static async getAllGifts(){
+        let response = await fetch(this.baseUrl + "/gifts", {
             method: "GET"
         })
 
@@ -16,8 +16,8 @@ export default class CardService{
         return response
     }
 
-    static async getSingleCard(id){
-        let response = await fetch(this.baseUrl + "/products/single?id=" + id, {
+    static async getSingleGift(id){
+        let response = await fetch(this.baseUrl + "/gifts/single?id=" + id, {
             method: "GET",
         })
 

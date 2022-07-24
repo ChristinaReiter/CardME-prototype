@@ -38,8 +38,7 @@ const CheckoutOverview = () => {
     let checkoutData = CheckoutService.getCheckoutData();
     setCheckoutData(checkoutData);
 
-    let key = parseInt(id)
-    ShoppingCartService.getItem(key).then(item => {
+    ShoppingCartService.getItem(id).then(item => {
       setCartItem(item);
     });
   }, []);
@@ -102,8 +101,8 @@ const CheckoutOverview = () => {
               </Typography>
             </Grid>
             <Grid item xs={5}>
-              <Typography variant="h5">Text:</Typography>
-              <Typography fontFamily="Antic">{cartItem.text}</Typography>
+              <Typography variant="h5">Text (displayed here without styling):</Typography>
+              <Typography fontFamily="Antic">{cartItem.cardText}</Typography>
             </Grid>
             <Grid
               item
