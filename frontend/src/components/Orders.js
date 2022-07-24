@@ -18,7 +18,7 @@ useEffect(() => {
 
   return (
     <>
-    <Typography>My Orders</Typography>
+    <Typography variant="h3" sx={{ pt: "10px", pb: "20px"  }}>My Orders</Typography>
     
       <Box>
         

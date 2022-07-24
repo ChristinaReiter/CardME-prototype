@@ -1,29 +1,38 @@
-import React from 'react'
-import AuthService from '../services/AuthService';
-import { useNavigate } from "react-router-dom";
-import { useEffect } from 'react';
-import { Box, Grid, Paper } from '@mui/material'
 
+import { Box, Grid, Paper, Typography, Stack } from '@mui/material'
+import ShortOrderItem from './ShortOrderItem';
+import ShortCalendar from './ShortCalendar';
+import ShortFavoriteItem from './ShortFavoriteItem';
+
+
+const styles = {
+}
 
 
 const View = () => {
 
+
   return (
+    <>
+
+    <Typography sx={{ pl: "25px", pt: "10px", pb: "20px"  }} variant="h3">Your Overview</Typography>
    
-    <Box sx={{ flexGrow: 1 }}>
-     <Grid container>
+
+      <Grid container sx={{pl: "25px", pr:"25px"}} >
        <Grid item xs={6} >
-         <Paper>1</Paper>
+         <ShortCalendar/>
        </Grid>
        <Grid item xs={6}>
-         <Paper>2</Paper>
+        <Stack spacing={4}>
+          <ShortOrderItem/>
+          <ShortFavoriteItem/>
+        </Stack>
        </Grid>
-       <Grid item >
-         <Paper>3</Paper>
-       </Grid>
-     </Grid>
-   </Box>
+     </Grid> 
+
+   </>
   )
+  
 }
 
 export default View

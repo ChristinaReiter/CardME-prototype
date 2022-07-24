@@ -103,8 +103,7 @@ const updateContact = (e, id) => {
           action={
             <IconButton onClick={() => deleteContact(contact._id)}>
               <DeleteForeverIcon />
-            </IconButton>
-            
+            </IconButton>            
           }
           title={contact.name}
             />

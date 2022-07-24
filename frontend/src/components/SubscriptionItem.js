@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography, Button } from '@mui/material'
+import { Typography, Button, IconButton, Card, CardHeader, CardContent, CardActions } from '@mui/material'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import SubscriptionService from '../services/SubscriptionService';
 
@@ -23,10 +23,27 @@ function SubscriptionItem({ subscription, allSubscriptions, changeSubscription }
     <>
     
     <div> 
-    <Typography>{subscription._id}</Typography>
+    <Card sx={{backgroundColor: "#a7cda7"}}>
+        <CardHeader
+          action={
+            <IconButton onClick={() => deleteSubscription(subscription._id)}>
+              <DeleteForeverIcon />
+            </IconButton>
+          }
+          title={subscription._id}
+            />
+        <CardContent>
+          <Typography variant="h6">Details:</Typography>
+          <Typography variant="body1">{subscription.order}</Typography>
+
+        </CardContent>
+    </Card>
+
+
+    {/* <Typography>{subscription._id}</Typography>
     <Button  onClick={() => deleteSubscription(subscription._id)} startIcon={<DeleteForeverIcon />} sx= {{marginLeft:'auto', color:'black', pr: '2em' }}>
           Delete
-        </Button>  
+        </Button>   */}
     
     
    </div> 
