@@ -15,6 +15,7 @@ export default class ShoppingCartService {
   static addItem(product, text) {
     db.cart.add({
       cardImage: product.image,
+      cardImageFilters: product.imageFilters,
       cardTitle: product.title,
       cardPrice: product.price,
       cardText: text,

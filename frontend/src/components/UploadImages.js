@@ -47,7 +47,12 @@ const styles = {
   },
 };
 
-export default function UploadImages({ id, image, setImage }) {
+export default function UploadImages({
+  id,
+  image,
+  setImage,
+  imageFilters
+}) {
   const [imageURL, setImageURL] = useState(null);
 
   // Setting the imageUrl for below display if already existing in state with id else setting to null
@@ -64,7 +69,7 @@ export default function UploadImages({ id, image, setImage }) {
   }, [image, id]);
 
   const onImageChange = async (e) => {
-      setImage(e.target.files[0]);
+    setImage(e.target.files[0]);
   };
 
   return (
@@ -94,7 +99,7 @@ export default function UploadImages({ id, image, setImage }) {
         {imageURL && (
           <img
             src={imageURL}
-            style={styles.cardWindow}
+            style={{ ...styles.cardWindow, ...imageFilters }}
             id="card-image"
             className="card-image"
             alt="card"
