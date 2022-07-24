@@ -23,7 +23,7 @@ useEffect(() => {
         {subscriptions.length > 0 ? (
           <div className ="contacts">
             {subscriptions.map((subscription) => (
-              <SubscriptionItem key={subscription._id} subscription={subscription}/>
+              <SubscriptionItem key={subscription._id} subscription={subscription} changeSubscription = {setSubscriptions} allSubscriptions = {subscriptions}/>
             ))}
           </div>
         ) : (<h3> You have no Subscriptions </h3>)}

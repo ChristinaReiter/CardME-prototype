@@ -24,7 +24,7 @@ export default class SubscriptionService {
     }
   }
 
-  
+
 
   static async setSubscription(data) {
     
@@ -50,4 +50,21 @@ export default class SubscriptionService {
         console.log(err);
     }
 }
+
+static async deleteSubscription({id}) {
+
+  try {          
+      let response = await fetch(this.baseUrl + `/profile/subscriptions/${id}`, {
+      method: "DELETE",
+      headers: tokenHeader(),           
+      });
+
+      const resp = await response.json();
+  
+      return resp;
+  } catch (err) {
+      console.log(err);
+  }
+}
+
 }

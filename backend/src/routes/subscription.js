@@ -4,6 +4,8 @@ const { secured } = require("../middleware/authMW");
 
 const SubscriptionController = require("../controllers/subscription");
 
-router.route("/").get( secured, SubscriptionController.getSubscription).post( secured, SubscriptionController.setSubscription).delete( secured, SubscriptionController.deleteSubscription);
+router.route("/").get( secured, SubscriptionController.getSubscription).post( secured, SubscriptionController.setSubscription)
+
+router.route("/:id").delete( secured, SubscriptionController.deleteSubscription);
 
 module.exports = router;  
