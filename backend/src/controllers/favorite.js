@@ -41,8 +41,8 @@ const getFavorite = async (req, res) => { //TODO
 
   const removeFavorite = async (req, res) => { 
     try {
-      console.log(res);
-      const user = await Users.findById(req.body.userID).exec();
+      console.log(req.account.favorites);
+      const user = await Users.findById(req.account.user).exec();
       
 
       if (!user) {
