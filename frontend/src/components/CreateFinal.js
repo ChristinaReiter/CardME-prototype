@@ -10,7 +10,7 @@ import {
 import React, { useEffect, useRef } from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ShoppingCartService from "../services/ShoppingCartService";
-import { db } from "../services/IndexedDBService";
+import { useNavigate } from "react-router-dom";
 
 const styles = {
   stepbar: {
@@ -79,6 +79,7 @@ const CreateFinal = ({
   imageFilters,
 }) => {
   const [viewState, setViewState] = React.useState(true);
+  const navigate = useNavigate();
 
   const handleAddToCart = async () => {
     let itemToAdd = {
@@ -87,13 +88,19 @@ const CreateFinal = ({
     if (cardStyle === "own") {
       itemToAdd.title = "Own Card";
       itemToAdd.price = 5.9;
-      itemToAdd.imageFilters = imageFilters
+      itemToAdd.imageFilters = imageFilters;
     } else {
       itemToAdd.title = product.title;
       itemToAdd.price = product.price;
-      itemToAdd.imageFilters = {}
+      itemToAdd.imageFilters = {};
     }
-    ShoppingCartService.addItem(itemToAdd, text);
+    return ShoppingCartService.addItem(itemToAdd, text);
+  };
+
+  const handleAddAndRedirect = () => {
+    handleAddToCart().then((key) => {
+      navigate("/checkout-data/" + key);
+    });
   };
 
   const handleUpdate = () => {
@@ -105,6 +112,11 @@ const CreateFinal = ({
     }
 
     ShoppingCartService.updateItem(id, changedFields);
+  };
+
+  const handleUpdateAndRedirect = () => {
+    handleUpdate();
+    navigate("/checkout-data/" + id);
   };
 
   return (
@@ -152,7 +164,11 @@ const CreateFinal = ({
             ) : image !== null ? (
               <Box style={styles.cardWindows} sx={{ float: "left" }}>
                 <img
-                  style={cardStyle === "own" ? {...styles.image, ...imageFilters} : styles.image}
+                  style={
+                    cardStyle === "own"
+                      ? { ...styles.image, ...imageFilters }
+                      : styles.image
+                  }
                   src={URL.createObjectURL(image)}
                 ></img>
               </Box>
@@ -209,9 +225,26 @@ const CreateFinal = ({
             )}
           </Grid>
           <Grid item xs={3}>
-            <Button style={styles.button} variant="contained" color="secondary">
-              Proceed to shipping / payment
-            </Button>
+            {mode === "edit" && (
+              <Button
+                style={styles.button}
+                variant="contained"
+                color="secondary"
+                onClick={handleUpdateAndRedirect}
+              >
+                Update and Proceed to checkout
+              </Button>
+            )}
+            {mode !== "edit" && (
+              <Button
+                style={styles.button}
+                variant="contained"
+                color="secondary"
+                onClick={handleAddAndRedirect}
+              >
+                Proceed to checkout
+              </Button>
+            )}
           </Grid>
         </Grid>
       </Typography>

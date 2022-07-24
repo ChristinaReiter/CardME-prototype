@@ -13,7 +13,7 @@ export default class ShoppingCartService {
   }
 
   static addItem(product, text) {
-    db.cart.add({
+    return db.cart.add({
       cardImage: product.image,
       cardImageFilters: product.imageFilters,
       cardTitle: product.title,
