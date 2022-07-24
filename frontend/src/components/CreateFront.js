@@ -55,7 +55,24 @@ const styles = {
   },
 };
 
-const CreateFront = ({ id, image, setImage }) => {
+const CreateFront = ({
+  id,
+  image,
+  setImage,
+  rotation,
+  setRotation,
+  brightness,
+  setBrightness,
+  contrast,
+  setContrast,
+  saturate,
+  setSaturate,
+  grayscale,
+  setGrayscale,
+  sepia,
+  setSepia,
+  imageFilters
+}) => {
   const navigate = useNavigate();
 
   return (
@@ -77,11 +94,28 @@ const CreateFront = ({ id, image, setImage }) => {
           marginTop="30px"
         >
           <Grid item xs={4}>
-            <UploadImages id={id} setImage={setImage} image={image}/>
+            <UploadImages
+              id={id}
+              setImage={setImage}
+              image={image}
+              imageFilters={imageFilters}
+            />
           </Grid>
           <Grid item xs={4} textAlign="center">
             <Box style={styles.adjustwindow}>
-              <CreateAdjustDesign />
+              <CreateAdjustDesign
+                setRotation={setRotation}
+                brightness={brightness}
+                setBrightness={setBrightness}
+                contrast={contrast}
+                setContrast={setContrast}
+                saturate={saturate}
+                setSaturate={setSaturate}
+                grayscale={grayscale}
+                setGrayscale={setGrayscale}
+                sepia={sepia}
+                setSepia={setSepia}
+              />
             </Box>
           </Grid>
         </Grid>

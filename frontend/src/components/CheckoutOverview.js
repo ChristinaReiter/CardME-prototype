@@ -1,5 +1,4 @@
 import { useTheme } from "@emotion/react";
-import styled from "@emotion/styled";
 import {
   Box,
   Breadcrumbs,
@@ -47,7 +46,7 @@ const CheckoutOverview = () => {
 
   const handleSuccessfulCheckout = async () => {
     const response = await OrderService.createOrder(checkoutData, cartItem);
-    if (response.response == "success") {
+    if (response.response === "success") {
       CheckoutService.removeData();
       ShoppingCartService.removeItem(id);
       navigate("/successful-order/" + response.order._id);
@@ -90,6 +89,8 @@ const CheckoutOverview = () => {
                 <img
                   src={URL.createObjectURL(cartItem.cardImage)}
                   width="65%"
+                  style={cartItem.cardImageFilters}
+                  alt="Card preview"
                 ></img>
               )}
               <Typography fontFamily="Antic">
