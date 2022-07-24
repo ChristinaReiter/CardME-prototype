@@ -38,30 +38,19 @@ const styles = {
   },
 };
 
-const CreateAdjustDesign = () => {
-  const cardImage = document.getElementById("card-image");
-
-  const [brightness, setBrightness] = React.useState(100);
-  const [contrast, setContrast] = React.useState(100);
-  const [saturate, setSaturate] = React.useState(100);
-  const [grayscale, setGrayscale] = React.useState(0);
-  const [sepia, setSepia] = React.useState(0);
-
-  function updateFilters() {
-    cardImage.style.filter =
-      "brightness(" +
-      brightness +
-      "%) contrast(" +
-      contrast +
-      "%) saturate(" +
-      saturate +
-      "%)  sepia(" +
-      sepia +
-      "%)  grayscale(" +
-      grayscale +
-      "%)";
-  }
-
+const CreateAdjustDesign = ({
+  setRotation,
+  brightness,
+  setBrightness,
+  contrast,
+  setContrast,
+  saturate,
+  setSaturate,
+  grayscale,
+  setGrayscale,
+  sepia,
+  setSepia,
+}) => {
   return (
     <div>
       <Typography style={styles.textadjust}>Adjust your design</Typography>
@@ -86,7 +75,7 @@ const CreateAdjustDesign = () => {
           <IconButton>
             <RotateLeftIcon
               onClick={() => {
-                cardImage.style.transform = "rotate(90deg)";
+                setRotation(90);
               }}
               fontSize="medium"
             />
@@ -96,7 +85,7 @@ const CreateAdjustDesign = () => {
           <IconButton>
             <HistoryIcon
               onClick={() => {
-                cardImage.style.transform = "rotate(0deg)";
+                setRotation(0);
               }}
               fontSize="medium"
             />
@@ -106,7 +95,7 @@ const CreateAdjustDesign = () => {
           <IconButton>
             <RotateRightIcon
               onClick={() => {
-                cardImage.style.transform = "rotate(-90deg)";
+                setRotation(-90);
               }}
               fontSize="medium"
             />
@@ -130,7 +119,6 @@ const CreateAdjustDesign = () => {
             aria-label="Small"
             onChange={(event, newValue) => {
               setBrightness(newValue);
-              updateFilters();
             }}
             value={brightness}
             valueLabelDisplay="auto"
@@ -162,7 +150,6 @@ const CreateAdjustDesign = () => {
             aria-label="Small"
             onChange={(event, newValue) => {
               setContrast(newValue);
-              updateFilters();
             }}
             value={contrast}
             valueLabelDisplay="auto"
@@ -194,7 +181,6 @@ const CreateAdjustDesign = () => {
             aria-label="Small"
             onChange={(event, newValue) => {
               setSaturate(newValue);
-              updateFilters();
             }}
             value={saturate}
             valueLabelDisplay="auto"
@@ -226,7 +212,6 @@ const CreateAdjustDesign = () => {
             aria-label="Small"
             onChange={(event, newValue) => {
               setGrayscale(newValue);
-              updateFilters();
             }}
             value={grayscale}
             valueLabelDisplay="auto"
@@ -258,7 +243,6 @@ const CreateAdjustDesign = () => {
             aria-label="Small"
             onChange={(event, newValue) => {
               setSepia(newValue);
-              updateFilters();
             }}
             value={sepia}
             valueLabelDisplay="auto"

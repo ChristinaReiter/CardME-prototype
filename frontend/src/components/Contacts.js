@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { TextField, Box, Button } from '@mui/material'; 
+import { TextField, Box, Button, Grid, Paper } from '@mui/material'; 
 import AcquaintanceService from '../services/AcquaintanceService';
 import ContactItem from './ContactItem';
 
@@ -103,20 +103,20 @@ const Contacts = () => {
         </form>             
               
       </Box>
-      <section className="content">
+      <Box>
         {contacts.length > 0 ? (
-          <div className ="contacts">
+        <div>          
+          <Grid container spacing={2}>
             {contacts.map((contact) => (
-              <ContactItem key={contact._id} contact={contact} changeContact = {setContacts} allContacts = {contacts} />
-            ))}
-          </div>
-        ) : (<h3> You have no Contacts </h3>)}
+              <Grid item xs={12} md = {6} lg={4} key={contact._id}>
+                <ContactItem contact={contact} changeContact = {setContacts} allContacts = {contacts} />
+              </Grid>))}
+          </Grid>
+        </div> 
+          ) : (<h3> You have no Contacts </h3>)}
 
-      </section>
-
-
+      </Box>
       </>
-
     );
   };
   

@@ -10,7 +10,7 @@ const AccountDetails = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [newName, setNewName] = useState("");
-  const [newEmail, setNewEmail] = useState("");
+
   
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -28,13 +28,13 @@ const AccountDetails = () => {
   const updateAccount = (e) => {
     e.preventDefault(); // w/o this, the page will refresh which might be good but is annoying for testing... 
     
-      DetailsService.updateAccount({name: newName, email: newEmail}).then(
+      DetailsService.updateAccount({name: newName}).then(
           res => { 
             //alert("Contact updated"); 
             console.log(res)
             console.log("Account updated")
-            localStorage.setItem("name", JSON.stringify(res.name))
-            localStorage.setItem("email", JSON.stringify(res.email))
+            /* localStorage.setItem("name", JSON.stringify(res.name))
+            localStorage.setItem("email", JSON.stringify(res.email)) */
   
             setName(res.name)
             setEmail(res.email)
@@ -86,16 +86,6 @@ const AccountDetails = () => {
                 onChange={(e) => setNewName(e.target.value)}
                 required> 
             </TextField>
-            <TextField
-                sx={{ m: 1 }} 
-                type="text"
-                label="Email"
-                name="email"
-                value={newEmail}
-                onChange={(e) => setNewEmail(e.target.value)}
-                required> 
-            </TextField>
-        
             
             <Button
                 sx={{ m: 2 }}

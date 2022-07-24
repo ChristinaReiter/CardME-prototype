@@ -1,3 +1,5 @@
+import tokenHeader from "./TokenHeader";
+
 export default class OrderService {
   static baseUrl = "http://localhost:3001";
   static headers = new Headers({
@@ -40,6 +42,23 @@ export default class OrderService {
       response = await response.json();
 
       return response;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  static async getOrders() {
+     
+    try {
+      
+      let response = await fetch(this.baseUrl + "/profile/orders", {
+        method: "GET",
+        headers: tokenHeader(),               
+      });
+
+      const resp = await response.json(); 
+
+      return resp;
     } catch (err) {
       console.log(err);
     }

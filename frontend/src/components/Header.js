@@ -17,11 +17,9 @@ import ShoppingCartOutlined from "@mui/icons-material/ShoppingCartOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import { useTheme } from "@emotion/react";
-import ImageIcon from "@mui/icons-material/Image";
 import AuthService from "../services/AuthService";
 import ShoppingCartService from "../services/ShoppingCartService";
 
-const imageUrl = "http://localhost:3001/public/";
 const styles = {
   menuText: {
     fontFamily: "typography2",
@@ -48,10 +46,9 @@ const Header = ({ images }) => {
   const [currentAccount, setCurrentAccount] = useState(undefined);
 
   useEffect(() => {
-    AuthService.getMe().then(res => {
+    AuthService.getMe().then((res) => {
       setCurrentAccount(res);
-    })
-   
+    });
   }, []);
 
   const openShoppingCart = (event) => {
@@ -71,10 +68,6 @@ const Header = ({ images }) => {
     ShoppingCartService.getCart().then((card) => {
       setShoppingCart(card);
     });
-  };
-
-  const handleImage = () => {
-    return imageUrl;
   };
 
   return (
@@ -217,6 +210,7 @@ const Header = ({ images }) => {
                         src={URL.createObjectURL(item.cardImage)}
                         width="80%"
                         alt="Product"
+                        style={item.cardImageFilters}
                       ></img>
                     </Grid>
                     <Grid item xs={8} textAlign="right">

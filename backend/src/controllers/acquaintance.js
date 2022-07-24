@@ -52,6 +52,7 @@ const getAcquaintances = async (req, res) => {
    
      try {
       const acquaintance = await Acquaintance.findById(req.params.id); 
+      console.log(req.account.id)
 
 
 
