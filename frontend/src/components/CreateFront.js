@@ -55,7 +55,7 @@ const styles = {
   },
 };
 
-const CreateFront = ({ id, images, setImages }) => {
+const CreateFront = ({ id, image, setImage }) => {
   const navigate = useNavigate();
 
   return (
@@ -77,7 +77,7 @@ const CreateFront = ({ id, images, setImages }) => {
           marginTop="30px"
         >
           <Grid item xs={4}>
-            <UploadImages id={id} setImages={setImages} images={images}/>
+            <UploadImages id={id} setImage={setImage} image={image}/>
           </Grid>
           <Grid item xs={4} textAlign="center">
             <Box style={styles.adjustwindow}>

@@ -47,18 +47,13 @@ const styles = {
   },
 };
 
-export default function UploadImages({ id, images, setImages }) {
+export default function UploadImages({ id, image, setImage }) {
   const [imageURL, setImageURL] = useState(null);
 
   // Setting the imageUrl for below display if already existing in state with id else setting to null
   const getImage = async () => {
-    console.log(images)
-    if (images.length < 1) return;
-    let image = await images.find((element) => {
-      return element.id === id;
-    });
-    if (image !== undefined) {
-      setImageURL(URL.createObjectURL(image.file));
+    if (image !== null) {
+      setImageURL(URL.createObjectURL(image));
     } else {
       setImageURL(null);
     }
@@ -66,27 +61,10 @@ export default function UploadImages({ id, images, setImages }) {
 
   useEffect(() => {
     getImage();
-  }, [images, id]);
+  }, [image, id]);
 
   const onImageChange = async (e) => {
-    // Search for image in state with id
-    let image = await images.find((element) => {
-      return element.id === id;
-    });
-
-    if (image !== undefined) {
-      // Already there, update file value
-      const updatedImages = images.map((image) => {
-        if (image.id === id) {
-          return { id: id, file: e.target.files[0] };
-        }
-        return image;
-      });
-      setImages(updatedImages);
-    } else {
-      // just add
-      setImages((images) => [...images, { id: id, file: e.target.files[0] }]);
-    }
+      setImage(e.target.files[0]);
   };
 
   return (

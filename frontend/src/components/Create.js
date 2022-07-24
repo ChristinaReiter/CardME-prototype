@@ -14,11 +14,8 @@ const Create = () => {
   const [text, setText] = useState(null);
   const [product, setProduct] = useState();
 
-  // Used to save custom images
-  const [images, setImages] = useState([]);
-
-  // Used as state for chosen image
-  const [chosenImage, setChosenImage] = useState(null);
+  // Used to save images (both own and chosen)
+  const [image, setImage] = useState(null);
 
   useEffect(() => {
     if (cardStyle === "chosen" && mode !== "edit") {
@@ -28,18 +25,14 @@ const Create = () => {
     }else if(mode === "edit"){
       let key = parseInt(id)
       ShoppingCartService.getItem(key).then((item) =>{
-        console.log(item)
         setProduct(item)
-
-        if(cardStyle === "chosen"){
-          setChosenImage(item.cardImage)
-        }else{
-          setImages([{id: id, file: item.cardImage}])
-        }
+        setImage(item.cardImage)
         setText(item.cardText)
       })
+    }else{
+      setImage(null)
     }
-  }, [cardStyle, mode]);
+  }, [cardStyle, mode, id]);
 
   const handleTextPersist = (text) => {
     setText(text);
@@ -48,9 +41,9 @@ const Create = () => {
   return (
     <div>
       {cardStyle === "own" ? (
-        <CreateFront setImages={setImages} images={images} id={id}/>
+        <CreateFront setImage={setImage} image={image} id={id}/>
       ) : (
-        <ShowFront product={product} setChosenImage={setChosenImage} chosenImage={chosenImage} mode={mode}/>
+        <ShowFront product={product} setImage={setImage} image={image} mode={mode}/>
       )}
       <CreateText
         text={text}
@@ -58,7 +51,7 @@ const Create = () => {
         setText={setText}
       />
       <CreateAddGift />
-      <CreateFinal id={id} text={text} images={images} product={product} cardStyle={cardStyle} chosenImage={chosenImage} mode={mode}/>
+      <CreateFinal id={id} text={text} image={image} product={product} cardStyle={cardStyle} mode={mode}/>
     </div>
   );
 };

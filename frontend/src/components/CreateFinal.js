@@ -68,32 +68,22 @@ const CreateFinal = ({
   text,
   product,
   cardStyle,
-  images,
-  chosenImage,
+  image,
   mode,
 }) => {
   const [viewState, setViewState] = React.useState(true);
   const handleAddToCart = async () => {
-    if (cardStyle === "own") {
-      const image = await images.find((image) => {
-        return image.id === id;
-      });  
-
-      let customCard = {
-        image: image.file,
-        title: "Own Card",
-        price: 5.9,
-      };
-
-      ShoppingCartService.addItem(customCard, text);
-    } else {
-      let itemToAdd = {
-        image: chosenImage,
-        title: product.title,
-        price: product.price,
-      };
-      ShoppingCartService.addItem(itemToAdd, text);
+    let itemToAdd = {
+      image: image
     }
+    if (cardStyle === "own") {  
+        itemToAdd.title =  "Own Card"
+        itemToAdd.price = 5.9
+    } else {
+        itemToAdd.title= product.title
+        itemToAdd.price= product.price
+    }
+    ShoppingCartService.addItem(itemToAdd, text);
   };
 
   const handleUpdate = () => {
@@ -101,7 +91,7 @@ const CreateFinal = ({
       cardText: text,
     };
     if (cardStyle === "own") {
-      changedFields.cardImage = images[0].file;
+      changedFields.cardImage = image;
     }
 
     ShoppingCartService.updateItem(id, changedFields);
@@ -149,20 +139,17 @@ const CreateFinal = ({
                   {text}
                 </Box>
               </Box>
-            ) : chosenImage != null ? (
+            ) : image !== null ? (
               <Box style={styles.cardWindows} sx={{ float: "left" }}>
-                {cardStyle === "chosen" && 
                 <img
                   style={styles.image}
-                  src={URL.createObjectURL(chosenImage)}
+                  src={URL.createObjectURL(image)}
                 ></img>
-                } 
               </Box>
             ) : (
               <Box
                 style={styles.cardWindows}
-                sx={{ float: "left" }}
-                sx={{ textAlign: "center" }}
+                sx={{ float: "left", textAlign: "center" }}
               ></Box>
             )}
           </Grid>
