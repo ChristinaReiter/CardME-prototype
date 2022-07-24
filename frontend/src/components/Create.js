@@ -76,15 +76,33 @@ const Create = () => {
   const [fontalign, setfontalign] = React.useState("left");
   const [lineHeight, setlineHeight] = React.useState(1);
 
+  const tobedeleted = () => {
+    const newFilters = {
+      fontFamily: `${fontstyle}`,
+      color: `${fontcolor}`,
+      fontSize: `${fontsize}px`,
+      textAlign: `${fontalign}`,
+      lineHeight: `${lineHeight}`,
+    };
+
+    cardtext.style.fontFamily = "" + fontstyle;
+    cardtext.style.color = "" + fontcolor;
+    cardtext.style.fontSize = "" + fontsize + "px";
+    cardtext.style.textAlign = "" + fontalign;
+    cardtext.style.lineHeight = "" + lineHeight;
+  };
+
   //updating styles of the text
   useEffect(() => {
-    if (cardtext) {
-      cardtext.style.fontFamily = "" + fontstyle;
-      cardtext.style.color = "" + fontcolor;
-      cardtext.style.fontSize = "" + fontsize + "px";
-      cardtext.style.textAlign = "" + fontalign;
-      cardtext.style.lineHeight = "" + lineHeight;
-    }
+    const newFilters = {
+      fontFamily: `${fontstyle}`,
+      color: `${fontcolor}`,
+      fontSize: `${fontsize}px`,
+      textAlign: `${fontalign}`,
+      lineHeight: `${lineHeight}`,
+    };
+
+    setTextFilters(newFilters);
   }, [fontstyle, fontcolor, fontsize, fontalign, textFilters, lineHeight]);
 
   return (
@@ -124,6 +142,7 @@ const Create = () => {
         setfontcolor={setfontcolor}
         setfontsize={setfontsize}
         setfontalign={setfontalign}
+        textFilters={textFilters}
       />
       <CreateAddGift />
       <CreateFinal
@@ -144,6 +163,7 @@ const Create = () => {
         fontcolor={fontcolor}
         fontsize={fontsize}
         fontalign={fontalign}
+        textFilters={textFilters}
       />
     </div>
   );

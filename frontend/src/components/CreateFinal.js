@@ -81,6 +81,7 @@ const CreateFinal = ({
   fontcolor,
   fontsize,
   fontalign,
+  textFilters,
 }) => {
   const [viewState, setViewState] = React.useState(true);
 
@@ -149,7 +150,7 @@ const CreateFinal = ({
           <Grid item xs={3}>
             {viewState ? (
               <Box style={styles.cardWindows} sx={{ float: "left" }}>
-                <Box id="final-text-view" margin={"30px"}>
+                <Box margin={"30px"} style={{ ...textFilters }}>
                   {text}
                 </Box>
               </Box>

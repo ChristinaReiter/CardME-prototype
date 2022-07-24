@@ -154,9 +154,8 @@ const CreateText = ({
   setfontcolor,
   setfontsize,
   setfontalign,
+  textFilters,
 }) => {
-  const cardtext = document.getElementById("card-text");
-
   //historystate for undo and redo
   const [history, setHistory] = React.useState([""]);
   const [historyPointer, setHistoryPointer] = React.useState(0);
@@ -635,15 +634,15 @@ const CreateText = ({
           <Grid item xs={12}>
             <TextField
               fullWidth
-              id="card-text"
               label="Type your text here"
               multiline
               variant="outlined"
-              rows={14}
+              maxRows={14}
               style={styles.textWindow}
               onChange={(event) => {
                 setText(event.target.value);
               }}
+              onDragEnter
               onKeyUp={(event) => {
                 if (event.key === " ") {
                   let newHistoryStates = [...history];
@@ -657,9 +656,16 @@ const CreateText = ({
                   setHistory(newHistoryStates);
                 }
               }}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  let newText = event.target.value;
+                  newText = newText.push();
+                  setText(newText + "\n");
+                }
+              }}
               value={text || ""}
               type="text"
-              InputProps={{ style: styles.textInput }}
+              inputProps={{ style: textFilters }}
             ></TextField>
           </Grid>
         </Grid>
