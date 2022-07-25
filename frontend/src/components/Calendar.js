@@ -41,6 +41,17 @@ const Calendar = () => {
       );
     }
 
+    const handleEventClick = (info) => {
+      let day = info.event.start.toString().split("00:")[0]
+
+      alert(`Title: ${info.event.title}\nDate: ${day}\nDescription: ${info.event.extendedProps.description}`)
+
+    }
+
+    const renderEventContent = (eventInfo) => {
+      //return (<Typography variant="h5">{eventInfo.event.title}</Typography>)
+    }
+
      useEffect(() => {
         EventService.getEvents().then(res => {
             setEvents(res);
@@ -49,7 +60,8 @@ const Calendar = () => {
                 title: eve.title,
                 start: eve.eventDate,
                 allDay: true,
-                id: eve._id
+                id: eve._id,
+                extendedProps: {description: eve.description}
               }
             })
             setCalEvents(array);            
@@ -107,6 +119,9 @@ const Calendar = () => {
         plugins={[ dayGridPlugin ]}
         initialView="dayGridMonth"
         events={calEvents}
+        eventDisplay="background"
+        eventClick={(info) => {handleEventClick(info)}}
+        eventContent={renderEventContent}
       />
       </Box>
       

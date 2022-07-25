@@ -46,7 +46,7 @@ const Register = () => {
             </TextField>
             <TextField
                 sx={{ m: 1 }} 
-                type="text"
+                type="email"
                 label="Email"
                 name="email"
                 value={email}
