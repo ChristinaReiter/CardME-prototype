@@ -61,14 +61,11 @@ function OrderItem({ order }) {
           <Typography variant="h6">Details:</Typography>
           <Typography variant="body1">Delivery Date: {order.deliveryDate.split('T')[0]}</Typography>
           <Typography variant="body1">Product: {order.products.cardTitle}</Typography>
-          <Typography variant="body1">Price: {order.products.cardPrice}€</Typography>
+          <Typography variant="body1">Price: {order.products.cardPrice+order.products.giftPrice}€</Typography>
           <Typography variant="body1">Delivery Address: </Typography>
           <Typography variant="body1">{street} {streetNumber}</Typography>
           <Typography variant="body1">{zipCode} {city} </Typography>
-          <Typography variant="body1">{country}</Typography>
-      {/*     <Typography variant="body1">Products: {order.products.map(prod => prod.name).join(', ')}</Typography> */}
-         
-          
+          <Typography variant="body1">{country}</Typography>         
         </CardContent>
         <CardActions disableSpacing>
         {isSub ?   

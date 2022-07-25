@@ -9,6 +9,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 
 
 const Calendarr = () => {
+    const [calEvents, setCalEvents] = useState([]);
     const [events, setEvents] = useState([]);
     const [eventDate, setEventDate] = useState('');
     const [title, setTitle] = useState('');
@@ -36,6 +37,7 @@ const Calendarr = () => {
      useEffect(() => {
         EventService.getEvents().then(res => {
             setEvents(res);
+            
         })
     }, []);
     

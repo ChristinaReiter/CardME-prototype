@@ -25,14 +25,14 @@ useEffect(() => {
           setOrderNr(res[0]._id);
           setOrderDate(res[0].deliveryDate.split('T')[0]);
           setOrderStatus(res[0].status);
-          setOrderTotal(res[0].products.cardPrice);
+          setOrderTotal(res[0].products.cardPrice+res[0].products.giftPrice);
           setOrderRecipient(res[0].recipientName);        
       }
         if (res.length > 1) {
             setOrderNr2(res[1]._id);
             setOrderDate2(res[1].deliveryDate.split('T')[0]);
             setOrderStatus2(res[1].status);
-            setOrderTotal2(res[1].products.cardPrice);
+            setOrderTotal2(res[1].products.cardPrice+res[1].products.giftPrice);
             setOrderRecipient2(res[1].recipientName);     
       }
     
