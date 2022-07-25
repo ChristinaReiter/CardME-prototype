@@ -15,7 +15,7 @@ import { useState } from "react";
 import Orders from "./components/Orders";
 import Subscriptions from "./components/Subscriptions";
 import View from "./components/View";
-import Calendar from "./components/Calendar";
+import Calendarr from "./components/Calendarr";
 import Favorites from "./components/Favorites";
 import Contacts from "./components/Contacts";
 import Details from "./components/Details";
@@ -81,7 +81,7 @@ function App() {
                 <Route path="view" element={<View />} />
                 <Route path="orders" element={<Orders />} />
                 <Route path="subscriptions" element={<Subscriptions />} />
-                <Route path="calendar" element={<Calendar />} />
+                <Route path="calendar" element={<Calendarr />} />
                 <Route path="favorites" element={<Favorites />} />
                 <Route path="contacts" element={<Contacts />} />
                 <Route path="details" element={<Details />} />
