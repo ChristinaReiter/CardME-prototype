@@ -58,6 +58,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route exact path="/cards" element={<Cards />} />
+              <Route exact path="/cards/:headerfilter" element={<Cards />} />
               <Route path="/ViewCard/:cardid" element={<ViewCard />} />
               <Route path="/ViewGift/:giftid" element={<ViewGift />} />
               <Route exact path ="/gifts" element={<Gifts />} />

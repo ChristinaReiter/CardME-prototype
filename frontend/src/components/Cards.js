@@ -15,7 +15,7 @@ import {
 import CardService from "../services/CardService";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import SearchIcon from "@mui/icons-material/Search";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CardsFilterHeader from "./CardsFilterHeader";
 import AuthService from "../services/AuthService";
 
@@ -33,6 +33,7 @@ const Cards = () => {
   const [favorites, setFavorites] = useState([]);
   const [userID, setUserID] = useState();
   const navigate = useNavigate();
+  const {headerfilter} = useParams();
 
   useEffect(() => {
     CardService.getAllCards().then(
@@ -48,7 +49,6 @@ const Cards = () => {
         setUserID(result._id);
         CardService.getFavorites(result._id).then(
           (res) => {
-            console.log(res);
             setFavorites(res);
           },
           (err) => {
@@ -60,8 +60,27 @@ const Cards = () => {
         console.log(error);
       }
     )
+    if(headerfilter==="birthday") {
+      setOccasionFilter({...occasionFilter, [headerfilter]: true});
+      setSeasonFilter({...seasonFilter, ["summer"]: false});
+      setStyleFilter({...styleFilter, ["simple"]: false});
+    }
+
+    if(headerfilter==="summer") {
+      setSeasonFilter({...seasonFilter, [headerfilter]: true});
+      setOccasionFilter({...occasionFilter, ["birthday"]: false});
+      setStyleFilter({...styleFilter, ["simple"]: false});
+      
+    }
+
+    if(headerfilter==="simple") {
+      setStyleFilter({...styleFilter, [headerfilter]: true});
+      setOccasionFilter({...occasionFilter, ["birthday"]: false});
+      setSeasonFilter({...seasonFilter, ["summer"]: false});
+    }
     
-  }, []);
+    
+  }, [headerfilter]);
 
   const styles = {
     
@@ -132,6 +151,7 @@ const Cards = () => {
   const filteredCards = productsSort().filter (
     (el) => {
       var filterArray = [];
+      
       Object.keys(colorFilter).map((key) => {
           if (colorFilter[key]) {
             filterArray.push(key);

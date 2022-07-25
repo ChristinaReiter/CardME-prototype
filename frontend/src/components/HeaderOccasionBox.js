@@ -8,7 +8,6 @@ import {
 
 const HeaderOccasionBox = ({index, gifts, occasionFilter, setOccasionFilter, filterIsHovering}) => {
 
-
   const styles = {
     giftBox: {
       position: "absolute",
