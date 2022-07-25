@@ -644,7 +644,7 @@ const CreateText = ({
               }}
               onDragEnter
               onKeyUp={(event) => {
-                if (event.key === " ") {
+                if (event.key === " " || event.key === "Enter") {
                   let newHistoryStates = [...history];
                   if (newHistoryStates.length - 1 > historyPointer) {
                     newHistoryStates = newHistoryStates.slice(

@@ -71,7 +71,9 @@ const CreateFront = ({
   setGrayscale,
   sepia,
   setSepia,
-  imageFilters
+  imageFilters,
+  setCardheight,
+  setCardwidth,
 }) => {
   const navigate = useNavigate();
 
@@ -115,6 +117,8 @@ const CreateFront = ({
                 setGrayscale={setGrayscale}
                 sepia={sepia}
                 setSepia={setSepia}
+                setCardwidth={setCardwidth}
+                setCardheight={setCardheight}
               />
             </Box>
           </Grid>

@@ -10,8 +10,6 @@ import { useParams } from "react-router-dom";
 import CardService from "../services/CardService";
 
 const Create = () => {
-  const cardtext = document.getElementById("card-text");
-
   const { cardStyle, id, mode } = useParams();
   const [text, setText] = useState(null);
   const [product, setProduct] = useState();
@@ -26,6 +24,8 @@ const Create = () => {
   const [saturate, setSaturate] = useState(100);
   const [grayscale, setGrayscale] = useState(0);
   const [sepia, setSepia] = useState(0);
+  const [cardwidth, setCardwidth] = useState(240);
+  const [cardheight, setCardheight] = useState(300);
 
   // Applied Style of the own image
   const [imageFilters, setImageFilters] = useState(null);
@@ -41,13 +41,14 @@ const Create = () => {
         setProduct(item);
         setImage(item.cardImage);
         setText(item.cardText);
-
         setRotation(item.cardImageFilterValues.rotation);
         setBrightness(item.cardImageFilterValues.brightness);
         setContrast(item.cardImageFilterValues.contrast);
         setSaturate(item.cardImageFilterValues.saturate);
         setGrayscale(item.cardImageFilterValues.grayscale);
         setSepia(item.cardImageFilterValues.sepia);
+        setCardheight(item.cardImageFilterValues.cardheight);
+        setCardwidth(item.cardImageFilterValues.cardwidth);
       });
     } else {
       // Reset all states for new card
@@ -58,6 +59,8 @@ const Create = () => {
       setGrayscale(0);
       setSepia(0);
       setImage(null);
+      setCardheight(320);
+      setCardwidth(260);
     }
   }, [cardStyle, mode, id]);
 
@@ -66,10 +69,20 @@ const Create = () => {
     const newFilters = {
       filter: `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturate}%) sepia(${sepia}%) grayscale(${grayscale}%)`,
       transform: `rotate(${rotation}deg)`,
+      //width: `${cardwidth}px`,
+      //height: `${cardheight}px`,
     };
-
     setImageFilters(newFilters);
-  }, [rotation, brightness, contrast, saturate, grayscale, sepia]);
+  }, [
+    rotation,
+    brightness,
+    contrast,
+    saturate,
+    grayscale,
+    sepia,
+    cardwidth,
+    cardheight,
+  ]);
 
   const handleTextPersist = (text) => {
     setText(text);
@@ -82,22 +95,6 @@ const Create = () => {
   const [fontsize, setfontsize] = React.useState(20);
   const [fontalign, setfontalign] = React.useState("left");
   const [lineHeight, setlineHeight] = React.useState(1);
-
-  const tobedeleted = () => {
-    const newFilters = {
-      fontFamily: `${fontstyle}`,
-      color: `${fontcolor}`,
-      fontSize: `${fontsize}px`,
-      textAlign: `${fontalign}`,
-      lineHeight: `${lineHeight}`,
-    };
-
-    cardtext.style.fontFamily = "" + fontstyle;
-    cardtext.style.color = "" + fontcolor;
-    cardtext.style.fontSize = "" + fontsize + "px";
-    cardtext.style.textAlign = "" + fontalign;
-    cardtext.style.lineHeight = "" + lineHeight;
-  };
 
   //updating styles of the text
   useEffect(() => {
@@ -115,7 +112,7 @@ const Create = () => {
   return (
     <div>
       {cardStyle === "own" ? (
-        <CreateFront
+        <CreateFront //Create card front (Upload Image und Adjust design)
           setImage={setImage}
           image={image}
           id={id}
@@ -132,16 +129,18 @@ const Create = () => {
           sepia={sepia}
           setSepia={setSepia}
           imageFilters={imageFilters}
+          setCardheight={setCardheight}
+          setCardwidth={setCardwidth}
         />
       ) : (
-        <ShowFront
+        <ShowFront //View card front (choosen card)
           product={product}
           setImage={setImage}
           image={image}
           mode={mode}
         />
       )}
-      <CreateText
+      <CreateText //Create card text (Create Text & Adjust Text )
         text={text}
         handleTextPersist={handleTextPersist}
         setText={setText}
@@ -151,8 +150,8 @@ const Create = () => {
         setfontalign={setfontalign}
         textFilters={textFilters}
       />
-      <CreateAddGift />
-      <CreateFinal
+      <CreateAddGift /> //Add gift part
+      <CreateFinal //View final card (front and inside text)
         id={id}
         text={text}
         image={image}
@@ -171,6 +170,8 @@ const Create = () => {
         fontsize={fontsize}
         fontalign={fontalign}
         textFilters={textFilters}
+        cardheight={cardheight}
+        cardwidth={cardwidth}
       />
     </div>
   );
