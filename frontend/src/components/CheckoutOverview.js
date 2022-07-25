@@ -13,10 +13,13 @@ import CheckoutService from "../services/CheckoutService";
 import ShoppingCartService from "../services/ShoppingCartService";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import OrderService from "../services/OrderService";
+import PayPalService from "../services/PayPalService";
 
 const CheckoutOverview = () => {
   const [cartItem, setCartItem] = useState({});
   const [checkoutData, setCheckoutData] = useState({});
+  const [subscriptionPlan, setSubscriptionPlan] = useState(null);
+  const [startingDate, setStartingDate] = useState(null);
   const { id } = useParams();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -38,10 +41,23 @@ const CheckoutOverview = () => {
     let checkoutData = CheckoutService.getCheckoutData();
     setCheckoutData(checkoutData);
 
-    ShoppingCartService.getItem(id).then(item => {
+    ShoppingCartService.getItem(id).then((item) => {
       setCartItem(item);
     });
   }, []);
+
+  useEffect(() => {
+    if (checkoutData.recurrentDelivery) {
+      let deliveryDate = Date.parse(checkoutData.deliveryDate)
+      setStartingDate(new Date(deliveryDate).toISOString())
+
+      PayPalService.createSubscriptionPlan((cartItem.cardPrice + cartItem.giftPrice)).then((result) => {
+        if (result) {
+          setSubscriptionPlan(result.id);
+        }
+      });
+    }
+  }, [cartItem]);
 
   const handleSuccessfulCheckout = async () => {
     const response = await OrderService.createOrder(checkoutData, cartItem);
@@ -52,8 +68,9 @@ const CheckoutOverview = () => {
     }
   };
 
-  const handleFailedCheckout = () => {
-    console.log("Failed payment");
+  const handleFailedCheckout = (error) => {
+    console.log(error)
+    alert("Payment failed, please try again");
   };
 
   return (
@@ -65,7 +82,7 @@ const CheckoutOverview = () => {
             separator=">"
             style={styles.breadcrumbs}
           >
-            <NavLink style={styles.breadcrumbs} to={"/create/" + id}>
+            <NavLink style={styles.breadcrumbs} to={"/create/" + (cartItem && cartItem.cardTitle === "Own Card" ? "own/" : "chosen/") + id + "/edit"}>
               Edit card
             </NavLink>
             <NavLink style={styles.breadcrumbs} to={"/checkout-data/" + id}>
@@ -101,7 +118,9 @@ const CheckoutOverview = () => {
               </Typography>
             </Grid>
             <Grid item xs={5}>
-              <Typography variant="h5">Text (displayed here without styling):</Typography>
+              <Typography variant="h5">
+                Text (displayed here without styling):
+              </Typography>
               <Typography fontFamily="Antic">{cartItem.cardText}</Typography>
             </Grid>
             <Grid
@@ -120,7 +139,7 @@ const CheckoutOverview = () => {
                 variant="contained"
                 color="secondary"
                 onClick={() => {
-                  navigate("/create/" + id);
+                  navigate("/create/" + (cartItem && cartItem.cardTitle === "Own Card" ? "own/" : "chosen/") + id + "/edit");
                 }}
               >
                 Edit
@@ -163,7 +182,7 @@ const CheckoutOverview = () => {
                 variant="contained"
                 color="secondary"
                 onClick={() => {
-                  navigate("/create/" + id);
+                  navigate("/checkout-data/" + id);
                 }}
               >
                 Edit
@@ -217,25 +236,124 @@ const CheckoutOverview = () => {
         >
           <Typography variant="h4">Payment</Typography>
           <Box textAlign="center" padding="2em">
-            <PayPalScriptProvider
-              options={{
-                "client-id":
-                  "AWhQbQw5irWMzQRjp7gn4yYP4V7qomnXWIE4krmMbZi3M5NwPz-cnAUVk9-7uvBkmOgnCPqTgEfROIDP",
-                currency: "EUR",
-                components: "buttons",
-              }}
-            >
-              <PayPalButtons
-                style={{ layout: "horizontal" }}
-                fundingSource="paypal"
-                createOrder={(data, actions) => {
-                  return actions.order.create({
-                    purchase_units: [
-                      {
-                        amount: {
-                          value: cartItem.cardPrice + cartItem.giftPrice,
+            {!checkoutData.recurrentDelivery && (
+              <PayPalScriptProvider
+                options={{
+                  "client-id": PayPalService.clientId,
+                  currency: "EUR",
+                  components: "buttons",
+                }}
+              >
+                <PayPalButtons
+                  forceReRender={[checkoutData]}
+                  style={{ layout: "horizontal" }}
+                  fundingSource="paypal"
+                  createOrder={(data, actions) => {
+                    return actions.order.create({
+                      purchase_units: [
+                        {
+                          amount: {
+                            value: cartItem.cardPrice + cartItem.giftPrice,
+                          },
+                          shipping: {
+                            name: {
+                              full_name:
+                                checkoutData.recipientFirstName +
+                                " " +
+                                checkoutData.recipientLastName,
+                            },
+                            address: {
+                              address_line_1:
+                                checkoutData.recipientStreet +
+                                " " +
+                                checkoutData.recipientNumber,
+                              postal_code: checkoutData.recipientZipcode,
+                              admin_area_2: checkoutData.recipientCity,
+                              country_code: "DE",
+                            },
+                          },
                         },
-                        shipping: {
+                      ],
+                      application_context: {
+                        brand_name: "CardMe",
+                        shipping_preference: "SET_PROVIDED_ADDRESS",
+                      },
+                    });
+                  }}
+                  onApprove={(data, actions) => {
+                    return actions.order.capture().then((details) => {
+                      handleSuccessfulCheckout();
+                    });
+                  }}
+                  onError={(error) => {
+                    handleFailedCheckout(error) 
+                  }}
+                />
+                <PayPalButtons
+                  forceReRender={[checkoutData]}
+                  style={{ layout: "horizontal" }}
+                  fundingSource="card"
+                  createOrder={(data, actions) => {
+                    return actions.order.create({
+                      payer: {
+                        email_address: checkoutData.email,
+                        name: {
+                          given_name: checkoutData.billingFirstName,
+                          surname: checkoutData.billingLastName,
+                        },
+                        address: {
+                          postal_code: checkoutData.billingZipcode,
+                          country_code: "DE",
+                        },
+                      },
+                      purchase_units: [
+                        {
+                          amount: {
+                            value: cartItem.cardPrice + cartItem.giftPrice,
+                          },
+                        },
+                      ],
+                      application_context: {
+                        brand_name: "CardMe",
+                        shipping_preference: "NO_SHIPPING",
+                      },
+                    });
+                  }}
+                  onApprove={(data, actions) => {
+                    return actions.order.capture().then((details) => {
+                      handleSuccessfulCheckout();
+                    });
+                  }}
+                  onError={(error) => {
+                    handleFailedCheckout(error) 
+                  }}
+                />
+              </PayPalScriptProvider>
+            )}
+            {checkoutData.recurrentDelivery && (
+              <PayPalScriptProvider
+                options={{
+                  "client-id": PayPalService.clientId,
+                  currency: "EUR",
+                  components: "buttons",
+                  vault: true
+                }}
+              >
+                <PayPalButtons
+                  forceReRender={[subscriptionPlan, checkoutData]}
+                  style={{ layout: "horizontal" }}
+                  fundingSource="paypal"
+                  createSubscription={(data, actions) => {
+                    return actions.subscription.create({
+                      'plan_id': subscriptionPlan,
+                      start_time: startingDate,
+                      subscriber: {
+                        email_address: checkoutData.email,
+                        name: {
+                          given_name: checkoutData.billingFirstName,
+                          surname: checkoutData.billingLastName,
+                        },
+                        shipping_address: {
                           name: {
                             full_name:
                               checkoutData.recipientFirstName +
@@ -250,58 +368,26 @@ const CheckoutOverview = () => {
                             postal_code: checkoutData.recipientZipcode,
                             admin_area_2: checkoutData.recipientCity,
                             country_code: "DE",
-                          },
-                        },
+                          }
+                        }
                       },
-                    ],
-                    application_context: {
-                      brand_name: "CardMe",
-                      shipping_preference: "SET_PROVIDED_ADDRESS",
-                    },
-                  });
-                }}
-                onApprove={(data, actions) => {
-                  return actions.order.capture().then((details) => {
-                    handleSuccessfulCheckout();
-                  });
-                }}
-              />
-              <PayPalButtons
-                style={{ layout: "horizontal" }}
-                fundingSource="card"
-                createOrder={(data, actions) => {
-                  return actions.order.create({
-                    payer: {
-                      email_address: checkoutData.email,
-                      name: {
-                        given_name: checkoutData.billingFirstName,
-                        surname: checkoutData.billingLastName,
+                      application_context: {
+                        brand_name: "CardMe",
+                        shipping_preference: "NO_SHIPPING",
                       },
-                      address: {
-                        postal_code: checkoutData.billingZipcode,
-                        country_code: "DE",
-                      },
-                    },
-                    purchase_units: [
-                      {
-                        amount: {
-                          value: cartItem.cardPrice + cartItem.giftPrice,
-                        },
-                      },
-                    ],
-                    application_context: {
-                      brand_name: "CardMe",
-                      shipping_preference: "NO_SHIPPING",
-                    },
-                  });
-                }}
-                onApprove={(data, actions) => {
-                  return actions.order.capture().then((details) => {
-                    handleSuccessfulCheckout();
-                  });
-                }}
-              />
-            </PayPalScriptProvider>
+                    });
+                  }}
+                  onApprove={(data, actions) => {
+                    return actions.order.capture().then((details) => {
+                      handleSuccessfulCheckout();
+                    });
+                  }}
+                  onError={(error) => {
+                    handleFailedCheckout(error) 
+                  }}
+                ></PayPalButtons>
+              </PayPalScriptProvider>
+            )}
           </Box>
         </Box>
       </Box>

@@ -10,10 +10,12 @@ import {
   Breadcrumbs,
 } from "@mui/material";
 import CheckoutService from "../services/CheckoutService";
+import ShoppingCartService from "../services/ShoppingCartService";
 
 const CheckoutData = () => {
   const [checkoutData, setCheckoutData] = useState({});
   const [firstShipmentDate, setFirstShipmentDate] = useState(null);
+  const [cartItem, setCartItem] = useState(null)
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -32,6 +34,10 @@ const CheckoutData = () => {
     if (checkoutData) {
       setCheckoutData(checkoutData);
     }
+
+    ShoppingCartService.getItem(id).then((item) => {
+      setCartItem(item);
+    });
 
     // Set date for delivery date picker
     let date = new Date();
@@ -69,7 +75,7 @@ const CheckoutData = () => {
             separator=">"
             style={styles.breadcrumbs}
           >
-            <NavLink style={styles.breadcrumbs} to={"/create/" + id}>
+            <NavLink style={styles.breadcrumbs} to={"/create/" + (cartItem && cartItem.cardTitle === "Own Card" ? "own/" : "chosen/") + id + "/edit"}>
               Edit card
             </NavLink>
             <Typography fontFamily="Abril Fatface">
