@@ -2,9 +2,13 @@ import { useState, useEffect } from 'react';
 import { TextField, Box, Button, Grid, Paper, Typography } from '@mui/material'; 
 import EventService from '../services/EventService';
 import EventItem from './EventItem';
+import FullCalendar from '@fullcalendar/react' 
+import dayGridPlugin from '@fullcalendar/daygrid' 
 
 
-const Calendar = () => {
+
+
+const Calendarr = () => {
     const [events, setEvents] = useState([]);
     const [eventDate, setEventDate] = useState('');
     const [title, setTitle] = useState('');
@@ -33,7 +37,9 @@ const Calendar = () => {
         EventService.getEvents().then(res => {
             setEvents(res);
         })
-    }, []);  
+    }, []);
+    
+    
    
     return (
       <>
@@ -78,9 +84,14 @@ const Calendar = () => {
               
       </Box>
 
-      <Box display="flex" justifyContent="center" padding="5em">
-        <Typography variant="h5">Calendar here</Typography>
-      </Box>
+      <section>
+      <FullCalendar
+        plugins={[ dayGridPlugin ]}
+        initialView="dayGridMonth"
+        events={events}
+      />
+      </section>
+      
 
 
       <Box>
@@ -100,4 +111,4 @@ const Calendar = () => {
     );
   };
   
-  export default Calendar
+  export default Calendarr
