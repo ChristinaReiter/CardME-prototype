@@ -1,9 +1,15 @@
 import { useState, useEffect } from 'react';
-import { TextField, Box, Button, Grid, Paper, Typography } from '@mui/material'; 
+import { TextField, Box, Button, Grid, Dialog, DialogTitle, Typography } from '@mui/material'; 
 import EventService from '../services/EventService';
 import EventItem from './EventItem';
 import FullCalendar from '@fullcalendar/react' 
 import dayGridPlugin from '@fullcalendar/daygrid' 
+import PropTypes from 'prop-types';
+
+
+
+
+
 
 
 
@@ -40,9 +46,10 @@ const Calendar = () => {
         }
       );
     }
+  
 
     const handleEventClick = (info) => {
-      let day = info.event.start.toString().split("00:")[0]
+      let day = info.event.start.toString().split("00:")[0]    
 
       alert(`Title: ${info.event.title}\nDate: ${day}\nDescription: ${info.event.extendedProps.description}`)
 
@@ -124,6 +131,7 @@ const Calendar = () => {
         eventContent={renderEventContent}
       />
       </Box>
+      
       
 
 

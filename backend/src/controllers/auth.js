@@ -8,10 +8,16 @@ const config = require("../config");
 const register = async (req, res) => {
     console.log(req.body)
     try{
-      if (!req.body.name || !req.body.email || !req.body.password) { // Is this even needed with the form?
-        return res.status(400).json({error:"Missing Values"});
+      if (!req.body.name || !req.body.email || !req.body.password) {
+        return res.status(400).json({status: "error", message: "Missing Values"});
+      }
+      const userTest = await User.findOne({email: req.body.email})  //to check if user (email) already exists
+      const accountTest = await Account.findOne({user: userTest._id}) // to make sure you can't change the name of accounts over the register page
+      if(accountTest){
+        return res.status(404).json({status: "error", message: "Email already belongs to an account"});
       }
       const securePassword = await bcrypt.hash(req.body.password, 10);
+      if(!userTest){
       const user = await User.create({
         email: req.body.email,
         name: req.body.name,
@@ -21,6 +27,15 @@ const register = async (req, res) => {
         password: securePassword,
       })
       return res.status(201).json({_id: account.id, user: user.id, email: user.email, name: user.name})
+    }else{
+        const updatedUser= await User.findByIdAndUpdate(userTest._id, req.body, {new: true});   // to update the user's name if he already had a use but not an account
+        const account = await Account.create({
+        user: updatedUser._id,
+        password: securePassword,
+      })
+
+      return res.status(201).json({_id: account.id, user: updatedUser._id, email: updatedUser.email, name: updatedUser.name})
+    }
     
     
     } catch (err) {
