@@ -79,7 +79,7 @@ const ShowFront = ({ product, setImage, image, mode }) => {
             <IconButton sx={{ mr: 2 }}>
               <div style={styles.kreis}>1.</div>
             </IconButton>
-            <div fontSize={"30px"}>Create card front</div>
+            <div fontSize={"30px"}>View card front</div>
           </Toolbar>
         </AppBar>
       </Typography>

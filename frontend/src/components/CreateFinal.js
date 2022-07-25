@@ -82,6 +82,8 @@ const CreateFinal = ({
   fontsize,
   fontalign,
   textFilters,
+  cardheight,
+  cardwidth,
 }) => {
   const [viewState, setViewState] = React.useState(true);
   const navigate = useNavigate();
@@ -102,6 +104,8 @@ const CreateFinal = ({
         saturate: saturate,
         grayscale: grayscale,
         sepia: sepia,
+        cardheight: cardheight,
+        cardwidth: cardwidth,
       };
     } else {
       itemToAdd.title = product.title;

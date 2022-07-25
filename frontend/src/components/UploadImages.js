@@ -47,12 +47,7 @@ const styles = {
   },
 };
 
-export default function UploadImages({
-  id,
-  image,
-  setImage,
-  imageFilters
-}) {
+export default function UploadImages({ id, image, setImage, imageFilters }) {
   const [imageURL, setImageURL] = useState(null);
 
   // Setting the imageUrl for below display if already existing in state with id else setting to null

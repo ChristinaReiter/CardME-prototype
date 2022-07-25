@@ -22,8 +22,8 @@ const styles = {
   cardWindow: {
     position: "relative",
     textAlign: "center",
-    width: "241px",
-    height: "306px",
+    width: "240px",
+    height: "300px",
     background: "#F3F3F3",
     marginRight: "20px",
     boxShadow:
@@ -50,6 +50,8 @@ const CreateAdjustDesign = ({
   setGrayscale,
   sepia,
   setSepia,
+  setCardwidth,
+  setCardheight,
 }) => {
   return (
     <div>
@@ -76,6 +78,8 @@ const CreateAdjustDesign = ({
             <RotateLeftIcon
               onClick={() => {
                 setRotation(90);
+                setCardwidth(800);
+                setCardheight(240);
               }}
               fontSize="medium"
             />
@@ -86,6 +90,8 @@ const CreateAdjustDesign = ({
             <HistoryIcon
               onClick={() => {
                 setRotation(0);
+                setCardwidth(240);
+                setCardheight(300);
               }}
               fontSize="medium"
             />
@@ -96,6 +102,8 @@ const CreateAdjustDesign = ({
             <RotateRightIcon
               onClick={() => {
                 setRotation(-90);
+                setCardwidth(300);
+                setCardheight(240);
               }}
               fontSize="medium"
             />
