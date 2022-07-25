@@ -16,19 +16,16 @@ import GiftService from "../services/GiftService";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
-import CardsFilterHeader from "./CardsFilterHeader";
+import GiftsFilterHeader from "./GiftsFilterHeader";
 import AuthService from "../services/AuthService";
 
 const Gifts = () => {
   const imageUrl = "http://localhost:3001/public/";
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState([]);
-  const [colorFilter, setColorFilter] = useState({});
-  const [vibeFilter, setVibeFilter] = useState({});
-  const [styleFilter, setStyleFilter] = useState({});
-  const [recipientsFilter, setRecipientsFilter] = useState({});
+  const [giftSizeFilter, setGiftSizeFilter] = useState({});
+  const [giftPriceFilter, setGiftPriceFilter] = useState({});
   const [occasionFilter, setOccasionFilter] = useState({});
-  const [seasonFilter, setSeasonFilter] = useState({});
   const [sortFilter, setSortFilter] = useState("trending");
   const [favorites, setFavorites] = useState([]);
   const [userID, setUserID] = useState();
@@ -133,23 +130,13 @@ const Gifts = () => {
   const filteredCards = productsSort().filter (
     (el) => {
       var filterArray = [];
-      Object.keys(colorFilter).map((key) => {
-          if (colorFilter[key]) {
+      Object.keys(giftSizeFilter).map((key) => {
+          if (giftSizeFilter[key]) {
             filterArray.push(key);
           }
       })
-      Object.keys(vibeFilter).map((key) => {
-        if(vibeFilter[key]) {
-          filterArray.push(key);
-        }
-      })
-      Object.keys(styleFilter).map((key) => {
-        if(styleFilter[key]) {
-          filterArray.push(key);
-        }
-      })
-      Object.keys(recipientsFilter).map((key) => {
-        if(recipientsFilter[key]) {
+      Object.keys(giftPriceFilter).map((key) => {
+        if(giftPriceFilter[key]) {
           filterArray.push(key);
         }
       })
@@ -158,37 +145,25 @@ const Gifts = () => {
           filterArray.push(key);
         }
       })
-      Object.keys(seasonFilter).map((key) => {
-        if(seasonFilter[key]) {
-          filterArray.push(key);
-        }
-      })
       if (searchTerm.length === 0 && filterArray.length === 0) {
-        return el;
-        
+        return el;      
       } 
       else if(searchTerm.length === 0 && filterArray.length !== 0) {
         return(
           filterArray
           .every(filter => 
             {
+              console.log(el.size === filter);
               return (
-                el.vibe.includes(filter) || 
-                el.color.includes(filter) || 
-                el.style.includes(filter) || 
-                el.recipient.includes(filter) ||
-                el.occasion.includes(filter) ||
-                el.season.includes(filter))}
+                el.size === (filter) || 
+                el.pricerange === (filter) || 
+                el.occasion.includes(filter))}
           )
         )
       }
       else if(searchTerm.length !== 0 && filterArray.length === 0) {
         return (
           el.title
-            .toString()
-            .toLowerCase()
-            .includes(searchTerm.toString().toLowerCase()) ||
-          el.designer
             .toString()
             .toLowerCase()
             .includes(searchTerm.toString().toLowerCase()))
@@ -198,23 +173,16 @@ const Gifts = () => {
           (el.title
             .toString()
             .toLowerCase()
-            .includes(searchTerm.toString().toLowerCase()) ||
-          el.designer
-            .toString()
-            .toLowerCase()
-            .includes(searchTerm.toString().toLowerCase())) &&
+            .includes(searchTerm.toString().toLowerCase()) &&
             filterArray
             .every(filter => 
               {
                 return (
-                  el.vibe.includes(filter) || 
-                  el.color.includes(filter) || 
-                  el.style.includes(filter) || 
-                  el.recipient.includes(filter) ||
-                  el.occasion.includes(filter) ||
-                  el.season.includes(filter))}
+                  el.size.includes(filter) || 
+                  el.pricerange.includes(filter) || 
+                  el.occasion.includes(filter))}
             )
-        );
+        ));
       }
     }
   )
@@ -270,13 +238,10 @@ const Gifts = () => {
   return (
     <div>
       <Box sx={{ flexGrow: 1, flexShrink: 1, position: "relative" }}>
-        <CardsFilterHeader 
-          colorFilter={colorFilter} setColorFilter={setColorFilter} 
-          vibeFilter={vibeFilter} setVibeFilter={setVibeFilter} 
-          styleFilter={styleFilter} setStyleFilter={setStyleFilter}
-          recipientsFilter={recipientsFilter} setRecipientsFilter={setRecipientsFilter}
+        <GiftsFilterHeader 
+          giftSizeFilter={giftSizeFilter} setGiftSizeFilter={setGiftSizeFilter} 
+          giftPriceFilter={giftPriceFilter} setGiftPriceFilter={setGiftPriceFilter} 
           occasionFilter={occasionFilter} setOccasionFilter={setOccasionFilter}
-          seasonFilter={seasonFilter} setSeasonFilter={setSeasonFilter}
           sortFilter={sortFilter} setSortFilter={setSortFilter}/>
       </Box>
       <Box

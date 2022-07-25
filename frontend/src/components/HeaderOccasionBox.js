@@ -6,7 +6,29 @@ import {
     Checkbox,
 } from "@mui/material";
 
-const HeaderOccasionBox = ({index, occasionFilter, setOccasionFilter, filterIsHovering}) => {
+const HeaderOccasionBox = ({index, gifts, occasionFilter, setOccasionFilter, filterIsHovering}) => {
+
+
+  const styles = {
+    giftBox: {
+      position: "absolute",
+      width: "25%",
+      height: 200,
+      top: "70px",
+      left: "50%",
+      background: "rgba(167, 205,	167, 0.8)",
+      zIndex: 1,
+    },
+    cardBox: {
+      position: "absolute",
+      width: 300,
+      height: 200,
+      top: "70px",
+      left: "56%",
+      background: "rgba(167, 205,	167, 0.8)",
+      zIndex: 1,
+    },
+  }
 
         const updateOccasionArray = (occasionKey, event) => {
           setOccasionFilter({ ...occasionFilter, [occasionKey]: event.target.checked });
@@ -17,15 +39,7 @@ const HeaderOccasionBox = ({index, occasionFilter, setOccasionFilter, filterIsHo
         } else {
           return (
             <Box
-              style={{
-                position: "absolute",
-                width: 300,
-                height: 200,
-                top: "70px",
-                left: "56%",
-                background: "rgba(167, 205,	167, 0.8)",
-                zIndex: 1,
-              }}
+              style={gifts? styles.giftBox : styles.cardBox}
             >
               <div
                 style={{ display: "flex", flexDirection: "row", paddingLeft: "5%" }}
@@ -76,7 +90,7 @@ const HeaderOccasionBox = ({index, occasionFilter, setOccasionFilter, filterIsHo
                         ></Checkbox>
                       }
                       onChange={(e) => {
-                        updateOccasionArray("yelebration", e);
+                        updateOccasionArray("celebration", e);
                       }}
                       label="Celebration"
                     ></FormControlLabel>
