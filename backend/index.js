@@ -10,12 +10,12 @@ const product = require("./src/routes/product");
 const auth = require("./src/routes/auth");
 const order = require("./src/routes/order"); 
 const subscription = require("./src/routes/subscription");
-const calendarEvent = require("./src/routes/calendarEvent");
 const favorite = require("./src/routes/favorite");
 const acquaintance = require("./src/routes/acquaintance");
 const addresss = require("./src/routes/address");
 const details = require("./src/routes/details");
 const gifts = require("./src/routes/gifts");
+const event = require("./src/routes/event");
 
 mongoose.connect(config.mongoURI).then(
   () => {
@@ -57,7 +57,7 @@ app.use("/", order) // Might not work
 
 app.use("/profile/subscriptions", subscription);
 
-app.use("/profile/calendar", calendarEvent);
+app.use("/profile/calendar", event);
 
 app.use("/profile/favorites", favorite);
 
@@ -66,6 +66,8 @@ app.use("/profile/contacts", acquaintance);
 app.use("/profile/address", addresss);
 
 app.use("/profile/details", details);
+
+
 
 
 
