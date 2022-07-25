@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardMedia, Typography } from "@mui/material";
+import { Box, Button, Card, CardMedia, IconButton, Typography } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -15,7 +15,6 @@ const ViewCard = () => {
  const navigate = useNavigate();
 
 useEffect(() => {
-    console.log(giftid);
   GiftService.getSingleGift(giftid).then(
     (result) => {
       setSingleProduct(result);
@@ -57,28 +56,32 @@ function SwitchFavoriteButton() {
   const found = favorites.find(element => element._id === singleProduct._id);
   if(found) {
     return (
-      <FavoriteIcon style={{fontSize: "90px", color: "#DC9292"}}
-        onClick={(event) => {
+      <IconButton
+        onClick={() => {
           GiftService.removeFavorite({product: singleProduct}).then(
             (result) => {
-              setFavorites(result);
+              setFavorites([...favorites, result]);
             }
           )
-        }
-      } />
+        }}>
+        <FavoriteIcon style={{fontSize: "90px", color: "#DC9292"}} />
+      </IconButton>     
     )
   }
   else {
     return (
-      <FavoriteIcon style={{fontSize: "90px", color: "grey"}}
-        onClick={(event) => {
+      <IconButton
+        onClick={() => {
           GiftService.setFavorites({product: singleProduct}).then(
             (result) => {
-              setFavorites(result);
+              setFavorites([...favorites, result]);
             }
           )
         }
-      } />
+      }>
+        <FavoriteIcon style={{fontSize: "90px", color: "grey"}} />
+      </IconButton>
+      
     )
   }
 }

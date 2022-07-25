@@ -50,6 +50,7 @@ const Cards = () => {
         CardService.getFavorites(result._id).then(
           (res) => {
             setFavorites(res);
+            
           },
           (err) => {
             console.log(err);
@@ -78,7 +79,6 @@ const Cards = () => {
       setOccasionFilter({...occasionFilter, ["birthday"]: false});
       setSeasonFilter({...seasonFilter, ["summer"]: false});
     }
-    
     
   }, [headerfilter]);
 
@@ -132,9 +132,9 @@ const Cards = () => {
           return products.sort(); //don't know what to do here lol
         } 
         if(sortFilter == "trending") {
-          var randomNumber = 0;
-          randomNumber = Math.floor(Math.random());
-          return products.sort(() => randomNumber - 0.5);
+          
+          return products.sort(() => Math.random() - 0.5); //this still updates everytime we choose "trending", how can we achieve to save only once?
+          
         } 
         if(sortFilter == "newest") {
           return products.sort((a,b) => a.date > b.date? -1 : 1);
@@ -248,10 +248,10 @@ const Cards = () => {
           aria-label="add to favorites"
           style={styles.favorites}
           sx={{color:"#DC9292"}}
-          onClick={(event) => {
+          onClick={() => {
             CardService.removeFavorite({product: props.productObject}).then(
               (result) => {
-                setFavorites(result);
+                setFavorites([...favorites, result]);
               }
             )
           }}
@@ -269,10 +269,10 @@ const Cards = () => {
           aria-label="add to favorites"
           style={styles.favorites}
           sx={{color:"grey"}}
-          onClick={(event) => {
+          onClick={() => {
             CardService.setFavorites({product: props.productObject}).then(
               (result) => {
-                setFavorites(result);
+                setFavorites([...favorites, result]);
                 
               }
             )
