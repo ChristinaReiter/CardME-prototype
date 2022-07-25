@@ -215,7 +215,7 @@ const CardsFilterHeader = ({
                   onMouseLeave={() => handleFilterMouseEnter(-1)}
                 >
                   <div>
-                    <HeaderOccasionBox index={4} occasionFilter={occasionFilter} setOccasionFilter={setOccasionFilter} filterIsHovering={filterIsHovering}></HeaderOccasionBox>
+                    <HeaderOccasionBox index={4} gifts={false} occasionFilter={occasionFilter} setOccasionFilter={setOccasionFilter} filterIsHovering={filterIsHovering}></HeaderOccasionBox>
                     <div>
                       <Typography variant="h7" style={{ fontSize: "20px" }}>
                         Occasions
@@ -263,7 +263,7 @@ const CardsFilterHeader = ({
                   onMouseLeave={() => handleFilterMouseEnter(-1)}
                 >
                   <div>
-                    <HeaderSortBox index={6} sortFilter={sortFilter} setSortFilter={setSortFilter} filterIsHovering={filterIsHovering}></HeaderSortBox>
+                    <HeaderSortBox index={6} gifts={false} sortFilter={sortFilter} setSortFilter={setSortFilter} filterIsHovering={filterIsHovering}></HeaderSortBox>
                     <div>
                       <Typography variant="h7" style={{ fontSize: "20px" }}>
                         Sort By

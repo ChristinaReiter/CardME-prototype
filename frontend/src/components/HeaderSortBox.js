@@ -9,8 +9,7 @@ import {
   FormControl,
 } from "@mui/material";
 
-const HeaderSortBox = ({index, sortFilter, setSortFilter, filterIsHovering}) => {
-
+const HeaderSortBox = ({index, gifts, sortFilter, setSortFilter, filterIsHovering}) => {
         const styles = {
           radio: {
             color: "black",
@@ -18,6 +17,50 @@ const HeaderSortBox = ({index, sortFilter, setSortFilter, filterIsHovering}) => 
               color: "black",
             },
           },
+          giftBox: {
+            position: "absolute",
+            width: "25%",
+            height: 200,
+            top: "70px",
+            left: "75%",
+            background: "rgba(167, 205,	167, 0.8)",
+            zIndex: 1,
+          },
+          cardBox: {
+            position: "absolute",
+            width: 300,
+            height: 200,
+            top: "70px",
+            left: "85%",
+            background: "rgba(167, 205,	167, 0.8)",
+            zIndex: 1,
+          },
+        }
+
+        const RenderWhenNoGift = () => {
+          if (!gifts) {
+            return (
+              <><FormControlLabel
+                value="designerA"
+                control={<Radio
+                  style={styles.radio}
+                  checked={sortFilter.designera} />}
+                onChange={(e) => {
+                  updateSortArray("designera", e);
+                } }
+                label="Designer A-Z">
+              </FormControlLabel><FormControlLabel
+                value="designerZ"
+                control={<Radio
+                  style={styles.radio}
+                  checked={sortFilter.designerz} />}
+                onChange={(e) => {
+                  updateSortArray("designerz", e);
+                } }
+                label="Designer Z-A">
+                </FormControlLabel></>
+            )
+          }
         }
 
 
@@ -30,15 +73,7 @@ const HeaderSortBox = ({index, sortFilter, setSortFilter, filterIsHovering}) => 
         } else {
           return (
             <Box
-              style={{
-                position: "absolute",
-                width: 300,
-                height: 200,
-                top: "70px",
-                left: "85%",
-                background: "rgba(167, 205,	167, 0.8)",
-                zIndex: 1,
-              }}
+              style={gifts? styles.giftBox : styles.cardBox}
             >
               <div
                 style={{ display: "flex", flexDirection: "row", paddingLeft: "5%" }}
@@ -57,7 +92,7 @@ const HeaderSortBox = ({index, sortFilter, setSortFilter, filterIsHovering}) => 
                       name={"sort by group"}
                       
                     >
-                      <div style={{ display: "flex", flexDirection: "column" }}>
+                      <div style={{ display: "flex", flexDirection: "column"}}>
                         <FormControlLabel 
                           value="trending" 
                           control={
@@ -131,30 +166,7 @@ const HeaderSortBox = ({index, sortFilter, setSortFilter, filterIsHovering}) => 
                           }}
                           label="Newest">
                         </FormControlLabel>
-                        <FormControlLabel 
-                          value="designerA" 
-                          control={
-                          <Radio 
-                            style={styles.radio} 
-                            checked={sortFilter.designera}
-                          />} 
-                          onChange={(e) => {
-                            updateSortArray("designera", e);
-                          }}
-                          label="Designer A-Z">
-                        </FormControlLabel>
-                        <FormControlLabel 
-                          value="designerZ" 
-                          control={
-                          <Radio 
-                            style={styles.radio} 
-                            checked={sortFilter.designerz}
-                          />}
-                          onChange={(e) => {
-                            updateSortArray("designerz", e);
-                          }}
-                          label="Designer Z-A">
-                        </FormControlLabel>
+                        <RenderWhenNoGift />
                       </div>
                     </RadioGroup>
                   </FormControl>

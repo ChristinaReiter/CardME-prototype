@@ -11,23 +11,17 @@ import {
     Typography
  } from "@mui/material";
  import FilterList from "@mui/icons-material/FilterList";
- import HeaderColorBox from "./HeaderColorBox";
- import HeaderVibeBox from "./HeaderVibeBox";
- import HeaderStyleBox from "./HeaderStyleBox";
- import HeaderRecipientsBox from "./HeaderRecipientsBox";
+ import GiftHeaderSizeBox from "./GiftsHeaderSizeBox";
+ import GiftsHeaderPriceBox from "./GiftsHeaderPriceBox";
  import HeaderOccasionBox from "./HeaderOccasionBox";
- import HeaderSeasonBox from "./HeaderSeasonBox";
  import HeaderSortBox from "./HeaderSortBox";
  
 
 
 const ProductsFilterHeader = ({
-      colorFilter, setColorFilter, 
-      vibeFilter, setVibeFilter, 
-      styleFilter, setStyleFilter, 
-      recipientsFilter, setRecipientsFilter, 
+      giftSizeFilter, setGiftSizeFilter, 
+      giftPriceFilter, setGiftPriceFilter, 
       occasionFilter, setOccasionFilter,
-      seasonFilter, setSeasonFilter,
       sortFilter, setSortFilter}) => {
     const styles = {
         filterHeader: {
@@ -94,10 +88,7 @@ const ProductsFilterHeader = ({
     
      function handleFilterMouseEnter(index) {
        setFilterIsHovering(index);
-     }
-    
-     
-     
+     }  
     
     
      
@@ -118,14 +109,14 @@ const ProductsFilterHeader = ({
                   onMouseLeave={() => handleFilterMouseEnter(-1)}
                 >
                   <div>
-                    <HeaderColorBox index={0} colorFilter={colorFilter} setColorFilter={setColorFilter} filterIsHovering={filterIsHovering}></HeaderColorBox>
+                    <GiftHeaderSizeBox index={0} giftSizeFilter={giftSizeFilter} setGiftSizeFilter={setGiftSizeFilter} filterIsHovering={filterIsHovering}></GiftHeaderSizeBox>
                     <div>
                       <Typography variant="h7" style={{ fontSize: "20px" }}>
-                        Color
+                        Size
                       </Typography>
                     </div>
                     <div>
-                      <Typography variant="h7">All Colors</Typography>
+                      <Typography variant="h7">All Sizes</Typography>
                     </div>
                   </div>
                   <div>
@@ -142,14 +133,14 @@ const ProductsFilterHeader = ({
                   onMouseLeave={() => handleFilterMouseEnter(-1)}
                 >
                   <div>
-                    <HeaderVibeBox index={1} vibeFilter={vibeFilter} setVibeFilter={setVibeFilter} filterIsHovering={filterIsHovering}></HeaderVibeBox>
+                    <GiftsHeaderPriceBox index={1} giftPriceFilter={giftPriceFilter} setGiftPriceFilter={setGiftPriceFilter} filterIsHovering={filterIsHovering}></GiftsHeaderPriceBox>
                     <div>
                       <Typography variant="h7" style={{ fontSize: "20px" }}>
-                        Vibes
+                        Price
                       </Typography>
                     </div>
                     <div>
-                      <Typography variant="h7">All Vibes</Typography>
+                      <Typography variant="h7">All Prices</Typography>
                     </div>
                   </div>
 
@@ -167,55 +158,7 @@ const ProductsFilterHeader = ({
                   onMouseLeave={() => handleFilterMouseEnter(-1)}
                 >
                   <div>
-                    <HeaderStyleBox index={2} styleFilter={styleFilter} setStyleFilter={setStyleFilter} filterIsHovering={filterIsHovering}></HeaderStyleBox>
-                    <div>
-                      <Typography variant="h7" style={{ fontSize: "20px" }}>
-                        Styles
-                      </Typography>
-                    </div>
-                    <div>
-                      <Typography variant="h7">All Styles</Typography>
-                    </div>
-                  </div>
-                  <div>
-                    <FilterList style={{ alignContent: "right" }} />
-                  </div>
-                </TableCell>
-                <TableCell
-                  style={
-                    filterIsHovering === 3
-                      ? styles.tableCellHover
-                      : styles.tableCell
-                  }
-                  onMouseEnter={() => handleFilterMouseEnter(3)}
-                  onMouseLeave={() => handleFilterMouseEnter(-1)}
-                >
-                  <div>
-                    <HeaderRecipientsBox index={3} recipientsFilter={recipientsFilter} setRecipientsFilter={setRecipientsFilter} filterIsHovering={filterIsHovering}></HeaderRecipientsBox>
-                    <div>
-                      <Typography variant="h7" style={{ fontSize: "20px" }}>
-                        Recipients
-                      </Typography>
-                    </div>
-                    <div>
-                      <Typography variant="h7">All Recipients</Typography>
-                    </div>
-                  </div>
-                  <div>
-                    <FilterList style={{ alignContent: "right" }} />
-                  </div>
-                </TableCell>
-                <TableCell
-                  style={
-                    filterIsHovering === 4
-                      ? styles.tableCellHover
-                      : styles.tableCell
-                  }
-                  onMouseEnter={() => handleFilterMouseEnter(4)}
-                  onMouseLeave={() => handleFilterMouseEnter(-1)}
-                >
-                  <div>
-                    <HeaderOccasionBox index={4} occasionFilter={occasionFilter} setOccasionFilter={setOccasionFilter} filterIsHovering={filterIsHovering}></HeaderOccasionBox>
+                    <HeaderOccasionBox index={2} gifts={true} occasionFilter={occasionFilter} setOccasionFilter={setOccasionFilter} filterIsHovering={filterIsHovering}></HeaderOccasionBox>
                     <div>
                       <Typography variant="h7" style={{ fontSize: "20px" }}>
                         Occasions
@@ -239,31 +182,7 @@ const ProductsFilterHeader = ({
                   onMouseLeave={() => handleFilterMouseEnter(-1)}
                 >
                   <div>
-                    <HeaderSeasonBox index={5} seasonFilter={seasonFilter} setSeasonFilter={setSeasonFilter} filterIsHovering={filterIsHovering}></HeaderSeasonBox>
-                    <div>
-                      <Typography variant="h7" style={{ fontSize: "20px" }}>
-                        Season
-                      </Typography>
-                    </div>
-                    <div>
-                      <Typography variant="h7">All Seasons</Typography>
-                    </div>
-                  </div>
-                  <div>
-                    <FilterList style={{ alignContent: "right" }} />
-                  </div>
-                </TableCell>
-                <TableCell
-                  style={
-                    filterIsHovering === 6
-                      ? styles.tableCellHover
-                      : styles.tableCell
-                  }
-                  onMouseEnter={() => handleFilterMouseEnter(6)}
-                  onMouseLeave={() => handleFilterMouseEnter(-1)}
-                >
-                  <div>
-                    <HeaderSortBox index={6} sortFilter={sortFilter} setSortFilter={setSortFilter} filterIsHovering={filterIsHovering}></HeaderSortBox>
+                    <HeaderSortBox index={5} gifts={true} sortFilter={sortFilter} setSortFilter={setSortFilter} filterIsHovering={filterIsHovering}></HeaderSortBox>
                     <div>
                       <Typography variant="h7" style={{ fontSize: "20px" }}>
                         Sort By

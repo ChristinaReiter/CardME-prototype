@@ -134,13 +134,13 @@ const HeaderSeasonBox = ({index, seasonFilter, setSeasonFilter, filterIsHovering
                       control={
                         <Checkbox
                           style={{ color: "black", "&$checked": "black" }}
-                          checked={seasonFilter.halloween}
+                          checked={seasonFilter.valentines}
                         ></Checkbox>
                       }
                       onChange={(e) => {
-                        updateSeasonArray("halloween", e);
+                        updateSeasonArray("valentines", e);
                       }}
-                      label="Halloween"
+                      label="Valentine's Day"
                     ></FormControlLabel>
                   </FormGroup>
                   <FormGroup>
