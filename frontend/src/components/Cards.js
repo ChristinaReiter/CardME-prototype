@@ -19,7 +19,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import CardsFilterHeader from "./CardsFilterHeader";
 import AuthService from "../services/AuthService";
 
-const Cards = (props) => {
+const Cards = () => {
   const imageUrl = "http://localhost:3001/public/";
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState([]);
@@ -60,8 +60,27 @@ const Cards = (props) => {
         console.log(error);
       }
     )
+    if(headerfilter==="birthday") {
+      setOccasionFilter({...occasionFilter, [headerfilter]: true});
+      setSeasonFilter({...seasonFilter, ["summer"]: false});
+      setStyleFilter({...styleFilter, ["simple"]: false});
+    }
+
+    if(headerfilter==="summer") {
+      setSeasonFilter({...seasonFilter, [headerfilter]: true});
+      setOccasionFilter({...occasionFilter, ["birthday"]: false});
+      setStyleFilter({...styleFilter, ["simple"]: false});
+      
+    }
+
+    if(headerfilter==="simple") {
+      setStyleFilter({...styleFilter, [headerfilter]: true});
+      setOccasionFilter({...occasionFilter, ["birthday"]: false});
+      setSeasonFilter({...seasonFilter, ["summer"]: false});
+    }
     
-  }, []);
+    
+  }, [headerfilter]);
 
   const styles = {
     
@@ -132,7 +151,6 @@ const Cards = (props) => {
   const filteredCards = productsSort().filter (
     (el) => {
       var filterArray = [];
-      filterArray.push(headerfilter);
       
       Object.keys(colorFilter).map((key) => {
           if (colorFilter[key]) {
@@ -276,7 +294,7 @@ const Cards = (props) => {
           vibeFilter={vibeFilter} setVibeFilter={setVibeFilter} 
           styleFilter={styleFilter} setStyleFilter={setStyleFilter}
           recipientsFilter={recipientsFilter} setRecipientsFilter={setRecipientsFilter}
-          occasionFilter={occasionFilter} setOccasionFilter={setOccasionFilter} headerOccassion={headerfilter}
+          occasionFilter={occasionFilter} setOccasionFilter={setOccasionFilter}
           seasonFilter={seasonFilter} setSeasonFilter={setSeasonFilter}
           sortFilter={sortFilter} setSortFilter={setSortFilter}/>
       </Box>

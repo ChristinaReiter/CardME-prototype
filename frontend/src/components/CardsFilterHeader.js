@@ -26,7 +26,7 @@ const CardsFilterHeader = ({
       vibeFilter, setVibeFilter, 
       styleFilter, setStyleFilter, 
       recipientsFilter, setRecipientsFilter, 
-      occasionFilter, setOccasionFilter, headerOccasion,
+      occasionFilter, setOccasionFilter,
       seasonFilter, setSeasonFilter,
       sortFilter, setSortFilter}) => {
     const styles = {
@@ -215,7 +215,7 @@ const CardsFilterHeader = ({
                   onMouseLeave={() => handleFilterMouseEnter(-1)}
                 >
                   <div>
-                    <HeaderOccasionBox index={4} gifts={false} occasionFilter={occasionFilter} setOccasionFilter={setOccasionFilter} filterIsHovering={filterIsHovering} headerOccasion={headerOccasion}></HeaderOccasionBox>
+                    <HeaderOccasionBox index={4} gifts={false} occasionFilter={occasionFilter} setOccasionFilter={setOccasionFilter} filterIsHovering={filterIsHovering}></HeaderOccasionBox>
                     <div>
                       <Typography variant="h7" style={{ fontSize: "20px" }}>
                         Occasions
