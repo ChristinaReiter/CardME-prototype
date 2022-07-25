@@ -6,7 +6,7 @@ import {
     Checkbox,
 } from "@mui/material";
 
-const HeaderOccasionBox = ({index, gifts, occasionFilter, setOccasionFilter, filterIsHovering}) => {
+const HeaderOccasionBox = ({index, gifts, occasionFilter, setOccasionFilter, filterIsHovering, headerOccasion}) => {
 
 
   const styles = {
@@ -56,11 +56,12 @@ const HeaderOccasionBox = ({index, gifts, occasionFilter, setOccasionFilter, fil
                       control={
                         <Checkbox
                           style={{ color: "black", "&$checked": "black" }}
-                          checked={occasionFilter.birthday}
+                          checked={headerOccasion === "birthday"? true : occasionFilter.birthday}
                         ></Checkbox>
                       }
                       onChange={(e) => {
                         updateOccasionArray("birthday", e);
+                        console.log(occasionFilter);
                       }}
                       label="Birthday"
                     ></FormControlLabel>

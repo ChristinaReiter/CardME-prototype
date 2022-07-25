@@ -15,11 +15,11 @@ import {
 import CardService from "../services/CardService";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import SearchIcon from "@mui/icons-material/Search";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CardsFilterHeader from "./CardsFilterHeader";
 import AuthService from "../services/AuthService";
 
-const Cards = () => {
+const Cards = (props) => {
   const imageUrl = "http://localhost:3001/public/";
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState([]);
@@ -33,6 +33,7 @@ const Cards = () => {
   const [favorites, setFavorites] = useState([]);
   const [userID, setUserID] = useState();
   const navigate = useNavigate();
+  const {headerfilter} = useParams();
 
   useEffect(() => {
     CardService.getAllCards().then(
@@ -48,7 +49,6 @@ const Cards = () => {
         setUserID(result._id);
         CardService.getFavorites(result._id).then(
           (res) => {
-            console.log(res);
             setFavorites(res);
           },
           (err) => {
@@ -132,6 +132,8 @@ const Cards = () => {
   const filteredCards = productsSort().filter (
     (el) => {
       var filterArray = [];
+      filterArray.push(headerfilter);
+      
       Object.keys(colorFilter).map((key) => {
           if (colorFilter[key]) {
             filterArray.push(key);
@@ -274,7 +276,7 @@ const Cards = () => {
           vibeFilter={vibeFilter} setVibeFilter={setVibeFilter} 
           styleFilter={styleFilter} setStyleFilter={setStyleFilter}
           recipientsFilter={recipientsFilter} setRecipientsFilter={setRecipientsFilter}
-          occasionFilter={occasionFilter} setOccasionFilter={setOccasionFilter}
+          occasionFilter={occasionFilter} setOccasionFilter={setOccasionFilter} headerOccassion={headerfilter}
           seasonFilter={seasonFilter} setSeasonFilter={setSeasonFilter}
           sortFilter={sortFilter} setSortFilter={setSortFilter}/>
       </Box>

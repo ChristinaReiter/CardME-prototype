@@ -100,10 +100,10 @@ const Header = ({ images }) => {
             <NavLink style={styles.menuText} to="/cards">
               Every Day
             </NavLink>
-            <NavLink style={styles.menuText} to="/cards">
+            <NavLink style={styles.menuText} to={"/cards/birthday"}>
               Occasion
             </NavLink>
-            <NavLink style={styles.menuText} to="/cards">
+            <NavLink style={styles.menuText} to="/cards/mothersday">
               Seasonal
             </NavLink>
             <NavLink
