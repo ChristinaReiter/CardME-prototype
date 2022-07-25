@@ -7,7 +7,7 @@ import EventService from '../services/EventService';
 
 
 
-function EventItem({event, changeEvent, allEvents}) {  
+function EventItem({event, changeEvent, allEvents, changeCalEvent, allCalEvents}) {  
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [eventDate, setEventDate] = useState("");
@@ -38,6 +38,9 @@ const deleteEvent = (id) => {
           console.log("Event deleted");
           const updated = allEvents.filter(eve => eve._id !== id);
           changeEvent(updated);
+
+          const updatedCal = allCalEvents.filter(eve => eve.id !== id);
+          changeCalEvent(updatedCal);
           
         }
       )
@@ -64,6 +67,25 @@ const updateEvent = (e, id) => {
             })         
           return updated
         })
+        changeCalEvent(prevState => {
+            const updated = prevState.map(eve => {
+              if (eve.id === id) {
+                return {
+                    title: res.title,
+                    start: res.eventDate,
+                    allDay: true,
+                    id: res._id
+                    }
+              }else {
+                return eve
+              }
+            })         
+          return updated
+        })
+
+
+        
+        console.log("hi")
         setEventDate(newEventDate)
         setTitle(newTitle)
         setDescription(newDescription)

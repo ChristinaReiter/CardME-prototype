@@ -45,11 +45,11 @@ const Header = ({ images }) => {
   const [profileMenu, setProfileMenu] = useState(null);
   const [currentAccount, setCurrentAccount] = useState(undefined);
 
-  useEffect(() => {
+   useEffect(() => {
     AuthService.getMe().then((res) => {
       setCurrentAccount(res);
     });
-  }, []);
+  }, []); 
 
   const openShoppingCart = (event) => {
     ShoppingCartService.getCart().then((card) => {

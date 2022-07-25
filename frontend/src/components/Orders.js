@@ -18,13 +18,13 @@ useEffect(() => {
 
   return (
     <>
-    <Typography variant="h3" sx={{ pt: "10px", pb: "20px"  }}>My Orders</Typography>
+    <Typography variant="h3" sx={{ pl: "25px", pt: "10px", pb: "20px"}}>My Orders</Typography>
     
       <Box>
         
         {orders.length > 0 ? (
           <div>
-            <Grid container spacing={2}>
+            <Grid sx={{ pl: "25px", pr:"25px"}} container spacing={2}>
             {orders.map((order) => (
               <Grid key={order._id} item xs={12} md = {6} lg={4} >
               <OrderItem  order={order}/>
@@ -32,7 +32,7 @@ useEffect(() => {
             
             </Grid>
           </div>
-        ) : (<h3> You have no Orders </h3>)}
+        ) : (<Typography variant="h5" sx={{ pl: "25px", pr:"25px"}}> You have no Orders </Typography>)}
 
       </Box>
 

@@ -27,12 +27,12 @@ const styles = {
   const [selectedTab, setSelectedTab] = useState(0);
   const navigate = useNavigate();
   const account = JSON.parse(localStorage.getItem("account"));
-
+/* 
 useEffect(() => {
   if (!account) {
     navigate("/login");
   }
-},[navigate, account])
+},[navigate, account]) */
   
 
   const handleChange = (event, newValue) => {

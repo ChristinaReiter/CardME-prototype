@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { TextField, Box, Button, Grid, Paper } from '@mui/material'; 
+import { TextField, Box, Button, Grid, Typography } from '@mui/material'; 
 import AcquaintanceService from '../services/AcquaintanceService';
 import ContactItem from './ContactItem';
 
@@ -36,6 +36,7 @@ const Contacts = () => {
    
     return (
       <>
+           <Typography variant="h3" sx={{ pl: "25px", pt: "10px"}}>My Contacts</Typography>
       <Box  display="flex" justifyContent="center" padding="5em">
         <form onSubmit={createContact}>
             <TextField 
@@ -106,14 +107,14 @@ const Contacts = () => {
       <Box>
         {contacts.length > 0 ? (
         <div>          
-          <Grid container spacing={2}>
+          <Grid sx={{ pl: "25px", pr:"25px"}} container spacing={2}>
             {contacts.map((contact) => (
               <Grid item xs={12} md = {6} lg={4} key={contact._id}>
                 <ContactItem contact={contact} changeContact = {setContacts} allContacts = {contacts} />
               </Grid>))}
           </Grid>
         </div> 
-          ) : (<h3> You have no Contacts </h3>)}
+          ) : (<Typography variant="h5" sx={{ pl: "25px", pr:"25px"}}> You have no Contacts </Typography>)}
 
       </Box>
       </>

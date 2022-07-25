@@ -8,7 +8,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 
 
 
-const Calendarr = () => {
+const Calendar = () => {
     const [calEvents, setCalEvents] = useState([]);
     const [events, setEvents] = useState([]);
     const [eventDate, setEventDate] = useState('');
@@ -24,6 +24,13 @@ const Calendarr = () => {
         res => {  
           console.log(res)
           setEvents([...events, res]);
+          setCalEvents([...calEvents,
+            {
+              title: res.title,
+              start: res.eventDate,
+              allDay: true,
+              id: res.id
+            }]);
         
         console.log("Event created")
         }
@@ -37,7 +44,15 @@ const Calendarr = () => {
      useEffect(() => {
         EventService.getEvents().then(res => {
             setEvents(res);
-            
+            const array = res.map(eve => {
+              return {
+                title: eve.title,
+                start: eve.eventDate,
+                allDay: true,
+                id: eve._id
+              }
+            })
+            setCalEvents(array);            
         })
     }, []);
     
@@ -45,6 +60,7 @@ const Calendarr = () => {
    
     return (
       <>
+           <Typography variant="h3" sx={{ pl: "25px", pt: "10px"}}>My Calendar</Typography>
       <Box  display="flex" justifyContent="center" padding="5em">
         <form onSubmit={createEvent}>
             <TextField 
@@ -86,31 +102,31 @@ const Calendarr = () => {
               
       </Box>
 
-      <section>
+      <Box sx={{ pl: "25px", pr:"25px"}} >
       <FullCalendar
         plugins={[ dayGridPlugin ]}
         initialView="dayGridMonth"
-        events={events}
+        events={calEvents}
       />
-      </section>
+      </Box>
       
 
 
       <Box>
         {events.length > 0 ? (
         <div>          
-          <Grid container spacing={2}>
+          <Grid sx={{ padding:"25px"}} container spacing={2}>
             {events.map((event) => (
               <Grid item xs={12} md = {6} lg={4} key={event._id}>
-                <EventItem event={event} changeEvent = {setEvents} allEvents = {events} />
+                <EventItem event={event} changeEvent = {setEvents} allEvents = {events} changeCalEvent = {setCalEvents} allCalEvents = {calEvents} />
               </Grid>))}
           </Grid>
         </div> 
-          ) : (<h3> You have no Events </h3>)}
+          ) : (<Typography variant="h5" sx={{ pl: "25px", pr:"25px"}}> You have no Events </Typography>)}
 
       </Box> 
       </>
     );
   };
   
-  export default Calendarr
+  export default Calendar
