@@ -19,10 +19,10 @@ const View = () => {
    
 
       <Grid container sx={{pl: "25px", pr:"25px"}} >
-       <Grid item xs={6} >
+       <Grid item xs={6} sx={{pr:"30px"}} >
          <ShortCalendar/>
        </Grid>
-       <Grid item xs={6}>
+       <Grid item xs={6} >
         <Stack spacing={4}>
           <ShortOrderItem/>
           <ShortFavoriteItem/>

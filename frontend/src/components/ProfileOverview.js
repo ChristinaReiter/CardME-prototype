@@ -53,7 +53,8 @@ useEffect(() => {
         <Tabs
           value={selectedTab}
           onChange={handleChange}
-          indicatorColor="secondary"         
+          indicatorColor="secondary"
+          scrollButtons="auto"         
         >
           <Tab component={Link} to='view' style={styles.tabss} icon={<HomeIcon />} iconPosition="start" label="Overview" />
           <Tab component={Link} to='orders' style={styles.tabss} icon={<ListIcon />} iconPosition="start" label="Orders" />
