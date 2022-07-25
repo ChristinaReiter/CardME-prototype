@@ -1,4 +1,5 @@
 import { Box, Button, IconButton, Card, CardMedia, Typography, Icon } from "@mui/material";
+import ArrowBackIosNewOutlinedIcon from '@mui/icons-material/ArrowBackIosNewOutlined';
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -53,7 +54,21 @@ useEffect(() => {
 }, []);
 
 const styles = {
-    
+  backBar: {
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
+    height: 70,
+    alignItems: "center",
+    background: "#A7CDA7",
+    "&:hover": {
+      background: "#FF69B4",
+    },
+    boxShadow:
+      "0px 2px 4px rgba(51, 97, 50, 0.25), inset 0px 6px 4px rgba(51, 97, 50, 0.25)",
+    top: "60px",
+    zIndex: "1",
+  },  
   button: {
     fontFamily: "Annie Use Your Telescope",
     fontSize: 18,
@@ -107,116 +122,131 @@ function SwitchFavoriteButton() {
 }
 
   return(
-    <div style= {{display:"flex", flexDirection: "row", justifyContent: "space-between", paddingTop: "7%"}}>
-      <div style = {{position:"absolute", paddingLeft: "8%", paddingTop:"2%"}}>
-        <Card style={{
-            backgroundColor: "#F3F3F3", 
-            width: "400px", 
-            height: "560px", 
-            objectFit: "contain",
-            marginLeft:"7%"
-          }} elevation={22}>
-          <CardMedia 
-            component="img" 
-            src={singleProduct? (imageUrl + "/" + singleProduct.foldername + "/" + currentImage) : ""} 
-            alt="Card-Preview" 
-            crossOrigin="anonymous" 
-            style={{
-              minHeight:"93%", 
-              alignItems:"center", 
-              display:"block", 
-              height:"100%"
-            }} />
-        </Card>
-        <div style={{display:"flex", flexDirection: "row", justifyContent: "center", position:"absolute", paddingTop:"30px", paddingRight:"10%"}}>
+    <div>
+      <Box sx={{ flexGrow: 1, flexShrink: 1, position: "relative" }}>
+        <Box position="fixed" style={styles.backBar}>
           <Box 
-            variant="outlined" 
-            style={{width:"100px", height:"100px", borderColor: "black", backgroundColor:"#E8E8E8", marginRight:"5%"}} 
-            onClick={() => changeDisplayImage(singleProduct? singleProduct.url : "")}>
-            <CardMedia 
-                component="img"
-                src= {singleProduct? (imageUrl + "/" + singleProduct.foldername + "/" + singleProduct.url) : ""} 
-                alt="Card-Preview" 
-                crossOrigin="anonymous" 
-                style={{
-                  marginLeft: "10%", 
-                  marginTop:"10%", 
-                  width:"80%", 
-                  height:"80%"
-                }}
-                 />
+            style={{width:"20%", display:"flex", flexDirection:"row"}} 
+            onClick={() => {
+              navigate("/cards"); //logic to save previous state
+            }}>
+            <ArrowBackIosNewOutlinedIcon style={{paddingLeft:"4%"}}/>
+            <Typography style={{paddingLeft:"1%", fontSize:"20px", fontFamily: "Abril Fatface"}}>Back</Typography>
           </Box>
-          {diffColorCards.map((otherCol) => (
-            <Box 
-              key={otherCol.toString()} 
-              variant="outlined" 
-              style={{width:"100px", height:"100px", borderColor: "black", backgroundColor:"#E8E8E8", marginRight:"5%"}}
-              onClick={() => changeDisplayImage(otherCol)}
-            >
-              <CardMedia 
-                component="img"
-                src= {singleProduct? (imageUrl + singleProduct.foldername + "/" + otherCol): ""} 
-                alt="Card-Preview" 
-                crossOrigin="anonymous" 
-                style={{
-                  marginLeft: "10%", 
-                  marginTop:"10%", 
-                  width:"80%", 
-                  height:"80%"
-                }} />
-            </Box>
-          ))}
-        </div>
-      </div>
+        </Box>
+      </Box>
       
-      <div style={{
-            position:"absolute", 
-            left:"48%"
-          }}>
-        <SwitchFavoriteButton></SwitchFavoriteButton>
-      </div>
+      <div style= {{display:"flex", flexDirection: "row", justifyContent: "space-between", paddingTop: "9%"}}>
+        <div style = {{position:"absolute", paddingLeft: "8%", paddingTop:"2%"}}>
+          <Card style={{
+              backgroundColor: "#F3F3F3", 
+              width: "400px", 
+              height: "560px", 
+              objectFit: "contain",
+              marginLeft:"7%"
+            }} elevation={22}>
+            <CardMedia 
+              component="img" 
+              src={singleProduct? (imageUrl + "/" + singleProduct.foldername + "/" + currentImage) : ""} 
+              alt="Card-Preview" 
+              crossOrigin="anonymous" 
+              style={{
+                minHeight:"93%", 
+                alignItems:"center", 
+                display:"block", 
+                height:"100%"
+              }} />
+          </Card>
+          <div style={{display:"flex", flexDirection: "row", justifyContent: "center", position:"absolute", paddingTop:"30px", paddingRight:"10%"}}>
+            <Box 
+              variant="outlined" 
+              style={{width:"100px", height:"100px", borderColor: "black", backgroundColor:"#E8E8E8", marginRight:"5%"}} 
+              onClick={() => changeDisplayImage(singleProduct? singleProduct.url : "")}>
+              <CardMedia 
+                  component="img"
+                  src= {singleProduct? (imageUrl + "/" + singleProduct.foldername + "/" + singleProduct.url) : ""} 
+                  alt="Card-Preview" 
+                  crossOrigin="anonymous" 
+                  style={{
+                    marginLeft: "10%", 
+                    marginTop:"10%", 
+                    width:"80%", 
+                    height:"80%"
+                  }}
+                  />
+            </Box>
+            {diffColorCards.map((otherCol) => (
+              <Box 
+                key={otherCol.toString()} 
+                variant="outlined" 
+                style={{width:"100px", height:"100px", borderColor: "black", backgroundColor:"#E8E8E8", marginRight:"5%"}}
+                onClick={() => changeDisplayImage(otherCol)}
+              >
+                <CardMedia 
+                  component="img"
+                  src= {singleProduct? (imageUrl + singleProduct.foldername + "/" + otherCol): ""} 
+                  alt="Card-Preview" 
+                  crossOrigin="anonymous" 
+                  style={{
+                    marginLeft: "10%", 
+                    marginTop:"10%", 
+                    width:"80%", 
+                    height:"80%"
+                  }} />
+              </Box>
+            ))}
+          </div>
+        </div>
+        
+        <div style={{
+              position:"absolute", 
+              left:"48%"
+            }}>
+          <SwitchFavoriteButton></SwitchFavoriteButton>
+        </div>
 
-      <div style={{
-          display:"flex", 
-          flexDirection:"column", 
-          position:"absolute", 
-          left:"58%", 
-          right:"10%",
-        }}>
-        <Typography style={{
-            fontSize:"50px", 
-            fontWeight:"400"
-          }}>{singleProduct? singleProduct.title : ""}</Typography>
-        <Typography style={{
-            fontSize:"30px", 
-            paddingLeft:"70px"
-          }}>by {singleProduct? singleProduct.designer : ""}</Typography>
-        <Typography style={{
-            fontSize:"30px", 
-            paddingTop:"40px"
-          }}>Description:</Typography>
-        <Typography style={{
-            fontSize:"20px", 
-            paddingTop:"20px"
-          }}>{singleProduct? singleProduct.description: ""}</Typography>
         <div style={{
             display:"flex", 
-            flexDirection:"row", 
-            paddingTop:"5%"
+            flexDirection:"column", 
+            position:"absolute", 
+            left:"58%", 
+            right:"10%",
           }}>
-          <Button
-            size="small"
-            variant="contained"
-            color="secondary"
-            style={{fontFamily: "Annie Use Your Telescope", fontSize: 20, height:"50px", width: "40%", marginRight:"6%"}}
-            onClick={() => {
-              addProductToCart(singleProduct? singleProduct: null);
-            }}   
-          >
-            Write on Card
-          </Button>
-          <div style={{fontSize: "30px"}}>
-            {singleProduct? singleProduct.price: ""} €
+          <Typography style={{
+              fontSize:"50px", 
+              fontWeight:"400"
+            }}>{singleProduct? singleProduct.title : ""}</Typography>
+          <Typography style={{
+              fontSize:"30px", 
+              paddingLeft:"70px"
+            }}>by {singleProduct? singleProduct.designer : ""}</Typography>
+          <Typography style={{
+              fontSize:"30px", 
+              paddingTop:"40px"
+            }}>Description:</Typography>
+          <Typography style={{
+              fontSize:"20px", 
+              paddingTop:"20px"
+            }}>{singleProduct? singleProduct.description: ""}</Typography>
+          <div style={{
+              display:"flex", 
+              flexDirection:"row", 
+              paddingTop:"5%"
+            }}>
+            <Button
+              size="small"
+              variant="contained"
+              color="secondary"
+              style={{fontFamily: "Annie Use Your Telescope", fontSize: 20, height:"50px", width: "40%", marginRight:"6%"}}
+              onClick={() => {
+                addProductToCart(singleProduct? singleProduct: null);
+              }}   
+            >
+              Write on Card
+            </Button>
+            <div style={{fontSize: "30px"}}>
+              {singleProduct? singleProduct.price: ""} €
+            </div>
           </div>
         </div>
       </div>
