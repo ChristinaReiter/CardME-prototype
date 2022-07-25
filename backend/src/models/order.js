@@ -20,6 +20,10 @@ const OrderSchema = new mongoose.Schema({
     ref: "Address",
     required: true,
   },
+  status: {
+    type: String,
+    //required: true,
+  },
   products: {
     type: Object
   },
