@@ -14,18 +14,15 @@ import {
 } from "@mui/material";
 import CardService from "../services/CardService";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate, useParams } from "react-router-dom";
-import CardsFilterHeader from "./CardsFilterHeader";
 import AuthService from "../services/AuthService";
+
 
 const Favorites = () => {
   const imageUrl = "http://localhost:3001/public/";
-  const [products, setProducts] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [userID, setUserID] = useState();
   const navigate = useNavigate();
-  const { headerfilter } = useParams();
 
   useEffect(() => {
     AuthService.getMe().then(
@@ -78,10 +75,6 @@ const Favorites = () => {
   };
 
   function FavoriteButton(props) {
-    const found = favorites.find(
-      (element) => element._id === props.productObject._id
-    );
-    if (found) {
       return (
         <CardActions>
           <IconButton
@@ -91,7 +84,7 @@ const Favorites = () => {
             onClick={() => {
               CardService.removeFavorite({ product: props.productObject }).then(
                 (result) => {
-                  setFavorites([...favorites, result]);
+                  setFavorites(result);
                 }
               );
             }}
@@ -100,27 +93,8 @@ const Favorites = () => {
           </IconButton>
         </CardActions>
       );
-    } else {
-      return (
-        <CardActions>
-          <IconButton
-            aria-label="add to favorites"
-            style={styles.favorites}
-            sx={{ color: "grey" }}
-            onClick={() => {
-              CardService.setFavorites({ product: props.productObject }).then(
-                (result) => {
-                  setFavorites([...favorites, result]);
-                }
-              );
-            }}
-          >
-            <FavoriteIcon />
-          </IconButton>
-        </CardActions>
-      );
-    }
   }
+
 
 
   return (
@@ -137,6 +111,7 @@ const Favorites = () => {
             {cardFavorites.map((product) => (
               <Grid item xs={3} key={product._id} style={{marginLeft:"1%"}}>
                 <Card
+                  key = {product.title}
                   sx={{
                     width: 270,
                     height: 430,
@@ -145,7 +120,6 @@ const Favorites = () => {
                 >
                   <FavoriteButton
                     productObject={product}
-                    res=""
                   ></FavoriteButton>
                   <div
                     style={{

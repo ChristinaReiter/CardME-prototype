@@ -9,7 +9,7 @@ import AuthService from "../services/AuthService";
 
 const ViewCard = () => {
 
- const {cardid} = useParams();
+ const {cardid, headerfilter} = useParams();
  const [singleProduct, setSingleProduct] = useState();
  const [diffColorCards, setdiffColorCards] = useState([]);
  const imageUrl = "http://localhost:3001/public/";
@@ -125,14 +125,23 @@ function SwitchFavoriteButton() {
     <div>
       <Box sx={{ flexGrow: 1, flexShrink: 1, position: "relative" }}>
         <Box position="fixed" style={styles.backBar}>
-          <Box 
-            style={{width:"20%", display:"flex", flexDirection:"row"}} 
+            <Button 
+            variant="contained"
+            disableElevation
+            style={{height:"80%", width:"10%", marginLeft: "2%", display:"flex", flexDirection:"row", justifyContent:"start", backgroundColor:"transparent"}} 
             onClick={() => {
-              navigate("/cards"); //logic to save previous state
+              if(headerfilter) {
+                navigate("/cards/" + headerfilter);
+              }
+              else {
+                navigate("/cards"); //logic to save previous state
+              }
+              
             }}>
-            <ArrowBackIosNewOutlinedIcon style={{paddingLeft:"4%"}}/>
+            <ArrowBackIosNewOutlinedIcon style={{paddingLeft:"2%"}}/>
             <Typography style={{paddingLeft:"1%", fontSize:"20px", fontFamily: "Abril Fatface"}}>Back</Typography>
-          </Box>
+          </Button>
+          
         </Box>
       </Box>
       
