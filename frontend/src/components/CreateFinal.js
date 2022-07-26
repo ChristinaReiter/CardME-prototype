@@ -211,7 +211,7 @@ const CreateFinal = ({
           <Grid item xs={3}>
             {viewState ? (
               <Box style={styles.cardWindows} sx={{ float: "left" }}>
-                <Box margin={"30px"} style={{ ...textFilters }}>
+                <Box margin={"30px"} style={{ ...textFilters }} whiteSpace="pre-wrap">
                   {text}
                 </Box>
               </Box>
