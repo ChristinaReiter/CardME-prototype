@@ -113,7 +113,7 @@ function SwitchFavoriteButton() {
           <Typography style={{ paddingLeft: "1%", fontSize: "20px", fontFamily: "Abril Fatface" }}>Back</Typography>
         </Box>
       </Box>
-    </Box><div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: "9%" }}>
+    </Box><div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginTop: "9%" }}>
         <div style={{ position: "absolute", paddingLeft: "8%", paddingTop: "2%" }}>
           <Card style={{
             backgroundColor: "#F3F3F3",

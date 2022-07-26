@@ -129,10 +129,13 @@ const Cards = () => {
       return products.sort((a, b) => (a.designer > b.designer ? -1 : 1));
     }
     if (sortFilter == "mostpopular") {
-      return products.sort(); //don't know what to do here lol
+      return products.sort(function(a, b) {
+        return b.popularity - a.popularity;
+      }); //small hack to simulate popularity
     }
     if (sortFilter == "trending") {
-      return products.sort(() => Math.random() - 0.5); //this still updates everytime we choose "trending", how can we achieve to save only once?
+      //return products.sort(() => Math.random() - 0.5); //we would need to check the clicks in a certain time interval here
+      return products.sort();
     }
     if (sortFilter == "newest") {
       return products.sort((a, b) => (a.date > b.date ? -1 : 1));
@@ -225,10 +228,14 @@ const Cards = () => {
     }
   });
 
-  const setAlert = (props) => {
-    return (
-      <Alert severety="error">This is an error</Alert>
-    )
+  const removeFavorite = () => {
+    setFavorites([...favorites, (current) => {
+      current.filter((fave) => {
+        console.log(fave._id === props.productObject._id);
+        console.log(props.productObject);
+        return fave._id !== props.productObject._id;
+    })
+  }])
   }
 
   function FavoriteButton(props) {
@@ -245,14 +252,8 @@ const Cards = () => {
             style={styles.favorites}
             sx={{ color: "#DC9292" }}
             onClick={() => {
-              CardService.removeFavorite({ product: props.productObject }).then(
-                (result) => {
-                  setFavorites([...favorites, result]);
-                  CardService.getFavorites(userID);
-                }
-              );
-            }}
-          >
+              CardService.removeFavorite({ product: props.productObject });
+            }}>
             <FavoriteIcon />
           </IconButton>
         </CardActions>

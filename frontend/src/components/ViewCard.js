@@ -145,7 +145,7 @@ function SwitchFavoriteButton() {
         </Box>
       </Box>
       
-      <div style= {{display:"flex", flexDirection: "row", justifyContent: "space-between", paddingTop: "9%"}}>
+      <div style= {{display:"flex", flexDirection: "row", justifyContent: "space-between", marginTop: "9%"}}>
         <div style = {{position:"absolute", paddingLeft: "8%", paddingTop:"2%"}}>
           <Card style={{
               backgroundColor: "#F3F3F3", 
@@ -169,7 +169,7 @@ function SwitchFavoriteButton() {
           <div style={{display:"flex", flexDirection: "row", justifyContent: "center", position:"absolute", paddingTop:"30px", paddingRight:"10%"}}>
             <Box 
               variant="outlined" 
-              style={{width:"100px", height:"100px", borderColor: "black", backgroundColor:"#E8E8E8", marginRight:"5%"}} 
+              style={{width:"100px", height:"100px", borderColor: "black", backgroundColor:"#E8E8E8", marginRight:"5%", marginBottom:"5%"}} 
               onClick={() => changeDisplayImage(singleProduct? singleProduct.url : "")}>
               <CardMedia 
                   component="img"
@@ -236,7 +236,19 @@ function SwitchFavoriteButton() {
           <Typography style={{
               fontSize:"20px", 
               paddingTop:"20px"
-            }}>{singleProduct? singleProduct.description: ""}</Typography>
+            }}>{singleProduct? singleProduct.description.catchphrase : ""}</Typography>
+            <Typography style={{
+              fontSize:"20px", 
+              paddingTop:"20px"
+            }}>{singleProduct? singleProduct.description.details : ""}</Typography>
+            <Typography style={{
+              fontSize:"20px", 
+              paddingTop:"20px"
+            }}>{singleProduct? singleProduct.description.color : ""}</Typography>
+            <Typography style={{
+              fontSize:"20px", 
+              paddingTop:"20px"
+            }}>{singleProduct? singleProduct.description.sizeandmaterial : ""}</Typography>
           <div style={{
               display:"flex", 
               flexDirection:"row", 
