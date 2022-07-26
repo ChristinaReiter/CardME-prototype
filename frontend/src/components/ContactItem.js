@@ -1,16 +1,25 @@
-import { useState, useEffect } from 'react'
-import { Button, IconButton, Popover, Typography, TextField, Card, CardHeader, CardContent, CardActions } from '@mui/material';
-import AcquaintanceService from '../services/AcquaintanceService';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import UpdateIcon from '@mui/icons-material/Update';
-import AddressService from '../services/AddressService';
+import { useState, useEffect } from "react";
+import {
+  Button,
+  IconButton,
+  Popover,
+  Typography,
+  TextField,
+  Card,
+  CardHeader,
+  CardContent,
+  CardActions,
+} from "@mui/material";
+import AcquaintanceService from "../services/AcquaintanceService";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import UpdateIcon from "@mui/icons-material/Update";
+import AddressService from "../services/AddressService";
+import HowToRegIcon from "@mui/icons-material/HowToReg";
+import CheckoutService from "../services/CheckoutService";
 
-
-
-
-function ContactItem({contact, changeContact, allContacts}) {  
-
+function ContactItem({ contact, changeContact, allContacts }) {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [checkoutAnchor, setCheckoutAnchor] = useState(null)
   const [name, setName] = useState("");
   const [street, setStreet] = useState("");
   const [streetNumber, setStreetNumber] = useState("");
@@ -23,8 +32,6 @@ function ContactItem({contact, changeContact, allContacts}) {
   const [newZipCode, setNewZipCode] = useState("");
   const [newCity, setNewCity] = useState("");
   const [newCountry, setNewCountry] = useState("");
-  
-  
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -35,52 +42,73 @@ function ContactItem({contact, changeContact, allContacts}) {
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
+  const id = open ? "simple-popover" : undefined;
+  const checkoutPopoverOpen = Boolean(checkoutAnchor);
 
-const deleteContact = (id) => {
-    AcquaintanceService.deleteAcquaintance({id}).then(
-        () => {  
-          //alert("Contact deleted");
-          console.log("Contact deleted");
-          const updated = allContacts.filter(con => con._id !== id);
-          changeContact(updated);
-          
-        }
-      )
-}
+  const deleteContact = (id) => {
+    AcquaintanceService.deleteAcquaintance({ id }).then(() => {
+      //alert("Contact deleted");
+      console.log("Contact deleted");
+      const updated = allContacts.filter((con) => con._id !== id);
+      changeContact(updated);
+    });
+  };
 
-const updateContact = (e, id) => {
-  e.preventDefault(); // w/o this, the page will refresh which might be good but is annoying for testing...
-   const data = {name: name, street: newStreet, streetNumber: newStreetNumber, zipCode: newZipCode, city: newCity, country: newCountry};
+  const useForCheckout = (event) => {
+    let recipient = {
+      recipientFirstName: name.split(" ")[0],
+      recipientLastName: name.split(" ")[1],
+      recipientStreet: street,
+      recipientNumber: streetNumber,
+      recipientZipcode: zipCode,
+      recipientCity: city,
+      recipientCountry: country,
+    };
+    CheckoutService.setData(recipient);
+    setCheckoutAnchor(event.currentTarget)
 
-  
-    AcquaintanceService.updateAcquaintance({data, id}).then(
-        res => { 
-          //alert("Contact updated"); 
-          console.log(res)
-          console.log("Contact updated")
+    setTimeout(() => {
+      setCheckoutAnchor(null)
+    }, 2000)
+  };
 
-          changeContact(prevState => {
-            const updated = prevState.map(con => {
-              if (con._id === id) {
-                return res
-              }else {
-                return con
-              }
-            })         
-          return updated
-        })
-        setStreet(newStreet)
-        setStreetNumber(newStreetNumber)
-        setZipCode(newZipCode)
-        setCity(newCity)
-        setCountry(newCountry)
+  const updateContact = (e, id) => {
+    e.preventDefault(); // w/o this, the page will refresh which might be good but is annoying for testing...
+    const data = {
+      name: name,
+      street: newStreet,
+      streetNumber: newStreetNumber,
+      zipCode: newZipCode,
+      city: newCity,
+      country: newCountry,
+    };
 
-    })
-  }
+    AcquaintanceService.updateAcquaintance({ data, id }).then((res) => {
+      //alert("Contact updated");
+      console.log(res);
+      console.log("Contact updated");
 
- useEffect(() => {
-  AddressService.getAddress(contact.acquaintanceAddress).then(res => {         // a lot of get requests but all update fields are prefilled ->> annoyiing when testing
+      changeContact((prevState) => {
+        const updated = prevState.map((con) => {
+          if (con._id === id) {
+            return res;
+          } else {
+            return con;
+          }
+        });
+        return updated;
+      });
+      setStreet(newStreet);
+      setStreetNumber(newStreetNumber);
+      setZipCode(newZipCode);
+      setCity(newCity);
+      setCountry(newCountry);
+    });
+  };
+
+  useEffect(() => {
+    AddressService.getAddress(contact.acquaintanceAddress).then((res) => {
+      // a lot of get requests but all update fields are prefilled ->> annoyiing when testing
       setName(contact.name);
       setStreet(res.street);
       setStreetNumber(res.streetNumber);
@@ -93,112 +121,136 @@ const updateContact = (e, id) => {
       setNewZipCode(res.zipCode);
       setNewCity(res.city);
       setNewCountry(res.country);
-  })
-}, []);   
- 
+    });
+  }, []);
+
   return (
     <div>
-      <Card sx={{backgroundColor: "#a7cda7"}}>
+      <Card sx={{ backgroundColor: "#a7cda7" }}>
         <CardHeader
           action={
             <IconButton onClick={() => deleteContact(contact._id)}>
               <DeleteForeverIcon />
-            </IconButton>            
+            </IconButton>
           }
           title={contact.name}
-            />
+        />
         <CardContent>
           <Typography variant="h6">Adress:</Typography>
-          <Typography variant="body1">{street} {streetNumber}</Typography>
-          <Typography variant="body1">{zipCode} {city}</Typography>
+          <Typography variant="body1">
+            {street} {streetNumber}
+          </Typography>
+          <Typography variant="body1">
+            {zipCode} {city}
+          </Typography>
           <Typography variant="body1">{country}</Typography>
         </CardContent>
         <CardActions disableSpacing>
-         <Button aria-describedby={id} onClick={handleClick}  startIcon={<UpdateIcon />} sx= {{marginLeft:'auto', color:'black', pr: '2em' }}>
-          Update
-        </Button>
+          <Button
+            aria-describedby={id}
+            onClick={useForCheckout}
+            startIcon={<HowToRegIcon />}
+            sx={{ marginLeft: "auto", color: "black", pr: "2em" }}
+          >
+            Use for checkout
+          </Button>
+          <Button
+            aria-describedby={id}
+            onClick={handleClick}
+            startIcon={<UpdateIcon />}
+            sx={{ marginLeft: "auto", color: "black", pr: "2em" }}
+          >
+            Update
+          </Button>
         </CardActions>
-      <Popover
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-      >
-       
-        <form onSubmit={(e) => updateContact(e, contact._id)}>
-            <TextField 
-                sx={{ m: 1 }}
-                type="text"
-                label="Contact Name"
-                name="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required> 
-            </TextField>
+        <Popover
+          id={id}
+          open={open}
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+        >
+          <form onSubmit={(e) => updateContact(e, contact._id)}>
             <TextField
-                sx={{ m: 1 }} 
-                type="text"
-                label="Street"
-                name="newStreet"
-                value={newStreet}
-                onChange={(e) => setNewStreet(e.target.value)}
-                required> 
-            </TextField>
+              sx={{ m: 1 }}
+              type="text"
+              label="Contact Name"
+              name="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            ></TextField>
             <TextField
-                sx={{ m: 1 }}
-                type="text"
-                label="Street-Number"
-                name="newStreetNumber"
-                value={newStreetNumber}
-                onChange={(e) => setNewStreetNumber(e.target.value)}
-                required>
-            </TextField>
+              sx={{ m: 1 }}
+              type="text"
+              label="Street"
+              name="newStreet"
+              value={newStreet}
+              onChange={(e) => setNewStreet(e.target.value)}
+              required
+            ></TextField>
             <TextField
-                sx={{ m: 1 }}
-                type="text"
-                label="Zipcode"
-                name="newZipCode"
-                value={newZipCode}
-                onChange={(e) => setNewZipCode(e.target.value)}
-                required>
-            </TextField>
+              sx={{ m: 1 }}
+              type="text"
+              label="Street-Number"
+              name="newStreetNumber"
+              value={newStreetNumber}
+              onChange={(e) => setNewStreetNumber(e.target.value)}
+              required
+            ></TextField>
             <TextField
-                sx={{ m: 1 }}
-                type="text"
-                label="City"
-                name="newCity"
-                value={newCity}
-                onChange={(e) => setNewCity(e.target.value)}
-                required>
-            </TextField>
+              sx={{ m: 1 }}
+              type="text"
+              label="Zipcode"
+              name="newZipCode"
+              value={newZipCode}
+              onChange={(e) => setNewZipCode(e.target.value)}
+              required
+            ></TextField>
             <TextField
-                sx={{ m: 1 }}
-                type="text"
-                label="Country"
-                name="newCountry"
-                value={newCountry}
-                onChange={(e) => setNewCountry(e.target.value)}
-                required>
-            </TextField>
-            
+              sx={{ m: 1 }}
+              type="text"
+              label="City"
+              name="newCity"
+              value={newCity}
+              onChange={(e) => setNewCity(e.target.value)}
+              required
+            ></TextField>
+            <TextField
+              sx={{ m: 1 }}
+              type="text"
+              label="Country"
+              name="newCountry"
+              value={newCountry}
+              onChange={(e) => setNewCountry(e.target.value)}
+              required
+            ></TextField>
+
             <Button
-                sx={{ m: 2 }}
-                color="secondary"
-                variant="contained"
-                type="submit">
-                Update
+              sx={{ m: 2 }}
+              color="secondary"
+              variant="contained"
+              type="submit"
+            >
+              Update
             </Button>
-        </form>
-        
-      </Popover>
-      </Card> 
-        
+          </form>
+        </Popover>
+        <Popover
+        open={checkoutPopoverOpen}
+        anchorEl={checkoutAnchor}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}>
+          <Typography padding="1em">Contact will be used in checkout</Typography>
+        </Popover>
+      </Card>
     </div>
-  )
+  );
 }
 
-export default ContactItem
+export default ContactItem;

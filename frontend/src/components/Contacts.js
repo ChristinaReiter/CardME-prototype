@@ -68,7 +68,7 @@ const Contacts = () => {
             </TextField>
             <TextField
                 sx={{ m: 1 }}
-                type="text"
+                type="number"
                 label="Zipcode"
                 name="zipCode"
                 value={zipCode}
