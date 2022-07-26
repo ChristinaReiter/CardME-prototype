@@ -49,11 +49,13 @@ export const theme = createTheme({
 
 function App() {
 
+  const [currentAccount, setCurrentAccount] = useState(undefined);
+
   return (
     <div>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <Header/>
+          <Header currentAccount={currentAccount} setCurrentAccount={setCurrentAccount}/>
           <Box sx={{ mt: 6, position: "static" }}>
             <Routes>
               <Route path="/" element={<Home />} />
@@ -79,7 +81,7 @@ function App() {
                 path="/checkout-overview/:id"
                 element={<CheckoutOverview/>}
               />
-              <Route path="profile" element={<ProfileOverview />}>
+              <Route path="profile" element={<ProfileOverview currentAccount={currentAccount} setCurrentAccount={setCurrentAccount}/>}>
                 <Route path="view" element={<View />} />
                 <Route path="orders" element={<Orders />} />
                 <Route path="subscriptions" element={<Subscriptions />} />
