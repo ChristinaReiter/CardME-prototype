@@ -10,7 +10,8 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import MailIcon from '@mui/icons-material/Mail';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-//import OrderService from '../services/OrderService';
+import OrderService from '../services/OrderService';
+
 
 
 
@@ -27,7 +28,29 @@ const Calendar = () => {
     const [popTitle, setPopTitle] = useState('');
     const [popDescription, setPopDescription] = useState('');
     const [popDate, setPopDate] = useState('');
-    //const [orders, setOrders] = useState([]);
+    const [orders, setOrders] = useState([]);
+    const [hasOrder, setHasOrder] = useState(false);
+
+    useEffect(() => {
+      OrderService.getOrders().then(res => {
+        setOrders(res);
+      }) 
+        EventService.getEvents().then(res => {
+            setEvents(res);
+            const array = res.map(eve => {
+              return {
+                title: eve.title,
+                start: eve.eventDate,
+                allDay: true,
+                id: eve._id,
+                extendedProps: {description: eve.description}
+              }
+            })
+            setCalEvents(array);            
+        })
+        
+    }, []);
+    
 
  
 
@@ -71,6 +94,18 @@ const Calendar = () => {
       setPopTitle(info.event.title)
       setPopDescription(info.event.extendedProps.description)
       setPopDate(day)
+
+      let date = info.event.start.getDate();
+      let month = info.event.start.getMonth() + 1;
+      let year = info.event.start.getFullYear();
+      let monthh =  month > 9 ? month : '0' + month    
+  
+        const ordered = orders.filter(order => order.deliveryDate.split('T')[0] == ""+year+"-"+monthh+"-"+date)
+        if(ordered.length > 0){
+          setHasOrder(true)
+        }else{
+          setHasOrder(false)
+        }
          
 
       
@@ -78,36 +113,29 @@ const Calendar = () => {
     }
 
     const renderEventContent = (eventInfo) => {
-    
 
-      //const ordered = orders.filter(order => order.deliverydate == eventInfo.event.start)
-      return (<><Badge variant="dot"  color="secondary">
+    let date = eventInfo.event.start.getDate();
+    let month = eventInfo.event.start.getMonth() + 1;
+    let year = eventInfo.event.start.getFullYear();
+    let monthh =  month > 9 ? month : '0' + month    
+
+      const ordered = orders.filter(order => order.deliveryDate.split('T')[0] == ""+year+"-"+monthh+"-"+date)
+      return (<>
+      
+      {ordered.length > 0 ? (<>
+                  
+          <Badge variant="dot"  color="secondary">
       <MailIcon/>
     </Badge>
       <Typography variant="h6">{eventInfo.event.title}</Typography>
-      </>)
-     
+        </>
+          ) : (<><MailIcon/>
+          <Typography variant="h6">{eventInfo.event.title}</Typography>
+          </>)}
+    </>)
     }
 
-     useEffect(() => {
-        EventService.getEvents().then(res => {
-            setEvents(res);
-            const array = res.map(eve => {
-              return {
-                title: eve.title,
-                start: eve.eventDate,
-                allDay: true,
-                id: eve._id,
-                extendedProps: {description: eve.description}
-              }
-            })
-            setCalEvents(array);            
-        })
-        /* OrderService.getOrders().then(res => {
-          setOrders(res);
-        }) */
-    }, []);
-    
+
     
    
     return (
@@ -189,13 +217,16 @@ const Calendar = () => {
           <Stack direction="row" alignItems="center" gap={1}>
             <DescriptionIcon />
             <Typography variant="body1">{popDescription}</Typography>
-          </Stack>       
+          </Stack>
+          <Typography color= {hasOrder ? "primary":'#f00'} variant="body1">{hasOrder ? "You have an order for this event" : "You don't have an order for this event"}</Typography>       
         </CardContent>            
         </Card>
       </Popover>
       </Box>
       
       <ToastContainer />  
+
+      <Typography variant="h3" sx={{ pl: "25px", pt: "10px"}}>My Events</Typography>
 
 
       <Box>
@@ -211,6 +242,8 @@ const Calendar = () => {
           ) : (<Typography variant="h5" sx={{ pl: "25px", pr:"25px"}}> You have no Events </Typography>)}
 
       </Box> 
+
+      
       </>
     );
   };

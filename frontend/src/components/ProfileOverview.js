@@ -23,16 +23,12 @@ const styles = {
   },
 };
 
- const ProfileOverview = () => {
+ const ProfileOverview = ({setCurrentAccount, currentAccount}) => {
   const [selectedTab, setSelectedTab] = useState(0);
   const navigate = useNavigate();
-  const account = JSON.parse(localStorage.getItem("account"));
-/* 
-useEffect(() => {
-  if (!account) {
-    navigate("/login");
-  }
-},[navigate, account]) */
+
+ 
+
   
 
   const handleChange = (event, newValue) => {
@@ -42,6 +38,7 @@ useEffect(() => {
   const logOut = () => {
     AuthService.logout().then(
       () => {
+        setCurrentAccount(undefined);
         navigate("/login");
       }
     )

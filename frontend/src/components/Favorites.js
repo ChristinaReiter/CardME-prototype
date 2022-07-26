@@ -16,6 +16,8 @@ import CardService from "../services/CardService";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useNavigate, useParams } from "react-router-dom";
 import AuthService from "../services/AuthService";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Favorites = () => {
@@ -83,8 +85,11 @@ const Favorites = () => {
             sx={{ color: "#DC9292" }}
             onClick={() => {
               CardService.removeFavorite({ product: props.productObject }).then(
-                (result) => {
-                  setFavorites(result);
+                () => {
+                  toast("Favorite removed")
+                  const updated = favorites.filter((fav) => fav._id !== props.productObject._id);
+                
+                  setFavorites(updated);
                 }
               );
             }}
@@ -290,6 +295,7 @@ const Favorites = () => {
               No Gift Favorites.
             </Typography>}
         </div>
+        <ToastContainer />
       </Box></>     
   )
 }
