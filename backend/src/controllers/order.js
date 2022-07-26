@@ -5,6 +5,11 @@ const Account = require("../models/account");
 
 const create = async (req, res) => {
   try {
+
+    if (!req.body.recipient || !req.body.billingAddress || !req.body.email || !req.body.product || !req.body.deliveryDate) {
+      return res.status(400).json({status: "error", message: "Missing Values"});
+    }
+
     // probably to outsource to own function
     const recipientAddress = await Address.create({
       street: req.body.recipient.street,
@@ -49,6 +54,8 @@ const create = async (req, res) => {
       recipientName: recipientName,
       recipientAddress: recipientAddress._id,
       products: req.body.product,
+      total: (req.body.product.cardPrice + req.body.product.giftPrice),
+      status: "CREATED"
     });
 
     return res.status(201).json({ response: "success", order: order });

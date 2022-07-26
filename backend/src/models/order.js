@@ -22,11 +22,15 @@ const OrderSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    //required: true,
+    required: true,
   },
   products: {
     type: Object
   },
+  total: {
+    type: Number,
+    required: true
+  }
  //Subscription?
 });
 
