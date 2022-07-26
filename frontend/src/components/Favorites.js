@@ -83,8 +83,10 @@ const Favorites = () => {
             sx={{ color: "#DC9292" }}
             onClick={() => {
               CardService.removeFavorite({ product: props.productObject }).then(
-                (result) => {
-                  setFavorites(result);
+                () => {
+                  const updated = favorites.filter((fav) => fav._id !== props.productObject._id);
+                
+                  setFavorites(updated);
                 }
               );
             }}
