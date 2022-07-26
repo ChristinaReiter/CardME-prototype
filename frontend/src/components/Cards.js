@@ -13,6 +13,7 @@ import {
   IconButton,
   Input,
   InputAdornment,
+  TextareaAutosize,
 } from "@mui/material";
 import CardService from "../services/CardService";
 import CloseIcon from "@mui/icons-material/Close";
@@ -21,6 +22,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate, useParams } from "react-router-dom";
 import CardsFilterHeader from "./CardsFilterHeader";
 import AuthService from "../services/AuthService";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Cards = () => {
   const imageUrl = "http://localhost:3001/public/";
@@ -228,12 +230,6 @@ const Cards = () => {
     }
   });
 
-  const setAlert = (props) => {
-    return (
-      <Alert severety="error">This is an error</Alert>
-    )
-  }
-
   function FavoriteButton(props) {
    
     const found = favorites.find(
@@ -248,12 +244,14 @@ const Cards = () => {
             style={styles.favorites}
             sx={{ color: "#DC9292" }}
             onClick={() => {
-              CardService.removeFavorite({ product: props.productObject }).then(
-                (result) => {
-                  setFavorites([...favorites, result]);
-                  CardService.getFavorites(userID);
-                }
-              );
+                CardService.removeFavorite({ product: props.productObject }).then(
+                  () => {
+                    toast("Favorite removed");
+                    const updated = favorites.filter((fav) => fav._id !== props.productObject._id);
+                  
+                    setFavorites(updated);
+                  }
+                ); 
             }}
           >
             <FavoriteIcon />
@@ -270,13 +268,17 @@ const Cards = () => {
             onClick={() => {
               if(userID === undefined)
               {
-                setOpen(true);
+                toast("not logged in");
               }
-              CardService.setFavorites({ product: props.productObject }).then(
-                (result) => {
-                  setFavorites([...favorites, result]);
-                }
+              else {
+                CardService.setFavorites({ product: props.productObject }).then(
+                  () => {
+                    toast("Favorite added") 
+                    setFavorites([...favorites, props.productObject]);
+                  }
               );
+              }
+              
             }}
           >
             <FavoriteIcon />
@@ -287,27 +289,7 @@ const Cards = () => {
   }
 
   return (
-    <div>
-      <Box style={{display:"flex", width:"100%",flexDirection:"row", marginTop:"-4%", position:"fixed", justifyContent:"center"}}>
-        <Collapse in={open}>
-          <Alert severity="error"
-            action={
-              <IconButton
-                aria-label="close"
-                color="inherit"
-                size="medium"
-                onClick={() => {
-                  setOpen(false);
-                }}
-              >
-                <CloseIcon fontSize="inherit" />
-              </IconButton>
-            }
-            style={{fontSize:"20px"}}
-            >Please log in to modify your favorites.</Alert>
-        </Collapse>
-      </Box>
-      
+    <div>     
       <Box sx={{ flexGrow: 1, flexShrink: 1, position: "relative" }}>
         <CardsFilterHeader
           colorFilter={colorFilter}
@@ -457,6 +439,7 @@ const Cards = () => {
             </Typography>
           )}
         </div>
+        <ToastContainer />
       </Box>
     </div>
   );

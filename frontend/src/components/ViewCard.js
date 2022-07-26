@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import CardService from "../services/CardService";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../services/AuthService";
+import { ToastContainer, toast } from 'react-toastify';
 
 const ViewCard = () => {
 
@@ -16,6 +17,8 @@ const ViewCard = () => {
  const [currentImage, setCurrentImage] = useState(null);
  const [favorites, setFavorites] = useState([]);
  const navigate = useNavigate();
+ const [userID, setUserID] = useState();
+
 
 useEffect(() => {
   CardService.getSingleCard(cardid).then(
@@ -41,6 +44,7 @@ useEffect(() => {
   );
   AuthService.getMe().then(
     (result) => {
+      setUserID(result._id);
       CardService.getFavorites(result._id).then(
         (res) => {
           setFavorites(res);
@@ -93,8 +97,10 @@ function SwitchFavoriteButton() {
       <IconButton
         onClick={() => {
           CardService.removeFavorite({product: singleProduct}).then(
-            (result) => {
-              setFavorites([...favorites, result]);
+            () => {
+              toast("Favorite removed")
+              const updated = favorites.filter((fav) => fav._id !== (singleProduct? singleProduct._id: ""));
+              setFavorites(updated);
             }
           )
         }
@@ -108,11 +114,19 @@ function SwitchFavoriteButton() {
     return (
       <IconButton
         onClick={() => {
-          CardService.setFavorites({product: singleProduct}).then(
-            (result) => {
-              setFavorites([...favorites, result]);
-            }
-          )
+          if(userID === undefined)
+              {
+                toast("not logged in");
+              }
+              else {
+                CardService.setFavorites({product: singleProduct}).then(
+                  () => {
+                    toast("Favorite added")
+                    setFavorites([...favorites, singleProduct]);
+                  }
+                )
+              }
+          
         }
       }>
         <FavoriteIcon style={{fontSize: "90px", color: "grey"}} />
@@ -140,12 +154,11 @@ function SwitchFavoriteButton() {
             }}>
             <ArrowBackIosNewOutlinedIcon style={{paddingLeft:"2%"}}/>
             <Typography style={{paddingLeft:"1%", fontSize:"20px", fontFamily: "Abril Fatface"}}>Back</Typography>
-          </Button>
-          
+          </Button>       
         </Box>
       </Box>
       
-      <div style= {{display:"flex", flexDirection: "row", justifyContent: "space-between", marginTop: "9%"}}>
+      <div style= {{display:"flex", flexDirection: "row", justifyContent: "space-between", marginTop: "180px"}}>
         <div style = {{position:"absolute", paddingLeft: "8%", paddingTop:"2%"}}>
           <Card style={{
               backgroundColor: "#F3F3F3", 
@@ -169,7 +182,7 @@ function SwitchFavoriteButton() {
           <div style={{display:"flex", flexDirection: "row", justifyContent: "center", position:"absolute", paddingTop:"30px", paddingRight:"10%"}}>
             <Box 
               variant="outlined" 
-              style={{width:"100px", height:"100px", borderColor: "black", backgroundColor:"#E8E8E8", marginRight:"5%", marginBottom:"5%"}} 
+              style={{width:"100px", height:"100px", borderColor: "black", backgroundColor:"#E8E8E8", marginRight:"5%", marginBottom:"10px"}} 
               onClick={() => changeDisplayImage(singleProduct? singleProduct.url : "")}>
               <CardMedia 
                   component="img"
@@ -271,6 +284,7 @@ function SwitchFavoriteButton() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   )
 };

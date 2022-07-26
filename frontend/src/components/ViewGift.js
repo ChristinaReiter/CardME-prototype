@@ -6,14 +6,16 @@ import { useParams } from "react-router-dom";
 import GiftService from "../services/GiftService";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../services/AuthService";
+import { toast, ToastContainer } from "react-toastify";
 
 const ViewCard = () => {
 
- const {giftid} = useParams();
+ const {giftid, headerfilter} = useParams();
  const [singleProduct, setSingleProduct] = useState();
  const imageUrl = "http://localhost:3001/public/";
  const [favorites, setFavorites] = useState([]);
  const navigate = useNavigate();
+ const[userID, setUserID] = useState();
 
 useEffect(() => {
   GiftService.getSingleGift(giftid).then(
@@ -26,6 +28,7 @@ useEffect(() => {
   );
   AuthService.getMe().then(
     (result) => {
+      setUserID(result._id);
       GiftService.getFavorites(result._id).then(
         (res) => {
           setFavorites(res);
@@ -74,8 +77,10 @@ function SwitchFavoriteButton() {
       <IconButton
         onClick={() => {
           GiftService.removeFavorite({product: singleProduct}).then(
-            (result) => {
-              setFavorites([...favorites, result]);
+            () => {
+              toast("Favorite removed")
+              const updated = favorites.filter((fav) => fav._id !== (singleProduct? singleProduct._id: ""));
+              setFavorites(updated);
             }
           )
         }}>
@@ -87,9 +92,14 @@ function SwitchFavoriteButton() {
     return (
       <IconButton
         onClick={() => {
+          if(userID === undefined)
+              {
+                toast("not logged in");
+              }
           GiftService.setFavorites({product: singleProduct}).then(
-            (result) => {
-              setFavorites([...favorites, result]);
+            () => {
+              toast("Favorite added")
+              setFavorites([...favorites, singleProduct]);
             }
           )
         }
@@ -102,18 +112,23 @@ function SwitchFavoriteButton() {
 }
 
   return(
-    <><Box sx={{ flexGrow: 1, flexShrink: 1, position: "relative" }}>
-      <Box position="fixed" style={styles.backBar}>
-        <Box 
-          style={{ width: "20%", display: "flex", flexDirection: "row" }} 
-          onClick={() => { 
-            navigate("/gifts");
-          }}>
-          <ArrowBackIosNewOutlinedIcon style={{ paddingLeft: "4%" }} />
-          <Typography style={{ paddingLeft: "1%", fontSize: "20px", fontFamily: "Abril Fatface" }}>Back</Typography>
+    <div>
+      <Box sx={{ flexGrow: 1, flexShrink: 1, position: "relative" }}>
+        <Box position="fixed" style={styles.backBar}>
+            <Button 
+            variant="contained"
+            disableElevation
+            style={{height:"80%", width:"10%", marginLeft: "2%", display:"flex", flexDirection:"row", justifyContent:"start", backgroundColor:"transparent"}} 
+            onClick={() => {
+                navigate("/gifts"); //logic to save previous state
+              
+            }}>
+            <ArrowBackIosNewOutlinedIcon style={{paddingLeft:"2%"}}/>
+            <Typography style={{paddingLeft:"1%", fontSize:"20px", fontFamily: "Abril Fatface"}}>Back</Typography>
+          </Button>       
         </Box>
-      </Box>
-    </Box><div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginTop: "9%" }}>
+      
+    </Box><div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginTop: "180px"}}>
         <div style={{ position: "absolute", paddingLeft: "8%", paddingTop: "2%" }}>
           <Card style={{
             backgroundColor: "#F3F3F3",
@@ -184,7 +199,9 @@ function SwitchFavoriteButton() {
             </div>
           </div>
         </div>
-      </div></>
+        <ToastContainer />
+      </div>
+    </div>
   )
 };
 
