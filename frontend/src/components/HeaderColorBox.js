@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 
 const HeaderColorBox = ({index, colorFilter, setColorFilter, filterIsHovering}) => {
+        
 
         const updateColorArray = (colorKey, event) => {
           setColorFilter({ ...colorFilter, [colorKey]: event.target.checked });

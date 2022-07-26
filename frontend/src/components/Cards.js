@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import {
+  Alert,
   Typography,
   Button,
   Box,
+  Collapse,
   Grid,
   Card,
   CardActions,
@@ -13,6 +15,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import CardService from "../services/CardService";
+import CloseIcon from "@mui/icons-material/Close";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate, useParams } from "react-router-dom";
@@ -34,6 +37,7 @@ const Cards = () => {
   const [userID, setUserID] = useState();
   const navigate = useNavigate();
   const { headerfilter } = useParams();
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     CardService.getAllCards().then(
@@ -221,10 +225,18 @@ const Cards = () => {
     }
   });
 
+  const setAlert = (props) => {
+    return (
+      <Alert severety="error">This is an error</Alert>
+    )
+  }
+
   function FavoriteButton(props) {
+   
     const found = favorites.find(
-      (element) => element._id === props.productObject._id
-    );
+        (element) => element._id === props.productObject._id
+      );
+    
     if (found) {
       return (
         <CardActions>
@@ -236,6 +248,7 @@ const Cards = () => {
               CardService.removeFavorite({ product: props.productObject }).then(
                 (result) => {
                   setFavorites([...favorites, result]);
+                  CardService.getFavorites(userID);
                 }
               );
             }}
@@ -252,6 +265,10 @@ const Cards = () => {
             style={styles.favorites}
             sx={{ color: "grey" }}
             onClick={() => {
+              if(userID === undefined)
+              {
+                setOpen(true);
+              }
               CardService.setFavorites({ product: props.productObject }).then(
                 (result) => {
                   setFavorites([...favorites, result]);
@@ -268,6 +285,26 @@ const Cards = () => {
 
   return (
     <div>
+      <Box style={{display:"flex", width:"100%",flexDirection:"row", marginTop:"-4%", position:"fixed", justifyContent:"center"}}>
+        <Collapse in={open}>
+          <Alert severity="error"
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="medium"
+                onClick={() => {
+                  setOpen(false);
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+            style={{fontSize:"20px"}}
+            >Please log in to modify your favorites.</Alert>
+        </Collapse>
+      </Box>
+      
       <Box sx={{ flexGrow: 1, flexShrink: 1, position: "relative" }}>
         <CardsFilterHeader
           colorFilter={colorFilter}
@@ -293,6 +330,7 @@ const Cards = () => {
           justifyContent: "center",
         }}
       >
+        
         <Input
           onChange={(event) => {
             setSearchTerm(event.target.value);
@@ -306,6 +344,7 @@ const Cards = () => {
           style={SearchBarStyle}
         ></Input>
       </Box>
+      
       <Box sx={{ margin: "30px 30px 30px 30px" }}>
         <Typography variant="h4">All Cards:</Typography>
         <div>
@@ -374,7 +413,13 @@ const Cards = () => {
                           color="secondary"
                           style={styles.button}
                           onClick={() => {
-                            navigate("/ViewCard/" + product._id);
+                            if(headerfilter) {
+                              navigate("/ViewCard/" + headerfilter + "/" + product._id);
+                            }
+                            else {
+                              navigate("/ViewCard/" + product._id);
+                            }
+                            
                           }}
                         >
                           View

@@ -39,7 +39,7 @@ const getFavorite = async (req, res) => { //TODO
       
       const updatedAccount = await Account.findByIdAndUpdate(account.id, newFaves);
   
-      return res.status(200).json(updatedAccount.favorites);
+      return res.status(200).json(await updatedAccount.favorites);
       
     } catch (err) {
       console.log(err);
