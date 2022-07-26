@@ -33,7 +33,11 @@ export default class AuthService {
             const resp = await response.json();
             if (resp.token) {                                     //gotta check the validity!!!!!
                 localStorage.setItem("account", JSON.stringify(resp));
+                AuthService.getMe().then((res) => {
+                  return res
+                });
             }
+          
     
             return resp;
         } catch (err) {

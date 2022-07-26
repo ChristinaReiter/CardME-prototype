@@ -91,7 +91,7 @@ function App() {
                 <Route path="details" element={<Details />} />
               </Route>
               <Route exact path="/register" element={<Register />} />
-              <Route exact path="/login" element={<Login />} />
+              <Route exact path="/login" element={<Login setCurrentAccount={setCurrentAccount}/>} />
               <Route
                 exact
                 path="/successful-order/:id"

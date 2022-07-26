@@ -7,7 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-const Login = () => {
+const Login = ({setCurrentAccount}) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,6 +28,7 @@ const Login = () => {
       AuthService.login({ email, password }).then(
         res => {
           res.status ? toast(res.message) : navigate("/profile/view");
+          setCurrentAccount(res);
         
      })
 
