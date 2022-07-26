@@ -64,5 +64,35 @@ export default class AuthService {
       }
 
     }
+
+    // Check whether any user is logged in
+    static async getLog() {
+      let account = localStorage.getItem("account")
+      if(account !== null){
+        return JSON.parse(account)
+      }
+      return null;
+    }
+
+    // Check if mail is still free
+    static async checkFree(email){
+      try {
+        let response = await fetch(this.baseUrl + "/account/free", {
+          method: "POST",
+          headers: this.headers,
+          body: JSON.stringify(email)          
+        });
+  
+        const resp = await response.json(); 
+  
+        if(!resp.existing){
+          return true;
+        }
+        return false;
+      } catch (err) {
+        console.log(err);
+        return false
+      }
+    }
   }
   

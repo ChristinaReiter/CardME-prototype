@@ -18,7 +18,6 @@ const secured = async (req, res, next) => {
         next();
     }
     } catch (err) {
-        console.log(error)
         return res.status(401).json({ error: "Unauthorized" });
     }
 }

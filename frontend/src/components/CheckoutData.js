@@ -11,11 +11,14 @@ import {
 } from "@mui/material";
 import CheckoutService from "../services/CheckoutService";
 import ShoppingCartService from "../services/ShoppingCartService";
+import AuthService from "../services/AuthService";
 
 const CheckoutData = () => {
   const [checkoutData, setCheckoutData] = useState({});
   const [firstShipmentDate, setFirstShipmentDate] = useState(null);
-  const [cartItem, setCartItem] = useState(null)
+  const [cartItem, setCartItem] = useState(null);
+  const [account, setAccount] = useState(null);
+  const [accountError, setAccountError] = useState(false)
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -43,6 +46,13 @@ const CheckoutData = () => {
     let date = new Date();
     date.setDate(date.getDate() + 3);
     setFirstShipmentDate(date.toISOString().split("T")[0]);
+
+    AuthService.getMe().then((result) => {
+      if (result) {
+        setAccount(result);
+        setCheckoutData((values) => ({ ...values, email: result.email }));
+      }
+    });
   }, []);
 
   const handleChange = (event) => {
@@ -56,14 +66,35 @@ const CheckoutData = () => {
   const handleToggle = (event) => {
     const value = event.target.checked;
 
+    if(value){
+      setAccountError(true)
+    }else{
+      setAccountError(false)
+      setCheckoutData((values) => ({ ...values, accountPassword: null }))
+    }
+
     setCheckoutData((values) => ({ ...values, recurrentDelivery: value }));
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleAccountTry = () => {
+    if(checkoutData.recurrentDelivery){
+      AuthService.checkFree({email: checkoutData.email}).then(free => {
+        if(free && checkoutData.accountPassword){
+          setAccountError(false)
+        }else{
+          setAccountError(true)
+        }
+      })
+    }
+  }
 
-    CheckoutService.setData(checkoutData);
-    navigate("/checkout-overview/" + id);
+  const handleSubmit = (event) => {
+    if(!accountError){
+      event.preventDefault();
+
+      CheckoutService.setData(checkoutData);
+      navigate("/checkout-overview/" + id);
+    }
   };
 
   return (
@@ -75,7 +106,17 @@ const CheckoutData = () => {
             separator=">"
             style={styles.breadcrumbs}
           >
-            <NavLink style={styles.breadcrumbs} to={"/create/" + (cartItem && cartItem.cardTitle === "Own Card" ? "own/" : "chosen/") + id + "/edit"}>
+            <NavLink
+              style={styles.breadcrumbs}
+              to={
+                "/create/" +
+                (cartItem && cartItem.cardTitle === "Own Card"
+                  ? "own/"
+                  : "chosen/") +
+                id +
+                "/edit"
+              }
+            >
               Edit card
             </NavLink>
             <Typography fontFamily="Abril Fatface">
@@ -88,13 +129,20 @@ const CheckoutData = () => {
         <form onSubmit={handleSubmit}>
           <Box padding={inputBoxPadding}>
             <Typography variant="h6">Contact details</Typography>
-            <TextField
-              type="email"
-              placeholder="Email address"
-              value={checkoutData.email || ""}
-              name="email"
-              onChange={handleChange}
-            ></TextField>
+            {account === null ? (
+              <TextField
+                type="email"
+                placeholder="Email address"
+                value={checkoutData.email || ""}
+                name="email"
+                onChange={handleChange}
+                onBlur={handleAccountTry}
+                error={accountError}
+                helperText={accountError && ("Account already taken, use a differnt one")}
+              ></TextField>
+            ) : (
+              <Typography>{account.email}</Typography>
+            )}
           </Box>
           <Box padding={inputBoxPadding}>
             <Typography variant="h6">Billing address</Typography>
@@ -232,6 +280,15 @@ const CheckoutData = () => {
               InputProps={{ inputProps: { min: firstShipmentDate } }}
               required
             ></TextField>
+          </Box>
+          <Box padding={inputBoxPadding}>
+            <Typography variant="h5">
+              Want to resend the card every year?
+            </Typography>
+            <Typography>
+              Tick recurrent delivery{" "}
+              {account === null && "and create an account"}
+            </Typography>
             <FormControlLabel
               control={
                 <Checkbox
@@ -242,6 +299,18 @@ const CheckoutData = () => {
               }
               label="Recurring delivery"
             />{" "}
+            <br />
+            {account === null && (
+              <TextField
+                type="password"
+                placeholder="Account password"
+                value={checkoutData.accountPassword || ""}
+                name="accountPassword"
+                onChange={handleChange}
+                onBlur={handleAccountTry}
+                error={accountError}
+              ></TextField>
+            )}
           </Box>
           <Box display="flex" justifyContent="end">
             <Button variant="contained" color="secondary" type="submit">

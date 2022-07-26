@@ -1,8 +1,13 @@
 import { useTheme } from "@emotion/react";
 import {
+  Alert,
   Box,
   Breadcrumbs,
   Button,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Divider,
   Grid,
   Typography,
@@ -14,12 +19,15 @@ import ShoppingCartService from "../services/ShoppingCartService";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import OrderService from "../services/OrderService";
 import PayPalService from "../services/PayPalService";
+import AuthService from "../services/AuthService";
+import SubscriptionService from "../services/SubscriptionService";
 
 const CheckoutOverview = () => {
   const [cartItem, setCartItem] = useState({});
   const [checkoutData, setCheckoutData] = useState({});
   const [subscriptionPlan, setSubscriptionPlan] = useState(null);
   const [startingDate, setStartingDate] = useState(null);
+  const [paymentError, setPaymentError] = useState(false);
   const { id } = useParams();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -48,10 +56,12 @@ const CheckoutOverview = () => {
 
   useEffect(() => {
     if (checkoutData.recurrentDelivery) {
-      let deliveryDate = Date.parse(checkoutData.deliveryDate)
-      setStartingDate(new Date(deliveryDate).toISOString())
+      let deliveryDate = Date.parse(checkoutData.deliveryDate);
+      setStartingDate(new Date(deliveryDate).toISOString());
 
-      PayPalService.createSubscriptionPlan((cartItem.cardPrice + cartItem.giftPrice)).then((result) => {
+      PayPalService.createSubscriptionPlan(
+        cartItem.cardPrice + cartItem.giftPrice
+      ).then((result) => {
         if (result) {
           setSubscriptionPlan(result.id);
         }
@@ -68,9 +78,42 @@ const CheckoutOverview = () => {
     }
   };
 
+  const handleSuccessfulSubscription = async (subscriptionId) => {
+    const order = await OrderService.createOrder(checkoutData, cartItem);
+
+    const currentUser = await AuthService.getLog();
+    let account = null;
+    if (currentUser === null) {
+      account = await AuthService.register({
+        name:
+          checkoutData.billingFirstName + " " + checkoutData.billingLastName,
+        email: checkoutData.email,
+        password: checkoutData.accountPassword,
+      });
+    } else {
+      account = currentUser;
+    }
+
+    if (order.response === "success" && order.order._id && account && account._id) {
+      const subscription = await SubscriptionService.setSubscription({
+        order: order.order._id,
+        account: account._id,
+        paypalSubscription: subscriptionId,
+      });
+
+      if(subscription !== null){
+        CheckoutService.removeData();
+        ShoppingCartService.removeItem(id);
+        navigate("/successful-order/" + order.order._id);
+      }
+    } else {
+      console.log("Subscription error");
+    }
+  };
+
   const handleFailedCheckout = (error) => {
     console.log(error)
-    alert("Payment failed, please try again");
+    setPaymentError(true);
   };
 
   return (
@@ -82,7 +125,17 @@ const CheckoutOverview = () => {
             separator=">"
             style={styles.breadcrumbs}
           >
-            <NavLink style={styles.breadcrumbs} to={"/create/" + (cartItem && cartItem.cardTitle === "Own Card" ? "own/" : "chosen/") + id + "/edit"}>
+            <NavLink
+              style={styles.breadcrumbs}
+              to={
+                "/create/" +
+                (cartItem && cartItem.cardTitle === "Own Card"
+                  ? "own/"
+                  : "chosen/") +
+                id +
+                "/edit"
+              }
+            >
               Edit card
             </NavLink>
             <NavLink style={styles.breadcrumbs} to={"/checkout-data/" + id}>
@@ -139,7 +192,14 @@ const CheckoutOverview = () => {
                 variant="contained"
                 color="secondary"
                 onClick={() => {
-                  navigate("/create/" + (cartItem && cartItem.cardTitle === "Own Card" ? "own/" : "chosen/") + id + "/edit");
+                  navigate(
+                    "/create/" +
+                      (cartItem && cartItem.cardTitle === "Own Card"
+                        ? "own/"
+                        : "chosen/") +
+                      id +
+                      "/edit"
+                  );
                 }}
               >
                 Edit
@@ -286,7 +346,7 @@ const CheckoutOverview = () => {
                     });
                   }}
                   onError={(error) => {
-                    handleFailedCheckout(error) 
+                    handleFailedCheckout(error);
                   }}
                 />
                 <PayPalButtons
@@ -325,7 +385,7 @@ const CheckoutOverview = () => {
                     });
                   }}
                   onError={(error) => {
-                    handleFailedCheckout(error) 
+                    handleFailedCheckout(error);
                   }}
                 />
               </PayPalScriptProvider>
@@ -336,7 +396,7 @@ const CheckoutOverview = () => {
                   "client-id": PayPalService.clientId,
                   currency: "EUR",
                   components: "buttons",
-                  vault: true
+                  vault: true,
                 }}
               >
                 <PayPalButtons
@@ -345,7 +405,7 @@ const CheckoutOverview = () => {
                   fundingSource="paypal"
                   createSubscription={(data, actions) => {
                     return actions.subscription.create({
-                      'plan_id': subscriptionPlan,
+                      plan_id: subscriptionPlan,
                       start_time: startingDate,
                       subscriber: {
                         email_address: checkoutData.email,
@@ -368,8 +428,8 @@ const CheckoutOverview = () => {
                             postal_code: checkoutData.recipientZipcode,
                             admin_area_2: checkoutData.recipientCity,
                             country_code: "DE",
-                          }
-                        }
+                          },
+                        },
                       },
                       application_context: {
                         brand_name: "CardMe",
@@ -378,12 +438,10 @@ const CheckoutOverview = () => {
                     });
                   }}
                   onApprove={(data, actions) => {
-                    return actions.order.capture().then((details) => {
-                      handleSuccessfulCheckout();
-                    });
+                      handleSuccessfulSubscription(data.subscriptionID);
                   }}
                   onError={(error) => {
-                    handleFailedCheckout(error) 
+                    handleFailedCheckout(error);
                   }}
                 ></PayPalButtons>
               </PayPalScriptProvider>
@@ -391,6 +449,19 @@ const CheckoutOverview = () => {
           </Box>
         </Box>
       </Box>
+      <Dialog
+        open={paymentError}
+        onClose={() => setPaymentError(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Payment Error"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            There was an error during payment, please try again
+          </DialogContentText>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

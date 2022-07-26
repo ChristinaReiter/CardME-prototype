@@ -25,10 +25,16 @@ const getSubscription = async (req, res) => { //TODO
   const setSubscription = async (req, res) => { 
     
     try {
-      console.log(req.body)
+      if (!req.body.order || !req.body.account || !req.body.paypalSubscription) {
+        return res
+          .status(400)
+          .json({ status: "error", message: "Missing Values" });
+      }
+
       const subscription = await Subscription.create({
-        order: req.body.id,   
-        account: req.account.id 
+        order: req.body.order,   
+        account: req.body.account,
+        paypalSubscription: req.body.paypalSubscription 
       });
   
       return res.status(200).json(subscription);

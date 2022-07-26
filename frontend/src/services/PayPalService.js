@@ -1,6 +1,6 @@
 export default class PayPalService {
   static clientId =
-        "AWhQbQw5irWMzQRjp7gn4yYP4V7qomnXWIE4krmMbZi3M5NwPz-cnAUVk9-7uvBkmOgnCPqTgEfROIDP";
+    "AWhQbQw5irWMzQRjp7gn4yYP4V7qomnXWIE4krmMbZi3M5NwPz-cnAUVk9-7uvBkmOgnCPqTgEfROIDP";
   static async getToken() {
     try {
       const clientSecret =
@@ -28,7 +28,6 @@ export default class PayPalService {
 
   static async createSubscriptionPlan(price) {
     try {
-      console.log(price)
       const tokenRequest = await this.getToken();
       const date = Date.now();
 
@@ -77,6 +76,31 @@ export default class PayPalService {
       );
 
       return await response.json();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  static async cancelSubscription(subscriptionId) {
+    try {
+      const tokenRequest = await this.getToken();
+
+      let headers = new Headers({
+        Accept: "application/json",
+        Authorization: "Bearer " + tokenRequest.access_token,
+        "Content-Type": "application/json",
+      });
+
+      let body = {
+        reason: "Canceled via profile",
+      };
+
+      const response = await fetch(
+        `https://api-m.sandbox.paypal.com/v1/billing/subscriptions/${subscriptionId}/cancel`,
+        { method: "POST", headers: headers, body: JSON.stringify(body) }
+      );
+
+      return await response;
     } catch (err) {
       console.log(err);
     }
