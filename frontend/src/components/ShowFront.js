@@ -10,8 +10,9 @@ import {
 import { useEffect, useState } from "react";
 import CardService from "../services/CardService";
 import { useNavigate, NavLink } from "react-router-dom";
+import ShoppingCartService from "../services/ShoppingCartService";
 
-const ShowFront = ({ product, setImage, image, mode }) => {
+const ShowFront = ({ product, setImage, mode }) => {
   const styles = {
     image: {
       position: "relative",
@@ -56,7 +57,7 @@ const ShowFront = ({ product, setImage, image, mode }) => {
   };
   const navigate = useNavigate();
   // For internal image dipslay
-  const [imageUrl, setImageUrl] = useState(null)
+  const [imageUrl, setImageUrl] = useState(null);
   const baseUrl = "http://localhost:3001/public/";
 
   const setBackendImage = async () => {
@@ -66,15 +67,17 @@ const ShowFront = ({ product, setImage, image, mode }) => {
         { method: "GET" }
       );
 
-      result = await result.blob()
+      result = await result.blob();
       setImage(result);
-      setImageUrl(URL.createObjectURL(result))
+      setImageUrl(URL.createObjectURL(result));
+    } else {
+      setImageUrl(URL.createObjectURL(product.cardImage));
     }
-  }
+  };
 
   useEffect(() => {
     // Get image from backend, convert to blob for further usage
-    if(product !== undefined){
+    if (product !== undefined) {
       setBackendImage();
     }
   }, [product]);
@@ -93,11 +96,7 @@ const ShowFront = ({ product, setImage, image, mode }) => {
       </Typography>
       <Box display="flex" justifyContent="center">
         {imageUrl !== null && (
-          <img
-            src={imageUrl}
-            crossOrigin="anonymous"
-            style={styles.image}
-          />
+          <img src={imageUrl} crossOrigin="anonymous" style={styles.image} />
         )}
       </Box>
       <Grid

@@ -93,12 +93,21 @@ const CreateFinal = ({
   useEffect(() => {
     if (image !== null) {
       setImageUrl(URL.createObjectURL(image));
+    }else{
+      setImageUrl(null)
     }
   }, [image]);
 
   const handleAddToCart = async () => {
     let itemToAdd = {
       image: image,
+      textFilters: textFilters,
+      textFilterValues: {
+        fontAlign: fontalign,
+        fontColor: fontcolor,
+        fontSize: fontsize,
+        fontStyle: fontstyle
+      }
     };
     if (cardStyle === "own") {
       itemToAdd.title = "Own Card";
@@ -133,6 +142,24 @@ const CreateFinal = ({
   const handleUpdate = () => {
     let changedFields = {
       cardText: text,
+      cardTextFilters: textFilters,
+      cardTextFilterValues: {
+        fontAlign: fontalign,
+        fontColor: fontcolor,
+        fontSize: fontsize,
+        fontStyle: fontstyle
+      },
+      cardImageFilters: imageFilters,
+      cardImageFilterValues: {
+        rotation: rotation,
+        brightness: brightness,
+        contrast: contrast,
+        saturate: saturate,
+        grayscale: grayscale,
+        sepia: sepia,
+        cardheight: cardheight,
+        cardwidth: cardwidth,
+      }
     };
     if (cardStyle === "own") {
       changedFields.cardImage = image;
