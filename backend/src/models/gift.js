@@ -11,6 +11,7 @@ const GiftSchema = new mongoose.Schema({
   occasion: Array,
   date: Date,
   foldername: String,
+  popularity: String,
 });
 
 GiftSchema.set("versionKey", false);
