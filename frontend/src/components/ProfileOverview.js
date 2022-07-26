@@ -28,11 +28,7 @@ const styles = {
   const navigate = useNavigate();
 
  
-useEffect(() => {
-  if (!currentAccount) {
-    navigate("/login");
-  }
-},[]) 
+
   
 
   const handleChange = (event, newValue) => {
