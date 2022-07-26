@@ -7,7 +7,7 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ShoppingCartService from "../services/ShoppingCartService";
 import { useNavigate } from "react-router-dom";
@@ -86,7 +86,15 @@ const CreateFinal = ({
   cardwidth,
 }) => {
   const [viewState, setViewState] = React.useState(true);
+  // For internal image display
+  const [imageUrl, setImageUrl] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (image !== null) {
+      setImageUrl(URL.createObjectURL(image));
+    }
+  }, [image]);
 
   const handleAddToCart = async () => {
     let itemToAdd = {
@@ -180,7 +188,7 @@ const CreateFinal = ({
                   {text}
                 </Box>
               </Box>
-            ) : image !== null ? (
+            ) : imageUrl !== null ? (
               <Box style={styles.cardWindows} sx={{ float: "left" }}>
                 <img
                   style={
@@ -188,7 +196,7 @@ const CreateFinal = ({
                       ? { ...styles.image, ...imageFilters }
                       : styles.image
                   }
-                  src={URL.createObjectURL(image)}
+                  src={imageUrl}
                 ></img>
               </Box>
             ) : (
