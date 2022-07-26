@@ -228,14 +228,10 @@ const Cards = () => {
     }
   });
 
-  const removeFavorite = () => {
-    setFavorites([...favorites, (current) => {
-      current.filter((fave) => {
-        console.log(fave._id === props.productObject._id);
-        console.log(props.productObject);
-        return fave._id !== props.productObject._id;
-    })
-  }])
+  const setAlert = (props) => {
+    return (
+      <Alert severety="error">This is an error</Alert>
+    )
   }
 
   function FavoriteButton(props) {
@@ -252,8 +248,14 @@ const Cards = () => {
             style={styles.favorites}
             sx={{ color: "#DC9292" }}
             onClick={() => {
-              CardService.removeFavorite({ product: props.productObject });
-            }}>
+              CardService.removeFavorite({ product: props.productObject }).then(
+                (result) => {
+                  setFavorites([...favorites, result]);
+                  CardService.getFavorites(userID);
+                }
+              );
+            }}
+          >
             <FavoriteIcon />
           </IconButton>
         </CardActions>
