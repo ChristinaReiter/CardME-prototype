@@ -60,6 +60,7 @@ export default class AuthService {
         return resp;
       } catch (err) {
         console.log(err);
+        return undefined
       }
 
     }

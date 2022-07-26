@@ -74,7 +74,7 @@ const ShowFront = ({ product, setImage, image, mode }) => {
 
   useEffect(() => {
     // Get image from backend, convert to blob for further usage
-    if(product !== null){
+    if(product !== undefined){
       setBackendImage();
     }
   }, [product]);

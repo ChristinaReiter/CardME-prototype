@@ -33,12 +33,14 @@ const Cards = () => {
   const [favorites, setFavorites] = useState([]);
   const [userID, setUserID] = useState();
   const navigate = useNavigate();
-  const {headerfilter} = useParams();
+  const { headerfilter } = useParams();
 
   useEffect(() => {
     CardService.getAllCards().then(
       (result) => {
-        setProducts(result);     
+        if (result !== undefined) {
+          setProducts(result);
+        }
       },
       (error) => {
         console.log(error);
@@ -46,44 +48,42 @@ const Cards = () => {
     );
     AuthService.getMe().then(
       (result) => {
-        setUserID(result._id);
-        CardService.getFavorites(result._id).then(
-          (res) => {
-            setFavorites(res);
-            
-          },
-          (err) => {
-            console.log(err);
-          }
-        )
+        if (result !== undefined) {
+          setUserID(result._id);
+          CardService.getFavorites(result._id).then(
+            (res) => {
+              setFavorites(res);
+            },
+            (err) => {
+              console.log(err);
+            }
+          );
+        }
       },
       (error) => {
         console.log(error);
       }
-    )
-    if(headerfilter==="birthday") {
-      setOccasionFilter({...occasionFilter, [headerfilter]: true});
-      setSeasonFilter({...seasonFilter, ["summer"]: false});
-      setStyleFilter({...styleFilter, ["simple"]: false});
+    );
+    if (headerfilter === "birthday") {
+      setOccasionFilter({ ...occasionFilter, [headerfilter]: true });
+      setSeasonFilter({ ...seasonFilter, ["summer"]: false });
+      setStyleFilter({ ...styleFilter, ["simple"]: false });
     }
 
-    if(headerfilter==="summer") {
-      setSeasonFilter({...seasonFilter, [headerfilter]: true});
-      setOccasionFilter({...occasionFilter, ["birthday"]: false});
-      setStyleFilter({...styleFilter, ["simple"]: false});
-      
+    if (headerfilter === "summer") {
+      setSeasonFilter({ ...seasonFilter, [headerfilter]: true });
+      setOccasionFilter({ ...occasionFilter, ["birthday"]: false });
+      setStyleFilter({ ...styleFilter, ["simple"]: false });
     }
 
-    if(headerfilter==="simple") {
-      setStyleFilter({...styleFilter, [headerfilter]: true});
-      setOccasionFilter({...occasionFilter, ["birthday"]: false});
-      setSeasonFilter({...seasonFilter, ["summer"]: false});
+    if (headerfilter === "simple") {
+      setStyleFilter({ ...styleFilter, [headerfilter]: true });
+      setOccasionFilter({ ...occasionFilter, ["birthday"]: false });
+      setSeasonFilter({ ...seasonFilter, ["summer"]: false });
     }
-    
   }, [headerfilter]);
 
   const styles = {
-    
     button: {
       fontFamily: "Annie Use Your Telescope",
       fontSize: 18,
@@ -106,197 +106,185 @@ const Cards = () => {
     height: "40px",
   };
 
-
-
   const addProductToCart = async (product) => {
     //let index = await ShoppingCartService.addItem(product);
     navigate("/create/chosen/" + product._id);
   };
 
   const productsSort = () => {
-
-    
-        if(sortFilter === "titlea") {
-          return products.sort((a,b) => a.title > b.title? 1: -1)
-        }  
-        if(sortFilter === "titlez") {
-          return products.sort((a,b) => a.title > b.title? -1: 1)
-        }  
-        if(sortFilter == "designera") {
-          return products.sort((a,b) => a.designer > b.designer? 1: -1)
-        }  
-        if(sortFilter == "designerz") {
-          return products.sort((a,b) => a.designer > b.designer? -1: 1)
-        }  
-        if(sortFilter == "mostpopular") {
-          return products.sort(); //don't know what to do here lol
-        } 
-        if(sortFilter == "trending") {
-          
-          return products.sort(() => Math.random() - 0.5); //this still updates everytime we choose "trending", how can we achieve to save only once?
-          
-        } 
-        if(sortFilter == "newest") {
-          return products.sort((a,b) => a.date > b.date? -1 : 1);
-        } 
-        if(sortFilter == "oldest") {
-          return products.sort((a,b) => a.date > b.date? 1 : -1);
-        } 
-        else {
-          return products; 
-        }
-          
+    if (sortFilter === "titlea") {
+      return products.sort((a, b) => (a.title > b.title ? 1 : -1));
+    }
+    if (sortFilter === "titlez") {
+      return products.sort((a, b) => (a.title > b.title ? -1 : 1));
+    }
+    if (sortFilter == "designera") {
+      return products.sort((a, b) => (a.designer > b.designer ? 1 : -1));
+    }
+    if (sortFilter == "designerz") {
+      return products.sort((a, b) => (a.designer > b.designer ? -1 : 1));
+    }
+    if (sortFilter == "mostpopular") {
+      return products.sort(); //don't know what to do here lol
+    }
+    if (sortFilter == "trending") {
+      return products.sort(() => Math.random() - 0.5); //this still updates everytime we choose "trending", how can we achieve to save only once?
+    }
+    if (sortFilter == "newest") {
+      return products.sort((a, b) => (a.date > b.date ? -1 : 1));
+    }
+    if (sortFilter == "oldest") {
+      return products.sort((a, b) => (a.date > b.date ? 1 : -1));
+    } else {
+      return products;
+    }
   };
 
-  const filteredCards = productsSort().filter (
-    (el) => {
-      var filterArray = [];
-      
-      Object.keys(colorFilter).map((key) => {
-          if (colorFilter[key]) {
-            filterArray.push(key);
-          }
-      })
-      Object.keys(vibeFilter).map((key) => {
-        if(vibeFilter[key]) {
-          filterArray.push(key);
-        }
-      })
-      Object.keys(styleFilter).map((key) => {
-        if(styleFilter[key]) {
-          filterArray.push(key);
-        }
-      })
-      Object.keys(recipientsFilter).map((key) => {
-        if(recipientsFilter[key]) {
-          filterArray.push(key);
-        }
-      })
-      Object.keys(occasionFilter).map((key) => {
-        if(occasionFilter[key]) {
-          filterArray.push(key);
-        }
-      })
-      Object.keys(seasonFilter).map((key) => {
-        if(seasonFilter[key]) {
-          filterArray.push(key);
-        }
-      })
-      if (searchTerm.length === 0 && filterArray.length === 0) {
-        return el;
-        
-      } 
-      else if(searchTerm.length === 0 && filterArray.length !== 0) {
-        return(
-          filterArray
-          .every(filter => 
-            {
-              return (
-                el.vibe.includes(filter) || 
-                el.color.includes(filter) || 
-                el.style.includes(filter) || 
-                el.recipient.includes(filter) ||
-                el.occasion.includes(filter) ||
-                el.season.includes(filter))}
-          )
-        )
+  const filteredCards = productsSort().filter((el) => {
+    var filterArray = [];
+
+    Object.keys(colorFilter).map((key) => {
+      if (colorFilter[key]) {
+        filterArray.push(key);
       }
-      else if(searchTerm.length !== 0 && filterArray.length === 0) {
-        return (
-          el.title
-            .toString()
-            .toLowerCase()
-            .includes(searchTerm.toString().toLowerCase()) ||
-          el.designer
-            .toString()
-            .toLowerCase()
-            .includes(searchTerm.toString().toLowerCase()))
+    });
+    Object.keys(vibeFilter).map((key) => {
+      if (vibeFilter[key]) {
+        filterArray.push(key);
       }
-      else {
+    });
+    Object.keys(styleFilter).map((key) => {
+      if (styleFilter[key]) {
+        filterArray.push(key);
+      }
+    });
+    Object.keys(recipientsFilter).map((key) => {
+      if (recipientsFilter[key]) {
+        filterArray.push(key);
+      }
+    });
+    Object.keys(occasionFilter).map((key) => {
+      if (occasionFilter[key]) {
+        filterArray.push(key);
+      }
+    });
+    Object.keys(seasonFilter).map((key) => {
+      if (seasonFilter[key]) {
+        filterArray.push(key);
+      }
+    });
+    if (searchTerm.length === 0 && filterArray.length === 0) {
+      return el;
+    } else if (searchTerm.length === 0 && filterArray.length !== 0) {
+      return filterArray.every((filter) => {
         return (
-          (el.title
-            .toString()
-            .toLowerCase()
-            .includes(searchTerm.toString().toLowerCase()) ||
+          el.vibe.includes(filter) ||
+          el.color.includes(filter) ||
+          el.style.includes(filter) ||
+          el.recipient.includes(filter) ||
+          el.occasion.includes(filter) ||
+          el.season.includes(filter)
+        );
+      });
+    } else if (searchTerm.length !== 0 && filterArray.length === 0) {
+      return (
+        el.title
+          .toString()
+          .toLowerCase()
+          .includes(searchTerm.toString().toLowerCase()) ||
+        el.designer
+          .toString()
+          .toLowerCase()
+          .includes(searchTerm.toString().toLowerCase())
+      );
+    } else {
+      return (
+        (el.title
+          .toString()
+          .toLowerCase()
+          .includes(searchTerm.toString().toLowerCase()) ||
           el.designer
             .toString()
             .toLowerCase()
             .includes(searchTerm.toString().toLowerCase())) &&
-            filterArray
-            .every(filter => 
-              {
-                return (
-                  el.vibe.includes(filter) || 
-                  el.color.includes(filter) || 
-                  el.style.includes(filter) || 
-                  el.recipient.includes(filter) ||
-                  el.occasion.includes(filter) ||
-                  el.season.includes(filter))}
-            )
-        );
-      }
+        filterArray.every((filter) => {
+          return (
+            el.vibe.includes(filter) ||
+            el.color.includes(filter) ||
+            el.style.includes(filter) ||
+            el.recipient.includes(filter) ||
+            el.occasion.includes(filter) ||
+            el.season.includes(filter)
+          );
+        })
+      );
     }
-  )
-  
-  
+  });
+
   function FavoriteButton(props) {
-    const found = favorites.find(element => element._id === props.productObject._id);
-    if(found) {    
-      return(         
-      <CardActions>
-        <IconButton
-          aria-label="add to favorites"
-          style={styles.favorites}
-          sx={{color:"#DC9292"}}
-          onClick={() => {
-            CardService.removeFavorite({product: props.productObject}).then(
-              (result) => {
-                setFavorites([...favorites, result]);
-              }
-            )
-          }}
-        >
-          <FavoriteIcon />
-        </IconButton>
-      </CardActions>    
-      )      
-    
+    const found = favorites.find(
+      (element) => element._id === props.productObject._id
+    );
+    if (found) {
+      return (
+        <CardActions>
+          <IconButton
+            aria-label="add to favorites"
+            style={styles.favorites}
+            sx={{ color: "#DC9292" }}
+            onClick={() => {
+              CardService.removeFavorite({ product: props.productObject }).then(
+                (result) => {
+                  setFavorites([...favorites, result]);
+                }
+              );
+            }}
+          >
+            <FavoriteIcon />
+          </IconButton>
+        </CardActions>
+      );
+    } else {
+      return (
+        <CardActions>
+          <IconButton
+            aria-label="add to favorites"
+            style={styles.favorites}
+            sx={{ color: "grey" }}
+            onClick={() => {
+              CardService.setFavorites({ product: props.productObject }).then(
+                (result) => {
+                  setFavorites([...favorites, result]);
+                }
+              );
+            }}
+          >
+            <FavoriteIcon />
+          </IconButton>
+        </CardActions>
+      );
+    }
   }
-  else {
-    return(
-    <CardActions>
-        <IconButton
-          aria-label="add to favorites"
-          style={styles.favorites}
-          sx={{color:"grey"}}
-          onClick={() => {
-            CardService.setFavorites({product: props.productObject}).then(
-              (result) => {
-                setFavorites([...favorites, result]);
-                
-              }
-            )
-          }}
-        >
-          <FavoriteIcon />
-        </IconButton>
-      </CardActions> 
-    )
-  }
-  }
-  
 
   return (
     <div>
       <Box sx={{ flexGrow: 1, flexShrink: 1, position: "relative" }}>
-        <CardsFilterHeader 
-          colorFilter={colorFilter} setColorFilter={setColorFilter} 
-          vibeFilter={vibeFilter} setVibeFilter={setVibeFilter} 
-          styleFilter={styleFilter} setStyleFilter={setStyleFilter}
-          recipientsFilter={recipientsFilter} setRecipientsFilter={setRecipientsFilter}
-          occasionFilter={occasionFilter} setOccasionFilter={setOccasionFilter}
-          seasonFilter={seasonFilter} setSeasonFilter={setSeasonFilter}
-          sortFilter={sortFilter} setSortFilter={setSortFilter}/>
+        <CardsFilterHeader
+          colorFilter={colorFilter}
+          setColorFilter={setColorFilter}
+          vibeFilter={vibeFilter}
+          setVibeFilter={setVibeFilter}
+          styleFilter={styleFilter}
+          setStyleFilter={setStyleFilter}
+          recipientsFilter={recipientsFilter}
+          setRecipientsFilter={setRecipientsFilter}
+          occasionFilter={occasionFilter}
+          setOccasionFilter={setOccasionFilter}
+          seasonFilter={seasonFilter}
+          setSeasonFilter={setSeasonFilter}
+          sortFilter={sortFilter}
+          setSortFilter={setSortFilter}
+        />
       </Box>
       <Box
         sx={{
@@ -320,17 +308,15 @@ const Cards = () => {
       </Box>
       <Box sx={{ margin: "30px 30px 30px 30px" }}>
         <Typography variant="h4">All Cards:</Typography>
-          <div>
-          { filteredCards.length > 0 ? 
-            (
-              <Grid
-                container
-                rowSpacing={1}
-                columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-                sx={{ margin: "20px 10px 10px 10px" }}
-              >
+        <div>
+          {filteredCards.length > 0 ? (
+            <Grid
+              container
+              rowSpacing={1}
+              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+              sx={{ margin: "20px 10px 10px 10px" }}
+            >
               {filteredCards.map((product) => (
-              
                 <Grid item xs={3} key={product._id}>
                   <Card
                     sx={{
@@ -339,7 +325,10 @@ const Cards = () => {
                       bgcolor: "#F3F3F3",
                     }}
                   >
-                    <FavoriteButton productObject={product} res=""></FavoriteButton>
+                    <FavoriteButton
+                      productObject={product}
+                      res=""
+                    ></FavoriteButton>
                     <div
                       style={{
                         display: "flex",
@@ -376,7 +365,9 @@ const Cards = () => {
                       </Typography>
                     </CardContent>
                     <CardActions>
-                      <div style={{ display: "flex", justifyContent: "center" }}>
+                      <div
+                        style={{ display: "flex", justifyContent: "center" }}
+                      >
                         <Button
                           size="small"
                           variant="contained"
@@ -385,7 +376,6 @@ const Cards = () => {
                           onClick={() => {
                             navigate("/ViewCard/" + product._id);
                           }}
-                          
                         >
                           View
                         </Button>
@@ -403,14 +393,22 @@ const Cards = () => {
                       </div>
                     </CardActions>
                   </Card>
-                </Grid>))}
-              </Grid>
-            ): 
-            <Typography style={{alignContent:"center", marginLeft:"1%", marginTop:"1%", fontSize:"24px"}}>
+                </Grid>
+              ))}
+            </Grid>
+          ) : (
+            <Typography
+              style={{
+                alignContent: "center",
+                marginLeft: "1%",
+                marginTop: "1%",
+                fontSize: "24px",
+              }}
+            >
               No Cards Available.
-            </Typography>}
-            </div>
-        
+            </Typography>
+          )}
+        </div>
       </Box>
     </div>
   );
