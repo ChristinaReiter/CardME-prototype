@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
-import { TextField, Box, Button, Grid, Dialog, DialogTitle, Typography } from '@mui/material'; 
+import { TextField, Box, Button, Grid, Typography, Popover, Card, CardHeader, CardContent, CardActions, Stack, Badge } from '@mui/material'; 
 import EventService from '../services/EventService';
 import EventItem from './EventItem';
 import FullCalendar from '@fullcalendar/react' 
 import dayGridPlugin from '@fullcalendar/daygrid' 
-import PropTypes from 'prop-types';
-
-
-
-
+import CakeIcon from '@mui/icons-material/Cake';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import DescriptionIcon from '@mui/icons-material/Description';
+import MailIcon from '@mui/icons-material/Mail';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+//import OrderService from '../services/OrderService';
 
 
 
@@ -20,6 +22,21 @@ const Calendar = () => {
     const [eventDate, setEventDate] = useState('');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const [popTitle, setPopTitle] = useState('');
+    const [popDescription, setPopDescription] = useState('');
+    const [popDate, setPopDate] = useState('');
+    //const [orders, setOrders] = useState([]);
+
+ 
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
 
     const createEvent = (e) => {
       e.preventDefault();
@@ -38,25 +55,38 @@ const Calendar = () => {
               id: res.id
             }]);
         
-        console.log("Event created")
+        toast("Event created")
         }
       ).catch(
         () => {              
-          alert("Event not created");
+          toast("Event not created");
         }
       );
     }
   
 
     const handleEventClick = (info) => {
-      let day = info.event.start.toString().split("00:")[0]    
+      let day = info.event.start.toString().split("00:")[0] 
+      setAnchorEl(info.el)
+      setPopTitle(info.event.title)
+      setPopDescription(info.event.extendedProps.description)
+      setPopDate(day)
+         
 
-      alert(`Title: ${info.event.title}\nDate: ${day}\nDescription: ${info.event.extendedProps.description}`)
+      
 
     }
 
     const renderEventContent = (eventInfo) => {
-      //return (<Typography variant="h5">{eventInfo.event.title}</Typography>)
+    
+
+      //const ordered = orders.filter(order => order.deliverydate == eventInfo.event.start)
+      return (<><Badge variant="dot"  color="secondary">
+      <MailIcon/>
+    </Badge>
+      <Typography variant="h6">{eventInfo.event.title}</Typography>
+      </>)
+     
     }
 
      useEffect(() => {
@@ -73,6 +103,9 @@ const Calendar = () => {
             })
             setCalEvents(array);            
         })
+        /* OrderService.getOrders().then(res => {
+          setOrders(res);
+        }) */
     }, []);
     
     
@@ -130,9 +163,39 @@ const Calendar = () => {
         eventClick={(info) => {handleEventClick(info)}}
         eventContent={renderEventContent}
       />
+
+<Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+      >
+        <Card variant="outlined" sx={{ pl: 1 }}>
+         <CardHeader       
+           subheader="Event Details"/>
+          <CardContent>
+          <Stack sx={{pb:1}} direction="row" alignItems="center" gap={1}>
+            <CakeIcon/>
+            <Typography variant="body1">{popTitle}</Typography>
+          </Stack>
+          <Stack sx={{pb:1}} direction="row" alignItems="center" gap={1}>
+            <CalendarTodayIcon />
+            <Typography variant="body1">{popDate}</Typography>
+          </Stack>
+          <Stack direction="row" alignItems="center" gap={1}>
+            <DescriptionIcon />
+            <Typography variant="body1">{popDescription}</Typography>
+          </Stack>       
+        </CardContent>            
+        </Card>
+      </Popover>
       </Box>
       
-      
+      <ToastContainer />  
 
 
       <Box>

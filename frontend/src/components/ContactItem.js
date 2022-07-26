@@ -16,6 +16,8 @@ import UpdateIcon from "@mui/icons-material/Update";
 import AddressService from "../services/AddressService";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import CheckoutService from "../services/CheckoutService";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function ContactItem({ contact, changeContact, allContacts }) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -47,8 +49,7 @@ function ContactItem({ contact, changeContact, allContacts }) {
 
   const deleteContact = (id) => {
     AcquaintanceService.deleteAcquaintance({ id }).then(() => {
-      //alert("Contact deleted");
-      console.log("Contact deleted");
+      toast("Contact deleted");
       const updated = allContacts.filter((con) => con._id !== id);
       changeContact(updated);
     });
@@ -84,9 +85,8 @@ function ContactItem({ contact, changeContact, allContacts }) {
     };
 
     AcquaintanceService.updateAcquaintance({ data, id }).then((res) => {
-      //alert("Contact updated");
-      console.log(res);
-      console.log("Contact updated");
+    
+      toast("Contact updated");
 
       changeContact((prevState) => {
         const updated = prevState.map((con) => {
@@ -249,6 +249,7 @@ function ContactItem({ contact, changeContact, allContacts }) {
           <Typography padding="1em">Contact will be used in checkout</Typography>
         </Popover>
       </Card>
+      <ToastContainer />  
     </div>
   );
 }

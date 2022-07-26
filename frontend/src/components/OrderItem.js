@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Typography, Button, Card, CardHeader, CardContent, CardActions } from '@mui/material'
+import { Typography, Button, Card, CardHeader, CardContent, CardActions, Chip } from '@mui/material'
 import SubscriptionService from '../services/SubscriptionService'
 import AddressService from '../services/AddressService'
 
@@ -11,19 +11,9 @@ function OrderItem({ order }) {
   const [country, setCountry] = useState('');
   const [streetNumber, setStreetNumber] = useState('');
 
-  const subscribe = (id) => {
-    SubscriptionService.setSubscription({id}).then(res => {
-      console.log(res)
-      setIsSub(true)
-    }).catch(err => {
-      console.log(err)
-    }
-    )
-
-  }
 
   useEffect(() => {
-    console.log(order.products)
+    
     SubscriptionService.getSubscriptions().then(res => {
       const check = res.filter(sub => sub.order == order._id);      
       if (check.length > 0){
@@ -61,7 +51,7 @@ function OrderItem({ order }) {
           <Typography variant="h6">Details:</Typography>
           <Typography variant="body1">Delivery Date: {order.deliveryDate.split('T')[0]}</Typography>
           <Typography variant="body1">Product: {order.products.cardTitle}</Typography>
-          <Typography variant="body1">Price: {order.products.cardPrice+order.products.giftPrice}€</Typography>
+          <Typography variant="body1">Price: {order.total}€</Typography>
           <Typography variant="body1">Delivery Address: </Typography>
           <Typography variant="body1">{street} {streetNumber}</Typography>
           <Typography variant="body1">{zipCode} {city} </Typography>
@@ -69,12 +59,12 @@ function OrderItem({ order }) {
         </CardContent>
         <CardActions disableSpacing>
         {isSub ?   
-            (<Button  color="secondary" variant="contained" disabled>Already Subscribed!</Button>):
-            (<Button onClick={() => subscribe(order._id)} color="secondary" variant="contained">Set as Subscription</Button>)}
+            (<Chip  color="secondary" label ="Already Subscribed!" />):
+            (<Chip  color="secondary" label="Not Subscribed" />)}
         </CardActions>
       </Card>    
    </div> 
-   </> // still missing: maybe Nr. instead of ID, status, total
+   </> 
   )
 }
 

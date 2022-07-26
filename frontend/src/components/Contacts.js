@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { TextField, Box, Button, Grid, Typography } from '@mui/material'; 
 import AcquaintanceService from '../services/AcquaintanceService';
 import ContactItem from './ContactItem';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Contacts = () => {
@@ -19,11 +21,11 @@ const Contacts = () => {
       AcquaintanceService.setAcquaintance({ name, street, streetNumber, zipCode, city, country}).then(
         res => {  
           setContacts([...contacts, res]);
-        console.log("Contact created")
+        toast("Contact created")
         }
       ).catch(
         () => {              
-          alert("Contact not created");
+          toast("Contact not created");
         }
       );
     }
@@ -117,6 +119,7 @@ const Contacts = () => {
           ) : (<Typography variant="h5" sx={{ pl: "25px", pr:"25px"}}> You have no Contacts </Typography>)}
 
       </Box>
+      <ToastContainer />  
       </>
     );
   };

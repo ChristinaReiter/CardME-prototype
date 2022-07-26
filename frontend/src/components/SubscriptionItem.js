@@ -11,6 +11,8 @@ import {
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import SubscriptionService from "../services/SubscriptionService";
 import PayPalService from "../services/PayPalService";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function SubscriptionItem({
   subscription,
@@ -20,7 +22,7 @@ function SubscriptionItem({
   const deleteSubscription = async (id, paypalId) => {
     await PayPalService.cancelSubscription(paypalId);
     await SubscriptionService.deleteSubscription({ id });
-    console.log("Subscription deleted");
+    toast("Subscription deleted");
     const updated = allSubscriptions.filter((sub) => sub._id !== id);
     changeSubscription(updated);
   };
@@ -56,7 +58,8 @@ function SubscriptionItem({
         </Button>   */}
       </div>
       <p></p>
-    </> // still missing: maybe Nr. instead of ID, status, total
+      <ToastContainer />  
+    </> 
   );
 }
 
