@@ -82,6 +82,8 @@ function App() {
   // State of chosen gift
   const [chosenGift, setChosenGift] = useState(null);
 
+  const [popoverDrafts, setPopoverDrafts] = useState("none");
+
   const createComponent = (<Create
         image={image}
         setImage={setImage}
@@ -124,7 +126,6 @@ function App() {
       />
   )
 
-  const [popoverDrafts, setPopoverDrafts] = useState("none");
   return (
     <div>
       <ThemeProvider theme={theme}>
