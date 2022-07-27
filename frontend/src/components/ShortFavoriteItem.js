@@ -53,7 +53,12 @@ function ShortFavoriteItem() {
         <Box justify="flex-end">
           <Typography variant="h5">Recent Favorites</Typography>
           <div style={{background: "#D9D9D9", marginBottom:"20px", width:"100%", height:"200px", display:"flex", flexOrientation:"column", justifyContent: "center"}}>
-            {favorites.slice(favorites.length - shortFavoriteLength, favorites.length).map((fave) => {
+            {shortFavoriteLength === 0 ? 
+            <div style={{marginTop:"70px"}}>
+              <Typography style={{fontSize:"20px"}}>No Favorites.</Typography> 
+            </div>
+          : 
+            favorites.slice(favorites.length - shortFavoriteLength, favorites.length).map((fave) => {
               return(
               <Button key = {fave._id} style={{display:"flex", flexDirection:"column", color:"black"}}
                 onClick={() => {
@@ -89,6 +94,7 @@ function ShortFavoriteItem() {
               </Button>
               )
             })}
+            
           </div>
         <Box justifyContent="flex-end">
         <Button  variant="contained" color="secondary"onClick={seeFavorites}>View all Favorites</Button>

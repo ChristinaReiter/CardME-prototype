@@ -165,7 +165,7 @@ const AccountDetails = () => {
         <form onSubmit={changePw}>
             <TextField 
                 sx={{ m: 1 }}
-                type="text"
+                type="password"
                 label="Current Password"
                 name="password"
                 value={password}
@@ -174,7 +174,7 @@ const AccountDetails = () => {
             </TextField>
             <TextField 
                 sx={{ m: 1 }}
-                type="text"
+                type="password"
                 label="New Password"
                 name="newPassword"
                 value={newPassword}
