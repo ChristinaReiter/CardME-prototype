@@ -11,7 +11,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CheckoutData from "./components/CheckoutData";
 import { Box } from "@mui/system";
 import CheckoutOverview from "./components/CheckoutOverview";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Orders from "./components/Orders";
 import Subscriptions from "./components/Subscriptions";
 import View from "./components/View";
@@ -51,6 +51,13 @@ export const theme = createTheme({
 function App() {
   const [currentAccount, setCurrentAccount] = useState(undefined);
   const [popoverDrafts, setPopoverDrafts] = useState("none");
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setPopoverDrafts("none");
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [popoverDrafts]);
+
   return (
     <div>
       <ThemeProvider theme={theme}>

@@ -9,7 +9,7 @@ import ShoppingCartService from "../services/ShoppingCartService";
 import { useParams } from "react-router-dom";
 import CardService from "../services/CardService";
 
-const Create = (popoverDrafts, setPopoverDrafts) => {
+const Create = ({ popoverDrafts, setPopoverDrafts }) => {
   const { cardStyle, id, mode } = useParams();
   const [text, setText] = useState(null);
   const [product, setProduct] = useState();
