@@ -2,9 +2,9 @@ const Account = require("../models/account");
 
 const getFavorite = async (req, res) => { //TODO
     try {
-      if (!req.query.id) { 
+      /* if (!req.query.id) { 
         return res.status(400).json({error:"Missing Values"});
-      }
+      } */
       
       const account = await Account.findById(req.account.id);
       if (!account) {

@@ -1,5 +1,5 @@
 
-import { Box, Grid, Paper, Typography, Stack } from '@mui/material'
+import { Grid, Typography, Stack } from '@mui/material'
 import ShortOrder from './ShortOrder';
 import ShortCalendar from './ShortCalendar';
 import ShortFavoriteItem from './ShortFavoriteItem';
@@ -19,13 +19,13 @@ const View = () => {
    
 
       <Grid container sx={{pl: "25px", pr:"25px"}} >
-       <Grid item xs={6} sx={{pr:"30px"}} >
-         <ShortCalendar/>
+       <Grid key= "1" item xs={6} sx={{pr:"30px"}} >
+         <ShortCalendar key = "6"/>
        </Grid>
-       <Grid item xs={6} >
-        <Stack spacing={4}>
-          <ShortOrder/>
-          <ShortFavoriteItem/>
+       <Grid key = "2" item xs={6} >
+        <Stack key = "3" spacing={4}>
+          <ShortOrder key = "4"/>
+          <ShortFavoriteItem key = "5"/>
         </Stack>
        </Grid>
      </Grid> 
