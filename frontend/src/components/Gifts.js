@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import GiftsFilterHeader from "./GiftsFilterHeader";
 import AuthService from "../services/AuthService";
 import { ToastContainer, toast } from 'react-toastify';
+import Product from "./Product";
 
 const Gifts = () => {
   const imageUrl = "http://localhost:3001/public/";
@@ -278,91 +279,7 @@ const Gifts = () => {
           style={SearchBarStyle}
         ></Input>
       </Box>
-      <Box sx={{ margin: "30px 30px 30px 30px" }}>
-        <Typography variant="h4">All Gifts:</Typography>
-          <div>
-          { filteredCards.length > 0 ? 
-            (
-              <Grid
-                container
-                spacing = {2}
-                style={{width:"100%", marginTop: "2%"}}
-              >
-              {filteredCards.map((product) => (
-              
-                <Grid item xs={3} key={product._id} style={{marginLeft:"5%", marginBottom:"2%"}}>
-                  <Card
-                    sx={{
-                      width: 300,
-                      height: 430,
-                      bgcolor: "#F3F3F3",
-                    }}
-                  >
-                    <FavoriteButton productObject={product} res=""></FavoriteButton>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <CardMedia
-                        style={styles.image}
-                        component="img"
-                        sx={{ width: 240, height: 220, objectFit: "cover" }}
-                        src={imageUrl + product.foldername + "/" + product.url}
-                        alt="Card-Preview"
-                        crossOrigin="anonymous"
-                      />
-                    </div>
-                    <CardContent>
-                      <Typography
-                        fontFamily={"Antic"}
-                        fontSize="20px"
-                        fontWeight={"500"}
-                        textAlign="center"
-                        component="div"
-                      >
-                        {product.title}
-                      </Typography>
-                    </CardContent>
-                    <CardActions>
-                      <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
-                        <Button
-                          size="small"
-                          variant="contained"
-                          color="secondary"
-                          style={styles.button}
-                          onClick={() => {
-                            navigate("/ViewGift/" + product._id);
-                          }}
-                          
-                        >
-                          View
-                        </Button>
-                        <Button
-                          size="small"
-                          variant="contained"
-                          color="secondary"
-                          style={styles.button}
-                          onClick={() => {
-                            addProductToCart(product);
-                          }}
-                        >
-                          Add
-                        </Button>
-                      </div>
-                    </CardActions>
-                  </Card>
-                </Grid>))}
-              </Grid>
-            ): 
-            <Typography style={{alignContent:"center", marginLeft:"1%", marginTop:"1%", fontSize:"24px"}}>
-              No Gifts Available.
-            </Typography>}
-            </div>
-        
-      </Box>
+      <Product products={products} gift={true} headerfilter={null} />
       <ToastContainer />
     </div>
   );

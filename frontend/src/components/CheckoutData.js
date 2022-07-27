@@ -66,7 +66,7 @@ const CheckoutData = () => {
   const handleToggle = (event) => {
     const value = event.target.checked;
 
-    if(value){
+    if(value && account === null){
       setAccountError(true)
     }else{
       setAccountError(false)
@@ -89,9 +89,9 @@ const CheckoutData = () => {
   }
 
   const handleSubmit = (event) => {
-    if(!accountError){
-      event.preventDefault();
+    event.preventDefault();
 
+    if(!accountError){
       CheckoutService.setData(checkoutData);
       navigate("/checkout-overview/" + id);
     }

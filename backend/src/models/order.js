@@ -31,11 +31,14 @@ const OrderSchema = new mongoose.Schema({
   products: {
     type: Object
   },
+  imageSrc: {
+    type: String,
+    required: true
+  },
   total: {
     type: Number,
     required: true
   }
- //Subscription?
 });
 
 OrderSchema.set("versionKey", false);

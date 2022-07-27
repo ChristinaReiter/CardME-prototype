@@ -24,6 +24,7 @@ import SuccessfulOrder from "./components/SuccessfulOrder";
 import ViewCard from "./components/ViewCard";
 import ViewGift from "./components/ViewGift";
 import Gifts from "./components/Gifts";
+import ViewProduct from "./components/ViewProduct";
 
 export const theme = createTheme({
   palette: {
@@ -64,6 +65,8 @@ function App() {
               <Route path="/ViewCard/:cardid" element={<ViewCard />} />
               <Route path="/ViewCard/:headerfilter/:cardid" element={<ViewCard />} />
               <Route path="/ViewGift/:giftid" element={<ViewGift />} />
+              <Route path="/ViewProduct/:producttype/:productid" element={<ViewProduct />} />
+              <Route path="/ViewProduct/:producttype/:headerfile/:productid" element={<ViewProduct />} />
               <Route exact path ="/gifts" element={<Gifts />} />
               <Route
                 path="/create/:cardStyle/:id"
