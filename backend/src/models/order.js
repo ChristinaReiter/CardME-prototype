@@ -6,6 +6,10 @@ const OrderSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  dateCreated: {
+    type: Date,
+    required: true,
+  },
   billingAddress: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Address",

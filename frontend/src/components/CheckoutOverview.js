@@ -28,6 +28,7 @@ const CheckoutOverview = () => {
   const [subscriptionPlan, setSubscriptionPlan] = useState(null);
   const [startingDate, setStartingDate] = useState(null);
   const [paymentError, setPaymentError] = useState(false);
+  const [orderError, setOrderError] = useState(false);
   const { id } = useParams();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -75,6 +76,8 @@ const CheckoutOverview = () => {
       CheckoutService.removeData();
       ShoppingCartService.removeItem(id);
       navigate("/successful-order/" + response.order._id);
+    } else {
+      setOrderError(true)
     }
   };
 
@@ -94,25 +97,33 @@ const CheckoutOverview = () => {
       account = currentUser;
     }
 
-    if (order.response === "success" && order.order._id && account && account._id) {
+    if (
+      order.response === "success" &&
+      order.order._id &&
+      account &&
+      account._id
+    ) {
       const subscription = await SubscriptionService.setSubscription({
         order: order.order._id,
         account: account._id,
         paypalSubscription: subscriptionId,
       });
 
-      if(subscription !== null){
+      if (subscription !== null) {
         CheckoutService.removeData();
         ShoppingCartService.removeItem(id);
         navigate("/successful-order/" + order.order._id);
+      }else{
+        setOrderError(true)
       }
     } else {
       console.log("Subscription error");
+      setOrderError(true)
     }
   };
 
   const handleFailedCheckout = (error) => {
-    console.log(error)
+    console.log(error);
     setPaymentError(true);
   };
 
@@ -438,7 +449,7 @@ const CheckoutOverview = () => {
                     });
                   }}
                   onApprove={(data, actions) => {
-                      handleSuccessfulSubscription(data.subscriptionID);
+                    handleSuccessfulSubscription(data.subscriptionID);
                   }}
                   onError={(error) => {
                     handleFailedCheckout(error);
@@ -458,7 +469,22 @@ const CheckoutOverview = () => {
         <DialogTitle id="alert-dialog-title">{"Payment Error"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            There was an error during payment, please try again
+            There was an error during payment, please refresh the site and try
+            again
+          </DialogContentText>
+        </DialogContent>
+      </Dialog>
+      <Dialog
+        open={orderError}
+        onClose={() => setOrderError(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Order Error"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            There was an error creating the order, please try
+            again
           </DialogContentText>
         </DialogContent>
       </Dialog>
