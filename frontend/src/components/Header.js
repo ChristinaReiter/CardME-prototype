@@ -115,7 +115,9 @@ const Header = ({
             </NavLink>
             <NavLink
               style={styles.menuText}
-              to={"/create/own/" + Math.floor(Math.random() * 100000000) + "/new"}
+              to={
+                "/create/own/" + Math.floor(Math.random() * 100000000) + "/new"
+              }
             >
               Create
             </NavLink>
@@ -214,12 +216,14 @@ const Header = ({
                     key={item.id}
                   >
                     <Grid item xs={4}>
-                      <img
-                        src={URL.createObjectURL(item.cardImage)}
-                        width="80%"
-                        alt="Product"
-                        style={item.cardImageFilters}
-                      ></img>
+                      <Box width="65px" overflow="hidden" height="100px">
+                        <img
+                          src={URL.createObjectURL(item.cardImage)}
+                          width="65px"
+                          alt="Product"
+                          style={item.cardImageFilters}
+                        ></img>
+                      </Box>
                     </Grid>
                     <Grid item xs={8} textAlign="right">
                       <Typography>{item.cardTitle}</Typography>

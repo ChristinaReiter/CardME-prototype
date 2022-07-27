@@ -45,6 +45,7 @@ const styles = {
       "2px 2px 30px rgba(0, 0, 0, 0.1), -2px -2px 30px rgba(0, 0, 0, 0.1)",
     marginTop: "40px",
     marginDown: "40px",
+    overflow: "hidden"
   },
   image: {
     position: "relative",
