@@ -14,10 +14,11 @@ import CardService from "../services/CardService";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useNavigate, useParams } from "react-router-dom";
 import AuthService from "../services/AuthService";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 import FavoriteButton from "./FavoriteButton";
 
-const Product = ({products, gift, headerfilter}) => {
+const Product = ({ products, gift, headerfilter, setChosenGift }) => {
+  const { path, cardStyle, id, mode } = useParams();
   const imageUrl = "http://localhost:3001/public/";
   const [favorites, setFavorites] = useState([]);
   const [userID, setUserID] = useState();
@@ -46,14 +47,14 @@ const Product = ({products, gift, headerfilter}) => {
 
   const styles = {
     cardstyle: {
-        width: 270,
-        height: 430,
-        background: "#F3F3F3",
+      width: 270,
+      height: 430,
+      background: "#F3F3F3",
     },
     giftstyle: {
-        width: 300,
-        height: 430,
-        background: "#F3F3F3",
+      width: 300,
+      height: 430,
+      background: "#F3F3F3",
     },
     button: {
       fontFamily: "Annie Use Your Telescope",
@@ -67,30 +68,42 @@ const Product = ({products, gift, headerfilter}) => {
     },
     cardimage: {
       objectFit: "cover",
-      width: 146.67, 
-      height: 220
+      width: 146.67,
+      height: 220,
     },
     giftimage: {
-        objectFit: "cover",
-        width: 240, 
-        height: 220
-      },
+      objectFit: "cover",
+      width: 240,
+      height: 220,
+    },
   };
 
   const addProductToCart = async (product) => {
-    //let index = await ShoppingCartService.addItem(product);
-    navigate("/create/chosen/" + product._id);
+    if (gift) {
+      setChosenGift(product);
+      navigate(
+        "/" +
+          path +
+          "/" +
+          cardStyle +
+          "/" +
+          id +
+          (mode !== undefined && mode !== "new" ? "/" + mode : "")
+      );
+    } else {
+      navigate("/create/chosen/" + product._id + "/new");
+    }
   };
 
   return (
-    <div>     
-      
+    <div>
       <Box sx={{ margin: "30px 30px 30px 30px" }}>
-        {gift? 
-            <Typography variant="h4">All Gifts:</Typography> : 
-            <Typography variant="h4">All Cards:</Typography>
-        }
-        
+        {gift ? (
+          <Typography variant="h4">All Gifts:</Typography>
+        ) : (
+          <Typography variant="h4">All Cards:</Typography>
+        )}
+
         <div>
           {products.length > 0 ? (
             <Grid
@@ -100,88 +113,107 @@ const Product = ({products, gift, headerfilter}) => {
               sx={{ margin: "20px 10px 10px 10px" }}
             >
               {products.map((product) => (
-                <Grid item xs={3} key={product._id} style={{marginLeft:"5%", marginBottom:"2%"}}>
-                    <Card
-                        style={gift? styles.giftstyle : styles.cardstyle}
+                <Grid
+                  item
+                  xs={3}
+                  key={product._id}
+                  style={{ marginLeft: "5%", marginBottom: "2%" }}
+                >
+                  <Card style={gift ? styles.giftstyle : styles.cardstyle}>
+                    <CardActions>
+                      <FavoriteButton
+                        productObject={product}
+                        favorites={favorites}
+                        setFavorites={setFavorites}
+                        userID={userID}
+                        singleProduct={false}
+                      ></FavoriteButton>
+                    </CardActions>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
                     >
-                      <CardActions>
-                        <FavoriteButton productObject={product} favorites={favorites} setFavorites={setFavorites} userID={userID} singleProduct={false}></FavoriteButton>
-                      </CardActions>
-                        
-                        <div
-                        style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                        }}
+                      <CardMedia
+                        style={gift ? styles.giftimage : styles.cardimage}
+                        component="img"
+                        src={imageUrl + product.foldername + "/" + product.url}
+                        alt="Card-Preview"
+                        crossOrigin="anonymous"
+                      />
+                    </div>
+                    <CardContent>
+                      <Typography
+                        fontFamily={"Antic"}
+                        fontSize="20px"
+                        fontWeight={"500"}
+                        textAlign="center"
+                        component="div"
+                      >
+                        {product.title}
+                      </Typography>
+                      {gift ? (
+                        <></>
+                      ) : (
+                        <Typography
+                          fontFamily={"Antic"}
+                          fontSize="16px"
+                          textAlign={"center"}
+                          component="div"
                         >
-                        <CardMedia
-                            style={gift? styles.giftimage : styles.cardimage}
-                            component="img"
-                            src={imageUrl + product.foldername + "/" + product.url}
-                            alt="Card-Preview"
-                            crossOrigin="anonymous"
-                        />
-                        </div>
-                        <CardContent>
-                            <Typography
-                                fontFamily={"Antic"}
-                                fontSize="20px"
-                                fontWeight={"500"}
-                                textAlign="center"
-                                component="div"
-                            >
-                                {product.title}
-                            </Typography>
-                            {gift? 
-                                <></> : 
-                                <Typography
-                                    fontFamily={"Antic"}
-                                    fontSize="16px"
-                                    textAlign={"center"}
-                                    component="div"
-                                >
-                                    by {product.designer}
-                                </Typography>
+                          by {product.designer}
+                        </Typography>
+                      )}
+                    </CardContent>
+                    <CardActions>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          width: "100%",
+                        }}
+                      >
+                        <Button
+                          size="small"
+                          variant="contained"
+                          color="secondary"
+                          style={styles.button}
+                          onClick={() => {
+                            if (gift) {
+                              navigate("/ViewProduct/gift/" + product._id);
+                            } else {
+                              if (headerfilter) {
+                                navigate(
+                                  "/ViewProduct/card/" +
+                                    headerfilter +
+                                    "/" +
+                                    product._id
+                                );
+                              } else {
+                                navigate("/ViewProduct/card/" + product._id);
+                              }
                             }
-                        </CardContent>
-                        <CardActions>
-                            <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
-                                <Button
-                                    size="small"
-                                    variant="contained"
-                                    color="secondary"
-                                    style={styles.button}
-                                    onClick={() => {
-                                        if(gift) {
-                                            navigate("/ViewProduct/gift/" + product._id);
-                                        }
-                                        else {
-                                            if(headerfilter) {
-                                                navigate("/ViewProduct/card/" + headerfilter + "/" + product._id);
-                                            }
-                                            else {
-                                                navigate("/ViewProduct/card/" + product._id);
-                                            }
-                                        }
-                                    }}  
-                                >
-                                    View
-                                </Button>
-                                <Button
-                                    size="small"
-                                    variant="contained"
-                                    color="secondary"
-                                    style={styles.button}
-                                    onClick={() => {
-                                        addProductToCart(product);
-                                    }}
-                                >
-                                    {gift? "Add" : "Write"}
-                                </Button>
-                            </div>
-                        </CardActions>
-                    </Card>
+                          }}
+                        >
+                          View
+                        </Button>
+                        <Button
+                          size="small"
+                          variant="contained"
+                          color="secondary"
+                          style={styles.button}
+                          onClick={() => {
+                            addProductToCart(product);
+                          }}
+                        >
+                          {gift ? "Add" : "Write"}
+                        </Button>
+                      </div>
+                    </CardActions>
+                  </Card>
                 </Grid>
               ))}
             </Grid>
@@ -194,7 +226,7 @@ const Product = ({products, gift, headerfilter}) => {
                 fontSize: "24px",
               }}
             >
-                {gift? "No Gifts Available." : "No Cards Available-"}
+              {gift ? "No Gifts Available." : "No Cards Available-"}
             </Typography>
           )}
         </div>

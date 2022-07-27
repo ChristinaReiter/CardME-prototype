@@ -8,6 +8,7 @@ import {
   Grid,
 } from "@mui/material";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import AddGift from "./../assets/images/addGift.png";
 
 //TODO: If Gift added, show Gift and Button to remove Gift
@@ -68,7 +69,9 @@ const styles = {
   },
 };
 
-const CreateAddGift = () => {
+const CreateAddGift = ({mode, cardStyle, id, chosenGift}) => {
+  const navigate = useNavigate()
+
   return (
     <Box sx={{ flexGrow: 1, flexShrink: 1 }}>
       <Typography fontStyle="Annie Use Your Telescope">
@@ -93,7 +96,8 @@ const CreateAddGift = () => {
             <img src={AddGift} alt="addGift" style={styles.image} />
           </Grid>
           <Grid item xs={4}>
-            <Button style={styles.button} variant="contained" color="secondary">
+            {chosenGift && (chosenGift._id)}
+            <Button style={styles.button} variant="contained" color="secondary" onClick={() => {navigate("/gifts/create/" + cardStyle + "/" + id + (mode !== undefined ? ("/" + mode) : ""))}}>
               Browse gifts
             </Button>
           </Grid>

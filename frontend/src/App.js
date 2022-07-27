@@ -49,30 +49,115 @@ export const theme = createTheme({
 });
 
 function App() {
-
   const [currentAccount, setCurrentAccount] = useState(undefined);
+
+  // Used to save images (both own and chosen)
+  const [image, setImage] = useState(null);
+  // Individual style attributes of the own image
+  const [rotation, setRotation] = useState(0);
+  const [brightness, setBrightness] = useState(100);
+  const [contrast, setContrast] = useState(100);
+  const [saturate, setSaturate] = useState(100);
+  const [grayscale, setGrayscale] = useState(0);
+  const [sepia, setSepia] = useState(0);
+  const [cardwidth, setCardwidth] = useState(240);
+  const [cardheight, setCardheight] = useState(300);
+
+  // Applied style of the own image
+  const [imageFilters, setImageFilters] = useState(null);
+
+  // Text state
+  const [text, setText] = useState(null);
+
+  // Individual style attributes of the text
+  const [fontstyle, setfontstyle] = useState("Annie Use Your Telescope");
+  const [fontcolor, setfontcolor] = useState("black");
+  const [fontsize, setfontsize] = useState(20);
+  const [fontalign, setfontalign] = useState("left");
+  const [lineHeight, setlineHeight] = useState(1);
+
+  // Applied style of the text
+  const [textFilters, setTextFilters] = useState(null);
+
+  // State of chosen gift
+  const [chosenGift, setChosenGift] = useState(null);
+
+  const createComponent = (<Create
+        image={image}
+        setImage={setImage}
+        text={text}
+        setText={setText}
+        rotation={rotation}
+        setRotation={setRotation}
+        brightness={brightness}
+        setBrightness={setBrightness}
+        contrast={contrast}
+        setContrast={setContrast}
+        saturate={saturate}
+        setSaturate={setSaturate}
+        grayscale={grayscale}
+        setGrayscale={setGrayscale}
+        sepia={sepia}
+        setSepia={setSepia}
+        imageFilters={imageFilters}
+        setImageFilters={setImageFilters}
+        cardheight={cardheight}
+        setCardheight={setCardheight}
+        cardwidth={cardwidth}
+        setCardwidth={setCardwidth}
+        fontstyle={fontstyle}
+        setfontstyle={setfontstyle}
+        fontcolor={fontcolor}
+        setfontcolor={setfontcolor}
+        fontsize={fontsize}
+        setfontsize={setfontsize}
+        fontalign={fontalign}
+        setfontalign={setfontalign}
+        textFilters={textFilters}
+        setTextFilters={setTextFilters}
+        lineHeight={lineHeight}
+        setlineHeight={setlineHeight}
+        chosenGift={chosenGift}
+        setChosenGift={setChosenGift}
+      />
+  )
 
   return (
     <div>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <Header currentAccount={currentAccount} setCurrentAccount={setCurrentAccount}/>
+          <Header
+            currentAccount={currentAccount}
+            setCurrentAccount={setCurrentAccount}
+          />
           <Box sx={{ mt: 6, position: "static" }}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route exact path="/cards" element={<Cards />} />
               <Route exact path="/cards/:headerfilter" element={<Cards />} />
               <Route path="/ViewCard/:cardid" element={<ViewCard />} />
-              <Route path="/ViewCard/:headerfilter/:cardid" element={<ViewCard />} />
-              <Route path="/ViewGift/:giftid" element={<ViewGift />} />
-              <Route path="/ViewProduct/:producttype/:productid" element={<ViewProduct />} />
-              <Route path="/ViewProduct/:producttype/:headerfile/:productid" element={<ViewProduct />} />
-              <Route exact path ="/gifts" element={<Gifts />} />
               <Route
-                path="/create/:cardStyle/:id"
+                path="/ViewCard/:headerfilter/:cardid"
+                element={<ViewCard />}
+              />
+              <Route path="/ViewGift/:giftid" element={<ViewGift />} />
+              <Route
+                path="/ViewProduct/:producttype/:productid"
+                element={<ViewProduct />}
+              />
+              <Route
+                path="/ViewProduct/:producttype/:headerfile/:productid"
+                element={<ViewProduct />}
+              />
+              <Route
+                path="/gifts/:path/:cardStyle/:id/"
               >
-                <Route path="" element={<Create />}></Route>
-                <Route path=":mode" element={<Create />}></Route>
+                <Route path="" element={<Gifts setChosenGift={setChosenGift}/>}></Route>
+                <Route path=":mode" element={<Gifts setChosenGift={setChosenGift}/>}></Route>
+              </Route>
+              <Route path="/create/:cardStyle/:id">
+                <Route path="" element={createComponent}></Route>
+                <Route path=":mode" element={createComponent}></Route>
               </Route>
               <Route
                 exact
@@ -82,9 +167,17 @@ function App() {
               <Route
                 exact
                 path="/checkout-overview/:id"
-                element={<CheckoutOverview/>}
+                element={<CheckoutOverview />}
               />
-              <Route path="profile" element={<ProfileOverview currentAccount={currentAccount} setCurrentAccount={setCurrentAccount}/>}>
+              <Route
+                path="profile"
+                element={
+                  <ProfileOverview
+                    currentAccount={currentAccount}
+                    setCurrentAccount={setCurrentAccount}
+                  />
+                }
+              >
                 <Route path="view" element={<View />} />
                 <Route path="orders" element={<Orders />} />
                 <Route path="subscriptions" element={<Subscriptions />} />
@@ -94,7 +187,11 @@ function App() {
                 <Route path="details" element={<Details />} />
               </Route>
               <Route exact path="/register" element={<Register />} />
-              <Route exact path="/login" element={<Login setCurrentAccount={setCurrentAccount}/>} />
+              <Route
+                exact
+                path="/login"
+                element={<Login setCurrentAccount={setCurrentAccount} />}
+              />
               <Route
                 exact
                 path="/successful-order/:id"

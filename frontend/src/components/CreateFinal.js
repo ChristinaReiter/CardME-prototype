@@ -85,6 +85,7 @@ const CreateFinal = ({
   cardheight,
   cardwidth,
   lineHeight,
+  chosenGift
 }) => {
   const [viewState, setViewState] = React.useState(true);
   // For internal image display
@@ -110,7 +111,17 @@ const CreateFinal = ({
         fontStyle: fontstyle,
         lineHeight: lineHeight,
       },
+      giftId: null,
+      giftPrice: 0,
+      giftImage: null
     };
+
+    if(chosenGift !== null){
+      itemToAdd.giftId = chosenGift._id
+      itemToAdd.giftPrice = chosenGift.price
+      itemToAdd.giftImage = chosenGift.url
+    }
+
     if (cardStyle === "own") {
       itemToAdd.title = "Own Card";
       itemToAdd.price = 5.9;
@@ -163,7 +174,15 @@ const CreateFinal = ({
         cardheight: cardheight,
         cardwidth: cardwidth,
       },
+      giftId: null,
+      giftPrice: 0,
+      giftImage: null
     };
+    if(chosenGift !== null){
+      changedFields.giftId = chosenGift._id
+      changedFields.giftPrice = chosenGift.price
+      changedFields.giftImage = chosenGift.url
+    }
     if (cardStyle === "own") {
       changedFields.cardImage = image;
     }
