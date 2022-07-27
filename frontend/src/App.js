@@ -76,6 +76,23 @@ function App() {
   const [fontalign, setfontalign] = useState("left");
   const [lineHeight, setlineHeight] = useState(1);
 
+  //filter and seacrh component for cards
+  const [searchTerm, setSearchTerm] = useState([]);
+  const [colorFilter, setColorFilter] = useState({});
+  const [vibeFilter, setVibeFilter] = useState({});
+  const [styleFilter, setStyleFilter] = useState({});
+  const [recipientsFilter, setRecipientsFilter] = useState({});
+  const [occasionFilter, setOccasionFilter] = useState({});
+  const [seasonFilter, setSeasonFilter] = useState({});
+  const [sortFilter, setSortFilter] = useState("trending");
+
+  //filter and search component for gifts
+  const [giftSearchTerm, setGiftSearchTerm] = useState([]);
+  const [giftSizeFilter, setGiftSizeFilter] = useState({});
+  const [giftPriceFilter, setGiftPriceFilter] = useState({});
+  const [giftSortFilter, setGiftSortFilter] = useState([]);
+  const [giftOccasionFilter, setGiftOccasionFilter] = useState({});
+
   // Applied style of the text
   const [textFilters, setTextFilters] = useState(null);
 
@@ -133,6 +150,31 @@ function App() {
     />
   );
 
+  const navigateToCards = (
+    <Cards
+      searchTerm={searchTerm} setSearchTerm={setSearchTerm}
+      colorFilter={colorFilter} setColorFilter={setColorFilter}
+      vibeFilter={vibeFilter} setVibeFilter={setVibeFilter}
+      styleFilter={styleFilter} setStyleFilter={setStyleFilter}
+      recipientsFilter={recipientsFilter} setRecipientsFilter={setRecipientsFilter}
+      occasionFilter={occasionFilter} setOccasionFilter={setOccasionFilter}
+      seasonFilter={seasonFilter} setSeasonFilter={setSeasonFilter}
+      sortFilter={sortFilter} setSortFilter={setSortFilter}
+    />
+
+  );
+
+  const navigateToGifts = (
+    <Gifts
+      setChosenGift={setChosenGift}
+      giftSearchTerm={giftSearchTerm} setGiftSearchTerm={setGiftSearchTerm}
+      giftSizeFilter={giftSizeFilter} setGiftSizeFilter={setGiftSizeFilter}
+      giftPriceFilter={giftPriceFilter} setGiftPriceFilter={setGiftPriceFilter}
+      giftSortFilter={giftSortFilter} setGiftSortFilter={setGiftSortFilter}
+      giftOccasionFilter={giftOccasionFilter} setGiftOccasionFilter={setGiftOccasionFilter}
+    />
+  );
+
   return (
     <div>
       <ThemeProvider theme={theme}>
@@ -146,8 +188,8 @@ function App() {
           <Box sx={{ mt: 6, position: "static" }}>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route exact path="/cards" element={<Cards />} />
-              <Route exact path="/cards/:headerfilter" element={<Cards />} />
+              <Route exact path="/cards" element={navigateToCards} />
+              <Route exact path="/cards/:headerfilter" element={navigateToCards} />
               <Route path="/ViewCard/:cardid" element={<ViewCard />} />
               <Route
                 path="/ViewCard/:headerfilter/:cardid"
@@ -165,11 +207,11 @@ function App() {
               <Route path="/gifts/:path/:cardStyle/:id/">
                 <Route
                   path=""
-                  element={<Gifts setChosenGift={setChosenGift} />}
+                  element={navigateToGifts}
                 ></Route>
                 <Route
                   path=":mode"
-                  element={<Gifts setChosenGift={setChosenGift} />}
+                  element={navigateToGifts}
                 ></Route>
               </Route>
               <Route path="/create/:cardStyle/:id">
