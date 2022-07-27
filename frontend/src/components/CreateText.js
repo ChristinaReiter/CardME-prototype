@@ -205,8 +205,8 @@ const CreateText = ({
   };
 
   //Calculation of maximal Rows of Text (Text limit)
-  const [maxRows, setMaxRows] = React.useState(2);
-  const [maxLength, setMaxLength] = React.useState(150);
+  const [maxRows, setMaxRows] = React.useState(16);
+  const [maxLength, setMaxLength] = React.useState(100);
   useEffect(() => {
     if (fontsize == 16) {
       setMaxRows(18);
@@ -215,12 +215,11 @@ const CreateText = ({
     } else if (fontsize == 25) {
       setMaxRows(15);
     } else if (fontsize == 32) {
-      setMaxRows(13);
+      setMaxRows(12);
     } else {
-      setMaxRows(17);
+      setMaxRows(16);
     }
-    setMaxLength(maxLength);
-  }, [fontsize, maxLength]);
+  }, [fontsize, maxLength, maxRows]);
 
   return (
     <Box sx={{ flexGrow: 1, flexShrink: 1 }}>
@@ -668,11 +667,12 @@ const CreateText = ({
               }}
               value={text || ""}
               type="text"
-              maxRows={maxRows}
-              maxLength={maxLength}
-              inputProps={{ style: textFilters, lineHeight: "1" }}
-              onScrollCapture={(event) => {
-                setMaxLength(event.target.value.length);
+              inputProps={{
+                style: textFilters,
+                lineHeight: "1",
+                maxLength: maxLength,
+                overflow: "auto",
+                maxRows: maxRows,
               }}
             ></TextField>
           </Grid>
