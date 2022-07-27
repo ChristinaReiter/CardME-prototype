@@ -201,7 +201,7 @@ const CheckoutOverview = () => {
               justifyContent="flex-end"
             >
               <Typography fontFamily="Antic" variant="h4">
-                {cartItem.cardPrice},-
+                {cartItem.cardPrice}€
               </Typography>
             </Grid>
             <Grid item xs={1}>
@@ -228,17 +228,19 @@ const CheckoutOverview = () => {
           <Grid container>
             <Grid item xs={8}></Grid>
             <Grid item xs={3} textAlign="right">
+              {cartItem.giftId !== null && (
+                <Typography fontFamily="Antic" variant="h6">Gift: {cartItem.giftPrice}€</Typography>
+              )}
               <Typography fontFamily="Antic" variant="h6">
-                Free delivery: 0,- <br />
+                Free delivery: 0€ <br />
                 incl. VAT:{" "}
                 {(total * 0.16).toLocaleString(undefined, {
                   maximumFractionDigits: 2,
-                })}
-                ,-
+                })}€
               </Typography>
               <Divider></Divider>
               <Typography fontFamily="Antic" variant="h3">
-                {total},-
+                {total}€
               </Typography>
             </Grid>
             <Grid item xs={1}></Grid>
