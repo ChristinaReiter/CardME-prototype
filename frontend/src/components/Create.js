@@ -69,8 +69,8 @@ const Create = () => {
     const newFilters = {
       filter: `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturate}%) sepia(${sepia}%) grayscale(${grayscale}%)`,
       transform: `rotate(${rotation}deg)`,
-      //width: `${cardwidth}px`,
-      //height: `${cardheight}px`,
+      //width: `${cardwidth}px`, //nutzen für rotate sonst rauslöschen
+      //height: `${cardheight}px`, //nutzen für rotate sonst rauslöschen
     };
     setImageFilters(newFilters);
   }, [
@@ -94,7 +94,6 @@ const Create = () => {
   const [fontcolor, setfontcolor] = React.useState("black");
   const [fontsize, setfontsize] = React.useState(20);
   const [fontalign, setfontalign] = React.useState("left");
-  const [lineHeight, setlineHeight] = React.useState(1);
 
   //updating styles of the text
   useEffect(() => {
@@ -103,11 +102,10 @@ const Create = () => {
       color: `${fontcolor}`,
       fontSize: `${fontsize}px`,
       textAlign: `${fontalign}`,
-      lineHeight: `${lineHeight}`,
     };
 
     setTextFilters(newFilters);
-  }, [fontstyle, fontcolor, fontsize, fontalign, textFilters, lineHeight]);
+  }, [fontstyle, fontcolor, fontsize, fontalign, textFilters]);
 
   return (
     <div>
@@ -149,6 +147,7 @@ const Create = () => {
         setfontsize={setfontsize}
         setfontalign={setfontalign}
         textFilters={textFilters}
+        fontsize={fontsize}
       />
       <CreateAddGift /> //Add gift part
       <CreateFinal //View final card (front and inside text)
