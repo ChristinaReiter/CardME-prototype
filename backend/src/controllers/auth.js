@@ -13,6 +13,7 @@ const register = async (req, res) => {
         .json({ status: "error", message: "Missing Values" });
     }
     const userTest = await User.findOne({ email: req.body.email }); //to check if user (email) already exists
+    if (userTest) {
     const accountTest = await Account.findOne({ user: userTest._id }); // to make sure you can't change the name of accounts over the register page
     if (accountTest) {
       return res
@@ -22,12 +23,14 @@ const register = async (req, res) => {
           message: "Email already belongs to an account",
         });
     }
+  }
     const securePassword = await bcrypt.hash(req.body.password, 10);
     if (!userTest) {
       const user = await User.create({
         email: req.body.email,
         name: req.body.name,
       });
+      console.log("wow")
       const account = await Account.create({
         user: user._id,
         password: securePassword,
