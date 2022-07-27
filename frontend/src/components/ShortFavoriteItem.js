@@ -18,30 +18,32 @@ function ShortFavoriteItem() {
     }
 
     useEffect(() => {
-      AuthService.getMe().then(
+      /* AuthService.getMe().then(
         (result) => {
-          if (result !== undefined) {
-            CardService.getFavorites(result._id).then(
+          if (result !== undefined) { */
+            CardService.getFavorites(/* result._id */).then(
               (res) => {
                 setFavorites(res);
-                if(favorites.length < 4) {
-                  setShortFavoriteLength(favorites.length);
+                if(res.length < 4) {
+                  setShortFavoriteLength(res.length);
                 }
                 else {
                   setShortFavoriteLength(4);
                 }
-              },
+                console.log(res)
+              }/* ,
               (err) => {
                 console.log(err);
-              }
+              } */
+             
             );
-          }
+       /*    }
         },
         (error) => {
           console.log(error);
-        }
-      );
-    })
+        } 
+      );*/
+    }, []);
 
     
   return (
@@ -53,7 +55,7 @@ function ShortFavoriteItem() {
           <div style={{background: "#D9D9D9", marginBottom:"20px", width:"100%", height:"200px", display:"flex", flexOrientation:"column", justifyContent: "center"}}>
             {favorites.slice(favorites.length - shortFavoriteLength, favorites.length).map((fave) => {
               return(
-              <Button style={{display:"flex", flexDirection:"column", color:"black"}}
+              <Button key = {fave._id} style={{display:"flex", flexDirection:"column", color:"black"}}
                 onClick={() => {
                 if(fave.foldername ==="gifts") {
                     navigate("/ViewProduct/gift/" + fave._id);

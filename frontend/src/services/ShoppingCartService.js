@@ -21,9 +21,9 @@ export default class ShoppingCartService {
       cardText: text,
       cardTextFilters: product.textFilters,
       cardTextFilterValues: product.textFilterValues,
-      giftId: null,
-      giftPrice: 0,
-      giftImage: "",
+      giftId: product.giftId,
+      giftPrice: product.giftPrice,
+      giftImage: product.giftImage
     });
   }
 

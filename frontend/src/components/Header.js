@@ -115,7 +115,7 @@ const Header = ({
             </NavLink>
             <NavLink
               style={styles.menuText}
-              to={"/create/own/" + Math.floor(Math.random() * 100000000)}
+              to={"/create/own/" + Math.floor(Math.random() * 100000000) + "/new"}
             >
               Create
             </NavLink>

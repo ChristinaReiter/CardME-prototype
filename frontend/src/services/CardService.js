@@ -36,7 +36,7 @@ export default class CardService {
     }
   }
 
-  static async getFavorites(userID) {
+  static async getFavorites(/* userID */) {
     try {
       let account = JSON.parse(localStorage.getItem("account"));
       let header = new Headers();
@@ -46,7 +46,7 @@ export default class CardService {
       header.append("Content-Type", "application/json");
 
       let response = await fetch(
-        this.baseUrl + "/profile/favorites?id=" + userID,
+        this.baseUrl + "/profile/favorites"/* ?id=" + userID */,
         {
           method: "GET",
           headers: header,
