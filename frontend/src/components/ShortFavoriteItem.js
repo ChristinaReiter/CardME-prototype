@@ -10,6 +10,7 @@ function ShortFavoriteItem() {
   const imageUrl = "http://localhost:3001/public/";
   const navigate = useNavigate();
   const [favorites, setFavorites] = useState([]);
+  const [shortFavoriteLength, setShortFavoriteLength] = useState(0);
 
 
     const seeFavorites = () => {
@@ -23,7 +24,12 @@ function ShortFavoriteItem() {
             CardService.getFavorites(result._id).then(
               (res) => {
                 setFavorites(res);
-                
+                if(favorites.length < 4) {
+                  setShortFavoriteLength(favorites.length);
+                }
+                else {
+                  setShortFavoriteLength(4);
+                }
               },
               (err) => {
                 console.log(err);
@@ -45,7 +51,7 @@ function ShortFavoriteItem() {
         <Box justify="flex-end">
           <Typography variant="h5">Recent Favorites</Typography>
           <div style={{background: "#D9D9D9", marginBottom:"20px", width:"100%", height:"200px", display:"flex", flexOrientation:"column", justifyContent: "center"}}>
-            {favorites.slice(favorites.length - 4, favorites.length).map((fave) => {
+            {favorites.slice(favorites.length - shortFavoriteLength, favorites.length).map((fave) => {
               return(
               <Button style={{display:"flex", flexDirection:"column", color:"black"}}
                 onClick={() => {
