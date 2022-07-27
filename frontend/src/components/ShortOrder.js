@@ -3,7 +3,7 @@ import { Typography, Button, Table, TableBody, TableHead, TableCell, TableContai
 import OrderService from '../services/OrderService'
 import { useNavigate } from 'react-router-dom';
 
-function ShortOrderItem() {
+function ShortOrder() {
 
 const [orderNr, setOrderNr] = useState('');
 const [orderDate, setOrderDate] = useState('');
@@ -93,4 +93,4 @@ const seeOrders = () => {
   )
 }
 
-export default ShortOrderItem
+export default ShortOrder

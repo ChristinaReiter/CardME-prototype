@@ -1,6 +1,6 @@
 
 import { Box, Grid, Paper, Typography, Stack } from '@mui/material'
-import ShortOrderItem from './ShortOrderItem';
+import ShortOrder from './ShortOrder';
 import ShortCalendar from './ShortCalendar';
 import ShortFavoriteItem from './ShortFavoriteItem';
 
@@ -24,7 +24,7 @@ const View = () => {
        </Grid>
        <Grid item xs={6} >
         <Stack spacing={4}>
-          <ShortOrderItem/>
+          <ShortOrder/>
           <ShortFavoriteItem/>
         </Stack>
        </Grid>

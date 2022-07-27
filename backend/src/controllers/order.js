@@ -60,7 +60,8 @@ const create = async (req, res) => {
       recipientAddress: recipientAddress._id,
       products: productBody,
       total: (productBody.cardPrice + productBody.giftPrice),
-      status: "CREATED"
+      status: "CREATED",
+      imageSrc: req.file.filename
     });
 
     return res.status(201).json({ response: "success", order: order });
