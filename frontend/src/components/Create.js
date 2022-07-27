@@ -30,6 +30,14 @@ const Create = () => {
   // Applied Style of the own image
   const [imageFilters, setImageFilters] = useState(null);
 
+  //states for text styles
+  const [textFilters, setTextFilters] = useState(null);
+  const [fontstyle, setfontstyle] = React.useState("Annie Use Your Telescope");
+  const [fontcolor, setfontcolor] = React.useState("black");
+  const [fontsize, setfontsize] = React.useState(20);
+  const [fontalign, setfontalign] = React.useState("left");
+  const [lineHeight, setlineHeight] = React.useState(1);
+
   useEffect(() => {
     if (cardStyle === "chosen" && mode !== "edit") {
       CardService.getSingleCard(id).then((item) => {
@@ -49,6 +57,11 @@ const Create = () => {
         setSepia(item.cardImageFilterValues.sepia);
         setCardheight(item.cardImageFilterValues.cardheight);
         setCardwidth(item.cardImageFilterValues.cardwidth);
+        setTextFilters(item.cardTextFilters);
+        setfontalign(item.fontAlign);
+        setfontcolor(item.fontColor);
+        setfontsize(item.fontSize);
+        setfontstyle(item.fontStyle);
       });
     } else {
       // Reset all states for new card
@@ -61,6 +74,8 @@ const Create = () => {
       setImage(null);
       setCardheight(320);
       setCardwidth(260);
+      setTextFilters(null);
+      setText(null);
     }
   }, [cardStyle, mode, id]);
 
@@ -88,13 +103,6 @@ const Create = () => {
     setText(text);
   };
 
-  //states for text styles
-  const [textFilters, setTextFilters] = useState(null);
-  const [fontstyle, setfontstyle] = React.useState("Annie Use Your Telescope");
-  const [fontcolor, setfontcolor] = React.useState("black");
-  const [fontsize, setfontsize] = React.useState(20);
-  const [fontalign, setfontalign] = React.useState("left");
-
   //updating styles of the text
   useEffect(() => {
     const newFilters = {
@@ -105,7 +113,7 @@ const Create = () => {
     };
 
     setTextFilters(newFilters);
-  }, [fontstyle, fontcolor, fontsize, fontalign, textFilters]);
+  }, [fontstyle, fontcolor, fontsize, fontalign, lineHeight]);
 
   return (
     <div>
@@ -134,7 +142,6 @@ const Create = () => {
         <ShowFront //View card front (choosen card)
           product={product}
           setImage={setImage}
-          image={image}
           mode={mode}
         />
       )}

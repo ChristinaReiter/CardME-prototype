@@ -44,16 +44,17 @@ const HeaderSortBox = ({index, gifts, sortFilter, setSortFilter, filterIsHoverin
                 value="designerA"
                 control={<Radio
                   style={styles.radio}
-                  checked={sortFilter.designera} />}
+                  checked={sortFilter === "designera"} />}
                 onChange={(e) => {
                   updateSortArray("designera", e);
                 } }
                 label="Designer A-Z">
-              </FormControlLabel><FormControlLabel
+              </FormControlLabel>
+              <FormControlLabel
                 value="designerZ"
                 control={<Radio
                   style={styles.radio}
-                  checked={sortFilter.designerz} />}
+                  checked={sortFilter === "designerz"} />}
                 onChange={(e) => {
                   updateSortArray("designerz", e);
                 } }
@@ -89,8 +90,7 @@ const HeaderSortBox = ({index, gifts, sortFilter, setSortFilter, filterIsHoverin
                     <RadioGroup
                       row
                       defaultValue={"trending"}
-                      name={"sort by group"}
-                      
+                      name={"sort by group"}                     
                     >
                       <div style={{ display: "flex", flexDirection: "column"}}>
                         <FormControlLabel 
@@ -98,7 +98,7 @@ const HeaderSortBox = ({index, gifts, sortFilter, setSortFilter, filterIsHoverin
                           control={
                           <Radio 
                             style={styles.radio} 
-                            checked={sortFilter.trending}
+                            checked={sortFilter === "trending"}
                           />} 
                           onChange={(e) => {
                             updateSortArray("trending", e);
@@ -109,7 +109,7 @@ const HeaderSortBox = ({index, gifts, sortFilter, setSortFilter, filterIsHoverin
                           control={
                           <Radio 
                             style={styles.radio} 
-                            checked={sortFilter.mostpopular}
+                            checked={sortFilter === "mostpopular"}
                           />} 
                           onChange={(e) => {
                             updateSortArray("mostpopular", e);
@@ -121,7 +121,7 @@ const HeaderSortBox = ({index, gifts, sortFilter, setSortFilter, filterIsHoverin
                           control={
                           <Radio 
                             style={styles.radio} 
-                            checked={sortFilter.titlea}
+                            checked={sortFilter === "titlea"}
                           /> } 
                           onChange={(e) => {
                             updateSortArray("titlea", e);
@@ -133,7 +133,7 @@ const HeaderSortBox = ({index, gifts, sortFilter, setSortFilter, filterIsHoverin
                           control={
                           <Radio 
                             style={styles.radio} 
-                            checked={sortFilter.titlez}
+                            checked={sortFilter === "titlez"}
                           />} 
                           onChange={(e) => {
                             updateSortArray("titlez", e);
@@ -147,7 +147,7 @@ const HeaderSortBox = ({index, gifts, sortFilter, setSortFilter, filterIsHoverin
                           control={
                           <Radio 
                             style={styles.radio} 
-                            checked={sortFilter.oldest}
+                            checked={sortFilter === "oldest"}
                           />} 
                           onChange={(e) => {
                             updateSortArray("oldest", e);
@@ -159,7 +159,7 @@ const HeaderSortBox = ({index, gifts, sortFilter, setSortFilter, filterIsHoverin
                           control={
                           <Radio 
                             style={styles.radio} 
-                            checked={sortFilter.newest}
+                            checked={sortFilter === "newest"}
                           />} 
                           onChange={(e) => {
                             updateSortArray("newest", e);

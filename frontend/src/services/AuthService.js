@@ -33,7 +33,11 @@ export default class AuthService {
             const resp = await response.json();
             if (resp.token) {                                     //gotta check the validity!!!!!
                 localStorage.setItem("account", JSON.stringify(resp));
+                AuthService.getMe().then((res) => {
+                  return res
+                });
             }
+          
     
             return resp;
         } catch (err) {
@@ -60,8 +64,39 @@ export default class AuthService {
         return resp;
       } catch (err) {
         console.log(err);
+        return undefined
       }
 
+    }
+
+    // Check whether any user is logged in
+    static async getLog() {
+      let account = localStorage.getItem("account")
+      if(account !== null){
+        return JSON.parse(account)
+      }
+      return null;
+    }
+
+    // Check if mail is still free
+    static async checkFree(email){
+      try {
+        let response = await fetch(this.baseUrl + "/account/free", {
+          method: "POST",
+          headers: this.headers,
+          body: JSON.stringify(email)          
+        });
+  
+        const resp = await response.json(); 
+  
+        if(!resp.existing){
+          return true;
+        }
+        return false;
+      } catch (err) {
+        console.log(err);
+        return false
+      }
     }
   }
   

@@ -18,6 +18,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
 import GiftsFilterHeader from "./GiftsFilterHeader";
 import AuthService from "../services/AuthService";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Gifts = () => {
   const imageUrl = "http://localhost:3001/public/";
@@ -107,9 +108,11 @@ const Gifts = () => {
         if(sortFilter == "designerz") {
           return products.sort((a,b) => a.designer > b.designer? -1: 1)
         }  
-        if(sortFilter == "mostpopular") {
-          return products.sort(); //don't know what to do here lol
-        } 
+        if (sortFilter == "mostpopular") {
+          return products.sort(function(a, b) {
+            return b.popularity - a.popularity;
+          }); //small hack to simulate popularity
+        }
         if(sortFilter == "trending") {
           var randomNumber = 0;
           randomNumber = Math.floor(Math.random());
@@ -197,10 +200,13 @@ const Gifts = () => {
           aria-label="add to favorites"
           style={styles.favorites}
           sx={{color:"#DC9292"}}
-          onClick={(event) => {
+          onClick={() => {
             GiftService.removeFavorite({product: props.productObject}).then(
-              (result) => {
-                setFavorites(result);
+              () => {
+                toast("Favorite removed")
+                const updated = favorites.filter((fav) => fav._id !== props.productObject._id);
+              
+                setFavorites(updated);
               }
             )
           }}
@@ -218,13 +224,21 @@ const Gifts = () => {
           aria-label="add to favorites"
           style={styles.favorites}
           sx={{color:"grey"}}
-          onClick={(event) => {
-            GiftService.setFavorites({product: props.productObject}).then(
-              (result) => {
-                setFavorites(result);
-                
+          onClick={() => {
+            if(userID === undefined)
+              {
+                toast("not logged in");
               }
-            )
+              else {
+                GiftService.setFavorites({product: props.productObject}).then(
+                  () => {
+                    toast("Favorite added")
+                  
+                    setFavorites([...favorites, props.productObject]);
+                  }
+                )
+              }
+            
           }}
         >
           <FavoriteIcon />
@@ -349,6 +363,7 @@ const Gifts = () => {
             </div>
         
       </Box>
+      <ToastContainer />
     </div>
   );
 };

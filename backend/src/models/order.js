@@ -6,6 +6,10 @@ const OrderSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  dateCreated: {
+    type: Date,
+    required: true,
+  },
   billingAddress: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Address",
@@ -22,11 +26,15 @@ const OrderSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    //required: true,
+    required: true,
   },
   products: {
     type: Object
   },
+  total: {
+    type: Number,
+    required: true
+  }
  //Subscription?
 });
 

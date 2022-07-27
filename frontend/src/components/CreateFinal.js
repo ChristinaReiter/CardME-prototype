@@ -7,7 +7,7 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ShoppingCartService from "../services/ShoppingCartService";
 import { useNavigate } from "react-router-dom";
@@ -86,11 +86,28 @@ const CreateFinal = ({
   cardwidth,
 }) => {
   const [viewState, setViewState] = React.useState(true);
+  // For internal image display
+  const [imageUrl, setImageUrl] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (image !== null) {
+      setImageUrl(URL.createObjectURL(image));
+    }else{
+      setImageUrl(null)
+    }
+  }, [image]);
 
   const handleAddToCart = async () => {
     let itemToAdd = {
       image: image,
+      textFilters: textFilters,
+      textFilterValues: {
+        fontAlign: fontalign,
+        fontColor: fontcolor,
+        fontSize: fontsize,
+        fontStyle: fontstyle
+      }
     };
     if (cardStyle === "own") {
       itemToAdd.title = "Own Card";
@@ -125,6 +142,24 @@ const CreateFinal = ({
   const handleUpdate = () => {
     let changedFields = {
       cardText: text,
+      cardTextFilters: textFilters,
+      cardTextFilterValues: {
+        fontAlign: fontalign,
+        fontColor: fontcolor,
+        fontSize: fontsize,
+        fontStyle: fontstyle
+      },
+      cardImageFilters: imageFilters,
+      cardImageFilterValues: {
+        rotation: rotation,
+        brightness: brightness,
+        contrast: contrast,
+        saturate: saturate,
+        grayscale: grayscale,
+        sepia: sepia,
+        cardheight: cardheight,
+        cardwidth: cardwidth,
+      }
     };
     if (cardStyle === "own") {
       changedFields.cardImage = image;
@@ -176,11 +211,11 @@ const CreateFinal = ({
           <Grid item xs={3}>
             {viewState ? (
               <Box style={styles.cardWindows} sx={{ float: "left" }}>
-                <Box margin={"30px"} style={{ ...textFilters }}>
+                <Box margin={"30px"} style={{ ...textFilters }} whiteSpace="pre-wrap">
                   {text}
                 </Box>
               </Box>
-            ) : image !== null ? (
+            ) : imageUrl !== null ? (
               <Box style={styles.cardWindows} sx={{ float: "left" }}>
                 <img
                   style={
@@ -188,7 +223,7 @@ const CreateFinal = ({
                       ? { ...styles.image, ...imageFilters }
                       : styles.image
                   }
-                  src={URL.createObjectURL(image)}
+                  src={imageUrl}
                 ></img>
               </Box>
             ) : (

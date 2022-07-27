@@ -25,14 +25,14 @@ useEffect(() => {
           setOrderNr(res[0]._id);
           setOrderDate(res[0].deliveryDate.split('T')[0]);
           setOrderStatus(res[0].status);
-          setOrderTotal(res[0].products.cardPrice+res[0].products.giftPrice);
+          setOrderTotal(res[0].total);
           setOrderRecipient(res[0].recipientName);        
       }
         if (res.length > 1) {
             setOrderNr2(res[1]._id);
             setOrderDate2(res[1].deliveryDate.split('T')[0]);
             setOrderStatus2(res[1].status);
-            setOrderTotal2(res[1].products.cardPrice+res[1].products.giftPrice);
+            setOrderTotal2(res[1].total);
             setOrderRecipient2(res[1].recipientName);     
       }
     
@@ -60,7 +60,7 @@ const seeOrders = () => {
             <TableCell >Recipient</TableCell>
             <TableCell >Status</TableCell>
             <TableCell >Total</TableCell>
-            <TableCell ></TableCell>
+         
           </TableRow>
         </TableHead>
         <TableBody>
@@ -70,7 +70,7 @@ const seeOrders = () => {
             <TableCell >{orderRecipient}</TableCell>
             <TableCell >{orderStatus}</TableCell>
             <TableCell >{orderTotal}€</TableCell>
-            <TableCell ><Button variant="contained" color="secondary">details</Button></TableCell>
+         
           </TableRow>
           <TableRow>
             <TableCell >{orderNr2}</TableCell>
@@ -78,7 +78,7 @@ const seeOrders = () => {
             <TableCell >{orderRecipient2}</TableCell>
             <TableCell >{orderStatus2}</TableCell>
             <TableCell >{orderTotal2}€</TableCell>
-            <TableCell ><Button variant="contained" color="secondary">details</Button></TableCell>
+     
           </TableRow>
         </TableBody>
       </Table>

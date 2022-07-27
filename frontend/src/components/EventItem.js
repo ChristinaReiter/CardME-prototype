@@ -74,7 +74,8 @@ const updateEvent = (e, id) => {
                     title: res.title,
                     start: res.eventDate,
                     allDay: true,
-                    id: res._id
+                    id: res._id,
+                    extendedProps: {description: res.description}
                     }
               }else {
                 return eve

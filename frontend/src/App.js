@@ -49,17 +49,20 @@ export const theme = createTheme({
 
 function App() {
 
+  const [currentAccount, setCurrentAccount] = useState(undefined);
+
   return (
     <div>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <Header/>
+          <Header currentAccount={currentAccount} setCurrentAccount={setCurrentAccount}/>
           <Box sx={{ mt: 6, position: "static" }}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route exact path="/cards" element={<Cards />} />
               <Route exact path="/cards/:headerfilter" element={<Cards />} />
               <Route path="/ViewCard/:cardid" element={<ViewCard />} />
+              <Route path="/ViewCard/:headerfilter/:cardid" element={<ViewCard />} />
               <Route path="/ViewGift/:giftid" element={<ViewGift />} />
               <Route exact path ="/gifts" element={<Gifts />} />
               <Route
@@ -78,7 +81,7 @@ function App() {
                 path="/checkout-overview/:id"
                 element={<CheckoutOverview/>}
               />
-              <Route path="profile" element={<ProfileOverview />}>
+              <Route path="profile" element={<ProfileOverview currentAccount={currentAccount} setCurrentAccount={setCurrentAccount}/>}>
                 <Route path="view" element={<View />} />
                 <Route path="orders" element={<Orders />} />
                 <Route path="subscriptions" element={<Subscriptions />} />
@@ -88,7 +91,7 @@ function App() {
                 <Route path="details" element={<Details />} />
               </Route>
               <Route exact path="/register" element={<Register />} />
-              <Route exact path="/login" element={<Login />} />
+              <Route exact path="/login" element={<Login setCurrentAccount={setCurrentAccount}/>} />
               <Route
                 exact
                 path="/successful-order/:id"

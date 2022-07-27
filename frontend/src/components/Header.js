@@ -36,14 +36,14 @@ const styles = {
   },
 };
 
-const Header = ({ images }) => {
+const Header = ({ images, currentAccount, setCurrentAccount }) => {
   const theme = useTheme();
   const [popoverAnchor, setPopoverAnchor] = useState(null);
   const popoverOpened = Boolean(popoverAnchor);
   const [shoppingCart, setShoppingCart] = useState([]);
   const navigate = useNavigate();
   const [profileMenu, setProfileMenu] = useState(null);
-  const [currentAccount, setCurrentAccount] = useState(undefined);
+
 
    useEffect(() => {
     AuthService.getMe().then((res) => {
@@ -166,6 +166,7 @@ const Header = ({ images }) => {
                     component={Link}
                     onClick={() => {
                       setProfileMenu(null);
+                      setCurrentAccount(undefined)
                       AuthService.logout();
                     }}
                     to="/login"

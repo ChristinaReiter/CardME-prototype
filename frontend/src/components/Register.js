@@ -3,6 +3,8 @@ import { TextField, Box, Button, InputAdornment, IconButton } from '@mui/materia
 import { Visibility, VisibilityOff } from '@mui/icons-material'; 
 import { useNavigate } from "react-router-dom";
 import AuthService from '../services/AuthService';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Register = () => {
@@ -26,7 +28,7 @@ const Register = () => {
       event.preventDefault();
       AuthService.register({name, email, password}).then(
         res => {
-          res.status ? alert(res.message) : navigate("/login");
+          res.status ? toast(res.message) : navigate("/login");
         
      })
   }
@@ -46,7 +48,7 @@ const Register = () => {
             </TextField>
             <TextField
                 sx={{ m: 1 }} 
-                type="text"
+                type="email"
                 label="Email"
                 name="email"
                 value={email}
@@ -82,7 +84,8 @@ const Register = () => {
                 type="submit">
                 Register
             </Button>
-        </form>       
+        </form>   
+        <ToastContainer />      
       </Box>
     );
   };

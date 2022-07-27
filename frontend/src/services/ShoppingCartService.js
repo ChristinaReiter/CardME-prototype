@@ -19,6 +19,8 @@ export default class ShoppingCartService {
       cardTitle: product.title,
       cardPrice: product.price,
       cardText: text,
+      cardTextFilters: product.textFilters,
+      cardTextFilterValues: product.textFilterValues,
       giftId: null,
       giftPrice: 0,
       giftImage: "",

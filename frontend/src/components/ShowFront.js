@@ -10,8 +10,9 @@ import {
 import { useEffect, useState } from "react";
 import CardService from "../services/CardService";
 import { useNavigate, NavLink } from "react-router-dom";
+import ShoppingCartService from "../services/ShoppingCartService";
 
-const ShowFront = ({ product, setImage, image, mode }) => {
+const ShowFront = ({ product, setImage, mode }) => {
   const styles = {
     image: {
       position: "relative",
@@ -55,20 +56,30 @@ const ShowFront = ({ product, setImage, image, mode }) => {
     },
   };
   const navigate = useNavigate();
+  // For internal image dipslay
+  const [imageUrl, setImageUrl] = useState(null);
   const baseUrl = "http://localhost:3001/public/";
+
+  const setBackendImage = async () => {
+    if (mode !== "edit") {
+      let result = await fetch(
+        baseUrl + product.foldername + "/" + product.url,
+        { method: "GET" }
+      );
+
+      result = await result.blob();
+      setImage(result);
+      setImageUrl(URL.createObjectURL(result));
+    } else {
+      setImageUrl(URL.createObjectURL(product.cardImage));
+    }
+  };
 
   useEffect(() => {
     // Get image from backend, convert to blob for further usage
-    async function getImage() {
-      if (mode !== "edit") {
-        let result = await fetch(
-          baseUrl + product.foldername + "/" + product.url,
-          { method: "GET" }
-        );
-        setImage(await result.blob());
-      }
+    if (product !== undefined) {
+      setBackendImage();
     }
-    getImage();
   }, [product]);
 
   return (
@@ -84,12 +95,8 @@ const ShowFront = ({ product, setImage, image, mode }) => {
         </AppBar>
       </Typography>
       <Box display="flex" justifyContent="center">
-        {image !== null && (
-          <img
-            src={URL.createObjectURL(image)}
-            crossOrigin="anonymous"
-            style={styles.image}
-          />
+        {imageUrl !== null && (
+          <img src={imageUrl} crossOrigin="anonymous" style={styles.image} />
         )}
       </Box>
       <Grid

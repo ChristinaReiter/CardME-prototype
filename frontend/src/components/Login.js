@@ -3,9 +3,11 @@ import { TextField, Box, Button, InputAdornment, IconButton } from '@mui/materia
 import { Visibility, VisibilityOff } from '@mui/icons-material'; 
 import { useNavigate } from "react-router-dom";
 import AuthService from '../services/AuthService';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
-const Login = () => {
+const Login = ({setCurrentAccount}) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -25,7 +27,8 @@ const Login = () => {
       e.preventDefault();
       AuthService.login({ email, password }).then(
         res => {
-          res.status ? alert(res.message) : navigate("/profile/view");
+          res.status ? toast(res.message) : navigate("/profile/view");
+          setCurrentAccount(res);
         
      })
 
@@ -72,7 +75,8 @@ const Login = () => {
               type="submit">
               Login
           </Button>
-      </form>       
+      </form>
+      <ToastContainer />       
     </Box>
   );
 };
