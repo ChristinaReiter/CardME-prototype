@@ -101,6 +101,7 @@ const CreateFront = ({
               setImage={setImage}
               image={image}
               imageFilters={imageFilters}
+              rotation={rotation}
             />
           </Grid>
           <Grid item xs={4} textAlign="center">

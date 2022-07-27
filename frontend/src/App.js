@@ -11,7 +11,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CheckoutData from "./components/CheckoutData";
 import { Box } from "@mui/system";
 import CheckoutOverview from "./components/CheckoutOverview";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Orders from "./components/Orders";
 import Subscriptions from "./components/Subscriptions";
 import View from "./components/View";
@@ -83,48 +83,55 @@ function App() {
   const [chosenGift, setChosenGift] = useState(null);
 
   const [popoverDrafts, setPopoverDrafts] = useState("none");
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setPopoverDrafts("none");
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [popoverDrafts]);
 
-  const createComponent = (<Create
-        image={image}
-        setImage={setImage}
-        text={text}
-        setText={setText}
-        rotation={rotation}
-        setRotation={setRotation}
-        brightness={brightness}
-        setBrightness={setBrightness}
-        contrast={contrast}
-        setContrast={setContrast}
-        saturate={saturate}
-        setSaturate={setSaturate}
-        grayscale={grayscale}
-        setGrayscale={setGrayscale}
-        sepia={sepia}
-        setSepia={setSepia}
-        imageFilters={imageFilters}
-        setImageFilters={setImageFilters}
-        cardheight={cardheight}
-        setCardheight={setCardheight}
-        cardwidth={cardwidth}
-        setCardwidth={setCardwidth}
-        fontstyle={fontstyle}
-        setfontstyle={setfontstyle}
-        fontcolor={fontcolor}
-        setfontcolor={setfontcolor}
-        fontsize={fontsize}
-        setfontsize={setfontsize}
-        fontalign={fontalign}
-        setfontalign={setfontalign}
-        textFilters={textFilters}
-        setTextFilters={setTextFilters}
-        lineHeight={lineHeight}
-        setlineHeight={setlineHeight}
-        chosenGift={chosenGift}
-        setChosenGift={setChosenGift}
-        popoverDrafts={popoverDrafts}
-        setPopoverDrafts={setPopoverDrafts}
-      />
-  )
+  const createComponent = (
+    <Create
+      image={image}
+      setImage={setImage}
+      text={text}
+      setText={setText}
+      rotation={rotation}
+      setRotation={setRotation}
+      brightness={brightness}
+      setBrightness={setBrightness}
+      contrast={contrast}
+      setContrast={setContrast}
+      saturate={saturate}
+      setSaturate={setSaturate}
+      grayscale={grayscale}
+      setGrayscale={setGrayscale}
+      sepia={sepia}
+      setSepia={setSepia}
+      imageFilters={imageFilters}
+      setImageFilters={setImageFilters}
+      cardheight={cardheight}
+      setCardheight={setCardheight}
+      cardwidth={cardwidth}
+      setCardwidth={setCardwidth}
+      fontstyle={fontstyle}
+      setfontstyle={setfontstyle}
+      fontcolor={fontcolor}
+      setfontcolor={setfontcolor}
+      fontsize={fontsize}
+      setfontsize={setfontsize}
+      fontalign={fontalign}
+      setfontalign={setfontalign}
+      textFilters={textFilters}
+      setTextFilters={setTextFilters}
+      lineHeight={lineHeight}
+      setlineHeight={setlineHeight}
+      chosenGift={chosenGift}
+      setChosenGift={setChosenGift}
+      popoverDrafts={popoverDrafts}
+      setPopoverDrafts={setPopoverDrafts}
+    />
+  );
 
   return (
     <div>
@@ -155,11 +162,15 @@ function App() {
                 path="/ViewProduct/:producttype/:headerfile/:productid"
                 element={<ViewProduct />}
               />
-              <Route
-                path="/gifts/:path/:cardStyle/:id/"
-              >
-                <Route path="" element={<Gifts setChosenGift={setChosenGift}/>}></Route>
-                <Route path=":mode" element={<Gifts setChosenGift={setChosenGift}/>}></Route>
+              <Route path="/gifts/:path/:cardStyle/:id/">
+                <Route
+                  path=""
+                  element={<Gifts setChosenGift={setChosenGift} />}
+                ></Route>
+                <Route
+                  path=":mode"
+                  element={<Gifts setChosenGift={setChosenGift} />}
+                ></Route>
               </Route>
               <Route path="/create/:cardStyle/:id">
                 <Route path="" element={createComponent}></Route>

@@ -6,6 +6,10 @@ import {
   Grid,
   Typography,
   Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
@@ -45,6 +49,7 @@ const styles = {
       "2px 2px 30px rgba(0, 0, 0, 0.1), -2px -2px 30px rgba(0, 0, 0, 0.1)",
     marginTop: "40px",
     marginDown: "40px",
+    overflow: "hidden",
   },
   image: {
     position: "relative",
@@ -87,11 +92,12 @@ const CreateFinal = ({
   lineHeight,
   chosenGift,
   popoverDrafts,
-  setPopoverDrafts
+  setPopoverDrafts,
 }) => {
   const [viewState, setViewState] = React.useState(true);
   // For internal image display
   const [imageUrl, setImageUrl] = useState(null);
+  const [cardError, setCardError] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -103,93 +109,103 @@ const CreateFinal = ({
   }, [image]);
 
   const handleAddToCart = async () => {
-    let itemToAdd = {
-      image: image,
-      textFilters: textFilters,
-      textFilterValues: {
-        fontAlign: fontalign,
-        fontColor: fontcolor,
-        fontSize: fontsize,
-        fontStyle: fontstyle,
-        lineHeight: lineHeight,
-      },
-      giftId: null,
-      giftPrice: 0,
-      giftImage: null
-    };
-
-    if(chosenGift !== null){
-      itemToAdd.giftId = chosenGift._id
-      itemToAdd.giftPrice = chosenGift.price
-      itemToAdd.giftImage = chosenGift.url
-    }
-
-    if (cardStyle === "own") {
-      itemToAdd.title = "Own Card";
-      itemToAdd.price = 5.9;
-      itemToAdd.imageFilters = imageFilters;
-      // To restore slider on edit
-      itemToAdd.imageFilterValues = {
-        rotation: rotation,
-        brightness: brightness,
-        contrast: contrast,
-        saturate: saturate,
-        grayscale: grayscale,
-        sepia: sepia,
-        cardheight: cardheight,
-        cardwidth: cardwidth,
+    if (image && image !== null && text && text !== null && text !== "") {
+      let itemToAdd = {
+        image: image,
+        textFilters: textFilters,
+        textFilterValues: {
+          fontAlign: fontalign,
+          fontColor: fontcolor,
+          fontSize: fontsize,
+          fontStyle: fontstyle,
+          lineHeight: lineHeight,
+        },
+        giftId: null,
+        giftPrice: 0,
+        giftImage: null,
       };
+
+      if (chosenGift !== null) {
+        itemToAdd.giftId = chosenGift._id;
+        itemToAdd.giftPrice = chosenGift.price;
+        itemToAdd.giftImage = chosenGift.url;
+      }
+
+      if (cardStyle === "own") {
+        itemToAdd.title = "Own Card";
+        itemToAdd.price = 5.9;
+        itemToAdd.imageFilters = imageFilters;
+        // To restore slider on edit
+        itemToAdd.imageFilterValues = {
+          rotation: rotation,
+          brightness: brightness,
+          contrast: contrast,
+          saturate: saturate,
+          grayscale: grayscale,
+          sepia: sepia,
+          cardheight: cardheight,
+          cardwidth: cardwidth,
+        };
+      } else {
+        itemToAdd.title = product.title;
+        itemToAdd.price = product.price;
+        itemToAdd.imageFilters = {};
+        itemToAdd.imageFilterValues = {};
+      }
+      return ShoppingCartService.addItem(itemToAdd, text);
     } else {
-      itemToAdd.title = product.title;
-      itemToAdd.price = product.price;
-      itemToAdd.imageFilters = {};
-      itemToAdd.imageFilterValues = {};
+      setCardError(true);
     }
-    return ShoppingCartService.addItem(itemToAdd, text);
   };
 
   const handleAddAndRedirect = () => {
     handleAddToCart().then((key) => {
-      navigate("/checkout-data/" + key);
+      if (key) {
+        navigate("/checkout-data/" + key);
+      }
     });
   };
 
   const handleUpdate = () => {
-    let changedFields = {
-      cardText: text,
-      cardTextFilters: textFilters,
-      cardTextFilterValues: {
-        fontAlign: fontalign,
-        fontColor: fontcolor,
-        fontSize: fontsize,
-        fontStyle: fontstyle,
-        lineHeight: lineHeight,
-      },
-      cardImageFilters: imageFilters,
-      cardImageFilterValues: {
-        rotation: rotation,
-        brightness: brightness,
-        contrast: contrast,
-        saturate: saturate,
-        grayscale: grayscale,
-        sepia: sepia,
-        cardheight: cardheight,
-        cardwidth: cardwidth,
-      },
-      giftId: null,
-      giftPrice: 0,
-      giftImage: null
-    };
-    if(chosenGift !== null){
-      changedFields.giftId = chosenGift._id
-      changedFields.giftPrice = chosenGift.price
-      changedFields.giftImage = chosenGift.url
-    }
-    if (cardStyle === "own") {
-      changedFields.cardImage = image;
-    }
+    if (image && image !== null && text && text !== null && text !== "") {
+      let changedFields = {
+        cardText: text,
+        cardTextFilters: textFilters,
+        cardTextFilterValues: {
+          fontAlign: fontalign,
+          fontColor: fontcolor,
+          fontSize: fontsize,
+          fontStyle: fontstyle,
+          lineHeight: lineHeight,
+        },
+        cardImageFilters: imageFilters,
+        cardImageFilterValues: {
+          rotation: rotation,
+          brightness: brightness,
+          contrast: contrast,
+          saturate: saturate,
+          grayscale: grayscale,
+          sepia: sepia,
+          cardheight: cardheight,
+          cardwidth: cardwidth,
+        },
+        giftId: null,
+        giftPrice: 0,
+        giftImage: null,
+      };
+      if (chosenGift !== null) {
+        changedFields.giftId = chosenGift._id;
+        changedFields.giftPrice = chosenGift.price;
+        changedFields.giftImage = chosenGift.url;
+      }
+      if (cardStyle === "own") {
+        changedFields.cardImage = image;
+      }
 
-    ShoppingCartService.updateItem(id, changedFields);
+      ShoppingCartService.updateItem(id, changedFields);
+    } else {
+      setCardError(true);
+    }
   };
 
   const handleUpdateAndRedirect = () => {
@@ -300,7 +316,10 @@ const CreateFinal = ({
                 sx={{ float: "right" }}
                 variant="contained"
                 color="secondary"
-                onClick={handleAddToCart}
+                onClick={(event) => {
+                  handleAddToCart();
+                  setPopoverDrafts("block");
+                }}
               >
                 Add to shopping cart
               </Button>
@@ -330,6 +349,22 @@ const CreateFinal = ({
           </Grid>
         </Grid>
       </Typography>
+      <Dialog
+        open={cardError}
+        onClose={() => setCardError(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Error on insertion"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Please at least upload or choose an image. Also a bit of text would
+            be nice...
+          </DialogContentText>
+        </DialogContent>
+      </Dialog>
     </Box>
   );
 };

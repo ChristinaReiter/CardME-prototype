@@ -21,6 +21,8 @@ import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import { useTheme } from "@emotion/react";
 import AuthService from "../services/AuthService";
 import ShoppingCartService from "../services/ShoppingCartService";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const styles = {
   menuText: {
@@ -54,7 +56,8 @@ const Header = ({
 
   useEffect(() => {
     AuthService.getMe().then((res) => {
-      setCurrentAccount(res);
+    res.status ? setCurrentAccount(undefined) : setCurrentAccount(res);
+     
     });
   }, []);
 
@@ -115,7 +118,9 @@ const Header = ({
             </NavLink>
             <NavLink
               style={styles.menuText}
-              to={"/create/own/" + Math.floor(Math.random() * 100000000) + "/new"}
+              to={
+                "/create/own/" + Math.floor(Math.random() * 100000000) + "/new"
+              }
             >
               Create
             </NavLink>
@@ -214,12 +219,14 @@ const Header = ({
                     key={item.id}
                   >
                     <Grid item xs={4}>
-                      <img
-                        src={URL.createObjectURL(item.cardImage)}
-                        width="80%"
-                        alt="Product"
-                        style={item.cardImageFilters}
-                      ></img>
+                      <Box width="65px" overflow="hidden" height="100px">
+                        <img
+                          src={URL.createObjectURL(item.cardImage)}
+                          width="65px"
+                          alt="Product"
+                          style={item.cardImageFilters}
+                        ></img>
+                      </Box>
                     </Grid>
                     <Grid item xs={8} textAlign="right">
                       <Typography>{item.cardTitle}</Typography>
@@ -300,6 +307,7 @@ const Header = ({
           </Typography>
         </div>
       </AppBar>
+      <ToastContainer />
     </Box>
   );
 };

@@ -53,7 +53,9 @@ const Cards = () => {
     );
     AuthService.getMe().then(
       (result) => {
-        if (result !== undefined) {
+       
+        if (!result.status) {
+          console.log("hi")
           setUserID(result._id);
           CardService.getFavorites(result._id).then(
             (res) => {

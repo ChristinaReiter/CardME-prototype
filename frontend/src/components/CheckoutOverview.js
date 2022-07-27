@@ -54,12 +54,12 @@ const CheckoutOverview = () => {
     ShoppingCartService.getItem(id).then((item) => {
       setCartItem(item);
       setTotal(item.cardPrice + item.giftPrice);
-      console.log(item.cardPrice)
+      console.log(item.cardPrice);
     });
   }, []);
 
   useEffect(() => {
-    if(cartItem != null){
+    if (cartItem != null) {
       setTotal(cartItem.cardPrice + cartItem.giftPrice);
     }
     if (checkoutData.recurrentDelivery) {
@@ -169,14 +169,16 @@ const CheckoutOverview = () => {
         >
           <Grid container>
             <Grid item xs={3}>
-              {cartItem.cardImage && (
-                <img
-                  src={URL.createObjectURL(cartItem.cardImage)}
-                  width="65%"
-                  style={cartItem.cardImageFilters}
-                  alt="Card preview"
-                ></img>
-              )}
+              <Box width="180px" overflow="hidden" height="260px">
+                {cartItem.cardImage && (
+                  <img
+                    src={URL.createObjectURL(cartItem.cardImage)}
+                    width="180px"
+                    style={cartItem.cardImageFilters}
+                    alt="Card preview"
+                  ></img>
+                )}
+              </Box>
               <Typography fontFamily="Antic">
                 Delivery on {checkoutData.deliveryDate}
               </Typography>

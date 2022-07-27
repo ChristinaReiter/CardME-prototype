@@ -23,6 +23,7 @@ const styles = {
     marginRight: "20px",
     boxShadow:
       "2px 2px 30px rgba(0, 0, 0, 0.1), -2px -2px 30px rgba(0, 0, 0, 0.1)",
+    overflow: "hidden",
   },
   hiddenUpload: {
     display: "none",
@@ -92,13 +93,15 @@ export default function UploadImages({ id, image, setImage, imageFilters }) {
       </div>
       <div>
         {imageURL && (
-          <img
-            src={imageURL}
-            style={{ ...styles.cardWindow, ...imageFilters }}
-            id="card-image"
-            className="card-image"
-            alt="card"
-          />
+          <div style={styles.cardWindow}>
+            <img
+              src={imageURL}
+              style={{ ...styles.cardWindow, ...imageFilters }}
+              id="card-image"
+              className="card-image"
+              alt="card"
+            />
+          </div>
         )}
       </div>
     </div>

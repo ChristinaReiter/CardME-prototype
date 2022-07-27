@@ -27,7 +27,7 @@ const Product = ({ products, gift, headerfilter, setChosenGift }) => {
   useEffect(() => {
     AuthService.getMe().then(
       (result) => {
-        if (result !== undefined) {
+        if (!result.status) {
           setUserID(result._id);
           CardService.getFavorites(result._id).then(
             (res) => {
