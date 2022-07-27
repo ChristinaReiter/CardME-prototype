@@ -21,6 +21,8 @@ import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import { useTheme } from "@emotion/react";
 import AuthService from "../services/AuthService";
 import ShoppingCartService from "../services/ShoppingCartService";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const styles = {
   menuText: {
@@ -54,7 +56,8 @@ const Header = ({
 
   useEffect(() => {
     AuthService.getMe().then((res) => {
-      setCurrentAccount(res);
+    res.status ? setCurrentAccount(undefined) : setCurrentAccount(res);
+     
     });
   }, []);
 
@@ -300,6 +303,7 @@ const Header = ({
           </Typography>
         </div>
       </AppBar>
+      <ToastContainer />
     </Box>
   );
 };
