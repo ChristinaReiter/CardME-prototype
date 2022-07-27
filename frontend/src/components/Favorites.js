@@ -18,6 +18,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import AuthService from "../services/AuthService";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import FavoriteButton from "./FavoriteButton";
 
 
 const Favorites = () => {
@@ -34,6 +35,7 @@ const Favorites = () => {
           CardService.getFavorites(result._id).then(
             (res) => {
               setFavorites(res);
+              console.log(favorites);
             },
             (err) => {
               console.log(err);
@@ -76,29 +78,6 @@ const Favorites = () => {
     navigate("/create/chosen/" + product._id);
   };
 
-  function FavoriteButton(props) {
-      return (
-        <CardActions>
-          <IconButton
-            aria-label="add to favorites"
-            style={styles.favorites}
-            sx={{ color: "#DC9292" }}
-            onClick={() => {
-              CardService.removeFavorite({ product: props.productObject }).then(
-                () => {
-                  toast("Favorite removed")
-                  const updated = favorites.filter((fav) => fav._id !== props.productObject._id);
-                
-                  setFavorites(updated);
-                }
-              );
-            }}
-          >
-            <FavoriteIcon />
-          </IconButton>
-        </CardActions>
-      );
-  }
 
 
 
@@ -125,6 +104,9 @@ const Favorites = () => {
                 >
                   <FavoriteButton
                     productObject={product}
+                    userID={userID}
+                    favorites={favorites}
+                    setFavorites={setFavorites}
                   ></FavoriteButton>
                   <div
                     style={{
@@ -224,7 +206,7 @@ const Favorites = () => {
                     bgcolor: "#F3F3F3",
                   }}
                 >
-                  <FavoriteButton productObject={product} res=""></FavoriteButton>
+                  <FavoriteButton productObject={product} userID={userID} favorites={favorites} setFavorites={setFavorites} singleProduct={false}></FavoriteButton>
                   <div
                     style={{
                       display: "flex",
