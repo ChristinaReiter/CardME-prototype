@@ -8,10 +8,8 @@ import {
   CardActions,
   CardContent,
   CardMedia,
-  IconButton,
 } from "@mui/material";
 import CardService from "../services/CardService";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useNavigate, useParams } from "react-router-dom";
 import AuthService from "../services/AuthService";
 import { ToastContainer, toast } from "react-toastify";
@@ -109,13 +107,13 @@ const Product = ({ products, gift, headerfilter, setChosenGift }) => {
             <Grid
               container
               rowSpacing={1}
-              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+              columnSpacing={{ xs: 2, sm: 2, md: 3 }}
               sx={{ margin: "20px 10px 10px 10px" }}
             >
               {products.map((product) => (
                 <Grid
                   item
-                  xs={3}
+                  xs={gift? 3 : 2}
                   key={product._id}
                   style={{ marginLeft: "5%", marginBottom: "2%" }}
                 >

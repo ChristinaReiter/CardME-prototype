@@ -1,28 +1,14 @@
 import React, { useEffect, useState } from "react";
 import {
-  Alert,
-  Typography,
-  Button,
   Box,
-  Collapse,
-  Grid,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  IconButton,
   Input,
   InputAdornment,
-  TextareaAutosize,
 } from "@mui/material";
 import CardService from "../services/CardService";
-import CloseIcon from "@mui/icons-material/Close";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate, useParams } from "react-router-dom";
 import CardsFilterHeader from "./CardsFilterHeader";
 import AuthService from "../services/AuthService";
-import { ToastContainer, toast } from 'react-toastify';
 import Product from "./Product";
 
 const Cards = ({

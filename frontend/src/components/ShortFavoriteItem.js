@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
-import { Box,Typography, Button, Card, CardContent, CardMedia, Table, TableBody, TableHead, TableCell, TableContainer, TableRow, Paper } from '@mui/material'
+import { Box,Typography, Button} from '@mui/material'
 
 
 import { useNavigate } from 'react-router-dom';
 import CardService from '../services/CardService';
-import AuthService from '../services/AuthService';
 
 function ShortFavoriteItem() {  
   const imageUrl = "http://localhost:3001/public/";
@@ -18,31 +17,18 @@ function ShortFavoriteItem() {
     }
 
     useEffect(() => {
-      /* AuthService.getMe().then(
-        (result) => {
-          if (result !== undefined) { */
-            CardService.getFavorites(/* result._id */).then(
-              (res) => {
-                setFavorites(res);
-                if(res.length < 4) {
-                  setShortFavoriteLength(res.length);
-                }
-                else {
-                  setShortFavoriteLength(4);
-                }
-                console.log(res)
-              }/* ,
-              (err) => {
-                console.log(err);
-              } */
-             
-            );
-       /*    }
-        },
-        (error) => {
-          console.log(error);
-        } 
-      );*/
+      CardService.getFavorites().then(
+        (res) => {
+          setFavorites(res);
+          if(res.length < 4) {
+            setShortFavoriteLength(res.length);
+          }
+          else {
+            setShortFavoriteLength(4);
+          }
+          console.log(res)
+        }
+      )
     }, []);
 
     

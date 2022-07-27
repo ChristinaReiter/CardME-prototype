@@ -27,18 +27,11 @@ useEffect(() => {
         CardService.getSingleCard(productid).then(
             (result) => {
               setSingleProduct(result);
-              if (result.title === "Heartly Mother's Day Card") {
-                setdiffColorCards(["hmd_blue.png", "hmd_bright.png", "hmd_pale.png", "hmd_yellow.png"]);     
-              }
-              if (result.title === "Flowery Wishes") {
-                setdiffColorCards(["fw_blue.jpg", "fw_green.jpg", "fw_pink.jpg", "fw_orange.jpg"]);
-              }
-              if (result.title === "I Moustache You") {
-                setdiffColorCards(["imy_blue.jpg", "imy_gold.jpg", "imy_red.jpg", "imy_violet.jpg"]);
-              }
-              if (result.title === "Pastell Flowers") {
-                setdiffColorCards(["fp_green.jpg", "fp_violet.jpg", "fp_brown.jpg", "fp_pink.jpg"]);
-              }
+                CardService.getImages(result.foldername).then(
+                  (res) => {
+                    setdiffColorCards(res);
+                  }          
+                )
               setCurrentImage(result.url);
             },
             (error) => {
@@ -199,7 +192,7 @@ function SwitchFavoriteButton() {
           <Card style={producttype==="gift" ? styles.giftimage : styles.cardimage} elevation={22}>
             <CardMedia 
               component="img" 
-              src={singleProduct? (producttype === "gift" ? (imageUrl + "/" + singleProduct.foldername + "/" + singleProduct.url) : (imageUrl + "/" + singleProduct.foldername + "/" + currentImage)) : ""} 
+              src={singleProduct? (producttype === "gift" ? (imageUrl + singleProduct.foldername + "/" + singleProduct.url) : (imageUrl + singleProduct.foldername + "/" + currentImage)) : ""} 
               alt="Card-Preview" 
               crossOrigin="anonymous" 
               style={{
@@ -211,23 +204,7 @@ function SwitchFavoriteButton() {
           </Card>
           {producttype === "card" ?
           <div style={{display:"flex", flexDirection: "row", justifyContent: "center", position:"absolute", paddingTop:"30px", paddingRight:"10%"}}>
-            <Box 
-              variant="outlined" 
-              style={{width:"100px", height:"100px", borderColor: "black", backgroundColor:"#E8E8E8", marginRight:"5%", marginBottom:"10px"}} 
-              onClick={() => changeDisplayImage(singleProduct? singleProduct.url : "")}>
-              <CardMedia 
-                  component="img"
-                  src= {singleProduct? (imageUrl + "/" + singleProduct.foldername + "/" + singleProduct.url) : ""} 
-                  alt="Card-Preview" 
-                  crossOrigin="anonymous" 
-                  style={{
-                    marginLeft: "10%", 
-                    marginTop:"10%", 
-                    width:"80%", 
-                    height:"80%"
-                  }}
-                  />
-            </Box>
+            
             {diffColorCards.map((otherCol) => (
               <Box 
                 key={otherCol.toString()} 

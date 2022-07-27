@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-    CardActions,
     IconButton,
   } from "@mui/material";
   import CardService from "../services/CardService";

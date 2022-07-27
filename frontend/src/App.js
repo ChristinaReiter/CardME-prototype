@@ -19,10 +19,7 @@ import Calendar from "./components/Calendar";
 import Favorites from "./components/Favorites";
 import Contacts from "./components/Contacts";
 import Details from "./components/Details";
-import ShoppingCartService from "./services/ShoppingCartService";
 import SuccessfulOrder from "./components/SuccessfulOrder";
-import ViewCard from "./components/ViewCard";
-import ViewGift from "./components/ViewGift";
 import Gifts from "./components/Gifts";
 import ViewProduct from "./components/ViewProduct";
 
@@ -190,12 +187,6 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route exact path="/cards" element={navigateToCards} />
               <Route exact path="/cards/:headerfilter" element={navigateToCards} />
-              <Route path="/ViewCard/:cardid" element={<ViewCard />} />
-              <Route
-                path="/ViewCard/:headerfilter/:cardid"
-                element={<ViewCard />}
-              />
-              <Route path="/ViewGift/:giftid" element={<ViewGift />} />
               <Route
                 path="/ViewProduct/:producttype/:productid"
                 element={<ViewProduct />}

@@ -1,17 +1,10 @@
 import React, { useEffect, useState } from "react";
 import {
   Box,
-  Grid,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  IconButton,
   Input,
   InputAdornment,
 } from "@mui/material";
 import GiftService from "../services/GiftService";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate, useParams } from "react-router-dom";
 import GiftsFilterHeader from "./GiftsFilterHeader";
@@ -61,22 +54,6 @@ const Gifts = ({
       }
     );
   }, []);
-
-  const styles = {
-    button: {
-      fontFamily: "Annie Use Your Telescope",
-      fontSize: 18,
-      marginRight: 20,
-      marginLeft: 20,
-      width: "110px",
-    },
-    favorites: {
-      marginLeft: "auto",
-    },
-    image: {
-      objectFit: "cover",
-    },
-  };
 
   //search bar design
   const SearchBarStyle = {
@@ -202,7 +179,7 @@ const Gifts = ({
           style={SearchBarStyle}
         ></Input>
       </Box>
-      <Product products={products} gift={true} headerfilter={null} setChosenGift={setChosenGift}/>
+      <Product products={filteredCards} gift={true} headerfilter={null} setChosenGift={setChosenGift}/>
       <ToastContainer />
     </div>
   );

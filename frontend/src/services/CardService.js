@@ -36,6 +36,21 @@ export default class CardService {
     }
   }
 
+  static async getImages(foldername) {
+    try {
+      let response = await fetch(this.baseUrl + "/products/imagedir?dir=" + foldername, {
+        method: "GET",
+      });
+
+      response = await response.json();
+      console.log(response);
+      return response;
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
+  }
+
   static async getFavorites(/* userID */) {
     try {
       let account = JSON.parse(localStorage.getItem("account"));
