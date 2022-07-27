@@ -75,8 +75,12 @@ const Calendar = () => {
               title: res.title,
               start: res.eventDate,
               allDay: true,
-              id: res.id
+              id: res.id,
+              extendedProps: {description: res.description}
             }]);
+            setEventDate('');
+            setTitle('');
+            setDescription('');
         
         toast("Event created")
         }

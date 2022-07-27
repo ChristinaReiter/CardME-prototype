@@ -28,6 +28,12 @@ const Contacts = () => {
           toast("Contact not created");
         }
       );
+      setName("")
+      setStreet("")
+      setStreetNumber("")
+      setZipCode("")
+      setCity("")
+      setCountry("")
     }
 
     useEffect(() => {
