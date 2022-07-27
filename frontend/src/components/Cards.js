@@ -23,9 +23,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import CardsFilterHeader from "./CardsFilterHeader";
 import AuthService from "../services/AuthService";
 import { ToastContainer, toast } from 'react-toastify';
+import Product from "./Product";
 
 const Cards = () => {
-  const imageUrl = "http://localhost:3001/public/";
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState([]);
   const [colorFilter, setColorFilter] = useState({});
@@ -39,7 +39,6 @@ const Cards = () => {
   const [userID, setUserID] = useState();
   const navigate = useNavigate();
   const { headerfilter } = useParams();
-  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     CardService.getAllCards().then(
@@ -99,9 +98,6 @@ const Cards = () => {
     },
     favorites: {
       marginLeft: "auto",
-    },
-    image: {
-      objectFit: "cover",
     },
   };
 
@@ -230,64 +226,6 @@ const Cards = () => {
     }
   });
 
-  function FavoriteButton(props) {
-   
-    const found = favorites.find(
-        (element) => element._id === props.productObject._id
-      );
-    
-    if (found) {
-      return (
-        <CardActions>
-          <IconButton
-            aria-label="add to favorites"
-            style={styles.favorites}
-            sx={{ color: "#DC9292" }}
-            onClick={() => {
-                CardService.removeFavorite({ product: props.productObject }).then(
-                  () => {
-                    toast("Favorite removed");
-                    const updated = favorites.filter((fav) => fav._id !== props.productObject._id);
-                  
-                    setFavorites(updated);
-                  }
-                ); 
-            }}
-          >
-            <FavoriteIcon />
-          </IconButton>
-        </CardActions>
-      );
-    } else {
-      return (
-        <CardActions>
-          <IconButton
-            aria-label="add to favorites"
-            style={styles.favorites}
-            sx={{ color: "grey" }}
-            onClick={() => {
-              if(userID === undefined)
-              {
-                toast("not logged in");
-              }
-              else {
-                CardService.setFavorites({ product: props.productObject }).then(
-                  () => {
-                    toast("Favorite added") 
-                    setFavorites([...favorites, props.productObject]);
-                  }
-              );
-              }
-              
-            }}
-          >
-            <FavoriteIcon />
-          </IconButton>
-        </CardActions>
-      );
-    }
-  }
-
   return (
     <div>     
       <Box sx={{ flexGrow: 1, flexShrink: 1, position: "relative" }}>
@@ -329,118 +267,7 @@ const Cards = () => {
           style={SearchBarStyle}
         ></Input>
       </Box>
-      
-      <Box sx={{ margin: "30px 30px 30px 30px" }}>
-        <Typography variant="h4">All Cards:</Typography>
-        <div>
-          {filteredCards.length > 0 ? (
-            <Grid
-              container
-              rowSpacing={1}
-              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-              sx={{ margin: "20px 10px 10px 10px" }}
-            >
-              {filteredCards.map((product) => (
-                <Grid item xs={3} key={product._id}>
-                  <Card
-                    sx={{
-                      width: 270,
-                      height: 430,
-                      bgcolor: "#F3F3F3",
-                    }}
-                  >
-                    <FavoriteButton
-                      productObject={product}
-                      res=""
-                    ></FavoriteButton>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <CardMedia
-                        style={styles.image}
-                        component="img"
-                        sx={{ width: 146.67, height: 220, objectFit: "cover" }}
-                        src={imageUrl + product.foldername + "/" + product.url}
-                        alt="Card-Preview"
-                        crossOrigin="anonymous"
-                      />
-                    </div>
-                    <CardContent>
-                      <Typography
-                        fontFamily={"Antic"}
-                        fontSize="20px"
-                        fontWeight={"500"}
-                        textAlign="center"
-                        component="div"
-                      >
-                        {product.title}
-                      </Typography>
-                      <Typography
-                        fontFamily={"Antic"}
-                        fontSize="16px"
-                        textAlign={"center"}
-                        component="div"
-                      >
-                        by {product.designer}
-                      </Typography>
-                    </CardContent>
-                    <CardActions>
-                      <div
-                        style={{ display: "flex", justifyContent: "center" }}
-                      >
-                        <Button
-                          size="small"
-                          variant="contained"
-                          color="secondary"
-                          style={styles.button}
-                          onClick={() => {
-                            if(headerfilter) {
-                              navigate("/ViewCard/" + headerfilter + "/" + product._id);
-                            }
-                            else {
-                              navigate("/ViewCard/" + product._id);
-                            }
-                            
-                          }}
-                        >
-                          View
-                        </Button>
-                        <Button
-                          size="small"
-                          variant="contained"
-                          color="secondary"
-                          style={styles.button}
-                          onClick={() => {
-                            addProductToCart(product);
-                          }}
-                        >
-                          Write
-                        </Button>
-                      </div>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          ) : (
-            <Typography
-              style={{
-                alignContent: "center",
-                marginLeft: "1%",
-                marginTop: "1%",
-                fontSize: "24px",
-              }}
-            >
-              No Cards Available.
-            </Typography>
-          )}
-        </div>
-        <ToastContainer />
-      </Box>
+      <Product products={filteredCards} gift={false} headerfilter={headerfilter} />   
     </div>
   );
 };

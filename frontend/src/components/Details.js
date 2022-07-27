@@ -1,27 +1,49 @@
 import { useState, useEffect } from 'react'
-import { Button, Popover, Typography, TextField } from '@mui/material';
+import {  Button,
+  Box,
+  IconButton,
+  Popover,
+  Typography,
+  TextField,
+  Card,
+  CardHeader,
+  CardContent,
+  CardActions,} from '@mui/material';
 import UpdateIcon from '@mui/icons-material/Update';
+import LockResetIcon from '@mui/icons-material/LockReset';
 import AuthService from '../services/AuthService'
 import DetailsService from '../services/DetailsService'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const AccountDetails = () => {
   //const [account, setAccount] = useState({})
   const [anchorEl, setAnchorEl] = useState(null);
+  const [pwAnchor, setPwAnchor] = useState(null)
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [newName, setNewName] = useState("");
+  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
 
   
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  const handlePwClick = (event) => {
+    setPwAnchor(event.currentTarget);
+  }
 
   const handleClose = () => {
     setAnchorEl(null);
+    setPwAnchor(null);
+    setNewPassword("")
+    setPassword("")
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
+  const pwOpen = Boolean(pwAnchor);
 
 
 
@@ -30,44 +52,75 @@ const AccountDetails = () => {
     
       DetailsService.updateAccount({name: newName}).then(
           res => { 
-            //alert("Contact updated"); 
+            toast("Account updated"); 
             console.log(res)
-            console.log("Account updated")
-            /* localStorage.setItem("name", JSON.stringify(res.name))
-            localStorage.setItem("email", JSON.stringify(res.email)) */
+            console.log("Account updated")           
   
             setName(res.name)
             setEmail(res.email)
+            setNewName("")
+            handleClose()
   
       })
     }
 
+    const changePw = (e) => {
+      e.preventDefault(); // w/o this, the page will refresh which might be good but is annoying for testing... 
+      
+        DetailsService.changePassword({password: password, newPassword: newPassword}).then(
+            res => { 
+              res.status ? toast(res.message) : toast("Password updated");             
+              setNewPassword("")
+              setPassword("")
+              handleClose()
+        
+        })
+      }
+
+    
+
  useEffect(() => {
-    /* AuthService.getMe().then(
+    AuthService.getMe().then(
       res => {
-        console.log(res)
         setName(res.name)
         setEmail(res.email)
       }
-    )  */
-    let account = JSON.parse(localStorage.getItem("account")) // above takes ages to get but is secure?!?!?
-    console.log(account)
- 
-    setName(account.name)
-    setEmail(account.email)
+    )  
 
  }, [])
   
   return (
     <div>
-      <Typography variant="h2">{name}'s Account Details</Typography>
-      <Typography variant="h4" align="center">Name: {name}</Typography>
-      <Typography variant="h4" align="center">Email: {email}</Typography>
-      <Button align="center" aria-describedby={id} onClick={handleClick}  startIcon={<UpdateIcon />} sx= {{marginLeft:'auto', color:'black', pr: '2em' }}>
-          Update
-        </Button> 
+      <Typography sx={{ pl: "25px", pt: "10px", pb: "20px"  }} variant="h3">{name}'s Account Details</Typography>
+
+      <Box sx={{ pl: "25px", pt: "10px", pb: "20px", pr: "25px"  }}>
+      <Card sx={{ backgroundColor: "#a7cda7" }}>
+        <CardHeader         
+          title={name}
+        />
+        <CardContent>
+          <Typography variant="h5">Email: {email}</Typography>
+        </CardContent>
+        <CardActions disableSpacing>
+          <Button
+  
+            onClick={handleClick}
+            startIcon={<UpdateIcon />}
+            sx={{ marginLeft: "auto", color: "black", pr: "2em" }}
+          >
+            Update Name
+          </Button>
+          <Button
+   
+            onClick={handlePwClick}
+            startIcon={<LockResetIcon />}
+            sx={{ marginLeft: "auto", color: "black", pr: "2em" }}
+          >
+            Change Password
+          </Button>
+        </CardActions>
         <Popover
-        id={id}
+ 
         open={open}
         anchorEl={anchorEl}
         onClose={handleClose}
@@ -93,12 +146,58 @@ const AccountDetails = () => {
                 color="secondary"
                 variant="contained"
                 type="submit">
-                Update
+                Update 
             </Button>
         </form>
+        </Popover>
+
+        <Popover
+      
+        open={pwOpen}
+        anchorEl={pwAnchor}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+      >
+       
+        <form onSubmit={changePw}>
+            <TextField 
+                sx={{ m: 1 }}
+                type="text"
+                label="Current Password"
+                name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required> 
+            </TextField>
+            <TextField 
+                sx={{ m: 1 }}
+                type="text"
+                label="New Password"
+                name="newPassword"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                required> 
+            </TextField>
+            
+            <Button
+                sx={{ m: 2 }}
+                color="secondary"
+                variant="contained"
+                type="submit">
+                Change Password 
+            </Button>
+        </form>
+        </Popover>
+        </Card>
         
-      </Popover>
+
+      <ToastContainer />
+      </Box>
     </div>
+
   )
 }
 

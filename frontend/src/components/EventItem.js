@@ -3,6 +3,9 @@ import { Button, IconButton, Popover, Typography, TextField, Card, CardHeader, C
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import UpdateIcon from '@mui/icons-material/Update';
 import EventService from '../services/EventService';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 
@@ -34,7 +37,7 @@ function EventItem({event, changeEvent, allEvents, changeCalEvent, allCalEvents}
 const deleteEvent = (id) => {
     EventService.deleteEvent({id}).then(
         () => {  
-          //alert("Contact deleted");
+          toast("Event deleted");
           console.log("Event deleted");
           const updated = allEvents.filter(eve => eve._id !== id);
           changeEvent(updated);
@@ -43,7 +46,11 @@ const deleteEvent = (id) => {
           changeCalEvent(updatedCal);
           
         }
-      )
+      ).catch(
+        () => {              
+          toast("Event not deleted");
+        }
+      );
 }
 
 const updateEvent = (e, id) => {
@@ -53,9 +60,8 @@ const updateEvent = (e, id) => {
   
     EventService.updateEvent({data, id}).then(
         res => { 
-          //alert("Contact updated"); 
-          console.log(res)
-          console.log("Event updated")
+         toast("Event updated"); 
+          //console.log("Event updated")
 
           changeEvent(prevState => {
             const updated = prevState.map(eve => {
@@ -90,8 +96,13 @@ const updateEvent = (e, id) => {
         setEventDate(newEventDate)
         setTitle(newTitle)
         setDescription(newDescription)
+        handleClose();
 
-    })
+    }).catch(
+      () => {              
+        toast("Event not updated");
+      }
+    );
   }
 
  useEffect(() => {
@@ -182,6 +193,7 @@ const updateEvent = (e, id) => {
         
       </Popover>
       </Card> 
+      <ToastContainer />
         
     </div>
   )

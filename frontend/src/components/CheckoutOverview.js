@@ -24,6 +24,7 @@ import SubscriptionService from "../services/SubscriptionService";
 
 const CheckoutOverview = () => {
   const [cartItem, setCartItem] = useState({});
+  const [total, setTotal] = useState(0.01);
   const [checkoutData, setCheckoutData] = useState({});
   const [subscriptionPlan, setSubscriptionPlan] = useState(null);
   const [startingDate, setStartingDate] = useState(null);
@@ -52,17 +53,20 @@ const CheckoutOverview = () => {
 
     ShoppingCartService.getItem(id).then((item) => {
       setCartItem(item);
+      setTotal(item.cardPrice + item.giftPrice);
+      console.log(item.cardPrice)
     });
   }, []);
 
   useEffect(() => {
+    if(cartItem != null){
+      setTotal(cartItem.cardPrice + cartItem.giftPrice);
+    }
     if (checkoutData.recurrentDelivery) {
       let deliveryDate = Date.parse(checkoutData.deliveryDate);
       setStartingDate(new Date(deliveryDate).toISOString());
 
-      PayPalService.createSubscriptionPlan(
-        cartItem.cardPrice + cartItem.giftPrice
-      ).then((result) => {
+      PayPalService.createSubscriptionPlan(total).then((result) => {
         if (result) {
           setSubscriptionPlan(result.id);
         }
@@ -77,7 +81,7 @@ const CheckoutOverview = () => {
       ShoppingCartService.removeItem(id);
       navigate("/successful-order/" + response.order._id);
     } else {
-      setOrderError(true)
+      setOrderError(true);
     }
   };
 
@@ -113,12 +117,12 @@ const CheckoutOverview = () => {
         CheckoutService.removeData();
         ShoppingCartService.removeItem(id);
         navigate("/successful-order/" + order.order._id);
-      }else{
-        setOrderError(true)
+      } else {
+        setOrderError(true);
       }
     } else {
       console.log("Subscription error");
-      setOrderError(true)
+      setOrderError(true);
     }
   };
 
@@ -225,15 +229,14 @@ const CheckoutOverview = () => {
               <Typography fontFamily="Antic" variant="h6">
                 Free delivery: 0,- <br />
                 incl. VAT:{" "}
-                {(
-                  (cartItem.cardPrice + cartItem.giftPrice) *
-                  0.16
-                ).toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                {(total * 0.16).toLocaleString(undefined, {
+                  maximumFractionDigits: 2,
+                })}
                 ,-
               </Typography>
               <Divider></Divider>
               <Typography fontFamily="Antic" variant="h3">
-                {cartItem.cardPrice + cartItem.giftPrice},-
+                {total},-
               </Typography>
             </Grid>
             <Grid item xs={1}></Grid>
@@ -307,7 +310,7 @@ const CheckoutOverview = () => {
         >
           <Typography variant="h4">Payment</Typography>
           <Box textAlign="center" padding="2em">
-            {!checkoutData.recurrentDelivery && (
+            {!checkoutData.recurrentDelivery && total && (
               <PayPalScriptProvider
                 options={{
                   "client-id": PayPalService.clientId,
@@ -324,7 +327,7 @@ const CheckoutOverview = () => {
                       purchase_units: [
                         {
                           amount: {
-                            value: cartItem.cardPrice + cartItem.giftPrice,
+                            value: total,
                           },
                           shipping: {
                             name: {
@@ -380,7 +383,7 @@ const CheckoutOverview = () => {
                       purchase_units: [
                         {
                           amount: {
-                            value: cartItem.cardPrice + cartItem.giftPrice,
+                            value: total,
                           },
                         },
                       ],
@@ -483,8 +486,7 @@ const CheckoutOverview = () => {
         <DialogTitle id="alert-dialog-title">{"Order Error"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            There was an error creating the order, please try
-            again
+            There was an error creating the order, please try again
           </DialogContentText>
         </DialogContent>
       </Dialog>

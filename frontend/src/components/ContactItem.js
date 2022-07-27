@@ -103,6 +103,7 @@ function ContactItem({ contact, changeContact, allContacts }) {
       setZipCode(newZipCode);
       setCity(newCity);
       setCountry(newCountry);
+      handleClose();
     });
   };
 
