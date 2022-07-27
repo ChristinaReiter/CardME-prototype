@@ -46,6 +46,8 @@ const Create = ({
   setlineHeight,
   chosenGift,
   setChosenGift,
+  popoverDrafts, 
+  setPopoverDrafts
 }) => {
   const { cardStyle, id, mode } = useParams();
   const [product, setProduct] = useState();
@@ -220,6 +222,8 @@ const Create = ({
         cardheight={cardheight}
         cardwidth={cardwidth}
         chosenGift={chosenGift}
+        popoverDrafts={popoverDrafts}
+        setPopoverDrafts={setPopoverDrafts}
       />
     </div>
   );

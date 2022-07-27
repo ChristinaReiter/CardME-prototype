@@ -32,7 +32,6 @@ function EventItem({event, changeEvent, allEvents, changeCalEvent, allCalEvents}
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
 
 const deleteEvent = (id) => {
     EventService.deleteEvent({id}).then(
@@ -138,12 +137,11 @@ const updateEvent = (e, id) => {
       
         </CardContent>
         <CardActions disableSpacing>
-         <Button aria-describedby={id} onClick={handleClick}  startIcon={<UpdateIcon />} sx= {{marginLeft:'auto', color:'black', pr: '2em' }}>
+         <Button  onClick={handleClick}  startIcon={<UpdateIcon />} sx= {{marginLeft:'auto', color:'black', pr: '2em' }}>
           Update
         </Button>
         </CardActions>
       <Popover
-        id={id}
         open={open}
         anchorEl={anchorEl}
         onClose={handleClose}

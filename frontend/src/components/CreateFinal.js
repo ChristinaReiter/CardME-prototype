@@ -85,7 +85,9 @@ const CreateFinal = ({
   cardheight,
   cardwidth,
   lineHeight,
-  chosenGift
+  chosenGift,
+  popoverDrafts,
+  setPopoverDrafts
 }) => {
   const [viewState, setViewState] = React.useState(true);
   // For internal image display

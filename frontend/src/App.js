@@ -119,9 +119,12 @@ function App() {
         setlineHeight={setlineHeight}
         chosenGift={chosenGift}
         setChosenGift={setChosenGift}
+        popoverDrafts={popoverDrafts}
+        setPopoverDrafts={setPopoverDrafts}
       />
   )
 
+  const [popoverDrafts, setPopoverDrafts] = useState("none");
   return (
     <div>
       <ThemeProvider theme={theme}>
@@ -129,6 +132,8 @@ function App() {
           <Header
             currentAccount={currentAccount}
             setCurrentAccount={setCurrentAccount}
+            popoverDrafts={popoverDrafts}
+            setPopoverDrafts={setPopoverDrafts}
           />
           <Box sx={{ mt: 6, position: "static" }}>
             <Routes>
