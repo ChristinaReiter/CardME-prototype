@@ -9,34 +9,48 @@ import ShoppingCartService from "../services/ShoppingCartService";
 import { useParams } from "react-router-dom";
 import CardService from "../services/CardService";
 
-const Create = (popoverDrafts, setPopoverDrafts) => {
+const Create = ({
+  image,
+  setImage,
+  text,
+  setText,
+  rotation,
+  setRotation,
+  brightness,
+  setBrightness,
+  contrast,
+  setContrast,
+  saturate,
+  setSaturate,
+  grayscale,
+  setGrayscale,
+  sepia,
+  setSepia,
+  imageFilters,
+  setImageFilters,
+  cardheight,
+  setCardheight,
+  cardwidth,
+  setCardwidth,
+  fontstyle,
+  setfontstyle,
+  fontcolor,
+  setfontcolor,
+  fontsize,
+  setfontsize,
+  fontalign,
+  setfontalign,
+  textFilters,
+  setTextFilters,
+  lineHeight,
+  setlineHeight,
+  chosenGift,
+  setChosenGift,
+  popoverDrafts,
+  setPopoverDrafts,
+}) => {
   const { cardStyle, id, mode } = useParams();
-  const [text, setText] = useState(null);
   const [product, setProduct] = useState();
-
-  // Used to save images (both own and chosen)
-  const [image, setImage] = useState(null);
-
-  // Individual Style attributes of the own image
-  const [rotation, setRotation] = useState(0);
-  const [brightness, setBrightness] = useState(100);
-  const [contrast, setContrast] = useState(100);
-  const [saturate, setSaturate] = useState(100);
-  const [grayscale, setGrayscale] = useState(0);
-  const [sepia, setSepia] = useState(0);
-  const [cardwidth, setCardwidth] = useState(240);
-  const [cardheight, setCardheight] = useState(300);
-
-  // Applied Style of the own image
-  const [imageFilters, setImageFilters] = useState(null);
-
-  //states for text styles
-  const [textFilters, setTextFilters] = useState(null);
-  const [fontstyle, setfontstyle] = React.useState("Annie Use Your Telescope");
-  const [fontcolor, setfontcolor] = React.useState("black");
-  const [fontsize, setfontsize] = React.useState(20);
-  const [fontalign, setfontalign] = React.useState("left");
-  const [lineHeight, setlineHeight] = React.useState(1);
 
   useEffect(() => {
     if (cardStyle === "chosen" && mode !== "edit") {
@@ -49,22 +63,36 @@ const Create = (popoverDrafts, setPopoverDrafts) => {
         setProduct(item);
         setImage(item.cardImage);
         setText(item.cardText);
-        setRotation(item.cardImageFilterValues.rotation);
-        setBrightness(item.cardImageFilterValues.brightness);
-        setContrast(item.cardImageFilterValues.contrast);
-        setSaturate(item.cardImageFilterValues.saturate);
-        setGrayscale(item.cardImageFilterValues.grayscale);
-        setSepia(item.cardImageFilterValues.sepia);
-        setCardheight(item.cardImageFilterValues.cardheight);
-        setCardwidth(item.cardImageFilterValues.cardwidth);
         setTextFilters(item.cardTextFilters);
         setfontalign(item.fontAlign);
         setfontcolor(item.fontColor);
         setfontsize(item.fontSize);
         setfontstyle(item.fontStyle);
         setlineHeight(item.lineHeight);
+
+        if (cardStyle === "own") {
+          setRotation(item.cardImageFilterValues.rotation);
+          setBrightness(item.cardImageFilterValues.brightness);
+          setContrast(item.cardImageFilterValues.contrast);
+          setSaturate(item.cardImageFilterValues.saturate);
+          setGrayscale(item.cardImageFilterValues.grayscale);
+          setSepia(item.cardImageFilterValues.sepia);
+          setCardheight(item.cardImageFilterValues.cardheight);
+          setCardwidth(item.cardImageFilterValues.cardwidth);
+        }
+
+        if (item.giftId !== null) {
+          setChosenGift({
+            _id: item.giftId,
+            price: item.giftPrice,
+            foldername: "gifts",
+            url: item.giftImage,
+          });
+        }
       });
-    } else {
+    }
+    if (mode === "new") {
+      console.log("reset");
       // Reset all states for new card
       setRotation(0);
       setBrightness(100);
@@ -77,6 +105,12 @@ const Create = (popoverDrafts, setPopoverDrafts) => {
       setCardwidth(260);
       setTextFilters(null);
       setText(null);
+      setChosenGift(null);
+      setfontalign("left");
+      setfontcolor("black");
+      setfontsize(20);
+      setfontstyle("Annie Use Your Telescope");
+      setlineHeight(1);
     }
   }, [cardStyle, mode, id]);
 
@@ -159,7 +193,12 @@ const Create = (popoverDrafts, setPopoverDrafts) => {
         fontsize={fontsize}
         lineHeight={lineHeight}
       />
-      <CreateAddGift /> //Add gift part
+      <CreateAddGift //Add gift part
+        mode={mode}
+        cardStyle={cardStyle}
+        id={id}
+        chosenGift={chosenGift}
+      />{" "}
       <CreateFinal //View final card (front and inside text)
         id={id}
         text={text}
@@ -182,6 +221,7 @@ const Create = (popoverDrafts, setPopoverDrafts) => {
         textFilters={textFilters}
         cardheight={cardheight}
         cardwidth={cardwidth}
+        chosenGift={chosenGift}
         popoverDrafts={popoverDrafts}
         setPopoverDrafts={setPopoverDrafts}
       />
