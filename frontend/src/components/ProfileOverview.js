@@ -26,10 +26,7 @@ const styles = {
  const ProfileOverview = ({setCurrentAccount, currentAccount}) => {
   const [selectedTab, setSelectedTab] = useState(0);
   const navigate = useNavigate();
-
  
-
-  
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);

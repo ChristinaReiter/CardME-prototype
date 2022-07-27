@@ -8,17 +8,39 @@ import {
   CardContent,
   CardActions,
 } from "@mui/material";
+import { useEffect, useState } from "react";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import SubscriptionService from "../services/SubscriptionService";
 import PayPalService from "../services/PayPalService";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import OrderService from "../services/OrderService";
 
 function SubscriptionItem({
   subscription,
   allSubscriptions,
   changeSubscription,
 }) {
+  
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const[card, setCard] = useState("");
+
+  useEffect(() => {
+    //get order of subscription for additional information
+    OrderService.getOrders().then(res => {
+     
+
+       const order = res.filter((order) => order._id === subscription.order);
+       setName(order[0].recipientName);
+        setPrice(order[0].total);
+        setCard(order[0].products.cardTitle);
+         
+    
+    })}, []);
+
+
+  //delete subscription from database and paypal
   const deleteSubscription = async (id, paypalId) => {
     await PayPalService.cancelSubscription(paypalId);
     await SubscriptionService.deleteSubscription({ id });
@@ -44,18 +66,16 @@ function SubscriptionItem({
                 <DeleteForeverIcon />
               </IconButton>
             }
-            title={subscription._id}
+            title={`Subscription for: ${name}` }
           />
           <CardContent>
             <Typography variant="h6">Details:</Typography>
-            <Typography variant="body1">{subscription.order}</Typography>
+             <Typography variant="body1">Card: {card}</Typography> 
+            <Typography variant="body1">Price: {price}€</Typography>  
+            <Typography variant="body1">Subscription ID: {subscription._id}</Typography> 
+            <Typography variant="body1">Order ID: {subscription.order}</Typography>
           </CardContent>
         </Card>
-
-        {/* <Typography>{subscription._id}</Typography>
-    <Button  onClick={() => deleteSubscription(subscription._id)} startIcon={<DeleteForeverIcon />} sx= {{marginLeft:'auto', color:'black', pr: '2em' }}>
-          Delete
-        </Button>   */}
       </div>
       <p></p>
       <ToastContainer />  

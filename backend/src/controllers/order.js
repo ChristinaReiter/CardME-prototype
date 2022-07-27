@@ -79,12 +79,12 @@ const getOrders = async (req, res) => {
   
   try {
     
+    // find account
     const account = await Account.findById(req.account.id);
 
-   
+   // find his orders 
     const orders = await Order.find({ user: account.user });
-    console.log(account.user);
-    console.log(orders)
+   
 
     return res.status(200).json(orders);
   } catch (err) {
@@ -97,7 +97,7 @@ const getOrders = async (req, res) => {
   }
 };
 
-// user cant update/delete by himself => needs to write a email 
+// user cant update/delete orders by himself 
 
 module.exports = {
   create,
