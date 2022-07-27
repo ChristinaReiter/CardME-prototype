@@ -49,30 +49,57 @@ export const theme = createTheme({
 });
 
 function App() {
-
   const [currentAccount, setCurrentAccount] = useState(undefined);
-
+  const [popoverDrafts, setPopoverDrafts] = useState("none");
   return (
     <div>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <Header currentAccount={currentAccount} setCurrentAccount={setCurrentAccount}/>
+          <Header
+            currentAccount={currentAccount}
+            setCurrentAccount={setCurrentAccount}
+            popoverDrafts={popoverDrafts}
+            setPopoverDrafts={setPopoverDrafts}
+          />
           <Box sx={{ mt: 6, position: "static" }}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route exact path="/cards" element={<Cards />} />
               <Route exact path="/cards/:headerfilter" element={<Cards />} />
               <Route path="/ViewCard/:cardid" element={<ViewCard />} />
-              <Route path="/ViewCard/:headerfilter/:cardid" element={<ViewCard />} />
-              <Route path="/ViewGift/:giftid" element={<ViewGift />} />
-              <Route path="/ViewProduct/:producttype/:productid" element={<ViewProduct />} />
-              <Route path="/ViewProduct/:producttype/:headerfile/:productid" element={<ViewProduct />} />
-              <Route exact path ="/gifts" element={<Gifts />} />
               <Route
-                path="/create/:cardStyle/:id"
-              >
-                <Route path="" element={<Create />}></Route>
-                <Route path=":mode" element={<Create />}></Route>
+                path="/ViewCard/:headerfilter/:cardid"
+                element={<ViewCard />}
+              />
+              <Route path="/ViewGift/:giftid" element={<ViewGift />} />
+              <Route
+                path="/ViewProduct/:producttype/:productid"
+                element={<ViewProduct />}
+              />
+              <Route
+                path="/ViewProduct/:producttype/:headerfile/:productid"
+                element={<ViewProduct />}
+              />
+              <Route exact path="/gifts" element={<Gifts />} />
+              <Route path="/create/:cardStyle/:id">
+                <Route
+                  path=""
+                  element={
+                    <Create
+                      popoverDrafts={popoverDrafts}
+                      setPopoverDrafts={setPopoverDrafts}
+                    />
+                  }
+                ></Route>
+                <Route
+                  path=":mode"
+                  element={
+                    <Create
+                      popoverDrafts={popoverDrafts}
+                      setPopoverDrafts={setPopoverDrafts}
+                    />
+                  }
+                ></Route>
               </Route>
               <Route
                 exact
@@ -82,9 +109,17 @@ function App() {
               <Route
                 exact
                 path="/checkout-overview/:id"
-                element={<CheckoutOverview/>}
+                element={<CheckoutOverview />}
               />
-              <Route path="profile" element={<ProfileOverview currentAccount={currentAccount} setCurrentAccount={setCurrentAccount}/>}>
+              <Route
+                path="profile"
+                element={
+                  <ProfileOverview
+                    currentAccount={currentAccount}
+                    setCurrentAccount={setCurrentAccount}
+                  />
+                }
+              >
                 <Route path="view" element={<View />} />
                 <Route path="orders" element={<Orders />} />
                 <Route path="subscriptions" element={<Subscriptions />} />
@@ -94,7 +129,11 @@ function App() {
                 <Route path="details" element={<Details />} />
               </Route>
               <Route exact path="/register" element={<Register />} />
-              <Route exact path="/login" element={<Login setCurrentAccount={setCurrentAccount}/>} />
+              <Route
+                exact
+                path="/login"
+                element={<Login setCurrentAccount={setCurrentAccount} />}
+              />
               <Route
                 exact
                 path="/successful-order/:id"

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Logo from "./../assets/images/logo_transparent.png";
 import { NavLink, useNavigate, Link } from "react-router-dom";
+import PopupDrafts from "./../assets/images/Vector.svg";
+
 import {
   Typography,
   Toolbar,
@@ -36,7 +38,13 @@ const styles = {
   },
 };
 
-const Header = ({ images, currentAccount, setCurrentAccount }) => {
+const Header = ({
+  images,
+  currentAccount,
+  setCurrentAccount,
+  popoverDrafts,
+  setPopoverDrafts,
+}) => {
   const theme = useTheme();
   const [popoverAnchor, setPopoverAnchor] = useState(null);
   const popoverOpened = Boolean(popoverAnchor);
@@ -44,12 +52,11 @@ const Header = ({ images, currentAccount, setCurrentAccount }) => {
   const navigate = useNavigate();
   const [profileMenu, setProfileMenu] = useState(null);
 
-
-   useEffect(() => {
+  useEffect(() => {
     AuthService.getMe().then((res) => {
       setCurrentAccount(res);
     });
-  }, []); 
+  }, []);
 
   const openShoppingCart = (event) => {
     ShoppingCartService.getCart().then((card) => {
@@ -166,7 +173,7 @@ const Header = ({ images, currentAccount, setCurrentAccount }) => {
                     component={Link}
                     onClick={() => {
                       setProfileMenu(null);
-                      setCurrentAccount(undefined)
+                      setCurrentAccount(undefined);
                       AuthService.logout();
                     }}
                     to="/login"
@@ -267,6 +274,31 @@ const Header = ({ images, currentAccount, setCurrentAccount }) => {
             </Popover>
           </Box>
         </Toolbar>
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            right: "1%",
+            display: popoverDrafts,
+          }}
+        >
+          <img
+            width="200 px"
+            height="200 px"
+            src={PopupDrafts}
+            alt="popup"
+          ></img>
+          <Typography
+            sx={{
+              position: "absolute",
+              top: "35%",
+              left: "15%",
+              fontSize: "1.5em",
+            }}
+          >
+            Here you can find your drafts!
+          </Typography>
+        </div>
       </AppBar>
     </Box>
   );
