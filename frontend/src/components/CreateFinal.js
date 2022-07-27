@@ -301,7 +301,10 @@ const CreateFinal = ({
                 sx={{ float: "right" }}
                 variant="contained"
                 color="secondary"
-                onClick={handleAddToCart}
+                onClick={(event) => {
+                  handleAddToCart();
+                  setPopoverDrafts("block");
+                }}
               >
                 Add to shopping cart
               </Button>
