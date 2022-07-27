@@ -7,10 +7,12 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import CakeIcon from '@mui/icons-material/Cake';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import DescriptionIcon from '@mui/icons-material/Description';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 import MailIcon from '@mui/icons-material/Mail';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import OrderService from '../services/OrderService';
+import { pink } from '@mui/material/colors';
 
 
 
@@ -56,6 +58,7 @@ const Calendar = () => {
             setCalEvents(array);            
         })
         
+        
     }, []);
     
 
@@ -64,6 +67,9 @@ const Calendar = () => {
   const handleClose = () => {
     setAnchorEl(null);
     setEditAnchor(null);
+    setNewEditDate('');
+    setNewEditDescription('');
+    setNewEditTitle('');
   };
 
   const open = Boolean(anchorEl);
@@ -76,7 +82,6 @@ const Calendar = () => {
 
       EventService.setEvent({ eventDate, title, description}).then(
         res => {  
-          console.log(res)
           setEvents([...events, res]);
           setCalEvents([...calEvents,
             {
@@ -107,20 +112,13 @@ const Calendar = () => {
       setPopDescription(info.event.extendedProps.description)
       setPopDate(day)
       setPopId(info.event.id)
+    
       const thisEvent = events.find(event => event._id === info.event.id);
- 
+     
       setNewEditDate(thisEvent.eventDate);
       setNewEditTitle(thisEvent.title);
       setNewEditDescription(thisEvent.description);
 
-     
-
-      /* let date = info.event.start.getDate();
-      let month = info.event.start.getMonth() + 1;
-      let year = info.event.start.getFullYear();
-      let monthh =  month > 9 ? month : '0' + month    
-  
-        const ordered = orders.filter(order => order.deliveryDate.split('T')[0] == ""+year+"-"+monthh+"-"+date) */
         const ordered = orders.filter(order => order.deliveryDate == thisEvent.eventDate)
         if(ordered.length > 0){
           setHasOrder(true)
@@ -138,21 +136,54 @@ const Calendar = () => {
     let date = eventInfo.event.start.getDate();  //change like above?
     let month = eventInfo.event.start.getMonth() + 1; 
     let year = eventInfo.event.start.getFullYear();
-    let monthh =  month > 9 ? month : '0' + month    
+    let monthh =  month > 9 ? month : '0' + month 
+    let datee = date > 9 ? date : '0' + date
+    let current = new Date();
+    let currentMonth = current.getMonth() + 1;
+    let currentYear = current.getFullYear();
+    let currentDay = current.getDate();
+    let currentMonthh = currentMonth > 9 ? currentMonth : '0' + currentMonth
+    let currentDayy = currentDay > 9 ? currentDay : '0' + currentDay
+    
+    const eventDate = year + "-" + monthh + "-" + datee;
 
-      const ordered = orders.filter(order => order.deliveryDate.split('T')[0] == ""+year+"-"+monthh+"-"+date)
+   
+    
+
+    const ordered = orders.filter(order => order.deliveryDate.split('T')[0] == eventDate)
+
+    
+    const currentDate = currentYear + "-" + currentMonthh + "-" + currentDayy;
+
+
+    
+
       return (<>
-      
-      {ordered.length > 0 ? (<>
-                  
-          <Badge variant="dot"  color="secondary">
-      <MailIcon/>
-    </Badge>
+
+      {currentDate <= eventDate ? (
+        ordered.length > 0 ? ( 
+      <>            
+        
+      <MailIcon sx={{ color: pink[500] }}/>
+
       <Typography variant="h6">{eventInfo.event.title}</Typography>
         </>
-          ) : (<><MailIcon/>
+          ) : (<><BookmarkIcon sx={{ color: pink[500] }}/>
           <Typography variant="h6">{eventInfo.event.title}</Typography>
-          </>)}
+          </>)): (
+            ordered.length > 0 ? ( 
+              <>            
+                 
+              <MailIcon />
+            
+              <Typography variant="h6">{eventInfo.event.title}</Typography>
+                </>
+                  ) : (<><BookmarkIcon />
+                  <Typography variant="h6">{eventInfo.event.title}</Typography>
+                  </>)
+          ) }
+
+
     </>)
     }
 

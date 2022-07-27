@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import SubscriptionService from '../services/SubscriptionService'
 import SubscriptionItem from './SubscriptionItem'
 import { Box, Grid, Typography } from '@mui/material'
+import OrderService from '../services/OrderService'
 
 
 
@@ -12,9 +13,9 @@ const Subscriptions = () => {
 
 useEffect(() => {
   SubscriptionService.getSubscriptions().then(res => {
-    //console.log(res)
       setSubscriptions(res);
   })
+ 
 }, []); 
 
   return (

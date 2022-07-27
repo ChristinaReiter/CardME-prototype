@@ -91,7 +91,7 @@ const AccountDetails = () => {
   
   return (
     <div>
-      <Typography sx={{ pl: "25px", pt: "10px", pb: "20px"  }} variant="h3">{name}'s Account Details</Typography>
+      <Typography sx={{ pl: "25px", pt: "10px", pb: "20px"  }} variant="h3">My Account Details</Typography>
 
       <Box sx={{ pl: "25px", pt: "10px", pb: "20px", pr: "25px"  }}>
       <Card sx={{ backgroundColor: "#a7cda7" }}>
