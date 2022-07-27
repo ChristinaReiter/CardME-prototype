@@ -84,6 +84,7 @@ const CreateFinal = ({
   textFilters,
   cardheight,
   cardwidth,
+  lineHeight,
 }) => {
   const [viewState, setViewState] = React.useState(true);
   // For internal image display
@@ -93,8 +94,8 @@ const CreateFinal = ({
   useEffect(() => {
     if (image !== null) {
       setImageUrl(URL.createObjectURL(image));
-    }else{
-      setImageUrl(null)
+    } else {
+      setImageUrl(null);
     }
   }, [image]);
 
@@ -106,8 +107,9 @@ const CreateFinal = ({
         fontAlign: fontalign,
         fontColor: fontcolor,
         fontSize: fontsize,
-        fontStyle: fontstyle
-      }
+        fontStyle: fontstyle,
+        lineHeight: lineHeight,
+      },
     };
     if (cardStyle === "own") {
       itemToAdd.title = "Own Card";
@@ -147,7 +149,8 @@ const CreateFinal = ({
         fontAlign: fontalign,
         fontColor: fontcolor,
         fontSize: fontsize,
-        fontStyle: fontstyle
+        fontStyle: fontstyle,
+        lineHeight: lineHeight,
       },
       cardImageFilters: imageFilters,
       cardImageFilterValues: {
@@ -159,7 +162,7 @@ const CreateFinal = ({
         sepia: sepia,
         cardheight: cardheight,
         cardwidth: cardwidth,
-      }
+      },
     };
     if (cardStyle === "own") {
       changedFields.cardImage = image;
@@ -211,7 +214,11 @@ const CreateFinal = ({
           <Grid item xs={3}>
             {viewState ? (
               <Box style={styles.cardWindows} sx={{ float: "left" }}>
-                <Box margin={"30px"} style={{ ...textFilters }} whiteSpace="pre-wrap">
+                <Box
+                  margin={"30px"}
+                  style={{ ...textFilters }}
+                  whiteSpace="pre-wrap"
+                >
                   {text}
                 </Box>
               </Box>

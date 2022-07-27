@@ -62,6 +62,7 @@ const Create = () => {
         setfontcolor(item.fontColor);
         setfontsize(item.fontSize);
         setfontstyle(item.fontStyle);
+        setlineHeight(item.lineHeight);
       });
     } else {
       // Reset all states for new card
@@ -110,6 +111,7 @@ const Create = () => {
       color: `${fontcolor}`,
       fontSize: `${fontsize}px`,
       textAlign: `${fontalign}`,
+      lineHeight: `${lineHeight}`,
     };
 
     setTextFilters(newFilters);
@@ -155,6 +157,7 @@ const Create = () => {
         setfontalign={setfontalign}
         textFilters={textFilters}
         fontsize={fontsize}
+        lineHeight={lineHeight}
       />
       <CreateAddGift /> //Add gift part
       <CreateFinal //View final card (front and inside text)
@@ -175,6 +178,7 @@ const Create = () => {
         fontcolor={fontcolor}
         fontsize={fontsize}
         fontalign={fontalign}
+        lineHeight={lineHeight}
         textFilters={textFilters}
         cardheight={cardheight}
         cardwidth={cardwidth}

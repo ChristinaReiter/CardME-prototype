@@ -139,7 +139,7 @@ function SwitchFavoriteButton() {
           }} elevation={22}>
             <CardMedia
               component="img"
-              src={singleProduct ? (imageUrl + "/" + singleProduct.foldername + "/" + singleProduct.url) : ""}
+              src={singleProduct ? ( imageUrl + "/" + singleProduct.foldername + "/" + singleProduct.url) : ""}
               alt="Card-Preview"
               crossOrigin="anonymous"
               style={{
