@@ -71,7 +71,6 @@ const styles = {
     borderColor: "#FFFFFF",
     borderStyle: "solid",
     borderWidth: "20px",
-    textAlign: "center",
     width: "350px",
     height: "444px",
     background: "#F3F3F3",
@@ -95,12 +94,6 @@ const styles = {
     display: "center",
     top: "80px",
     color: "rgba(0, 0, 0, 0.5)",
-  },
-  textInput: {
-    fontSize: "20px",
-    fontFamily: "Annie Use Your Telescope",
-    textAlign: "left",
-    color: "black",
   },
 };
 
@@ -155,6 +148,7 @@ const CreateText = ({
   setfontsize,
   setfontalign,
   textFilters,
+  fontsize,
 }) => {
   //historystate for undo and redo
   const [history, setHistory] = React.useState([""]);
@@ -209,6 +203,24 @@ const CreateText = ({
   const handleIconsClose = () => {
     setIconsEl(null);
   };
+
+  //Calculation of maximal Rows of Text (Text limit)
+  const [maxRows, setMaxRows] = React.useState(2);
+  const [maxLength, setMaxLength] = React.useState(150);
+  useEffect(() => {
+    if (fontsize == 16) {
+      setMaxRows(18);
+    } else if (fontsize == 20) {
+      setMaxRows(17);
+    } else if (fontsize == 25) {
+      setMaxRows(15);
+    } else if (fontsize == 32) {
+      setMaxRows(13);
+    } else {
+      setMaxRows(17);
+    }
+    setMaxLength(maxLength);
+  }, [fontsize, maxLength]);
 
   return (
     <Box sx={{ flexGrow: 1, flexShrink: 1 }}>
@@ -637,12 +649,10 @@ const CreateText = ({
               label="Type your text here"
               multiline
               variant="outlined"
-              maxRows={14}
               style={styles.textWindow}
               onChange={(event) => {
                 setText(event.target.value);
               }}
-              onDragEnter
               onKeyUp={(event) => {
                 if (event.key === " " || event.key === "Enter") {
                   let newHistoryStates = [...history];
@@ -656,16 +666,14 @@ const CreateText = ({
                   setHistory(newHistoryStates);
                 }
               }}
-              onKeyDown={(event) => {
-                if (event.key === "Enter") {
-                  let newText = event.target.value;
-                  newText = newText.push();
-                  setText(newText + "\n");
-                }
-              }}
               value={text || ""}
               type="text"
-              inputProps={{ style: textFilters }}
+              maxRows={maxRows}
+              maxLength={maxLength}
+              inputProps={{ style: textFilters, lineHeight: "1" }}
+              onScrollCapture={(event) => {
+                setMaxLength(event.target.value.length);
+              }}
             ></TextField>
           </Grid>
         </Grid>

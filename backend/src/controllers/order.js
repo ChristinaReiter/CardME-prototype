@@ -5,56 +5,61 @@ const Account = require("../models/account");
 
 const create = async (req, res) => {
   try {
-
-    if (!req.body.recipient || !req.body.billingAddress || !req.body.email || !req.body.product || !req.body.deliveryDate) {
+    if (!req.body.recipient || !req.body.billingAddress || !req.body.email || !req.body.product || !req.body.deliveryDate || !req.file) {
       return res.status(400).json({status: "error", message: "Missing Values"});
     }
 
-    // probably to outsource to own function
+    // Parse recipient fields, create address
+    const recipientBody = JSON.parse(req.body.recipient)
     const recipientAddress = await Address.create({
-      street: req.body.recipient.street,
-      streetNumber: req.body.recipient.number,
-      zipCode: req.body.recipient.zipcode,
-      city: req.body.recipient.city,
-      country: req.body.recipient.country,
+      street: recipientBody.street,
+      streetNumber: recipientBody.number,
+      zipCode: recipientBody.zipcode,
+      city: recipientBody.city,
+      country: recipientBody.country,
     });
 
-    let billingAddress = await Address.findOne({
-      street: req.body.billingAddress.street,
-      streetNumber: req.body.billingAddress. number,
-      zipCode: req.body.billingAddress.zipcode,
-      city: req.body.billingAddress.city,
-      country: req.body.billingAddress.country,
-    });
-
-    if (billingAddress == undefined) {
-      billingAddress = await Address.create({
-        street: req.body.billingAddress.street,
-        streetNumber: req.body.billingAddress.number,
-        zipCode: req.body.billingAddress.zipcode,
-        city: req.body.billingAddress.city,
-        country: req.body.billingAddress.country,
-      });
+    // Parse billing fields, interim object
+    const billingBody = JSON.parse(req.body.billingAddress)
+    let billingObject = {
+      street: billingBody.street,
+      streetNumber: billingBody.number,
+      zipCode: billingBody.zipcode,
+      city: billingBody.city,
+      country: billingBody.country,
     }
-    let userName = req.body.billingAddress.firstName + " " + req.body.billingAddress.lastName;
 
+    // Search for billing address already exisitng
+    let billingAddress = await Address.findOne(billingObject);
+
+    // If not create a new one
+    if (billingAddress == undefined) {
+      billingAddress = await Address.create(billingObject);
+    }
+
+    // Search for user already existing
+    let userName = billingBody.firstName + " " + billingBody.lastName;
     let user = await User.findOne({ email: req.body.email });
 
+    // If not create a new one
     if (user == undefined) {
       user = await User.create({ email: req.body.email, name: userName });
     }
 
     let recipientName =
-      req.body.recipient.firstName + " " + req.body.recipient.lastName;
+      recipientBody.firstName + " " + recipientBody.lastName;
+
+    const productBody = JSON.parse(req.body.product) 
 
     const order = await Order.create({
       user: user._id,
+      dateCreated: new Date().toISOString(),
       deliveryDate: req.body.deliveryDate,
       billingAddress: billingAddress._id,
       recipientName: recipientName,
       recipientAddress: recipientAddress._id,
-      products: req.body.product,
-      total: (req.body.product.cardPrice + req.body.product.giftPrice),
+      products: productBody,
+      total: (productBody.cardPrice + productBody.giftPrice),
       status: "CREATED"
     });
 

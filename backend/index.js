@@ -65,7 +65,7 @@ app.use("/profile/contacts", acquaintance);
 
 app.use("/profile/address", addresss);
 
-app.use("/profile/details", details);
+app.use("/", details);
 
 
 

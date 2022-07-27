@@ -1,5 +1,6 @@
 const Account = require("../models/account");
 const User = require("../models/user");
+const bcrypt = require("bcryptjs");
 
 
   const updateAccount = async (req, res) => { 
@@ -41,6 +42,50 @@ const User = require("../models/user");
     } 
   };
 
+  const changePassword = async (req, res) => {
+    try {
+      console.log(req.body);
+      const account = await Account.findById(req.account.id);
+
+      const isPasswordValid = await bcrypt.compare(
+        req.body.password,
+        account.password
+      );
+
+      if (!isPasswordValid) {
+        return res
+        .status(400)
+        .json({
+          status: "error",
+          message: "Invalid Password",
+        });      
+      }else{
+        const securePassword = await bcrypt.hash(req.body.newPassword, 10);
+        const updatedAccount = await Account.findByIdAndUpdate(account.id, {
+          password: securePassword, 
+        },{new: true});
+        return res.status(200).json(updatedAccount);
+
+      }
+
+
+    } catch (err) {
+      console.log(err);
+  
+      return res.status(500).json({
+        error: "Internal server error",
+        message: err.message,
+      });
+    } 
+  }
+
+
+
+
+
+
+
   module.exports = {
     updateAccount,
+    changePassword,
   };
