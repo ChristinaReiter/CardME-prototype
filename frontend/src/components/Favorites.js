@@ -70,7 +70,6 @@ const Favorites = () => {
   })
 
   const addProductToCart = async (product) => {
-    //let index = await ShoppingCartService.addItem(product);
     navigate("/create/chosen/" + product._id);
   };
 

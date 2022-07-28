@@ -96,11 +96,6 @@ const Cards = ({
     height: "40px",
   };
 
-  const addProductToCart = async (product) => {
-    //let index = await ShoppingCartService.addItem(product);
-    navigate("/create/chosen/" + product._id);
-  };
-
   const productsSort = () => {
     if (sortFilter === "titlea") {
       return products.sort((a, b) => (a.title > b.title ? 1 : -1));
