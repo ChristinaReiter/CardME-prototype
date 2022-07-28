@@ -45,7 +45,7 @@ const AccountDetails = ({ setSelectedTab }) => {
   const pwOpen = Boolean(pwAnchor);
 
   const updateAccount = (e) => {
-    e.preventDefault(); // w/o this, the page will refresh which might be good but is annoying for testing...
+    e.preventDefault();
 
     DetailsService.updateAccount({ name: newName }).then((res) => {
       toast("Account updated");
@@ -60,17 +60,21 @@ const AccountDetails = ({ setSelectedTab }) => {
   };
 
   const changePw = (e) => {
-    e.preventDefault(); // w/o this, the page will refresh which might be good but is annoying for testing...
+    e.preventDefault();
 
-    DetailsService.changePassword({
-      password: password,
-      newPassword: newPassword,
-    }).then((res) => {
-      res.status ? toast(res.message) : toast("Password updated");
-      setNewPassword("");
-      setPassword("");
-      handleClose();
-    });
+    if (newPassword.length > 5) {
+      DetailsService.changePassword({
+        password: password,
+        newPassword: newPassword,
+      }).then((res) => {
+        res.status ? toast(res.message) : toast("Password updated");
+        setNewPassword("");
+        setPassword("");
+        handleClose();
+      });
+    } else {
+      toast("Password must be at least 6 characters");
+    }
   };
 
   useEffect(() => {

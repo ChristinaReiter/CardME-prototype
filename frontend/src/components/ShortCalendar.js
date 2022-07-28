@@ -231,6 +231,11 @@ function ShortCalendar() {
               vertical: "top",
               horizontal: "right",
             }}
+            transformOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            sx={{ width: '75%' }}
           >
             <Card variant="outlined" sx={{ pl: 1 }}>
               <CardHeader

@@ -36,37 +36,47 @@ const Calendar = ({ setSelectedTab }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [editAnchor, setEditAnchor] = useState(null);
 
+  //state for calendar popup
   const [popTitle, setPopTitle] = useState("");
   const [popDescription, setPopDescription] = useState("");
   const [popDate, setPopDate] = useState("");
   const [popId, setPopId] = useState("");
+  const [orders, setOrders] = useState([]);
+  const [hasOrder, setHasOrder] = useState(false);
 
+  //state for edit popup
   const [newEditTitle, setNewEditTitle] = useState("");
   const [newEditDescription, setNewEditDescription] = useState("");
   const [newEditDate, setNewEditDate] = useState("");
-  const [orders, setOrders] = useState([]);
-  const [hasOrder, setHasOrder] = useState(false);
 
   useEffect(() => {
     setSelectedTab(3);
     //get orders
-    OrderService.getOrders().then((res) => {
-      setOrders(res);
-    });
-    //get events
-    EventService.getEvents().then((res) => {
-      setEvents(res);
-      const array = res.map((eve) => {
-        return {
-          title: eve.title,
-          start: eve.eventDate,
-          allDay: true,
-          id: eve._id,
-          extendedProps: { description: eve.description },
-        };
+    OrderService.getOrders()
+      .then((res) => {
+        setOrders(res);
+      })
+      .catch((err) => {
+        console.log(err);
       });
-      setCalEvents(array);
-    });
+    //get events
+    EventService.getEvents()
+      .then((res) => {
+        setEvents(res);
+        const array = res.map((eve) => {
+          return {
+            title: eve.title,
+            start: eve.eventDate,
+            allDay: true,
+            id: eve._id,
+            extendedProps: { description: eve.description },
+          };
+        });
+        setCalEvents(array);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const handleClose = () => {
@@ -186,7 +196,7 @@ const Calendar = ({ setSelectedTab }) => {
     );
   };
 
-  // edit event inside of the calendar
+  // edit event inside of the calendar popup
   const editEvent = (e, id) => {
     e.preventDefault();
     const data = {
@@ -266,6 +276,8 @@ const Calendar = ({ setSelectedTab }) => {
             type="text"
             label="Description"
             name="description"
+            multiline
+            fullWidth
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           ></TextField>
@@ -292,6 +304,7 @@ const Calendar = ({ setSelectedTab }) => {
         />
 
         <Popover
+          display="inline-block"
           open={open}
           anchorEl={anchorEl}
           onClose={handleClose}
@@ -299,6 +312,11 @@ const Calendar = ({ setSelectedTab }) => {
             vertical: "top",
             horizontal: "right",
           }}
+          transformOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+          sx={{ width: "75%" }}
         >
           <Card variant="outlined" sx={{ pl: 1 }}>
             <CardHeader
