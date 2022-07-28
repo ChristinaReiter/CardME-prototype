@@ -116,7 +116,7 @@ const updateEvent = (e, id) => {
     }
     
   
-}, []);   
+});   
  
   return (
     <div>

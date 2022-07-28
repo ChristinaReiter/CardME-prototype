@@ -41,9 +41,11 @@ const Calendar = () => {
     const [hasOrder, setHasOrder] = useState(false);
 
     useEffect(() => {
+      //get orders
       OrderService.getOrders().then(res => {
         setOrders(res);
       }) 
+      //get events
         EventService.getEvents().then(res => {
             setEvents(res);
             const array = res.map(eve => {
@@ -75,10 +77,9 @@ const Calendar = () => {
   const open = Boolean(anchorEl);
   const editOpen = Boolean(editAnchor);
 
+    // create a new event and set it as a calendar event
     const createEvent = (e) => {
       e.preventDefault();
-      console.log(eventDate);
-      console.log(title);
 
       EventService.setEvent({ eventDate, title, description}).then(
         res => {  
@@ -88,7 +89,7 @@ const Calendar = () => {
               title: res.title,
               start: res.eventDate,
               allDay: true,
-              id: res.id,
+              id: res._id,
               extendedProps: {description: res.description}
             }]);
             setEventDate('');
@@ -104,7 +105,7 @@ const Calendar = () => {
       );
     }
   
-
+    // prepare states to display the popup on event click in calendar
     const handleEventClick = (info) => {
       let day = info.event.start.toString().split("00:")[0] 
       setAnchorEl(info.el)
@@ -131,6 +132,7 @@ const Calendar = () => {
 
     }
 
+    // custom display of events in calendar (check if there is an order for event and if it is in the past or future)
     const renderEventContent = (eventInfo) => {
 
     let date = eventInfo.event.start.getDate();  //change like above?
@@ -145,18 +147,11 @@ const Calendar = () => {
     let currentMonthh = currentMonth > 9 ? currentMonth : '0' + currentMonth
     let currentDayy = currentDay > 9 ? currentDay : '0' + currentDay
     
-    const eventDate = year + "-" + monthh + "-" + datee;
-
-   
-    
+    const eventDate = year + "-" + monthh + "-" + datee    
 
     const ordered = orders.filter(order => order.deliveryDate.split('T')[0] == eventDate)
 
-    
-    const currentDate = currentYear + "-" + currentMonthh + "-" + currentDayy;
-
-
-    
+    const currentDate = currentYear + "-" + currentMonthh + "-" + currentDayy;    
 
       return (<>
 
@@ -187,6 +182,7 @@ const Calendar = () => {
     </>)
     }
 
+    // edit event inside of the calendar
     const editEvent = (e, id) => {
       e.preventDefault(); 
       const data = {eventDate: newEditDate, title: newEditTitle, description: newEditDescription};
@@ -295,7 +291,7 @@ const Calendar = () => {
         initialView="dayGridMonth"
         events={calEvents}
         eventDisplay="background"
-        eventClick={(info) => {handleEventClick(info)}}
+        eventClick={handleEventClick}
         eventContent={renderEventContent}
       />
 
