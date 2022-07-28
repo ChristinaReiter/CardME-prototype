@@ -2,15 +2,25 @@ const Order = require("../models/order");
 const Address = require("../models/address");
 const User = require("../models/user");
 const Account = require("../models/account");
+const mail = require("../mail");
 
 const create = async (req, res) => {
   try {
-    if (!req.body.recipient || !req.body.billingAddress || !req.body.email || !req.body.product || !req.body.deliveryDate || !req.file) {
-      return res.status(400).json({status: "error", message: "Missing Values"});
+    if (
+      !req.body.recipient ||
+      !req.body.billingAddress ||
+      !req.body.email ||
+      !req.body.product ||
+      !req.body.deliveryDate ||
+      !req.file
+    ) {
+      return res
+        .status(400)
+        .json({ status: "error", message: "Missing Values" });
     }
 
     // Parse recipient fields, create address
-    const recipientBody = JSON.parse(req.body.recipient)
+    const recipientBody = JSON.parse(req.body.recipient);
     const recipientAddress = await Address.create({
       street: recipientBody.street,
       streetNumber: recipientBody.number,
@@ -20,14 +30,14 @@ const create = async (req, res) => {
     });
 
     // Parse billing fields, interim object
-    const billingBody = JSON.parse(req.body.billingAddress)
+    const billingBody = JSON.parse(req.body.billingAddress);
     let billingObject = {
       street: billingBody.street,
       streetNumber: billingBody.number,
       zipCode: billingBody.zipcode,
       city: billingBody.city,
       country: billingBody.country,
-    }
+    };
 
     // Search for billing address already exisitng
     let billingAddress = await Address.findOne(billingObject);
@@ -46,10 +56,9 @@ const create = async (req, res) => {
       user = await User.create({ email: req.body.email, name: userName });
     }
 
-    let recipientName =
-      recipientBody.firstName + " " + recipientBody.lastName;
+    let recipientName = recipientBody.firstName + " " + recipientBody.lastName;
 
-    const productBody = JSON.parse(req.body.product) 
+    const productBody = JSON.parse(req.body.product);
 
     const order = await Order.create({
       user: user._id,
@@ -59,12 +68,26 @@ const create = async (req, res) => {
       recipientName: recipientName,
       recipientAddress: recipientAddress._id,
       products: productBody,
-      total: (productBody.cardPrice + productBody.giftPrice),
+      total: productBody.cardPrice + productBody.giftPrice,
       status: "CREATED",
-      imageSrc: req.file.filename
+      imageSrc: req.file.filename,
     });
 
-    return res.status(201).json({ response: "success", order: order });
+    if (order) {
+      const mailData = {
+        to: req.body.email,
+        subject: `Your order ${order._id} at CardMe`,
+        text: "Thank you for your order at CardMe. We will deliver your card on the chosen date."
+      }
+
+      mail.transporter.sendMail(mailData, (error, info) => {
+        if (error) {
+          console.log(error);
+        }
+      });
+
+      return res.status(201).json({ response: "success", order: order });
+    }
   } catch (err) {
     console.log(err);
 
@@ -76,15 +99,12 @@ const create = async (req, res) => {
 };
 
 const getOrders = async (req, res) => {
-  
   try {
-    
     // find account
     const account = await Account.findById(req.account.id);
 
-   // find his orders 
+    // find his orders
     const orders = await Order.find({ user: account.user });
-   
 
     return res.status(200).json(orders);
   } catch (err) {
@@ -97,7 +117,7 @@ const getOrders = async (req, res) => {
   }
 };
 
-// user cant update/delete orders by himself 
+// user cant update/delete orders by himself
 
 module.exports = {
   create,
