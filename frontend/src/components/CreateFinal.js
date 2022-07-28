@@ -51,10 +51,15 @@ const styles = {
     marginDown: "40px",
     overflow: "hidden",
   },
+  imageWindow: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  },
   image: {
     position: "relative",
     width: "390px",
-    height: "484px",
+    //height: "484px",
     boxShadow:
       "2px 2px 30px rgba(0, 0, 0, 0.1), -2px -2px 30px rgba(0, 0, 0, 0.1)",
   },
@@ -260,7 +265,7 @@ const CreateFinal = ({
                 </Box>
               </Box>
             ) : imageUrl !== null ? (
-              <Box style={styles.cardWindows} sx={{ float: "left" }}>
+              <Box style={{...styles.cardWindows, ...styles.imageWindow}} sx={{ float: "left" }}>
                 <img
                   style={
                     cardStyle === "own"

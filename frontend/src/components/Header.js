@@ -219,13 +219,15 @@ const Header = ({
                     key={item.id}
                   >
                     <Grid item xs={4}>
-                      <Box width="65px" overflow="hidden" height="100px">
-                        <img
-                          //src={URL.createObjectURL(item.cardImage)}
-                          width="65px"
-                          alt="Product"
-                          style={item.cardImageFilters}
-                        ></img>
+                      <Box width="65px" overflow="hidden" height="90px" display="flex" alignItems="center" justifyContent="center" boxShadow="rgba(0, 0, 0, 0.1) 2px 2px 30px, rgba(0, 0, 0, 0.1) -2px -2px 30px">
+                        {item && item.cardImage && (
+                          <img
+                            src={URL.createObjectURL(item.cardImage)}
+                            width="65px"
+                            alt="Product"
+                            style={item.cardImageFilters}
+                          ></img>
+                        )}
                       </Box>
                     </Grid>
                     <Grid item xs={8} textAlign="right">

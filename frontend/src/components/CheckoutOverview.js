@@ -1,6 +1,5 @@
 import { useTheme } from "@emotion/react";
 import {
-  Alert,
   Box,
   Breadcrumbs,
   Button,
@@ -169,7 +168,7 @@ const CheckoutOverview = () => {
         >
           <Grid container>
             <Grid item xs={3}>
-              <Box width="180px" overflow="hidden" height="260px">
+              <Box width="180px" overflow="hidden" height="230px" display="flex" alignItems="center" justifyContent="center" boxShadow="rgba(0, 0, 0, 0.1) 2px 2px 30px, rgba(0, 0, 0, 0.1) -2px -2px 30px">
                 {cartItem.cardImage && (
                   <img
                     src={URL.createObjectURL(cartItem.cardImage)}
@@ -179,7 +178,7 @@ const CheckoutOverview = () => {
                   ></img>
                 )}
               </Box>
-              <Typography fontFamily="Antic">
+              <Typography fontFamily="Antic" paddingTop="2em">
                 Delivery on {checkoutData.deliveryDate}
               </Typography>
               <Typography fontFamily="Antic">
@@ -189,7 +188,7 @@ const CheckoutOverview = () => {
             </Grid>
             <Grid item xs={5}>
               <Typography variant="h5">
-                Text (displayed here without styling):
+                Inside Text (displayed here without styling):
               </Typography>
               <Typography fontFamily="Antic">{cartItem.cardText}</Typography>
             </Grid>
@@ -229,7 +228,7 @@ const CheckoutOverview = () => {
             <Grid item xs={8}></Grid>
             <Grid item xs={3} textAlign="right">
               {cartItem.giftId !== null && (
-                <Typography fontFamily="Antic" variant="h6">Gift: {cartItem.giftPrice}€</Typography>
+                <Typography fontFamily="Antic" variant="h6">Additional gift: {cartItem.giftPrice}€</Typography>
               )}
               <Typography fontFamily="Antic" variant="h6">
                 Free delivery: 0€ <br />

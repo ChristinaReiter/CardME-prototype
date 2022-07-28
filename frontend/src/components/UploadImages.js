@@ -24,6 +24,12 @@ const styles = {
     boxShadow:
       "2px 2px 30px rgba(0, 0, 0, 0.1), -2px -2px 30px rgba(0, 0, 0, 0.1)",
     overflow: "hidden",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  cardImage: {
+    width: "241px",
   },
   hiddenUpload: {
     display: "none",
@@ -84,8 +90,8 @@ export default function UploadImages({ id, image, setImage, imageFilters }) {
             <div style={styles.uploadWindow}>
               <div style={styles.text1}>Upload your image</div>
               <div style={styles.text2}>
-                Click here to upload from your computer. Your image needs to be
-                at least 1328x1820 in PNG or JPG format.
+                Click here to upload from your computer. We recommend a
+                1328x1820 image in PNG or JPG format.
               </div>
             </div>
           </label>
@@ -96,7 +102,7 @@ export default function UploadImages({ id, image, setImage, imageFilters }) {
           <div style={styles.cardWindow}>
             <img
               src={imageURL}
-              style={{ ...styles.cardWindow, ...imageFilters }}
+              style={{ ...styles.cardImage, ...imageFilters }}
               id="card-image"
               className="card-image"
               alt="card"
