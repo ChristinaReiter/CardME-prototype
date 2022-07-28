@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
     IconButton,
   } from "@mui/material";
-  import CardService from "../services/CardService";
+  import FavoriteService from "../services/FavoriteService";
   import FavoriteIcon from "@mui/icons-material/Favorite";
   import { ToastContainer, toast } from 'react-toastify';
 import { Scale } from "@mui/icons-material";
@@ -39,7 +39,7 @@ const FavoriteButton = ({productObject, favorites, setFavorites, userID, singleP
                 aria-label="add to favorites"
                 style={styles.productfavoritesenabled}
                 onClick={() => {
-                    CardService.removeFavorite({ product: productObject }).then(
+                    FavoriteService.removeFavorite({ product: productObject }).then(
                       () => {
                         toast("Favorite removed");
                         const updated = favorites.filter((fav) => fav._id !== productObject._id);
@@ -63,7 +63,7 @@ const FavoriteButton = ({productObject, favorites, setFavorites, userID, singleP
                     toast("not logged in");
                   }
                   else {
-                    CardService.setFavorites({ product: productObject }).then(
+                    FavoriteService.setFavorites({ product: productObject }).then(
                       () => {
                         toast("Favorite added") 
                         setFavorites([...favorites, productObject]);

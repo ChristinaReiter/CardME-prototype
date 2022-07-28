@@ -48,7 +48,7 @@ const getAcquaintances = async (req, res) => {
     }
   };
 
-  const updateAcquaintance = async (req, res) => { //TODO
+  const updateAcquaintance = async (req, res) => {
    
      try {
       const acquaintance = await Acquaintance.findById(req.params.id); 
@@ -71,9 +71,6 @@ const getAcquaintances = async (req, res) => {
       }
 
       const updatedAcquaintance = await Acquaintance.findByIdAndUpdate(req.params.id, req.body, {new: true});
-      const updatedAddress = await Address.findByIdAndUpdate(acquaintance.acquaintanceAddress, req.body, {new: true});
-      //console.log(updatedAcquaintance)
-      //console.log(updatedAddress)
   
       return res.status(200).json(updatedAcquaintance);
       

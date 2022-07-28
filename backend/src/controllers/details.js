@@ -5,7 +5,6 @@ const bcrypt = require("bcryptjs");
 
   const updateAccount = async (req, res) => { 
     try {
-      console.log(req.body);
       const account = await Account.findById(req.account.id); 
 
 
@@ -15,7 +14,6 @@ const bcrypt = require("bcryptjs");
       }
 
       const user = await User.findById(account.user);
-      console.log(user);
 
       if(!user) {
         res.status(401).json({error:"User not found"});
@@ -26,8 +24,6 @@ const bcrypt = require("bcryptjs");
       }
 
       const updatedUser = await User.findByIdAndUpdate(user._id, req.body, {new: true});
-    
-      console.log(updatedUser)
 
   
       return res.status(200).json(updatedUser);
@@ -44,7 +40,6 @@ const bcrypt = require("bcryptjs");
 
   const changePassword = async (req, res) => {
     try {
-      console.log(req.body);
       const account = await Account.findById(req.account.id);
 
       const isPasswordValid = await bcrypt.compare(

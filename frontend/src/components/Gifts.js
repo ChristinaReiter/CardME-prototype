@@ -5,6 +5,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import GiftService from "../services/GiftService";
+import FavoriteService from "../services/FavoriteService";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate, useParams } from "react-router-dom";
 import GiftsFilterHeader from "./GiftsFilterHeader";
@@ -39,7 +40,7 @@ const Gifts = ({
     AuthService.getMe().then(
       (result) => {
         setUserID(result._id);
-        GiftService.getFavorites(result._id).then(
+        FavoriteService.getFavorites(result._id).then(
           (res) => {
             console.log(res);
             setFavorites(res);

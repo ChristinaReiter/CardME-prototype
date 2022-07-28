@@ -2,14 +2,13 @@ const Order = require("../models/order");
 const Account = require("../models/account");
 const Subscription = require("../models/subscription");
 
-const getSubscription = async (req, res) => { //TODO
+const getSubscription = async (req, res) => {
   try {
     
     const account = await Account.findById(req.account.id);
 
    
     const subscriptions = await Subscription.find({ account: account });
-    console.log(subscriptions);
 
     return res.status(200).json(subscriptions);
   } catch (err) {
@@ -48,7 +47,7 @@ const getSubscription = async (req, res) => { //TODO
     }
   };
 
-  const deleteSubscription = async (req, res) => { //TODO
+  const deleteSubscription = async (req, res) => { 
     try {
       const subscription= await Subscription.findById(req.params.id); 
       

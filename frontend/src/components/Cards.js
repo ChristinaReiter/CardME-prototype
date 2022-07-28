@@ -5,6 +5,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import CardService from "../services/CardService";
+import FavoriteService from "../services/FavoriteService";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate, useParams } from "react-router-dom";
 import CardsFilterHeader from "./CardsFilterHeader";
@@ -42,7 +43,7 @@ const Cards = ({
       (result) => {
         if (result !== undefined) {
           setUserID(result._id);
-          CardService.getFavorites(result._id).then(
+          FavoriteService.getFavorites(result._id).then(
             (res) => {
               setFavorites(res);
             },

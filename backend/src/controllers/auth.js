@@ -5,7 +5,6 @@ const bcrypt = require("bcryptjs");
 const config = require("../config");
 
 const register = async (req, res) => {
-  console.log(req.body);
   try {
     if (!req.body.name || !req.body.email || !req.body.password) {
       return res
@@ -30,7 +29,6 @@ const register = async (req, res) => {
         email: req.body.email,
         name: req.body.name,
       });
-      console.log("wow")
       const account = await Account.create({
         user: user._id,
         password: securePassword,
@@ -78,7 +76,6 @@ const login = async (req, res) => {
     const account = await Account.findOne({
       user: user._id,
     });
-    console.log(account.password);
     const isPasswordValid = await bcrypt.compare(
       req.body.password,
       account.password
@@ -104,7 +101,6 @@ const login = async (req, res) => {
           token: token,
         });
     } else {
-      console.log("im here");
       return res
         .status(404)
         .json({ status: "error", message: "Password Invalid" });
@@ -121,13 +117,7 @@ const getMe = async (req, res) => {
   const account = await Account.findById(req.account.id);
   const user = await User.findById(account.user);
 
-  res.status(200).json(
-    /*     _id: account.id,
-    user: user.id,
-    email: user.email,
-    name: user.name,  */
-    user
-  );
+  res.status(200).json(user);
 };
 
 const accountFree = async (req, res) => {

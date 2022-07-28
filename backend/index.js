@@ -41,7 +41,6 @@ app.use(
 
 app.use(express.json())
 app.get("/", (req, res) => {
-  /* res.json({ response: "Hello World" }); */
   res.send('hello world')
 });
 
@@ -53,7 +52,7 @@ app.use("/", auth)
 
 //app.use("/order", order);
 
-app.use("/", order) // Might not work 
+app.use("/", order) 
 
 app.use("/profile/subscriptions", subscription);
 
