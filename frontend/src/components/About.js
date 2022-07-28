@@ -14,6 +14,11 @@ const styles = {
     boxShadow:
       "0px 6px 4px rgba(51, 97, 50, 0.25), inset 0px 6px 4px rgba(51, 97, 50, 0.25)",
   },
+  text: {
+    fontFamily: "Antic",
+    fontWeight: "400",
+    fontSize: "20px",
+  },
 };
 
 const Home = () => {
@@ -32,21 +37,23 @@ const Home = () => {
             Business idea
           </Typography>
         </Grid>
-        <Grid item xs={12} textAlign="center">
-          <Typography fontSize="25px" color="black">
+        <Grid item xs={2}></Grid>
+        <Grid item xs={8} textAlign="center">
+          <Typography color="black" style={styles.text}>
             CardME is a subscription service to help individuals to stay in
             touch or remember different special occasions from acquaintances by
             sending physical, customisable and thoughtful cards with optional
             small gifts.
           </Typography>
         </Grid>
+        <Grid item xs={2}></Grid>
         <Grid item xs={12} textAlign="center">
           <Typography fontFamily="Abril Fatface" fontSize="32px" color="black">
             CardMe team
           </Typography>
         </Grid>
-        <Grid item xs={12} textAlign="center" mt="10px">
-          <Typography fontSize="25px" color="black">
+        <Grid item xs={12} textAlign="center">
+          <Typography style={styles.text} color="black">
             We are a team of Information System Master students from the
             Technical University of Munich.
           </Typography>
@@ -68,16 +75,16 @@ const Home = () => {
       </Grid>
       <Grid container spacing={2} mt="10px">
         <Grid item xs={2}></Grid>
-        <Grid item xs={2} textAlign="center">
+        <Grid item xs={2} textAlign="center" style={styles.text}>
           Christina Reiter
         </Grid>
-        <Grid item xs={2} textAlign="center">
+        <Grid item xs={2} textAlign="center" style={styles.text}>
           Constantin Harms
         </Grid>
-        <Grid item xs={2} textAlign="center">
+        <Grid item xs={2} textAlign="center" style={styles.text}>
           Justus Schönborn
         </Grid>
-        <Grid item xs={2} textAlign="center">
+        <Grid item xs={2} textAlign="center" style={styles.text}>
           Viola Stumpf
         </Grid>
         <Grid item xs={2}></Grid>
