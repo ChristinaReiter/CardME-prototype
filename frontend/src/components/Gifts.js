@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Input,
-  InputAdornment,
-} from "@mui/material";
+import { Box, Input, InputAdornment } from "@mui/material";
 import GiftService from "../services/GiftService";
 import FavoriteService from "../services/FavoriteService";
 import SearchIcon from "@mui/icons-material/Search";
@@ -13,14 +9,20 @@ import AuthService from "../services/AuthService";
 import { ToastContainer, toast } from "react-toastify";
 import Product from "./Product";
 
-const Gifts = ({ 
-  setChosenGift, 
-  giftSearchTerm, setGiftSearchTerm, 
-  giftSizeFilter, setGiftSizeFilter, 
-  giftPriceFilter, setGiftPriceFilter, 
-  giftOccasionFilter, setGiftOccasionFilter, 
-  giftSortFilter, setGiftSortFilter }) => {
-
+const Gifts = ({
+  setChosenGift,
+  setImage,
+  giftSearchTerm,
+  setGiftSearchTerm,
+  giftSizeFilter,
+  setGiftSizeFilter,
+  giftPriceFilter,
+  setGiftPriceFilter,
+  giftOccasionFilter,
+  setGiftOccasionFilter,
+  giftSortFilter,
+  setGiftSortFilter,
+}) => {
   const imageUrl = "http://localhost:3001/public/";
   const [products, setProducts] = useState([]);
   const [favorites, setFavorites] = useState([]);
@@ -180,7 +182,13 @@ const Gifts = ({
           style={SearchBarStyle}
         ></Input>
       </Box>
-      <Product products={filteredCards} gift={true} headerfilter={null} setChosenGift={setChosenGift}/>
+      <Product
+        products={filteredCards}
+        gift={true}
+        headerfilter={null}
+        setChosenGift={setChosenGift}
+        setImage={setImage}
+      />
       <ToastContainer />
     </div>
   );

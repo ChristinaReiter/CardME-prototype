@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Input,
-  InputAdornment,
-} from "@mui/material";
+import { Box, Input, InputAdornment } from "@mui/material";
 import CardService from "../services/CardService";
 import FavoriteService from "../services/FavoriteService";
 import SearchIcon from "@mui/icons-material/Search";
@@ -13,15 +9,24 @@ import AuthService from "../services/AuthService";
 import Product from "./Product";
 
 const Cards = ({
-  searchTerm, setSearchTerm, 
-  colorFilter, setColorFilter, 
-  vibeFilter, setVibeFilter, 
-  styleFilter, setStyleFilter, 
-  recipientsFilter, setRecipientsFilter, 
-  occasionFilter, setOccasionFilter, 
-  seasonFilter, setSeasonFilter, 
-  sortFilter, setSortFilter}) => {
-
+  searchTerm,
+  setSearchTerm,
+  colorFilter,
+  setColorFilter,
+  vibeFilter,
+  setVibeFilter,
+  styleFilter,
+  setStyleFilter,
+  recipientsFilter,
+  setRecipientsFilter,
+  occasionFilter,
+  setOccasionFilter,
+  seasonFilter,
+  setSeasonFilter,
+  sortFilter,
+  setSortFilter,
+  setImage,
+}) => {
   const [products, setProducts] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [userID, setUserID] = useState();
@@ -110,7 +115,7 @@ const Cards = ({
       return products.sort((a, b) => (a.designer > b.designer ? -1 : 1));
     }
     if (sortFilter == "mostpopular") {
-      return products.sort(function(a, b) {
+      return products.sort(function (a, b) {
         return b.popularity - a.popularity;
       }); //small hack to simulate popularity
     }
@@ -209,7 +214,7 @@ const Cards = ({
   });
 
   return (
-    <div>     
+    <div>
       <Box sx={{ flexGrow: 1, flexShrink: 1, position: "relative" }}>
         <CardsFilterHeader
           colorFilter={colorFilter}
@@ -235,7 +240,6 @@ const Cards = ({
           justifyContent: "center",
         }}
       >
-        
         <Input
           onChange={(event) => {
             setSearchTerm(event.target.value);
@@ -249,7 +253,12 @@ const Cards = ({
           style={SearchBarStyle}
         ></Input>
       </Box>
-      <Product products={filteredCards} gift={false} headerfilter={headerfilter} />   
+      <Product
+        products={filteredCards}
+        gift={false}
+        headerfilter={headerfilter}
+        setImage={setImage}
+      />
     </div>
   );
 };

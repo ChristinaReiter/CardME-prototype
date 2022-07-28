@@ -106,6 +106,7 @@ const CreateFinal = ({
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(image)
     if (image !== null) {
       setImageUrl(URL.createObjectURL(image));
     } else {

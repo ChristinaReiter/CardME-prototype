@@ -463,6 +463,7 @@ const CheckoutOverview = () => {
                 ></PayPalButtons>
               </PayPalScriptProvider>
             )}
+            <Typography>By clicking on {checkoutData.recurrentDelivery ? "the button" : "one of the buttons"} above you agree to the Privacy Regulations and Terms & Conditions</Typography>
           </Box>
         </Box>
       </Box>

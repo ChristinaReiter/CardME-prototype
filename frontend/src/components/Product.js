@@ -15,7 +15,7 @@ import AuthService from "../services/AuthService";
 import { ToastContainer, toast } from "react-toastify";
 import FavoriteButton from "./FavoriteButton";
 
-const Product = ({ products, gift, headerfilter, setChosenGift }) => {
+const Product = ({ products, gift, headerfilter, setChosenGift, setImage }) => {
   const { path, cardStyle, id, mode } = useParams();
   const imageUrl = "http://localhost:3001/public/";
   const [favorites, setFavorites] = useState([]);
@@ -89,6 +89,13 @@ const Product = ({ products, gift, headerfilter, setChosenGift }) => {
           (mode !== undefined && mode !== "new" ? "/" + mode : "")
       );
     } else {
+      let result = await fetch(
+        imageUrl + product.foldername + "/" + product.url,
+        { method: "GET" }
+      );
+      result = await result.blob();
+      setImage(result);
+
       navigate("/create/chosen/" + product._id + "/new");
     }
   };
@@ -113,7 +120,7 @@ const Product = ({ products, gift, headerfilter, setChosenGift }) => {
               {products.map((product) => (
                 <Grid
                   item
-                  xs={gift? 3 : 2}
+                  xs={gift ? 3 : 2}
                   key={product._id}
                   style={{ marginLeft: "5%", marginBottom: "2%" }}
                 >

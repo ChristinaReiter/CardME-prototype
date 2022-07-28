@@ -167,6 +167,7 @@ function App() {
       setSeasonFilter={setSeasonFilter}
       sortFilter={sortFilter}
       setSortFilter={setSortFilter}
+      setImage={setImage}
     />
   );
 
@@ -183,6 +184,7 @@ function App() {
       setGiftSortFilter={setGiftSortFilter}
       giftOccasionFilter={giftOccasionFilter}
       setGiftOccasionFilter={setGiftOccasionFilter}
+      setImage={setImage}
     />
   );
 
@@ -209,11 +211,11 @@ function App() {
               />
               <Route
                 path="/ViewProduct/:producttype/:productid"
-                element={<ViewProduct />}
+                element={<ViewProduct setImage={setImage}/>}
               />
               <Route
                 path="/ViewProduct/:producttype/:headerfile/:productid"
-                element={<ViewProduct />}
+                element={<ViewProduct setImage={setImage}/>}
               />
               <Route path="/gifts/:path/:cardStyle/:id/">
                 <Route path="" element={navigateToGifts}></Route>

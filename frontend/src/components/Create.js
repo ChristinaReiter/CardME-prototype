@@ -91,7 +91,6 @@ const Create = ({
       });
     }
     if (mode === "new") {
-      console.log("reset");
       // Reset all states for new card
       setRotation(0);
       setBrightness(100);
@@ -99,7 +98,6 @@ const Create = ({
       setSaturate(100);
       setGrayscale(0);
       setSepia(0);
-      setImage(null);
       setCardheight(320);
       setCardwidth(260);
       setTextFilters(null);
@@ -110,6 +108,10 @@ const Create = ({
       setfontsize(20);
       setfontstyle("Annie Use Your Telescope");
       setlineHeight(1);
+
+      if(cardStyle === "own"){
+        setImage(null);
+      }
     }
   }, [cardStyle, mode, id]);
 
@@ -176,7 +178,7 @@ const Create = ({
       ) : (
         <ShowFront //View card front (choosen card)
           product={product}
-          setImage={setImage}
+          image={image}
           mode={mode}
         />
       )}

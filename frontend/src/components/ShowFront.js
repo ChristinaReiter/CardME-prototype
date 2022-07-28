@@ -10,7 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 
-const ShowFront = ({ product, setImage, mode }) => {
+const ShowFront = ({ product, image, mode }) => {
   const styles = {
     image: {
       position: "relative",
@@ -58,25 +58,15 @@ const ShowFront = ({ product, setImage, mode }) => {
   const [imageUrl, setImageUrl] = useState(null);
   const baseUrl = "http://localhost:3001/public/";
 
-  const setBackendImage = async () => {
-    if (mode !== "edit") {
-      let result = await fetch(
-        baseUrl + product.foldername + "/" + product.url,
-        { method: "GET" }
-      );
-
-      result = await result.blob();
-      setImage(result);
-      setImageUrl(URL.createObjectURL(result));
-    } else {
-      setImageUrl(URL.createObjectURL(product.cardImage));
+  useEffect(() => {
+    if (image !== null && mode !== "edit") {
+      setImageUrl(URL.createObjectURL(image));
     }
-  };
+  }, [image]);
 
   useEffect(() => {
-    // Get image from backend, convert to blob for further usage
-    if (product !== undefined) {
-      setBackendImage();
+    if (product !== undefined && mode === "edit") {
+      setImageUrl(URL.createObjectURL(product.cardImage));
     }
   }, [product]);
 
