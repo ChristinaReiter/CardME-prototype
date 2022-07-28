@@ -57,6 +57,11 @@ const styles = {
     position: "relative",
     width: "400px",
   },
+  imageGift: {
+    width: "240px",
+    height: "220px",
+    objectFit: "cover",
+  },
 };
 
 const CreateAddGift = ({ mode, cardStyle, id, chosenGift, setChosenGift }) => {
@@ -83,13 +88,21 @@ const CreateAddGift = ({ mode, cardStyle, id, chosenGift, setChosenGift }) => {
             direction="row"
             justifyContent="center"
             alignItems="center"
+            marginTop="30px"
+            marginBottom="20px"
           >
             <Grid item xs={4}>
-              <Typography> Your Added Gift: </Typography>
+              <Typography
+                sx={{
+                  fontSize: "30px",
+                }}
+              >
+                Your Added Gift:
+              </Typography>
               <img
-                //src={imageUrl + chosenGift.foldername + "/" + chosenGift.url}
-                src={"http://localhost:3001/public/gifts/confettiheartsred.jpg"}
-                style={styles.image}
+                src={imageUrl + chosenGift.foldername + "/" + chosenGift.url}
+                crossOrigin="anonymous"
+                style={styles.imageGift}
               ></img>
             </Grid>
             <Grid item xs={4}>

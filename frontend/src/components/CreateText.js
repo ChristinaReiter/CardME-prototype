@@ -670,7 +670,7 @@ const CreateText = ({
               type="text"
               inputProps={{
                 style: textFilters,
-                lineHeight: "1",
+                lineheight: "1",
                 maxLength: maxLength,
                 overflow: "auto",
                 maxRows: maxRows,
