@@ -4,6 +4,7 @@ import Cards from "./components/Cards";
 import Create from "./components/Create";
 import Header from "./components/Header";
 import Home from "./components/Home";
+import About from "./components/About";
 import Login from "./components/Login";
 import ProfileOverview from "./components/ProfileOverview";
 import Register from "./components/Register";
@@ -199,6 +200,7 @@ function App() {
           <Box sx={{ mt: 6, position: "static" }}>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
               <Route exact path="/cards" element={navigateToCards} />
               <Route
                 exact
