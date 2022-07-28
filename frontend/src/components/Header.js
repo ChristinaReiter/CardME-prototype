@@ -46,6 +46,7 @@ const Header = ({
   setCurrentAccount,
   popoverDrafts,
   setPopoverDrafts,
+  chosenGift,
 }) => {
   const theme = useTheme();
   const [popoverAnchor, setPopoverAnchor] = useState(null);
@@ -228,9 +229,18 @@ const Header = ({
                       </Box>
                     </Grid>
                     <Grid item xs={8} textAlign="right">
-                      <Typography>{item.cardTitle}</Typography>
+                      <Typography>
+                        {item.cardTitle} {item.giftId ? "+ Gift" : ""}
+                      </Typography>
                       <Typography fontFamily="Antic">
-                        {item.cardPrice},-
+                        {item.cardPrice}€{" "}
+                        {item.giftId
+                          ? "+" +
+                            item.giftPrice +
+                            "€ =" +
+                            (item.giftPrice + item.cardPrice) +
+                            "€"
+                          : ""}
                       </Typography>
                     </Grid>
                     <Grid

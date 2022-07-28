@@ -150,26 +150,38 @@ function App() {
 
   const navigateToCards = (
     <Cards
-      searchTerm={searchTerm} setSearchTerm={setSearchTerm}
-      colorFilter={colorFilter} setColorFilter={setColorFilter}
-      vibeFilter={vibeFilter} setVibeFilter={setVibeFilter}
-      styleFilter={styleFilter} setStyleFilter={setStyleFilter}
-      recipientsFilter={recipientsFilter} setRecipientsFilter={setRecipientsFilter}
-      occasionFilter={occasionFilter} setOccasionFilter={setOccasionFilter}
-      seasonFilter={seasonFilter} setSeasonFilter={setSeasonFilter}
-      sortFilter={sortFilter} setSortFilter={setSortFilter}
+      searchTerm={searchTerm}
+      setSearchTerm={setSearchTerm}
+      colorFilter={colorFilter}
+      setColorFilter={setColorFilter}
+      vibeFilter={vibeFilter}
+      setVibeFilter={setVibeFilter}
+      styleFilter={styleFilter}
+      setStyleFilter={setStyleFilter}
+      recipientsFilter={recipientsFilter}
+      setRecipientsFilter={setRecipientsFilter}
+      occasionFilter={occasionFilter}
+      setOccasionFilter={setOccasionFilter}
+      seasonFilter={seasonFilter}
+      setSeasonFilter={setSeasonFilter}
+      sortFilter={sortFilter}
+      setSortFilter={setSortFilter}
     />
-
   );
 
   const navigateToGifts = (
     <Gifts
       setChosenGift={setChosenGift}
-      giftSearchTerm={giftSearchTerm} setGiftSearchTerm={setGiftSearchTerm}
-      giftSizeFilter={giftSizeFilter} setGiftSizeFilter={setGiftSizeFilter}
-      giftPriceFilter={giftPriceFilter} setGiftPriceFilter={setGiftPriceFilter}
-      giftSortFilter={giftSortFilter} setGiftSortFilter={setGiftSortFilter}
-      giftOccasionFilter={giftOccasionFilter} setGiftOccasionFilter={setGiftOccasionFilter}
+      giftSearchTerm={giftSearchTerm}
+      setGiftSearchTerm={setGiftSearchTerm}
+      giftSizeFilter={giftSizeFilter}
+      setGiftSizeFilter={setGiftSizeFilter}
+      giftPriceFilter={giftPriceFilter}
+      setGiftPriceFilter={setGiftPriceFilter}
+      giftSortFilter={giftSortFilter}
+      setGiftSortFilter={setGiftSortFilter}
+      giftOccasionFilter={giftOccasionFilter}
+      setGiftOccasionFilter={setGiftOccasionFilter}
     />
   );
 
@@ -182,12 +194,17 @@ function App() {
             setCurrentAccount={setCurrentAccount}
             popoverDrafts={popoverDrafts}
             setPopoverDrafts={setPopoverDrafts}
+            chosenGift={chosenGift}
           />
           <Box sx={{ mt: 6, position: "static" }}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route exact path="/cards" element={navigateToCards} />
-              <Route exact path="/cards/:headerfilter" element={navigateToCards} />
+              <Route
+                exact
+                path="/cards/:headerfilter"
+                element={navigateToCards}
+              />
               <Route
                 path="/ViewProduct/:producttype/:productid"
                 element={<ViewProduct />}
@@ -197,14 +214,8 @@ function App() {
                 element={<ViewProduct />}
               />
               <Route path="/gifts/:path/:cardStyle/:id/">
-                <Route
-                  path=""
-                  element={navigateToGifts}
-                ></Route>
-                <Route
-                  path=":mode"
-                  element={navigateToGifts}
-                ></Route>
+                <Route path="" element={navigateToGifts}></Route>
+                <Route path=":mode" element={navigateToGifts}></Route>
               </Route>
               <Route path="/create/:cardStyle/:id">
                 <Route path="" element={createComponent}></Route>
