@@ -113,10 +113,8 @@ const Calendar = () => {
       setPopDescription(info.event.extendedProps.description)
       setPopDate(day)
       setPopId(info.event.id)
-
     
       const thisEvent = events.find(event => event._id === info.event.id);
-      console.log(info.event.id);
      
       setNewEditDate(thisEvent.eventDate);
       setNewEditTitle(thisEvent.title);
