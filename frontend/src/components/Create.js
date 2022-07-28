@@ -51,6 +51,7 @@ const Create = ({
   const { cardStyle, id, mode } = useParams();
   const [product, setProduct] = useState();
 
+  //setting up ShoppingCart with different cardstyles (chosen or own) and different modes (edit or not edit)
   useEffect(() => {
     if (cardStyle === "chosen" && mode !== "edit") {
       CardService.getSingleCard(id).then((item) => {
@@ -87,8 +88,8 @@ const Create = ({
             foldername: "gifts",
             url: item.giftImage,
           });
-        }else if(item.giftId === null){
-          setChosenGift(null)
+        } else if (item.giftId === null) {
+          setChosenGift(null);
         }
       });
     }
@@ -111,7 +112,7 @@ const Create = ({
       setfontstyle("Annie Use Your Telescope");
       setlineHeight(1);
 
-      if(cardStyle === "own"){
+      if (cardStyle === "own") {
         setImage(null);
       }
     }
@@ -122,8 +123,6 @@ const Create = ({
     const newFilters = {
       filter: `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturate}%) sepia(${sepia}%) grayscale(${grayscale}%)`,
       transform: `rotate(${rotation}deg)`,
-      //width: `${cardwidth}px`, //nutzen für rotate sonst rauslöschen
-      //height: `${cardheight}px`, //nutzen für rotate sonst rauslöschen
     };
     setImageFilters(newFilters);
   }, [
