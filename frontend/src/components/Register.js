@@ -1,107 +1,107 @@
-import { useState } from 'react'
-import { TextField, Box, Button, InputAdornment, IconButton } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material'; 
+import { useState } from "react";
+import {
+  TextField,
+  Box,
+  Button,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import AuthService from '../services/AuthService';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import AuthService from "../services/AuthService";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [showPw, setShowPw] = useState(false);
-    const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPw, setShowPw] = useState(false);
+  const navigate = useNavigate();
 
-
-
-    const toggle = () => {
-            setShowPw(!showPw);        
-    }; 
-    
-      const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-      };     
-
-    const handleRegister = (event) => {
-      event.preventDefault();
-      if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-        if(password.length > 5) {
-
-      AuthService.register({name, email, password}).then(
-        res => {
-          if (res.status)
-         toast(res.message)
-         else{
-          toast(`Welcome ${res.name}`)
-          navigate("/login");
-         }  
-        
-     })
-    }else{
-      toast("Password must be at least 6 characters")
-    }
-  }else{
-      toast("Invalid email")
-    }
-  }
-  
-  
-    return (
-      <Box  display="flex" justifyContent="center" padding="5em">
-        <form onSubmit={handleRegister}>
-            <TextField 
-                sx={{ m: 1 }}
-                type="text"
-                label="User Name"
-                name="username"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required> 
-            </TextField>
-            <TextField
-                sx={{ m: 1 }} 
-                type="email"
-                label="Email"
-                name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required> 
-            </TextField>
-            <TextField 
-                sx={{ m: 1 }}
-                type={showPw ? 'text' : 'password'}
-                label="Password"
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                InputProps={{
-                endAdornment:
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={toggle}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {showPw ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }}> 
-            </TextField> 
-            <Button
-                sx={{ m: 2 }}
-                color="secondary"
-                variant="contained"
-                type="submit">
-                Register
-            </Button>
-        </form>   
-        <ToastContainer />      
-      </Box>
-    );
+  const toggle = () => {
+    setShowPw(!showPw);
   };
-  
-  export default Register
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleRegister = (event) => {
+    event.preventDefault();
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      if (password.length > 5) {
+        AuthService.register({ name, email, password }).then((res) => {
+          if (res.status) toast(res.message);
+          else {
+            toast(`Welcome ${res.name}`);
+            navigate("/login");
+          }
+        });
+      } else {
+        toast("Password must be at least 6 characters");
+      }
+    } else {
+      toast("Invalid email");
+    }
+  };
+
+  return (
+    <Box display="flex" justifyContent="center" padding="5em">
+      <form onSubmit={handleRegister}>
+        <TextField
+          sx={{ m: 1 }}
+          type="text"
+          label="User Name"
+          name="username"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        ></TextField>
+        <TextField
+          sx={{ m: 1 }}
+          type="email"
+          label="Email"
+          name="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        ></TextField>
+        <TextField
+          sx={{ m: 1 }}
+          type={showPw ? "text" : "password"}
+          label="Password"
+          name="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={toggle}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPw ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        ></TextField>
+        <Button
+          sx={{ m: 2 }}
+          color="secondary"
+          variant="contained"
+          type="submit"
+        >
+          Register
+        </Button>
+      </form>
+      <ToastContainer />
+    </Box>
+  );
+};
+
+export default Register;

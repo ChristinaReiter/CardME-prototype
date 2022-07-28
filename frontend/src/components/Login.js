@@ -34,7 +34,11 @@ const Login = ({setCurrentAccount}) => {
           setCurrentAccount(res);
           }
         
-     })
+     }).catch( () => {
+        toast("Login failed")
+      }) 
+
+     
 
     }
  
