@@ -7,10 +7,10 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import CreateAdjustDesign from "./CreateAdjustDesign";
-import UploadImages, { UploadImages2 } from "./UploadImages";
+import UploadImages from "./UploadImages";
 
 const styles = {
   stepbar: {

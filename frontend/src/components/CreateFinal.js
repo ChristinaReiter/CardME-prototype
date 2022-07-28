@@ -11,7 +11,7 @@ import {
   DialogContent,
   DialogContentText,
 } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ShoppingCartService from "../services/ShoppingCartService";
 import { useNavigate } from "react-router-dom";

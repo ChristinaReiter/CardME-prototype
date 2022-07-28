@@ -15,14 +15,9 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
-import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import FormatAlignLeftIcon from "@mui/icons-material/FormatAlignLeft";
 import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
 import FormatAlignJustifyIcon from "@mui/icons-material/FormatAlignJustify";
-import FormatAlignLeft from "@mui/icons-material/FormatAlignLeft";
 
 const styles = {
   stepbar: {
@@ -84,16 +79,6 @@ const styles = {
     fontWeight: "400",
     fontSize: "20px",
     display: "center",
-  },
-  text2: {
-    position: "relative",
-    fontFamily: "Antic",
-    fontWeight: "400",
-    fontSize: "16px",
-    lineHeight: "20px",
-    display: "center",
-    top: "80px",
-    color: "rgba(0, 0, 0, 0.5)",
   },
 };
 
@@ -206,7 +191,20 @@ const CreateText = ({
 
   //Calculation of maximal Rows of Text (Text limit)
   const [maxRows, setMaxRows] = React.useState(16);
-  const [maxLength, setMaxLength] = React.useState(100);
+  const [maxLength, setMaxLength] = React.useState(600);
+  const [lengthError, setLengthError] = React.useState(false);
+  const [errorText, setErrorText] = React.useState(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLengthError(false);
+      setMaxLength(600);
+      setErrorText(null);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [lengthError, maxLength, errorText]);
+
+  //maximial Rows Chnage depending on the fontsize
   useEffect(() => {
     if (fontsize == 16) {
       setMaxRows(18);
@@ -215,7 +213,7 @@ const CreateText = ({
     } else if (fontsize == 25) {
       setMaxRows(15);
     } else if (fontsize == 32) {
-      setMaxRows(12);
+      setMaxRows(11.5);
     } else {
       setMaxRows(16);
     }
@@ -668,12 +666,20 @@ const CreateText = ({
               value={text || ""}
               rows={18}
               type="text"
+              error={lengthError}
               inputProps={{
                 style: textFilters,
                 lineheight: "1",
                 maxLength: maxLength,
-                overflow: "auto",
                 maxRows: maxRows,
+              }}
+              helperText={errorText}
+              onScrollCapture={(event) => {
+                setLengthError(true);
+                setMaxLength(event.target.value.length);
+                setErrorText(
+                  "Unfortunally, you have reached the maximum length of the text."
+                );
               }}
             ></TextField>
           </Grid>
