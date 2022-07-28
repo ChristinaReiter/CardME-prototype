@@ -209,13 +209,42 @@ function App() {
                 path="/cards/:headerfilter"
                 element={navigateToCards}
               />
-              <Route
-                path="/ViewProduct/:producttype/:productid"
-                element={<ViewProduct setImage={setImage}/>}
-              />
+              <Route path="/ViewProduct/:producttype/:productid">
+                <Route
+                  path=""
+                  element={
+                    <ViewProduct
+                      setImage={setImage}
+                      setChosenGift={setChosenGift}
+                    />
+                  }
+                ></Route>
+                {/* Used when chosen gifts */}
+                <Route path=":path/:cardStyle/:id">
+                  <Route
+                    path=""
+                    element={
+                      <ViewProduct
+                        setImage={setImage}
+                        setChosenGift={setChosenGift}
+                      />
+                    }
+                  ></Route>
+                  <Route
+                    path=":mode"
+                    element={
+                      <ViewProduct
+                        setImage={setImage}
+                        setChosenGift={setChosenGift}
+                      />
+                    }
+                  ></Route>
+                </Route>
+              </Route>
+              {/* Only for cards */}
               <Route
                 path="/ViewProduct/:producttype/:headerfile/:productid"
-                element={<ViewProduct setImage={setImage}/>}
+                element={<ViewProduct setImage={setImage} />}
               />
               <Route path="/gifts/:path/:cardStyle/:id/">
                 <Route path="" element={navigateToGifts}></Route>

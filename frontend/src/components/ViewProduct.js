@@ -18,8 +18,9 @@ import { ToastContainer, toast } from "react-toastify";
 import GiftService from "../services/GiftService";
 import FavoriteButton from "./FavoriteButton";
 
-const ViewCard = ({ setImage }) => {
-  const { producttype, productid, headerfilter } = useParams();
+const ViewCard = ({ setImage, setChosenGift }) => {
+  const { producttype, productid, headerfilter, path, cardStyle, id, mode } =
+    useParams();
   const [singleProduct, setSingleProduct] = useState();
   const [diffColorCards, setdiffColorCards] = useState([]);
   const imageUrl = "http://localhost:3001/public/";
@@ -111,8 +112,8 @@ const ViewCard = ({ setImage }) => {
 
   const addProductToCart = async (product) => {
     if (producttype === "gift") {
-      //setChosenGift(product);
-      /*navigate(
+      setChosenGift(product);
+      navigate(
         "/" +
           path +
           "/" +
@@ -120,7 +121,7 @@ const ViewCard = ({ setImage }) => {
           "/" +
           id +
           (mode !== undefined && mode !== "new" ? "/" + mode : "")
-      );*/
+      );
     } else {
       let result = await fetch(
         imageUrl + singleProduct.foldername + "/" + currentImage,
@@ -202,7 +203,15 @@ const ViewCard = ({ setImage }) => {
                 }
               }
               if (producttype === "gift") {
-                navigate("/gifts");
+                navigate(
+                  "/gifts/" +
+                    path +
+                    "/" +
+                    cardStyle +
+                    "/" +
+                    id +
+                    (mode !== undefined && mode !== "new" ? "/" + mode : "")
+                );
               }
             }}
           >

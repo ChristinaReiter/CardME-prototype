@@ -80,13 +80,15 @@ const Create = ({
           setCardwidth(item.cardImageFilterValues.cardwidth);
         }
 
-        if (item.giftId !== null) {
+        if (item.giftId !== null && chosenGift === null) {
           setChosenGift({
             _id: item.giftId,
             price: item.giftPrice,
             foldername: "gifts",
             url: item.giftImage,
           });
+        }else if(item.giftId === null){
+          setChosenGift(null)
         }
       });
     }

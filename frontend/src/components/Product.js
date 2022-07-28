@@ -188,7 +188,19 @@ const Product = ({ products, gift, headerfilter, setChosenGift, setImage }) => {
                           style={styles.button}
                           onClick={() => {
                             if (gift) {
-                              navigate("/ViewProduct/gift/" + product._id);
+                              navigate(
+                                "/ViewProduct/gift/" +
+                                  product._id +
+                                  "/" +
+                                  path +
+                                  "/" +
+                                  cardStyle +
+                                  "/" +
+                                  id +
+                                  (mode !== undefined && mode !== "new"
+                                    ? "/" + mode
+                                    : "")
+                              );
                             } else {
                               if (headerfilter) {
                                 navigate(
