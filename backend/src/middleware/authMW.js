@@ -13,14 +13,14 @@ const secured = async (req, res, next) => {
         const account = await Account.findById(decoded.id);
     
         if (!account) {
-            return res.status(401).json({ error: "Account not found" });
+            return res.status(401).json({ status: error, error: "Account not found" });
         }
       
         req.account = account;
         next();
     }
     } catch (err) {
-        return res.status(401).json({ error: "Unauthorized" });
+        return res.status(401).json({ status: "error", message: "Unauthorized, maybe your token expired", error: "Unauthorized" });
     }
      if (!token) {
         return res.status(401).json({ status: "error", message: "Unauthorized, you have no valid session" });

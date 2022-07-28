@@ -276,7 +276,7 @@ function App() {
                   />
                 }
               >
-                <Route path="view" element={<View />} />
+                <Route path="view" element={<View setSelectedTab={setSelectedTab}/>} />
                 <Route path="orders" element={<Orders setSelectedTab={setSelectedTab} />} />
                 <Route path="subscriptions" element={<Subscriptions setSelectedTab={setSelectedTab} />} />
                 <Route path="calendar" element={<Calendar setSelectedTab={setSelectedTab} />} />

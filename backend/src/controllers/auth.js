@@ -88,7 +88,7 @@ const login = async (req, res) => {
         },
         config.jwtSecret, // secret
         {
-          expiresIn: "1d", // expires in 1 day
+          expiresIn: "7d", // expires in 1 week
         }
       );
       return res
