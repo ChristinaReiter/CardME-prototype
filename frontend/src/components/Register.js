@@ -28,7 +28,12 @@ const Register = () => {
       event.preventDefault();
       AuthService.register({name, email, password}).then(
         res => {
-          res.status ? toast(res.message) : navigate("/login");
+          if (res.status)
+         toast(res.message)
+         else{
+          toast(`Welcome ${res.name}`)
+          navigate("/login");
+         }  
         
      })
   }

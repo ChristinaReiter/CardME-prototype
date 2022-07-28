@@ -22,18 +22,20 @@ useEffect(() => {
   OrderService.getOrders().then(res => {
       
       if (res.length > 0) {
-          setOrderNr(res[0]._id);
-          setOrderDate(res[0].deliveryDate.split('T')[0]);
-          setOrderStatus(res[0].status);
-          setOrderTotal(res[0].total);
-          setOrderRecipient(res[0].recipientName);        
+        let x = res.length - 1;
+          setOrderNr(res[x]._id);
+          setOrderDate(res[x].deliveryDate.split('T')[0]);
+          setOrderStatus(res[x].status);
+          setOrderTotal(res[x].total);
+          setOrderRecipient(res[x].recipientName);        
       }
         if (res.length > 1) {
-            setOrderNr2(res[1]._id);
-            setOrderDate2(res[1].deliveryDate.split('T')[0]);
-            setOrderStatus2(res[1].status);
-            setOrderTotal2(res[1].total);
-            setOrderRecipient2(res[1].recipientName);     
+          let y = res.length - 2;
+            setOrderNr2(res[y]._id);
+            setOrderDate2(res[y].deliveryDate.split('T')[0]);
+            setOrderStatus2(res[y].status);
+            setOrderTotal2(res[y].total);
+            setOrderRecipient2(res[y].recipientName);     
       }
     
       //console.log(res)

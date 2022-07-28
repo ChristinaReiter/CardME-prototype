@@ -1,40 +1,27 @@
 import React, { useEffect, useState } from "react";
 import {
-  Alert,
-  Typography,
-  Button,
   Box,
-  Collapse,
-  Grid,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  IconButton,
   Input,
   InputAdornment,
-  TextareaAutosize,
 } from "@mui/material";
 import CardService from "../services/CardService";
-import CloseIcon from "@mui/icons-material/Close";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate, useParams } from "react-router-dom";
 import CardsFilterHeader from "./CardsFilterHeader";
 import AuthService from "../services/AuthService";
-import { ToastContainer, toast } from 'react-toastify';
 import Product from "./Product";
 
-const Cards = () => {
+const Cards = ({
+  searchTerm, setSearchTerm, 
+  colorFilter, setColorFilter, 
+  vibeFilter, setVibeFilter, 
+  styleFilter, setStyleFilter, 
+  recipientsFilter, setRecipientsFilter, 
+  occasionFilter, setOccasionFilter, 
+  seasonFilter, setSeasonFilter, 
+  sortFilter, setSortFilter}) => {
+
   const [products, setProducts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState([]);
-  const [colorFilter, setColorFilter] = useState({});
-  const [vibeFilter, setVibeFilter] = useState({});
-  const [styleFilter, setStyleFilter] = useState({});
-  const [recipientsFilter, setRecipientsFilter] = useState({});
-  const [occasionFilter, setOccasionFilter] = useState({});
-  const [seasonFilter, setSeasonFilter] = useState({});
-  const [sortFilter, setSortFilter] = useState("trending");
   const [favorites, setFavorites] = useState([]);
   const [userID, setUserID] = useState();
   const navigate = useNavigate();
@@ -53,9 +40,7 @@ const Cards = () => {
     );
     AuthService.getMe().then(
       (result) => {
-       
-        if (!result.status) {
-          console.log("hi")
+        if (result !== undefined) {
           setUserID(result._id);
           CardService.getFavorites(result._id).then(
             (res) => {
@@ -149,7 +134,6 @@ const Cards = () => {
 
   const filteredCards = productsSort().filter((el) => {
     var filterArray = [];
-
     Object.keys(colorFilter).map((key) => {
       if (colorFilter[key]) {
         filterArray.push(key);

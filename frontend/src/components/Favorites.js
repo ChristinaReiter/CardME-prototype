@@ -8,12 +8,8 @@ import {
   CardActions,
   CardContent,
   CardMedia,
-  IconButton,
-  Input,
-  InputAdornment,
 } from "@mui/material";
 import CardService from "../services/CardService";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useNavigate, useParams } from "react-router-dom";
 import AuthService from "../services/AuthService";
 import { ToastContainer, toast } from 'react-toastify';
@@ -35,7 +31,7 @@ const Favorites = () => {
           CardService.getFavorites(result._id).then(
             (res) => {
               setFavorites(res);
-              console.log(favorites);
+              
             },
             (err) => {
               console.log(err);

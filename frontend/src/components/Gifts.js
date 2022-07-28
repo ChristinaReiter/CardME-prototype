@@ -1,19 +1,10 @@
 import React, { useEffect, useState } from "react";
 import {
-  Typography,
-  Button,
   Box,
-  Grid,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  IconButton,
   Input,
   InputAdornment,
 } from "@mui/material";
 import GiftService from "../services/GiftService";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate, useParams } from "react-router-dom";
 import GiftsFilterHeader from "./GiftsFilterHeader";
@@ -21,14 +12,16 @@ import AuthService from "../services/AuthService";
 import { ToastContainer, toast } from "react-toastify";
 import Product from "./Product";
 
-const Gifts = ({ setChosenGift }) => {
+const Gifts = ({ 
+  setChosenGift, 
+  giftSearchTerm, setGiftSearchTerm, 
+  giftSizeFilter, setGiftSizeFilter, 
+  giftPriceFilter, setGiftPriceFilter, 
+  giftOccasionFilter, setGiftOccasionFilter, 
+  giftSortFilter, setGiftSortFilter }) => {
+
   const imageUrl = "http://localhost:3001/public/";
   const [products, setProducts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState([]);
-  const [giftSizeFilter, setGiftSizeFilter] = useState({});
-  const [giftPriceFilter, setGiftPriceFilter] = useState({});
-  const [occasionFilter, setOccasionFilter] = useState({});
-  const [sortFilter, setSortFilter] = useState("trending");
   const [favorites, setFavorites] = useState([]);
   const [userID, setUserID] = useState();
   const navigate = useNavigate();
@@ -62,22 +55,6 @@ const Gifts = ({ setChosenGift }) => {
     );
   }, []);
 
-  const styles = {
-    button: {
-      fontFamily: "Annie Use Your Telescope",
-      fontSize: 18,
-      marginRight: 20,
-      marginLeft: 20,
-      width: "110px",
-    },
-    favorites: {
-      marginLeft: "auto",
-    },
-    image: {
-      objectFit: "cover",
-    },
-  };
-
   //search bar design
   const SearchBarStyle = {
     boxShadow: "1px 3px 9px rgba(0,0,0,0.75)",
@@ -86,32 +63,32 @@ const Gifts = ({ setChosenGift }) => {
   };
 
   const productsSort = () => {
-    if (sortFilter === "titlea") {
+    if (giftSortFilter === "titlea") {
       return products.sort((a, b) => (a.title > b.title ? 1 : -1));
     }
-    if (sortFilter === "titlez") {
+    if (giftSortFilter === "titlez") {
       return products.sort((a, b) => (a.title > b.title ? -1 : 1));
     }
-    if (sortFilter == "designera") {
+    if (giftSortFilter == "designera") {
       return products.sort((a, b) => (a.designer > b.designer ? 1 : -1));
     }
-    if (sortFilter == "designerz") {
+    if (giftSortFilter == "designerz") {
       return products.sort((a, b) => (a.designer > b.designer ? -1 : 1));
     }
-    if (sortFilter == "mostpopular") {
+    if (giftSortFilter == "mostpopular") {
       return products.sort(function (a, b) {
         return b.popularity - a.popularity;
       }); //small hack to simulate popularity
     }
-    if (sortFilter == "trending") {
+    if (giftSortFilter == "trending") {
       var randomNumber = 0;
       randomNumber = Math.floor(Math.random());
       return products.sort(() => randomNumber - 0.5);
     }
-    if (sortFilter == "newest") {
+    if (giftSortFilter == "newest") {
       return products.sort((a, b) => (a.date > b.date ? -1 : 1));
     }
-    if (sortFilter == "oldest") {
+    if (giftSortFilter == "oldest") {
       return products.sort((a, b) => (a.date > b.date ? 1 : -1));
     } else {
       return products;
@@ -130,14 +107,14 @@ const Gifts = ({ setChosenGift }) => {
         filterArray.push(key);
       }
     });
-    Object.keys(occasionFilter).map((key) => {
-      if (occasionFilter[key]) {
+    Object.keys(giftOccasionFilter).map((key) => {
+      if (giftOccasionFilter[key]) {
         filterArray.push(key);
       }
     });
-    if (searchTerm.length === 0 && filterArray.length === 0) {
+    if (giftSearchTerm.length === 0 && filterArray.length === 0) {
       return el;
-    } else if (searchTerm.length === 0 && filterArray.length !== 0) {
+    } else if (giftSearchTerm.length === 0 && filterArray.length !== 0) {
       return filterArray.every((filter) => {
         console.log(el.size === filter);
         return (
@@ -146,17 +123,17 @@ const Gifts = ({ setChosenGift }) => {
           el.occasion.includes(filter)
         );
       });
-    } else if (searchTerm.length !== 0 && filterArray.length === 0) {
+    } else if (giftSearchTerm.length !== 0 && filterArray.length === 0) {
       return el.title
         .toString()
         .toLowerCase()
-        .includes(searchTerm.toString().toLowerCase());
+        .includes(giftSearchTerm.toString().toLowerCase());
     } else {
       return (
         el.title
           .toString()
           .toLowerCase()
-          .includes(searchTerm.toString().toLowerCase()) &&
+          .includes(giftSearchTerm.toString().toLowerCase()) &&
         filterArray.every((filter) => {
           return (
             el.size.includes(filter) ||
@@ -168,62 +145,6 @@ const Gifts = ({ setChosenGift }) => {
     }
   });
 
-  function FavoriteButton(props) {
-    const found = favorites.find(
-      (element) => element._id === props.productObject._id
-    );
-    if (found) {
-      return (
-        <CardActions>
-          <IconButton
-            aria-label="add to favorites"
-            style={styles.favorites}
-            sx={{ color: "#DC9292" }}
-            onClick={() => {
-              GiftService.removeFavorite({ product: props.productObject }).then(
-                () => {
-                  toast("Favorite removed");
-                  const updated = favorites.filter(
-                    (fav) => fav._id !== props.productObject._id
-                  );
-
-                  setFavorites(updated);
-                }
-              );
-            }}
-          >
-            <FavoriteIcon />
-          </IconButton>
-        </CardActions>
-      );
-    } else {
-      return (
-        <CardActions>
-          <IconButton
-            aria-label="add to favorites"
-            style={styles.favorites}
-            sx={{ color: "grey" }}
-            onClick={() => {
-              if (userID === undefined) {
-                toast("not logged in");
-              } else {
-                GiftService.setFavorites({ product: props.productObject }).then(
-                  () => {
-                    toast("Favorite added");
-
-                    setFavorites([...favorites, props.productObject]);
-                  }
-                );
-              }
-            }}
-          >
-            <FavoriteIcon />
-          </IconButton>
-        </CardActions>
-      );
-    }
-  }
-
   return (
     <div>
       <Box sx={{ flexGrow: 1, flexShrink: 1, position: "relative" }}>
@@ -232,10 +153,10 @@ const Gifts = ({ setChosenGift }) => {
           setGiftSizeFilter={setGiftSizeFilter}
           giftPriceFilter={giftPriceFilter}
           setGiftPriceFilter={setGiftPriceFilter}
-          occasionFilter={occasionFilter}
-          setOccasionFilter={setOccasionFilter}
-          sortFilter={sortFilter}
-          setSortFilter={setSortFilter}
+          occasionFilter={giftOccasionFilter}
+          setOccasionFilter={setGiftOccasionFilter}
+          sortFilter={giftSortFilter}
+          setSortFilter={setGiftSortFilter}
         />
       </Box>
       <Box
@@ -247,7 +168,7 @@ const Gifts = ({ setChosenGift }) => {
       >
         <Input
           onChange={(event) => {
-            setSearchTerm(event.target.value);
+            setGiftSearchTerm(event.target.value);
           }}
           placeholder="Search for…"
           startAdornment={
@@ -258,7 +179,7 @@ const Gifts = ({ setChosenGift }) => {
           style={SearchBarStyle}
         ></Input>
       </Box>
-      <Product products={products} gift={true} headerfilter={null} setChosenGift={setChosenGift}/>
+      <Product products={filteredCards} gift={true} headerfilter={null} setChosenGift={setChosenGift}/>
       <ToastContainer />
     </div>
   );

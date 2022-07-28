@@ -11,6 +11,8 @@ import { useNavigate } from 'react-router-dom';
 import OrderService from '../services/OrderService';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { pink } from '@mui/material/colors';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 
 function ShortCalendar() {  
 
@@ -76,25 +78,57 @@ function ShortCalendar() {
 
     const renderEventContent = (eventInfo) => {
 
-      let date = eventInfo.event.start.getDate();
-      let month = eventInfo.event.start.getMonth() + 1;
+      let date = eventInfo.event.start.getDate();  //change like above?
+      let month = eventInfo.event.start.getMonth() + 1; 
       let year = eventInfo.event.start.getFullYear();
-      let monthh =  month > 9 ? month : '0' + month    
-  
-        const ordered = orders.filter(order => order.deliveryDate.split('T')[0] == ""+year+"-"+monthh+"-"+date)
-       
-        return (<>
-        
-        {ordered.length > 0 ? (
-                    
-            <Badge variant="dot"  color="secondary">
-        <MailIcon/>
-      </Badge>
+      let monthh =  month > 9 ? month : '0' + month 
+      let datee = date > 9 ? date : '0' + date
+      let current = new Date();
+      let currentMonth = current.getMonth() + 1;
+      let currentYear = current.getFullYear();
+      let currentDay = current.getDate();
+      let currentMonthh = currentMonth > 9 ? currentMonth : '0' + currentMonth
+      let currentDayy = currentDay > 9 ? currentDay : '0' + currentDay
       
+      const eventDate = year + "-" + monthh + "-" + datee;
+  
+     
+      
+  
+      const ordered = orders.filter(order => order.deliveryDate.split('T')[0] == eventDate)
+  
+      
+      const currentDate = currentYear + "-" + currentMonthh + "-" + currentDayy;
+  
+  
+      
+  
+        return (<>
+  
+        {currentDate <= eventDate ? (
+          ordered.length > 0 ? ( 
+        <>            
           
-            ) : (<MailIcon/>
-       
-            )}
+        <MailIcon sx={{ color: pink[500] }}/>
+  
+        <Typography variant="h6">{eventInfo.event.title}</Typography>
+          </>
+            ) : (<><BookmarkIcon sx={{ color: pink[500] }}/>
+            <Typography variant="h6">{eventInfo.event.title}</Typography>
+            </>)): (
+              ordered.length > 0 ? ( 
+                <>            
+                   
+                <MailIcon />
+              
+                <Typography variant="h6">{eventInfo.event.title}</Typography>
+                  </>
+                    ) : (<><BookmarkIcon />
+                    <Typography variant="h6">{eventInfo.event.title}</Typography>
+                    </>)
+            ) }
+  
+  
       </>)
       }
   

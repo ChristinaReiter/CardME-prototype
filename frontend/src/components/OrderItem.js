@@ -14,6 +14,7 @@ function OrderItem({ order }) {
 
   useEffect(() => {
     
+    //check if order has a subscription
     SubscriptionService.getSubscriptions().then(res => {
       const check = res.filter(sub => sub.order == order._id);      
       if (check.length > 0){
@@ -25,6 +26,7 @@ function OrderItem({ order }) {
       console.log(err)
     }
     )
+    //get address of order
     AddressService.getAddress(order.recipientAddress).then(res => {
       setStreet(res.street)
       setZipCode(res.zipCode)
@@ -50,7 +52,7 @@ function OrderItem({ order }) {
         <CardContent>
           <Typography variant="h6">Details:</Typography>
           <Typography variant="body1">Delivery Date: {order.deliveryDate.split('T')[0]}</Typography>
-          <Typography variant="body1">Product: {order.products.cardTitle}</Typography>
+          <Typography variant="body1">Card: {order.products.cardTitle}</Typography>
           <Typography variant="body1">Price: {order.total}€</Typography>
           <Typography variant="body1">Delivery Address: </Typography>
           <Typography variant="body1">{street} {streetNumber}</Typography>

@@ -27,8 +27,12 @@ const Login = ({setCurrentAccount}) => {
       e.preventDefault();
       AuthService.login({ email, password }).then(
         res => {
-          res.status ? toast(res.message) : navigate("/profile/view");
+          if(res.status){
+            toast(res.message)
+          }else{
+          navigate("/profile/view");
           setCurrentAccount(res);
+          }
         
      })
 

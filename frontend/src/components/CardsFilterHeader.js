@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { 
     Box,
-    FormGroup,
-    FormControlLabel,
-    Checkbox,
     Table,
     TableCell,
     TableHead,
