@@ -1,17 +1,7 @@
-import {
-  AppBar,
-  Box,
-  Toolbar,
-  IconButton,
-  Typography,
-  Button,
-  Grid,
-} from "@mui/material";
+import { AppBar, Box, Toolbar, Typography, Button, Grid } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import AddGift from "./../assets/images/addGift.png";
-
-//TODO: If Gift added, show Gift and Button to remove Gift
 
 const styles = {
   stepbar: {
@@ -69,39 +59,98 @@ const styles = {
   },
 };
 
-const CreateAddGift = ({mode, cardStyle, id, chosenGift}) => {
-  const navigate = useNavigate()
+const CreateAddGift = ({ mode, cardStyle, id, chosenGift, setChosenGift }) => {
+  const navigate = useNavigate();
+  const imageUrl = "http://localhost:3001/public/";
 
   return (
     <Box sx={{ flexGrow: 1, flexShrink: 1 }}>
       <Typography fontStyle="Annie Use Your Telescope">
         <AppBar style={styles.stepbar}>
           <Toolbar>
-            <IconButton sx={{ mr: 2 }}>
-              <div style={styles.kreis}>3.</div>
-            </IconButton>
-            <div fontSize={"30px"}>
+            <Box sx={{ mr: 2 }} style={styles.kreis}>
+              3.
+            </Box>
+            <Typography fontSize={"30px"}>
               Add a gift to your card, which fits perfectly in the envelope.
               (optional)
-            </div>
+            </Typography>
           </Toolbar>
         </AppBar>
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Grid item xs={4}>
-            <img src={AddGift} alt="addGift" style={styles.image} />
+        {chosenGift ? (
+          <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Grid item xs={4}>
+              <Typography> Your Added Gift: </Typography>
+              <img
+                //src={imageUrl + chosenGift.foldername + "/" + chosenGift.url}
+                src={"http://localhost:3001/public/gifts/confettiheartsred.jpg"}
+                style={styles.image}
+              ></img>
+            </Grid>
+            <Grid item xs={4}>
+              <Button
+                style={styles.button}
+                variant="contained"
+                color="secondary"
+                onClick={() => {
+                  navigate(
+                    "/gifts/create/" +
+                      cardStyle +
+                      "/" +
+                      id +
+                      (mode !== undefined ? "/" + mode : "")
+                  );
+                }}
+              >
+                Browse gifts
+              </Button>
+              <Button
+                style={styles.button}
+                variant="contained"
+                color="secondary"
+                onClick={() => {
+                  setChosenGift(null);
+                }}
+              >
+                Delete gift
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item xs={4}>
-            {chosenGift && (chosenGift._id)}
-            <Button style={styles.button} variant="contained" color="secondary" onClick={() => {navigate("/gifts/create/" + cardStyle + "/" + id + (mode !== undefined ? ("/" + mode) : ""))}}>
-              Browse gifts
-            </Button>
+        ) : (
+          <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Grid item xs={4}>
+              <img src={AddGift} alt="addGift" style={styles.image} />
+            </Grid>
+            <Grid item xs={4}>
+              <Button
+                style={styles.button}
+                variant="contained"
+                color="secondary"
+                onClick={() => {
+                  navigate(
+                    "/gifts/create/" +
+                      cardStyle +
+                      "/" +
+                      id +
+                      (mode !== undefined ? "/" + mode : "")
+                  );
+                }}
+              >
+                Browse gifts
+              </Button>
+            </Grid>
           </Grid>
-        </Grid>
+        )}
       </Typography>
     </Box>
   );

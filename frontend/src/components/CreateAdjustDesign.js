@@ -1,5 +1,5 @@
-import { Typography, Slider, Button, Grid, IconButton } from "@mui/material";
-import React, { useEffect } from "react";
+import { Typography, Slider, Grid, IconButton } from "@mui/material";
+import React from "react";
 import Rotate90DegreesCcwIcon from "@mui/icons-material/Rotate90DegreesCcw";
 import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 import RotateRightIcon from "@mui/icons-material/RotateRight";
@@ -8,7 +8,6 @@ import ContrastIcon from "@mui/icons-material/Contrast";
 import OpacityIcon from "@mui/icons-material/Opacity";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import DetailsIcon from "@mui/icons-material/Details";
-import UploadImages from "./UploadImages";
 import HistoryIcon from "@mui/icons-material/History";
 
 const styles = {
@@ -74,39 +73,36 @@ const CreateAdjustDesign = ({
           <div style={styles.text1}> Rotate </div>
         </Grid>
         <Grid item xs={1}>
-          <IconButton>
-            <RotateLeftIcon
-              onClick={() => {
-                setRotation(90);
-                setCardwidth(800);
-                setCardheight(240);
-              }}
-              fontSize="medium"
-            />
+          <IconButton
+            onClick={() => {
+              setRotation(90);
+              setCardwidth(800);
+              setCardheight(240);
+            }}
+          >
+            <RotateLeftIcon fontSize="medium" />
           </IconButton>
         </Grid>
         <Grid item xs={2}>
-          <IconButton>
-            <HistoryIcon
-              onClick={() => {
-                setRotation(0);
-                setCardwidth(240);
-                setCardheight(300);
-              }}
-              fontSize="medium"
-            />
+          <IconButton
+            onClick={() => {
+              setRotation(0);
+              setCardwidth(240);
+              setCardheight(300);
+            }}
+          >
+            <HistoryIcon fontSize="medium" />
           </IconButton>
         </Grid>
         <Grid item xs={1}>
-          <IconButton>
-            <RotateRightIcon
-              onClick={() => {
-                setRotation(-90);
-                setCardwidth(300);
-                setCardheight(240);
-              }}
-              fontSize="medium"
-            />
+          <IconButton
+            onClick={() => {
+              setRotation(-90);
+              setCardwidth(300);
+              setCardheight(240);
+            }}
+          >
+            <RotateRightIcon fontSize="medium" />
           </IconButton>
         </Grid>
         <Grid item xs={2}>

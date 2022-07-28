@@ -21,8 +21,8 @@ import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import { useTheme } from "@emotion/react";
 import AuthService from "../services/AuthService";
 import ShoppingCartService from "../services/ShoppingCartService";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const styles = {
   menuText: {
@@ -56,8 +56,7 @@ const Header = ({
 
   useEffect(() => {
     AuthService.getMe().then((res) => {
-    res.status ? setCurrentAccount(undefined) : setCurrentAccount(res);
-     
+      res.status ? setCurrentAccount(undefined) : setCurrentAccount(res);
     });
   }, []);
 
@@ -221,7 +220,7 @@ const Header = ({
                     <Grid item xs={4}>
                       <Box width="65px" overflow="hidden" height="100px">
                         <img
-                          src={URL.createObjectURL(item.cardImage)}
+                          //src={URL.createObjectURL(item.cardImage)}
                           width="65px"
                           alt="Product"
                           style={item.cardImageFilters}

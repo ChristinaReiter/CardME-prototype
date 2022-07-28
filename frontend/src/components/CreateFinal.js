@@ -218,10 +218,10 @@ const CreateFinal = ({
       <Typography fontStyle="Annie Use Your Telescope">
         <AppBar style={styles.stepbar}>
           <Toolbar>
-            <IconButton sx={{ mr: 2 }}>
-              <div style={styles.kreis}>4.</div>
+            <IconButton sx={{ mr: 2 }} style={styles.kreis}>
+              4.
             </IconButton>
-            <div fontSize={"30px"}>View the final card</div>
+            <Typography fontSize={"30px"}>View the final card</Typography>
           </Toolbar>
         </AppBar>
         <Grid
@@ -232,13 +232,13 @@ const CreateFinal = ({
           marginBottom={"30px"}
         >
           <Grid item xs={3}>
-            <IconButton sx={{ float: "right", marginRight: "20px" }}>
-              <ArrowBackIosIcon
-                onClick={() => {
-                  setViewState(false);
-                }}
-                sx={{ fontSize: "60px" }}
-              />
+            <IconButton
+              onClick={() => {
+                setViewState(false);
+              }}
+              sx={{ float: "right", marginRight: "20px" }}
+            >
+              <ArrowBackIosIcon sx={{ fontSize: "60px" }} />
             </IconButton>
           </Grid>
           <Grid item xs={3}>
@@ -279,11 +279,12 @@ const CreateFinal = ({
           </Grid>
           <Grid item xs={3}>
             <Box>
-              <IconButton>
+              <IconButton
+                onClick={() => {
+                  setViewState(true);
+                }}
+              >
                 <ArrowBackIosIcon
-                  onClick={() => {
-                    setViewState(true);
-                  }}
                   sx={{ transform: "rotate(180deg)", fontSize: "60px" }}
                 />
               </IconButton>

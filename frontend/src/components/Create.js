@@ -198,6 +198,7 @@ const Create = ({
         cardStyle={cardStyle}
         id={id}
         chosenGift={chosenGift}
+        setChosenGift={setChosenGift}
       />{" "}
       <CreateFinal //View final card (front and inside text)
         id={id}

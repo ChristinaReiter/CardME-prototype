@@ -219,17 +219,17 @@ const CreateText = ({
     } else {
       setMaxRows(16);
     }
-  }, [fontsize, maxLength, maxRows]);
+  }, [fontsize]);
 
   return (
     <Box sx={{ flexGrow: 1, flexShrink: 1 }}>
       <Typography fontStyle="Annie Use Your Telescope">
         <AppBar style={styles.stepbar}>
           <Toolbar>
-            <IconButton sx={{ mr: 2 }}>
-              <div style={styles.kreis}>2.</div>
+            <IconButton sx={{ mr: 2 }} style={styles.kreis}>
+              2.
             </IconButton>
-            <div fontSize={"30px"}>Create card text</div>
+            <Typography fontSize={"30px"}>Create card text</Typography>
           </Toolbar>
         </AppBar>
         <Grid
@@ -646,8 +646,8 @@ const CreateText = ({
             <TextField
               fullWidth
               label="Type your text here"
-              multiline
               variant="outlined"
+              multiline={true}
               style={styles.textWindow}
               onChange={(event) => {
                 setText(event.target.value);
@@ -666,6 +666,7 @@ const CreateText = ({
                 }
               }}
               value={text || ""}
+              rows={18}
               type="text"
               inputProps={{
                 style: textFilters,

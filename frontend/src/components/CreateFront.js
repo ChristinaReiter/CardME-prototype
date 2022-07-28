@@ -82,10 +82,10 @@ const CreateFront = ({
       <Typography fontStyle="Annie Use Your Telescope">
         <AppBar style={styles.stepbar}>
           <Toolbar>
-            <IconButton sx={{ mr: 2 }}>
-              <div style={styles.kreis}>1.</div>
+            <IconButton sx={{ mr: 2 }} style={styles.kreis}>
+              1.
             </IconButton>
-            <div fontSize={"30px"}>Create card front</div>
+            <Typography fontSize={"30px"}>Create card front</Typography>
           </Toolbar>
         </AppBar>
         <Grid

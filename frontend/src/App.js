@@ -82,6 +82,7 @@ function App() {
   // State of chosen gift
   const [chosenGift, setChosenGift] = useState(null);
 
+  //Popover "Here you can find your drafts"
   const [popoverDrafts, setPopoverDrafts] = useState("none");
   useEffect(() => {
     const timer = setTimeout(() => {
