@@ -19,7 +19,6 @@ const getEvents = async (req, res) => {
 
   const setEvent = async (req, res) => { 
     try {
-      console.log(req.body)
       if (!req.body.eventDate || !req.body.title) {
         return res.status(400).json({error:"Missing Values"});
       }      
@@ -62,8 +61,6 @@ const getEvents = async (req, res) => {
       }
 
       const updatedEvent = await Event.findByIdAndUpdate(req.params.id, req.body, {new: true});
-      console.log(updatedEvent)
-      //console.log(updatedAddress)
   
       return res.status(200).json(updatedEvent);
       

@@ -1,6 +1,6 @@
 const Order = require("../models/order");
 
-const getCalendarEvent = async (req, res) => { //TODO
+const getCalendarEvent = async (req, res) => { 
     try {
       const orders = await Order.find();
   
@@ -15,7 +15,7 @@ const getCalendarEvent = async (req, res) => { //TODO
     }
   };
 
-  const setCalendarEvent = async (req, res) => { //TODO
+  const setCalendarEvent = async (req, res) => { 
     try {
       const orders = await Order.find();
   
@@ -30,7 +30,7 @@ const getCalendarEvent = async (req, res) => { //TODO
     }
   };
 
-  const updateCalendarEvent = async (req, res) => { //TODO
+  const updateCalendarEvent = async (req, res) => { 
     try {
       const orders = await Order.find();
   
@@ -45,7 +45,7 @@ const getCalendarEvent = async (req, res) => { //TODO
     }
   };
 
-  const deleteCalendarEvent = async (req, res) => { //TODO
+  const deleteCalendarEvent = async (req, res) => { 
     try {
       const orders = await Order.find();
   
