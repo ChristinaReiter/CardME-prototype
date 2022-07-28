@@ -40,14 +40,15 @@ export const theme = createTheme({
     fontFamily: ['"Annie Use Your Telescope"', '"Abril Fatface"', "Antic"].join(
       ","
     ),
-    //button: {
-    //fontFamily: '"Annie Use Your Telescope"',
-    //}
   },
 });
 
 function App() {
+
+  //offer different views in header based on being logged in
   const [currentAccount, setCurrentAccount] = useState(undefined);
+
+  const [selectedTab, setSelectedTab] = useState(0);
 
   // Used to save images (both own and chosen)
   const [image, setImage] = useState(null);
@@ -270,16 +271,18 @@ function App() {
                   <ProfileOverview
                     currentAccount={currentAccount}
                     setCurrentAccount={setCurrentAccount}
+                    selectedTab={selectedTab}
+                    setSelectedTab={setSelectedTab}
                   />
                 }
               >
                 <Route path="view" element={<View />} />
-                <Route path="orders" element={<Orders />} />
-                <Route path="subscriptions" element={<Subscriptions />} />
-                <Route path="calendar" element={<Calendar />} />
-                <Route path="favorites" element={<Favorites />} />
-                <Route path="contacts" element={<Contacts />} />
-                <Route path="details" element={<Details />} />
+                <Route path="orders" element={<Orders setSelectedTab={setSelectedTab} />} />
+                <Route path="subscriptions" element={<Subscriptions setSelectedTab={setSelectedTab} />} />
+                <Route path="calendar" element={<Calendar setSelectedTab={setSelectedTab} />} />
+                <Route path="favorites" element={<Favorites setSelectedTab={setSelectedTab} />} />
+                <Route path="contacts" element={<Contacts setSelectedTab={setSelectedTab} />} />
+                <Route path="details" element={<Details setSelectedTab={setSelectedTab} />} />
               </Route>
               <Route exact path="/register" element={<Register />} />
               <Route

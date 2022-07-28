@@ -27,7 +27,7 @@ import "react-toastify/dist/ReactToastify.css";
 import OrderService from "../services/OrderService";
 import { pink } from "@mui/material/colors";
 
-const Calendar = () => {
+const Calendar = ({ setSelectedTab }) => {
   const [calEvents, setCalEvents] = useState([]);
   const [events, setEvents] = useState([]);
   const [eventDate, setEventDate] = useState("");
@@ -48,6 +48,7 @@ const Calendar = () => {
   const [hasOrder, setHasOrder] = useState(false);
 
   useEffect(() => {
+    setSelectedTab(3);
     //get orders
     OrderService.getOrders().then((res) => {
       setOrders(res);
