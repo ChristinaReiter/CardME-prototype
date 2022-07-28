@@ -16,12 +16,12 @@ import UpdateIcon from "@mui/icons-material/Update";
 import AddressService from "../services/AddressService";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import CheckoutService from "../services/CheckoutService";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function ContactItem({ contact, changeContact, allContacts }) {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [checkoutAnchor, setCheckoutAnchor] = useState(null)
+  const [checkoutAnchor, setCheckoutAnchor] = useState(null);
   const [name, setName] = useState("");
   const [street, setStreet] = useState("");
   const [streetNumber, setStreetNumber] = useState("");
@@ -57,20 +57,26 @@ function ContactItem({ contact, changeContact, allContacts }) {
 
   const useForCheckout = (event) => {
     let recipient = {
-      recipientFirstName: name.split(" ")[0],
-      recipientLastName: name.split(" ")[1],
       recipientStreet: street,
       recipientNumber: streetNumber,
       recipientZipcode: zipCode,
       recipientCity: city,
       recipientCountry: country,
     };
+
+    if (name.includes(" ") && name.split(" ").length === 2) {
+      recipient.recipientFirstName = name.split(" ")[0];
+      recipient.recipientLastName = name.split(" ")[1];
+    } else {
+      recipient.recipientFirstName = name;
+    }
+
     CheckoutService.setData(recipient);
-    setCheckoutAnchor(event.currentTarget)
+    setCheckoutAnchor(event.currentTarget);
 
     setTimeout(() => {
-      setCheckoutAnchor(null)
-    }, 2000)
+      setCheckoutAnchor(null);
+    }, 2000);
   };
 
   const updateContact = (e, id) => {
@@ -85,7 +91,6 @@ function ContactItem({ contact, changeContact, allContacts }) {
     };
 
     AcquaintanceService.updateAcquaintance({ data, id }).then((res) => {
-    
       toast("Contact updated");
 
       changeContact((prevState) => {
@@ -241,16 +246,19 @@ function ContactItem({ contact, changeContact, allContacts }) {
           </form>
         </Popover>
         <Popover
-        open={checkoutPopoverOpen}
-        anchorEl={checkoutAnchor}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}>
-          <Typography padding="1em">Contact will be used in checkout</Typography>
+          open={checkoutPopoverOpen}
+          anchorEl={checkoutAnchor}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+        >
+          <Typography padding="1em">
+            Contact will be used in checkout
+          </Typography>
         </Popover>
       </Card>
-      <ToastContainer />  
+      <ToastContainer />
     </div>
   );
 }

@@ -31,10 +31,10 @@ const Home = () => {
       position="absolute"
       width="100%"
     >
-      <Grid container spacing={2} mt="10px">
+      <Grid container spacing={3} mt="20px">
         <Grid item xs={12} textAlign="center">
           <Typography fontFamily="Abril Fatface" fontSize="32px" color="black">
-            Business idea
+            The vision
           </Typography>
         </Grid>
         <Grid item xs={2}></Grid>
@@ -49,12 +49,12 @@ const Home = () => {
         <Grid item xs={2}></Grid>
         <Grid item xs={12} textAlign="center">
           <Typography fontFamily="Abril Fatface" fontSize="32px" color="black">
-            CardMe team
+            The team behind
           </Typography>
         </Grid>
         <Grid item xs={12} textAlign="center">
           <Typography style={styles.text} color="black">
-            We are a team of Information System Master students from the
+            We are a team of Information Systems Master students from the
             Technical University of Munich.
           </Typography>
         </Grid>

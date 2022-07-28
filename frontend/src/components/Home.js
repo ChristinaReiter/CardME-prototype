@@ -8,7 +8,6 @@ import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import UpdateIcon from "@mui/icons-material/Update";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ForwardToInboxIcon from "@mui/icons-material/ForwardToInbox";
-import { margin } from "@mui/system";
 
 const styles = {
   image: {
@@ -28,7 +27,7 @@ const styles = {
   },
   icons: {
     fontSize: "90px",
-    padding: "0.75em 0em",
+    padding: "0.5em 0em",
   },
   divide: {
     width: "120px",
@@ -81,7 +80,6 @@ const Home = () => {
       <Box
         style={styles.greenbackground}
         width="100%"
-        height="50%"
         bgcolor={theme.palette.primary.main}
         textAlign="center"
       >
@@ -90,22 +88,22 @@ const Home = () => {
             <Box display="flex" alignItems="center" justifyContent="center">
               <Divider style={styles.divide}></Divider>
               <Typography variant="h3" fontFamily="Abrib Fatface" padding="0em 2em">
-                Send postcards effortless with CardME.
+                Send postcards effortlessly with CardME
               </Typography>
               <Divider style={styles.divide}></Divider>
             </Box>
           </Grid>
           <Grid item xs={2}>
             <CalendarMonthIcon style={styles.icons}></CalendarMonthIcon>
-            <Typography>Schedule and manage cards via a timetable</Typography>
+            <Typography>Schedule and manage cards via a timetable.</Typography>
           </Grid>
           <Grid item xs={2}>
             <CardGiftcardIcon style={styles.icons}></CardGiftcardIcon>
-            <Typography>Add small gifts (envelope-size)</Typography>
+            <Typography>Add small gifts (envelope-size).</Typography>
           </Grid>
           <Grid item xs={4}>
             <UpdateIcon style={styles.icons}></UpdateIcon>
-            <Typography>Subscribe option to send anually cards.</Typography>
+            <Typography>Subscribe option to send cards anually.</Typography>
           </Grid>
           <Grid item xs={2}>
             <ForwardToInboxIcon style={styles.icons}></ForwardToInboxIcon>

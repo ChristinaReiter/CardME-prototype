@@ -8,9 +8,7 @@ import {
   Button,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import CardService from "../services/CardService";
 import { useNavigate, NavLink } from "react-router-dom";
-import ShoppingCartService from "../services/ShoppingCartService";
 
 const ShowFront = ({ product, setImage, mode }) => {
   const styles = {
@@ -96,7 +94,7 @@ const ShowFront = ({ product, setImage, mode }) => {
       </Typography>
       <Box display="flex" justifyContent="center">
         {imageUrl !== null && (
-          <img src={imageUrl} crossOrigin="anonymous" style={styles.image} />
+          <img src={imageUrl} crossOrigin="anonymous" style={styles.image} alt="Card"/>
         )}
       </Box>
       <Grid
