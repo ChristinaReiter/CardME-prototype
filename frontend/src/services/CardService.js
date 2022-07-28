@@ -1,20 +1,24 @@
-import AuthService from "./AuthService";
-
 export default class CardService {
   static baseUrl = "http://localhost:3001";
   static headers = new Headers({
     "Content-Type": "application/json",
   });
 
+
+
+  //Card handling
   static async getAllCards() {
     try {
+
+      //get all cards from the backend
       let response = await fetch(this.baseUrl + "/products", {
         method: "GET",
       });
 
+      //return the response
       response = await response.json();
-
       return response;
+
     } catch (err) {
       console.log(err);
       return [];
@@ -23,103 +27,42 @@ export default class CardService {
 
   static async getSingleCard(id) {
     try {
+
+      //get one single card with a get request to the backend, id provided in the url
       let response = await fetch(this.baseUrl + "/products/single?id=" + id, {
         method: "GET",
       });
 
+      //return the response
       response = await response.json();
+  	  return response;
 
-      return response;
     } catch (err) {
       console.log(err);
       return null;
     }
   }
 
+
   static async getImages(foldername) {
     try {
+
+      //get all image filenames in a specified folder with a get request to the backend
       let response = await fetch(this.baseUrl + "/products/imagedir?dir=" + foldername, {
         method: "GET",
       });
 
+      //return the response
       response = await response.json();
-      console.log(response);
       return response;
+
     } catch (err) {
       console.log(err);
       return null;
     }
   }
 
-  static async getFavorites(/* userID */) {
-    try {
-      let account = JSON.parse(localStorage.getItem("account"));
-      let header = new Headers();
-      if (account && account.token) {
-        header.append("Authorization", `Bearer ${account.token}`);
-      }
-      header.append("Content-Type", "application/json");
 
-      let response = await fetch(
-        this.baseUrl + "/profile/favorites"/* ?id=" + userID */,
-        {
-          method: "GET",
-          headers: header,
-        }
-      );
 
-      response = await response.json();
-
-      return response;
-    } catch (err) {
-      console.log(err);
-      return [];
-    }
-  }
-
-  static async setFavorites(data) {
-    try {
-      let account = JSON.parse(localStorage.getItem("account"));
-      let header = new Headers();
-      if (account && account.token) {
-        header.append("Authorization", `Bearer ${account.token}`);
-      }
-      header.append("Content-Type", "application/json");
-
-      let response = await fetch(this.baseUrl + "/profile/favorites", {
-        method: "POST",
-        headers: header,
-        body: JSON.stringify(data),
-      });
-
-      response = await response.json();
-
-      return response;
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  static async removeFavorite(data) {
-    try {
-      let account = JSON.parse(localStorage.getItem("account"));
-      let header = new Headers();
-      if (account && account.token) {
-        header.append("Authorization", `Bearer ${account.token}`);
-      }
-      header.append("Content-Type", "application/json");
-
-      let response = await fetch(this.baseUrl + "/profile/favorites", {
-        method: "PUT",
-        headers: header,
-        body: JSON.stringify(data),
-      });
-
-      response = await response.json();
-
-      return response;
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  
 }

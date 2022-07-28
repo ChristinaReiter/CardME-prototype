@@ -3,7 +3,7 @@ import { Box,Typography, Button} from '@mui/material'
 
 
 import { useNavigate } from 'react-router-dom';
-import CardService from '../services/CardService';
+import FavoriteService from '../services/FavoriteService';
 
 function ShortFavoriteItem() {  
   const imageUrl = "http://localhost:3001/public/";
@@ -17,7 +17,7 @@ function ShortFavoriteItem() {
     }
 
     useEffect(() => {
-      CardService.getFavorites().then(
+      FavoriteService.getFavorites().then(
         (res) => {
           setFavorites(res);
           if(res.length < 4) {
