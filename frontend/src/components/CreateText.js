@@ -15,14 +15,9 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
-import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import FormatAlignLeftIcon from "@mui/icons-material/FormatAlignLeft";
 import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
 import FormatAlignJustifyIcon from "@mui/icons-material/FormatAlignJustify";
-import FormatAlignLeft from "@mui/icons-material/FormatAlignLeft";
 
 const styles = {
   stepbar: {
@@ -84,16 +79,6 @@ const styles = {
     fontWeight: "400",
     fontSize: "20px",
     display: "center",
-  },
-  text2: {
-    position: "relative",
-    fontFamily: "Antic",
-    fontWeight: "400",
-    fontSize: "16px",
-    lineHeight: "20px",
-    display: "center",
-    top: "80px",
-    color: "rgba(0, 0, 0, 0.5)",
   },
 };
 
@@ -686,7 +671,6 @@ const CreateText = ({
                 style: textFilters,
                 lineheight: "1",
                 maxLength: maxLength,
-                overflow: "auto",
                 maxRows: maxRows,
               }}
               helperText={errorText}
