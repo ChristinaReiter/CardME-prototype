@@ -36,3 +36,7 @@
     transform: rotate(360deg);
   }
 }
+
+:root{
+  --toastify-color-progress-light: #a7cda7!important;
+}
