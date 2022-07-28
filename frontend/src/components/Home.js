@@ -31,8 +31,8 @@ const styles = {
   },
   divide: {
     width: "120px",
-    borderWidth: "1px"
-  }
+    borderWidth: "1px",
+  },
 };
 
 const Home = () => {
@@ -87,28 +87,37 @@ const Home = () => {
           <Grid item xs={12}>
             <Box display="flex" alignItems="center" justifyContent="center">
               <Divider style={styles.divide}></Divider>
-              <Typography variant="h3" fontFamily="Abrib Fatface" padding="0em 2em">
+              <Typography
+                variant="h3"
+                fontFamily="Abrib Fatface"
+                padding="0em 2em"
+              >
                 Send postcards effortlessly with CardME
               </Typography>
               <Divider style={styles.divide}></Divider>
             </Box>
           </Grid>
+
           <Grid item xs={2}>
             <CalendarMonthIcon style={styles.icons}></CalendarMonthIcon>
             <Typography>Schedule and manage cards via a timetable.</Typography>
           </Grid>
+          <Grid item xs={0.5}></Grid>
           <Grid item xs={2}>
             <CardGiftcardIcon style={styles.icons}></CardGiftcardIcon>
             <Typography>Add small gifts (envelope-size).</Typography>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={0.5}></Grid>
+          <Grid item xs={2}>
             <UpdateIcon style={styles.icons}></UpdateIcon>
             <Typography>Subscribe option to send cards anually.</Typography>
           </Grid>
+          <Grid item xs={0.5}></Grid>
           <Grid item xs={2}>
             <ForwardToInboxIcon style={styles.icons}></ForwardToInboxIcon>
             <Typography>Premium delivery.</Typography>
           </Grid>
+          <Grid item xs={0.5}></Grid>
           <Grid item xs={2}>
             <NotificationsIcon style={styles.icons}></NotificationsIcon>
             <Typography>Notification before the sending.</Typography>
