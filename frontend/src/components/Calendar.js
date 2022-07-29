@@ -135,7 +135,7 @@ const Calendar = ({ setSelectedTab }) => {
     setNewEditDescription(thisEvent.description);
 
     const ordered = orders.filter(
-      (order) => order.deliveryDate == thisEvent.eventDate
+      (order) => order.deliveryDate === thisEvent.eventDate
     );
     if (ordered.length > 0) {
       setHasOrder(true);
@@ -161,7 +161,7 @@ const Calendar = ({ setSelectedTab }) => {
     const eventDate = year + "-" + monthh + "-" + datee;
 
     const ordered = orders.filter(
-      (order) => order.deliveryDate.split("T")[0] == eventDate
+      (order) => order.deliveryDate.split("T")[0] === eventDate
     );
 
     const currentDate = currentYear + "-" + currentMonthh + "-" + currentDayy;
