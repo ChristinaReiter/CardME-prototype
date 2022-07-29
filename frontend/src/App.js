@@ -44,7 +44,6 @@ export const theme = createTheme({
 });
 
 function App() {
-
   //offer different views in header based on being logged in
   const [currentAccount, setCurrentAccount] = useState(undefined);
 
@@ -283,13 +282,39 @@ function App() {
                   />
                 }
               >
-                <Route path="view" element={<View setSelectedTab={setSelectedTab}/>} />
-                <Route path="orders" element={<Orders setSelectedTab={setSelectedTab} />} />
-                <Route path="subscriptions" element={<Subscriptions setSelectedTab={setSelectedTab} />} />
-                <Route path="calendar" element={<Calendar setSelectedTab={setSelectedTab} />} />
-                <Route path="favorites" element={<Favorites setSelectedTab={setSelectedTab} />} />
-                <Route path="contacts" element={<Contacts setSelectedTab={setSelectedTab} />} />
-                <Route path="details" element={<Details setSelectedTab={setSelectedTab} />} />
+                <Route
+                  path="view"
+                  element={<View setSelectedTab={setSelectedTab} />}
+                />
+                <Route
+                  path="orders"
+                  element={<Orders setSelectedTab={setSelectedTab} />}
+                />
+                <Route
+                  path="subscriptions"
+                  element={<Subscriptions setSelectedTab={setSelectedTab} />}
+                />
+                <Route
+                  path="calendar"
+                  element={<Calendar setSelectedTab={setSelectedTab} />}
+                />
+                <Route
+                  path="favorites"
+                  element={
+                    <Favorites
+                      setSelectedTab={setSelectedTab}
+                      setImage={setImage}
+                    />
+                  }
+                />
+                <Route
+                  path="contacts"
+                  element={<Contacts setSelectedTab={setSelectedTab} />}
+                />
+                <Route
+                  path="details"
+                  element={<Details setSelectedTab={setSelectedTab} />}
+                />
               </Route>
               <Route exact path="/register" element={<Register />} />
               <Route

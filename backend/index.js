@@ -3,12 +3,13 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
 const jwt = require("jsonwebtoken");
+const cors = require("cors");
 
 const config = require("./src/config");
 
 const product = require("./src/routes/product");
 const auth = require("./src/routes/auth");
-const order = require("./src/routes/order"); 
+const order = require("./src/routes/order");
 const subscription = require("./src/routes/subscription");
 const favorite = require("./src/routes/favorite");
 const acquaintance = require("./src/routes/acquaintance");
@@ -17,6 +18,7 @@ const details = require("./src/routes/details");
 const gifts = require("./src/routes/gifts");
 const event = require("./src/routes/event");
 
+// Connect to hosted MongoDB
 mongoose.connect(config.mongoURI).then(
   () => {
     console.log("Database connected ");
@@ -32,27 +34,30 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(helmet());
 const port = config.port;
 
-const cors = require("cors");
+// Enable Cross origin resource sharing
 app.use(
   cors({
     origin: "http://localhost:3000",
   })
 );
 
-app.use(express.json())
+app.use(express.json());
+
+// Root
 app.get("/", (req, res) => {
-  res.send('hello world')
+  return res
+    .status(200)
+    .json({ response: "CardMe Backend", status: "running" });
 });
 
+// Routes
 app.use("/products", product);
 
 app.use("/gifts", gifts);
 
-app.use("/", auth) 
+app.use("/", auth);
 
-//app.use("/order", order);
-
-app.use("/", order) 
+app.use("/", order);
 
 app.use("/profile/subscriptions", subscription);
 
@@ -66,19 +71,16 @@ app.use("/profile/address", addresss);
 
 app.use("/", details);
 
-
-
-
-
-
-
-
+// Static files
 app.use("/public", express.static("public"));
 
 
+// Default route
+app.get('*',function (req, res) {
+  res.redirect('/');
+});
+
+// Starting Server
 app.listen(port, () => {
   console.log(`Backend listening on port ${port}`);
 });
-
-
- 

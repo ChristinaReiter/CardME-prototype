@@ -24,6 +24,7 @@ const styles = {
   greenbackground: {
     position: "absolute",
     top: "50%",
+    minHeight: "50%"
   },
   icons: {
     fontSize: "90px",

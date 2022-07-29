@@ -54,7 +54,7 @@ const styles = {
   imageWindow: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   image: {
     position: "relative",
@@ -106,6 +106,7 @@ const CreateFinal = ({
   const navigate = useNavigate();
 
   useEffect(() => {
+    // set local state
     if (image !== null) {
       setImageUrl(URL.createObjectURL(image));
     } else {
@@ -114,7 +115,9 @@ const CreateFinal = ({
   }, [image]);
 
   const handleAddToCart = async () => {
+    // If image and text not empty
     if (image && image !== null && text && text !== null && text !== "") {
+      // Values always given
       let itemToAdd = {
         image: image,
         textFilters: textFilters,
@@ -130,12 +133,14 @@ const CreateFinal = ({
         giftImage: null,
       };
 
+      // If gift chosen
       if (chosenGift !== null) {
         itemToAdd.giftId = chosenGift._id;
         itemToAdd.giftPrice = chosenGift.price;
         itemToAdd.giftImage = chosenGift.url;
       }
 
+      // Additional values for own cards (especially image filters)
       if (cardStyle === "own") {
         itemToAdd.title = "Own Card";
         itemToAdd.price = 5.9;
@@ -152,6 +157,7 @@ const CreateFinal = ({
           cardwidth: cardwidth,
         };
       } else {
+        // Additional values for chosen card
         itemToAdd.title = product.title;
         itemToAdd.price = product.price;
         itemToAdd.imageFilters = {};
@@ -163,6 +169,7 @@ const CreateFinal = ({
     }
   };
 
+  // Add to cart and redirect
   const handleAddAndRedirect = () => {
     handleAddToCart().then((key) => {
       if (key) {
@@ -172,7 +179,9 @@ const CreateFinal = ({
   };
 
   const handleUpdate = () => {
+    // If image and text not empty
     if (image && image !== null && text && text !== null && text !== "") {
+      // Values always given, potentially changed
       let changedFields = {
         cardText: text,
         cardTextFilters: textFilters,
@@ -183,8 +192,21 @@ const CreateFinal = ({
           fontStyle: fontstyle,
           lineHeight: lineHeight,
         },
-        cardImageFilters: imageFilters,
-        cardImageFilterValues: {
+        giftId: null,
+        giftPrice: 0,
+        giftImage: null,
+      };
+
+      // If gift chosen
+      if (chosenGift !== null) {
+        changedFields.giftId = chosenGift._id;
+        changedFields.giftPrice = chosenGift.price;
+        changedFields.giftImage = chosenGift.url;
+      }
+      // Additional fields potentially changed for own card
+      if (cardStyle === "own") {
+        changedFields.cardImageFilters = imageFilters;
+        changedFields.cardImageFilterValues = {
           rotation: rotation,
           brightness: brightness,
           contrast: contrast,
@@ -193,17 +215,7 @@ const CreateFinal = ({
           sepia: sepia,
           cardheight: cardheight,
           cardwidth: cardwidth,
-        },
-        giftId: null,
-        giftPrice: 0,
-        giftImage: null,
-      };
-      if (chosenGift !== null) {
-        changedFields.giftId = chosenGift._id;
-        changedFields.giftPrice = chosenGift.price;
-        changedFields.giftImage = chosenGift.url;
-      }
-      if (cardStyle === "own") {
+        };
         changedFields.cardImage = image;
       }
 
@@ -213,6 +225,7 @@ const CreateFinal = ({
     }
   };
 
+  // Update values and redirect
   const handleUpdateAndRedirect = () => {
     handleUpdate();
     navigate("/checkout-data/" + id);
@@ -246,6 +259,7 @@ const CreateFinal = ({
               <ArrowBackIosIcon sx={{ fontSize: "60px" }} />
             </IconButton>
           </Grid>
+          {/* viewState inner pages */}
           <Grid item xs={3}>
             {viewState ? (
               <Box style={styles.cardWindows} sx={{ float: "right" }}></Box>
@@ -265,7 +279,11 @@ const CreateFinal = ({
                 </Box>
               </Box>
             ) : imageUrl !== null ? (
-              <Box style={{...styles.cardWindows, ...styles.imageWindow}} sx={{ float: "left" }}>
+              // Front page with image
+              <Box
+                style={{ ...styles.cardWindows, ...styles.imageWindow }}
+                sx={{ float: "left" }}
+              >
                 <img
                   style={
                     cardStyle === "own"
@@ -276,6 +294,7 @@ const CreateFinal = ({
                 ></img>
               </Box>
             ) : (
+              // Empty front page
               <Box
                 style={styles.cardWindows}
                 sx={{ float: "left", textAlign: "center" }}
@@ -355,6 +374,7 @@ const CreateFinal = ({
           </Grid>
         </Grid>
       </Typography>
+      {/* Popup for cardError */}
       <Dialog
         open={cardError}
         onClose={() => setCardError(false)}

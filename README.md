@@ -38,8 +38,8 @@ Log in with email `sb-t7gft19465168@personal.example.com`  and password `bf3p%g%
 
 When paying directly with Credit Card use:
 
-Card number:`4020024590988471`, Expiry `08/2027` and any number as CSC
-
+Card number:`4020024590988471`, Expiry `08/2027` and any 3 digit number as CSC
+For mobil number also use any number
 
 
 #### After creating an order an actual mail (via smtp) is sent to the given mail address

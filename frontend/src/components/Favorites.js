@@ -16,7 +16,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import FavoriteButton from "./FavoriteButton";
 
-const Favorites = ({ setSelectedTab }) => {
+const Favorites = ({ setSelectedTab, setImage }) => {
   const imageUrl = "http://localhost:3001/public/";
   const [favorites, setFavorites] = useState([]);
   const [userID, setUserID] = useState();
@@ -46,7 +46,6 @@ const Favorites = ({ setSelectedTab }) => {
     );
   }, []);
 
-
   const styles = {
     button: {
       fontFamily: "Annie Use Your Telescope",
@@ -73,9 +72,15 @@ const Favorites = ({ setSelectedTab }) => {
   });
 
   const addProductToCart = async (product) => {
-    navigate("/create/chosen/" + product._id);
-  };
+    let result = await fetch(
+      imageUrl + product.foldername + "/" + product.url,
+      { method: "GET" }
+    );
+    result = await result.blob();
+    setImage(result);
 
+    navigate("/create/chosen/" + product._id + "/new");
+  };
 
   //render favorites in profile
   return (
@@ -266,7 +271,9 @@ const Favorites = ({ setSelectedTab }) => {
                           color="secondary"
                           style={styles.button}
                           onClick={() => {
-                            navigate("/ViewProduct/gift/favorites/" + product._id);
+                            navigate(
+                              "/ViewProduct/gift/favorites/" + product._id
+                            );
                           }}
                         >
                           View
