@@ -83,13 +83,13 @@ function App() {
   const [recipientsFilter, setRecipientsFilter] = useState({});
   const [occasionFilter, setOccasionFilter] = useState({});
   const [seasonFilter, setSeasonFilter] = useState({});
-  const [sortFilter, setSortFilter] = useState("trending");
+  const [sortFilter, setSortFilter] = useState("mostpopular");
 
   //filter and search component for gifts
   const [giftSearchTerm, setGiftSearchTerm] = useState([]);
   const [giftSizeFilter, setGiftSizeFilter] = useState({});
   const [giftPriceFilter, setGiftPriceFilter] = useState({});
-  const [giftSortFilter, setGiftSortFilter] = useState([]);
+  const [giftSortFilter, setGiftSortFilter] = useState("mostpopular");
   const [giftOccasionFilter, setGiftOccasionFilter] = useState({});
 
   // Applied style of the text
@@ -210,6 +210,13 @@ function App() {
                 path="/cards/:headerfilter"
                 element={navigateToCards}
               />
+
+              {/*only when clicking on gifts in favorites */}
+              <Route
+                path="/ViewProduct/:producttype/:infavorites/:productid"
+                element={<ViewProduct setImage={setImage} />}
+              />
+
               <Route path="/ViewProduct/:producttype/:productid">
                 <Route
                   path=""
