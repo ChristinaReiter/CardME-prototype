@@ -10,7 +10,7 @@ const CalendarEventSchema = new mongoose.Schema({
     required: true,
   },
   description: {
-    type: String,    
+    type: String,
   },
   account: {
     type: mongoose.Schema.Types.ObjectId,

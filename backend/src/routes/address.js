@@ -4,6 +4,6 @@ const { secured } = require("../middleware/authMW");
 
 const AddressController = require("../controllers/address");
 
-router.route("/:id").get(AddressController.getAddress) 
+router.route("/:id").get(AddressController.getAddress);
 
-module.exports = router;  
+module.exports = router;

@@ -29,15 +29,21 @@ const Register = () => {
 
   const handleRegister = (event) => {
     event.preventDefault();
+    //check email
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      //check password
       if (password.length > 5) {
-        AuthService.register({ name, email, password }).then((res) => {
-          if (res.status) toast(res.message);
-          else {
-            toast(`Welcome ${res.name}`);
-            navigate("/login");
-          }
-        });
+        AuthService.register({ name, email, password })
+          .then((res) => {
+            if (res.status) toast(res.message);
+            else {
+              toast(`Welcome ${res.name}`);
+              navigate("/login");
+            }
+          })
+          .catch(() => {
+            toast("Register failed");
+          });
       } else {
         toast("Password must be at least 6 characters");
       }

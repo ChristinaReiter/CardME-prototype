@@ -14,6 +14,7 @@ const Contacts = ({ setSelectedTab }) => {
   const [country, setCountry] = useState("");
   const [contacts, setContacts] = useState([]);
 
+  //create a new contact
   const createContact = (e) => {
     e.preventDefault();
 
@@ -39,12 +40,16 @@ const Contacts = ({ setSelectedTab }) => {
     setCity("");
     setCountry("");
   };
-
+  //display contacts
   useEffect(() => {
     setSelectedTab(5);
-    AcquaintanceService.getAcquaintances().then((res) => {
-      setContacts(res);
-    });
+    AcquaintanceService.getAcquaintances()
+      .then((res) => {
+        setContacts(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (

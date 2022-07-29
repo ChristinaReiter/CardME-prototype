@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
 
 const AccountSchema = new mongoose.Schema({
-
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   password: {
     type: String,
     required: true,
@@ -10,9 +9,8 @@ const AccountSchema = new mongoose.Schema({
   preferences: [String],
 
   favorites: {
-        type: mongoose.Schema.Types.Array,
-        ref: "Product",
-
+    type: mongoose.Schema.Types.Array,
+    ref: "Product",
   },
 });
 

@@ -19,9 +19,11 @@ import CheckoutService from "../services/CheckoutService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function ContactItem({ contact, changeContact, allContacts }) {
-  const [anchorEl, setAnchorEl] = useState(null);
+const ContactItem = ({ contact, changeContact, allContacts }) => {
+  //state for checkout-use
   const [checkoutAnchor, setCheckoutAnchor] = useState(null);
+
+  //state for contact display
   const [name, setName] = useState("");
   const [street, setStreet] = useState("");
   const [streetNumber, setStreetNumber] = useState("");
@@ -29,11 +31,13 @@ function ContactItem({ contact, changeContact, allContacts }) {
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
 
+  //state for creating new contact
   const [newStreet, setNewStreet] = useState("");
   const [newStreetNumber, setNewStreetNumber] = useState("");
   const [newZipCode, setNewZipCode] = useState("");
   const [newCity, setNewCity] = useState("");
   const [newCountry, setNewCountry] = useState("");
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -44,15 +48,19 @@ function ContactItem({ contact, changeContact, allContacts }) {
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
   const checkoutPopoverOpen = Boolean(checkoutAnchor);
 
+  //delete a contact
   const deleteContact = (id) => {
-    AcquaintanceService.deleteAcquaintance({ id }).then(() => {
-      toast("Contact deleted");
-      const updated = allContacts.filter((con) => con._id !== id);
-      changeContact(updated);
-    });
+    AcquaintanceService.deleteAcquaintance({ id })
+      .then(() => {
+        toast("Contact deleted");
+        const updated = allContacts.filter((con) => con._id !== id);
+        changeContact(updated);
+      })
+      .catch(() => {
+        toast("Error deleting contact");
+      });
   };
 
   const useForCheckout = (event) => {
@@ -79,8 +87,9 @@ function ContactItem({ contact, changeContact, allContacts }) {
     }, 2000);
   };
 
+  //update a contact
   const updateContact = (e, id) => {
-    e.preventDefault(); // w/o this, the page will refresh which might be good but is annoying for testing...
+    e.preventDefault();
     const data = {
       name: name,
       street: newStreet,
@@ -90,31 +99,35 @@ function ContactItem({ contact, changeContact, allContacts }) {
       country: newCountry,
     };
 
-    AcquaintanceService.updateAcquaintance({ data, id }).then((res) => {
-      toast("Contact updated");
+    AcquaintanceService.updateAcquaintance({ data, id })
+      .then((res) => {
+        toast("Contact updated");
 
-      changeContact((prevState) => {
-        const updated = prevState.map((con) => {
-          if (con._id === id) {
-            return res;
-          } else {
-            return con;
-          }
+        changeContact((prevState) => {
+          const updated = prevState.map((con) => {
+            if (con._id === id) {
+              return res;
+            } else {
+              return con;
+            }
+          });
+          return updated;
         });
-        return updated;
+        setStreet(newStreet);
+        setStreetNumber(newStreetNumber);
+        setZipCode(newZipCode);
+        setCity(newCity);
+        setCountry(newCountry);
+        handleClose();
+      })
+      .catch(() => {
+        toast("Error updating contact");
       });
-      setStreet(newStreet);
-      setStreetNumber(newStreetNumber);
-      setZipCode(newZipCode);
-      setCity(newCity);
-      setCountry(newCountry);
-      handleClose();
-    });
   };
 
   useEffect(() => {
+    //see the previous adress when updating contact
     AddressService.getAddress(contact.acquaintanceAddress).then((res) => {
-      // a lot of get requests but all update fields are prefilled ->> annoyiing when testing
       setName(contact.name);
       setStreet(res.street);
       setStreetNumber(res.streetNumber);
@@ -153,7 +166,6 @@ function ContactItem({ contact, changeContact, allContacts }) {
         </CardContent>
         <CardActions disableSpacing>
           <Button
-            aria-describedby={id}
             onClick={useForCheckout}
             startIcon={<HowToRegIcon />}
             sx={{ marginLeft: "auto", color: "black", pr: "2em" }}
@@ -161,7 +173,6 @@ function ContactItem({ contact, changeContact, allContacts }) {
             Use for checkout
           </Button>
           <Button
-            aria-describedby={id}
             onClick={handleClick}
             startIcon={<UpdateIcon />}
             sx={{ marginLeft: "auto", color: "black", pr: "2em" }}
@@ -170,7 +181,6 @@ function ContactItem({ contact, changeContact, allContacts }) {
           </Button>
         </CardActions>
         <Popover
-          id={id}
           open={open}
           anchorEl={anchorEl}
           onClose={handleClose}
@@ -261,6 +271,6 @@ function ContactItem({ contact, changeContact, allContacts }) {
       <ToastContainer />
     </div>
   );
-}
+};
 
 export default ContactItem;

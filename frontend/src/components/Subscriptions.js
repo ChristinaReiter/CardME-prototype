@@ -2,16 +2,19 @@ import { useState, useEffect } from "react";
 import SubscriptionService from "../services/SubscriptionService";
 import SubscriptionItem from "./SubscriptionItem";
 import { Box, Grid, Typography } from "@mui/material";
-import OrderService from "../services/OrderService";
 
 const Subscriptions = ({ setSelectedTab }) => {
   const [subscriptions, setSubscriptions] = useState([]);
 
   useEffect(() => {
     setSelectedTab(2);
-    SubscriptionService.getSubscriptions().then((res) => {
-      setSubscriptions(res);
-    });
+    SubscriptionService.getSubscriptions()
+      .then((res) => {
+        setSubscriptions(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (

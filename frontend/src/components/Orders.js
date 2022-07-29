@@ -8,9 +8,13 @@ const Orders = ({ setSelectedTab }) => {
 
   useEffect(() => {
     setSelectedTab(1);
-    OrderService.getOrders().then((res) => {
-      setOrders(res);
-    });
+    OrderService.getOrders()
+      .then((res) => {
+        setOrders(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (

@@ -74,10 +74,9 @@ app.use("/", details);
 // Static files
 app.use("/public", express.static("public"));
 
-
 // Default route
-app.get('*',function (req, res) {
-  res.redirect('/');
+app.get("*", function (req, res) {
+  res.redirect("/");
 });
 
 // Starting Server

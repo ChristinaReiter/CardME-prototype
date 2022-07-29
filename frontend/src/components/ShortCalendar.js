@@ -8,9 +8,7 @@ import {
   Card,
   CardHeader,
   CardContent,
-  CardActions,
   Stack,
-  Badge,
 } from "@mui/material";
 import EventService from "../services/EventService";
 import FullCalendar from "@fullcalendar/react";
@@ -26,26 +24,26 @@ import "react-toastify/dist/ReactToastify.css";
 import { pink } from "@mui/material/colors";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 
-function ShortCalendar() {
+const ShortCalendar = () => {
+  //state for event display
   const [calEvents, setCalEvents] = useState([]);
   const [events, setEvents] = useState([]);
-  const [eventDate, setEventDate] = useState("");
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [editAnchor, setEditAnchor] = useState(null);
-  const [orders, setOrders] = useState([]);
 
+  //state for popup
   const [popTitle, setPopTitle] = useState("");
   const [popDescription, setPopDescription] = useState("");
   const [popDate, setPopDate] = useState("");
   const [popId, setPopId] = useState("");
+  const [hasOrder, setHasOrder] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [orders, setOrders] = useState([]);
 
+  //state for edit
   const [newEditTitle, setNewEditTitle] = useState("");
   const [newEditDescription, setNewEditDescription] = useState("");
   const [newEditDate, setNewEditDate] = useState("");
+  const [editAnchor, setEditAnchor] = useState(null);
 
-  const [hasOrder, setHasOrder] = useState(false);
   const navigate = useNavigate();
 
   const seeCalendar = () => {
@@ -84,8 +82,9 @@ function ShortCalendar() {
     }
   };
 
+  // custom display of events in calendar (check if there is an order for event and if it is in the past or future)
   const renderEventContent = (eventInfo) => {
-    let date = eventInfo.event.start.getDate(); //change like above?
+    let date = eventInfo.event.start.getDate();
     let month = eventInfo.event.start.getMonth() + 1;
     let year = eventInfo.event.start.getFullYear();
     let monthh = month > 9 ? month : "0" + month;
@@ -123,24 +122,33 @@ function ShortCalendar() {
   };
 
   useEffect(() => {
-    OrderService.getOrders().then((res) => {
-      setOrders(res);
-    });
-    EventService.getEvents().then((res) => {
-      setEvents(res);
-      const array = res.map((eve) => {
-        return {
-          title: eve.title,
-          start: eve.eventDate,
-          allDay: true,
-          id: eve._id,
-          extendedProps: { description: eve.description },
-        };
+    OrderService.getOrders()
+      .then((res) => {
+        setOrders(res);
+      })
+      .catch((err) => {
+        console.log(err);
       });
-      setCalEvents(array);
-    });
+    EventService.getEvents()
+      .then((res) => {
+        setEvents(res);
+        const array = res.map((eve) => {
+          return {
+            title: eve.title,
+            start: eve.eventDate,
+            allDay: true,
+            id: eve._id,
+            extendedProps: { description: eve.description },
+          };
+        });
+        setCalEvents(array);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
+  //edit an event
   const editEvent = (e, id) => {
     e.preventDefault();
     const data = {
@@ -251,7 +259,12 @@ function ShortCalendar() {
                   <CalendarTodayIcon />
                   <Typography variant="body1">{popDate}</Typography>
                 </Stack>
-                <Stack sx={{ pb: 1 }} direction="row" alignItems="center" gap={1}>
+                <Stack
+                  sx={{ pb: 1 }}
+                  direction="row"
+                  alignItems="center"
+                  gap={1}
+                >
                   <DescriptionIcon />
                   <Typography variant="body1">{popDescription}</Typography>
                 </Stack>
@@ -324,6 +337,6 @@ function ShortCalendar() {
       </div>
     </>
   );
-}
+};
 
 export default ShortCalendar;

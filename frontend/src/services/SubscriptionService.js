@@ -6,6 +6,7 @@ export default class SubscriptionService {
     "Content-Type": "application/json",
   });
 
+  // get all subscriptions of account
   static async getSubscriptions() {
     try {
       let response = await fetch(this.baseUrl + "/profile/subscriptions", {
@@ -21,6 +22,7 @@ export default class SubscriptionService {
     }
   }
 
+  //create new subscription for account
   static async setSubscription(data) {
     try {
       let response = await fetch(this.baseUrl + "/profile/subscriptions", {
@@ -33,10 +35,11 @@ export default class SubscriptionService {
       return resp;
     } catch (err) {
       console.log(err);
-      return null
+      return null;
     }
   }
 
+  //delete subscription by id
   static async deleteSubscription({ id }) {
     try {
       let response = await fetch(

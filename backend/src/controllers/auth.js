@@ -11,95 +11,96 @@ const register = async (req, res) => {
         .status(400)
         .json({ status: "error", message: "Missing Values" });
     }
-    const userTest = await User.findOne({ email: req.body.email }); //to check if user (email) already exists
+    //to check if user (email) already exists
+    const userTest = await User.findOne({ email: req.body.email });
     if (userTest) {
-    const accountTest = await Account.findOne({ user: userTest._id }); // to make sure you can't change the name of accounts over the register page
-    if (accountTest) {
-      return res
-        .status(404)
-        .json({
+      // to make sure you can't change the name of accounts over the register page
+      const accountTest = await Account.findOne({ user: userTest._id });
+      if (accountTest) {
+        return res.status(404).json({
           status: "error",
           message: "Email already belongs to an account",
         });
+      }
     }
-  }
+    // hash password
     const securePassword = await bcrypt.hash(req.body.password, 10);
     if (!userTest) {
       const user = await User.create({
         email: req.body.email,
         name: req.body.name,
       });
+      //create new account
       const account = await Account.create({
         user: user._id,
         password: securePassword,
       });
-      return res
-        .status(201)
-        .json({
-          _id: account.id,
-          user: user.id,
-          email: user.email,
-          name: user.name,
-        });
+      return res.status(201).json({
+        _id: account.id,
+        user: user.id,
+        email: user.email,
+        name: user.name,
+      });
     } else {
+      // to update the user's name if he already had an user from creating an order but not an account
       const updatedUser = await User.findByIdAndUpdate(userTest._id, req.body, {
         new: true,
-      }); // to update the user's name if he already had a use but not an account
+      });
+      //create new account
       const account = await Account.create({
         user: updatedUser._id,
         password: securePassword,
       });
 
-      return res
-        .status(201)
-        .json({
-          _id: account.id,
-          user: updatedUser._id,
-          email: updatedUser.email,
-          name: updatedUser.name,
-        });
+      return res.status(201).json({
+        _id: account.id,
+        user: updatedUser._id,
+        email: updatedUser.email,
+        name: updatedUser.name,
+      });
     }
   } catch (err) {
     console.log(err);
-    return res
-      .status(404)
-      .json({
-        status: "error",
-        message: "Email already belongs to an account",
-      });
+    return res.status(404).json({
+      status: "error",
+      message: "Email already belongs to an account",
+    });
   }
 };
 
 const login = async (req, res) => {
   try {
+    //find user and his account
     const user = await User.findOne({ email: req.body.email });
     const account = await Account.findOne({
       user: user._id,
     });
+    //check password
     const isPasswordValid = await bcrypt.compare(
       req.body.password,
       account.password
     );
 
     if (isPasswordValid) {
+      //assign token
       const token = jwt.sign(
         {
           id: account.id,
         },
-        config.jwtSecret, // secret
+        // secret
+        config.jwtSecret,
         {
-          expiresIn: "7d", // expires in 1 week
+          // expires in 1 week
+          expiresIn: "7d",
         }
       );
-      return res
-        .status(201)
-        .json({
-          _id: account.id,
-          user: user.id,
-          email: user.email,
-          name: user.name,
-          token: token,
-        });
+      return res.status(201).json({
+        _id: account.id,
+        user: user.id,
+        email: user.email,
+        name: user.name,
+        token: token,
+      });
     } else {
       return res
         .status(404)
@@ -141,7 +142,7 @@ const accountFree = async (req, res) => {
           existing: false,
         });
       }
-    }else{
+    } else {
       return res.status(200).json({
         existing: false,
       });

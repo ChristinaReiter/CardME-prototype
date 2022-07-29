@@ -1,8 +1,10 @@
 const Acquaintance = require("../models/acquaintance");
 const Address = require("../models/address");
 const Account = require("../models/account");
+
 const getAcquaintances = async (req, res) => {
   try {
+    //find contacts of current account
     const acquaintances = await Acquaintance.find({ account: req.account.id });
 
     return res.status(200).json(acquaintances);
@@ -28,6 +30,7 @@ const setAcquaintance = async (req, res) => {
     ) {
       return res.status(400).json({ error: "Missing Values" });
     }
+    //create adress for contact
     const acquaintanceAddress = await Address.create({
       street: req.body.street,
       streetNumber: req.body.streetNumber,
@@ -35,6 +38,7 @@ const setAcquaintance = async (req, res) => {
       city: req.body.city,
       country: req.body.country,
     });
+    //create contact
     const acquaintance = await Acquaintance.create({
       name: req.body.name,
       acquaintanceAddress: acquaintanceAddress._id,
@@ -54,12 +58,13 @@ const setAcquaintance = async (req, res) => {
 
 const updateAcquaintance = async (req, res) => {
   try {
+    //find contact
     const acquaintance = await Acquaintance.findById(req.params.id);
 
     if (!acquaintance) {
       return res.status(400).json({ error: "Acquaintance not found" });
     }
-
+    //find account to check if user is allowed to edit contact
     const account = await Account.findById(req.account.id);
 
     if (!account) {
@@ -71,7 +76,7 @@ const updateAcquaintance = async (req, res) => {
         .status(401)
         .json({ error: "You are not allowed to edit this acquaintance" });
     }
-
+    //update contact
     const updatedAcquaintance = await Acquaintance.findByIdAndUpdate(
       req.params.id,
       req.body,
@@ -91,13 +96,14 @@ const updateAcquaintance = async (req, res) => {
 
 const deleteAcquaintance = async (req, res) => {
   try {
+    //find contact and address
     const acquaintance = await Acquaintance.findById(req.params.id);
     const address = await Address.findById(acquaintance.acquaintanceAddress);
 
     if (!acquaintance) {
       return res.status(400).json({ error: "Acquaintance not found" });
     }
-
+    //find account to check if user is allowed to delete contact
     const account = await Account.findById(req.account.id);
 
     if (!account) {
@@ -110,6 +116,7 @@ const deleteAcquaintance = async (req, res) => {
         .json({ error: "You are not allowed to edit this acquaintance" });
     }
 
+    //delete address as well as contact
     await acquaintance.remove();
     await address.remove();
 

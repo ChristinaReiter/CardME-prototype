@@ -9,9 +9,7 @@ import {
   Card,
   CardHeader,
   CardContent,
-  CardActions,
   Stack,
-  Badge,
 } from "@mui/material";
 import EventService from "../services/EventService";
 import EventItem from "./EventItem";
@@ -28,13 +26,14 @@ import OrderService from "../services/OrderService";
 import { pink } from "@mui/material/colors";
 
 const Calendar = ({ setSelectedTab }) => {
+  //state calendar and event display
   const [calEvents, setCalEvents] = useState([]);
   const [events, setEvents] = useState([]);
+
+  //state for creating a new event
   const [eventDate, setEventDate] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [editAnchor, setEditAnchor] = useState(null);
 
   //state for calendar popup
   const [popTitle, setPopTitle] = useState("");
@@ -43,11 +42,13 @@ const Calendar = ({ setSelectedTab }) => {
   const [popId, setPopId] = useState("");
   const [orders, setOrders] = useState([]);
   const [hasOrder, setHasOrder] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   //state for edit popup
   const [newEditTitle, setNewEditTitle] = useState("");
   const [newEditDescription, setNewEditDescription] = useState("");
   const [newEditDate, setNewEditDate] = useState("");
+  const [editAnchor, setEditAnchor] = useState(null);
 
   useEffect(() => {
     setSelectedTab(3);
@@ -145,7 +146,7 @@ const Calendar = ({ setSelectedTab }) => {
 
   // custom display of events in calendar (check if there is an order for event and if it is in the past or future)
   const renderEventContent = (eventInfo) => {
-    let date = eventInfo.event.start.getDate(); //change like above?
+    let date = eventInfo.event.start.getDate(); 
     let month = eventInfo.event.start.getMonth() + 1;
     let year = eventInfo.event.start.getFullYear();
     let monthh = month > 9 ? month : "0" + month;
@@ -316,7 +317,6 @@ const Calendar = ({ setSelectedTab }) => {
             vertical: "bottom",
             horizontal: "left",
           }}
-          //sx={{ width: "75%" }}
         >
           <Card variant="outlined" sx={{ pl: 1 }}>
             <CardHeader

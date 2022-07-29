@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import {
   Button,
   Box,
-  IconButton,
   Popover,
   Typography,
   TextField,
@@ -44,32 +43,42 @@ const AccountDetails = ({ setSelectedTab }) => {
   const open = Boolean(anchorEl);
   const pwOpen = Boolean(pwAnchor);
 
+  //change name
   const updateAccount = (e) => {
     e.preventDefault();
 
-    DetailsService.updateAccount({ name: newName }).then((res) => {
-      toast("Account updated");
+    DetailsService.updateAccount({ name: newName })
+      .then((res) => {
+        toast("Account updated");
 
-      setName(res.name);
-      setEmail(res.email);
-      setNewName("");
-      handleClose();
-    });
+        setName(res.name);
+        setEmail(res.email);
+        setNewName("");
+        handleClose();
+      })
+      .catch(() => {
+        toast("Could not update Account");
+      });
   };
 
+  //change password
   const changePw = (e) => {
     e.preventDefault();
-
+    //check for password length
     if (newPassword.length > 5) {
       DetailsService.changePassword({
         password: password,
         newPassword: newPassword,
-      }).then((res) => {
-        res.status ? toast(res.message) : toast("Password updated");
-        setNewPassword("");
-        setPassword("");
-        handleClose();
-      });
+      })
+        .then((res) => {
+          res.status ? toast(res.message) : toast("Password updated");
+          setNewPassword("");
+          setPassword("");
+          handleClose();
+        })
+        .catch(() => {
+          toast("Could not update Password");
+        });
     } else {
       toast("Password must be at least 6 characters");
     }

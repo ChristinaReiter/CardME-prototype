@@ -1,6 +1,4 @@
 import { Tab, Tabs, Box, Button } from "@mui/material";
-import React, { useEffect } from "react";
-import { useState } from "react";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
@@ -21,15 +19,16 @@ const styles = {
   },
 };
 
-const ProfileOverview = ({ setCurrentAccount, currentAccount, selectedTab, setSelectedTab }) => {
-
+const ProfileOverview = ({
+  setCurrentAccount,
+  selectedTab,
+  setSelectedTab,
+}) => {
   const navigate = useNavigate();
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (newValue) => {
     setSelectedTab(newValue);
   };
-
-  
 
   const logOut = () => {
     AuthService.logout().then(() => {

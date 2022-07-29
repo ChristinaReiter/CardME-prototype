@@ -4,6 +4,10 @@ const { secured } = require("../middleware/authMW");
 
 const FavoriteController = require("../controllers/favorite");
 
-router.route("/").get(secured, FavoriteController.getFavorite).post(secured, FavoriteController.setFavorite).put(secured, FavoriteController.removeFavorite);
+router
+  .route("/")
+  .get(secured, FavoriteController.getFavorite)
+  .post(secured, FavoriteController.setFavorite)
+  .put(secured, FavoriteController.removeFavorite);
 
-module.exports = router;  
+module.exports = router;
