@@ -141,6 +141,10 @@ const accountFree = async (req, res) => {
           existing: false,
         });
       }
+    }else{
+      return res.status(200).json({
+        existing: false,
+      });
     }
   } catch (err) {
     return res.status(404).json({

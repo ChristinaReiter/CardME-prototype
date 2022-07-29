@@ -218,7 +218,7 @@ const CheckoutOverview = () => {
               <Typography variant="h5">
                 Inside Text (displayed here without styling):
               </Typography>
-              <Typography fontFamily="Antic">{cartItem.cardText}</Typography>
+              <Typography fontFamily="Antic" whiteSpace="pre-wrap">{cartItem.cardText}</Typography>
             </Grid>
             <Grid
               item
