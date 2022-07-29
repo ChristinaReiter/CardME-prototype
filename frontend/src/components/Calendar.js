@@ -316,7 +316,7 @@ const Calendar = ({ setSelectedTab }) => {
             vertical: "bottom",
             horizontal: "left",
           }}
-          sx={{ width: "75%" }}
+          //sx={{ width: "75%" }}
         >
           <Card variant="outlined" sx={{ pl: 1 }}>
             <CardHeader

@@ -49,7 +49,7 @@ function ShortCalendar() {
   const navigate = useNavigate();
 
   const seeCalendar = () => {
-    navigate("/profile/calendar");    
+    navigate("/profile/calendar");
   };
 
   const handleClose = () => {
@@ -109,28 +109,14 @@ function ShortCalendar() {
       <>
         {currentDate <= eventDate ? (
           ordered.length > 0 ? (
-            <>
-              <MailIcon sx={{ color: pink[500] }} />
-
-              <Typography variant="h6">{eventInfo.event.title}</Typography>
-            </>
+            <MailIcon sx={{ color: pink[500] }} />
           ) : (
-            <>
-              <BookmarkIcon sx={{ color: pink[500] }} />
-              <Typography variant="h6">{eventInfo.event.title}</Typography>
-            </>
+            <BookmarkIcon sx={{ color: pink[500] }} />
           )
         ) : ordered.length > 0 ? (
-          <>
-            <MailIcon />
-
-            <Typography variant="h6">{eventInfo.event.title}</Typography>
-          </>
+          <MailIcon />
         ) : (
-          <>
-            <BookmarkIcon />
-            <Typography variant="h6">{eventInfo.event.title}</Typography>
-          </>
+          <BookmarkIcon />
         )}
       </>
     );
@@ -235,7 +221,7 @@ function ShortCalendar() {
               vertical: "bottom",
               horizontal: "left",
             }}
-            sx={{ width: '75%' }}
+            sx={{ width: "75%" }}
           >
             <Card variant="outlined" sx={{ pl: 1 }}>
               <CardHeader

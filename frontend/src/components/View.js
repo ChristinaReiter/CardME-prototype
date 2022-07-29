@@ -1,5 +1,6 @@
 
 import { Grid, Typography, Stack } from '@mui/material'
+import { useEffect } from 'react'
 import ShortOrder from './ShortOrder';
 import ShortCalendar from './ShortCalendar';
 import ShortFavoriteItem from './ShortFavoriteItem';
@@ -9,7 +10,11 @@ const styles = {
 }
 
 
-const View = () => {
+const View = ({setSelectedTab}) => {
+
+  useEffect(() => {
+    setSelectedTab(0)
+  }, [])
 
 
   return (
