@@ -25,23 +25,22 @@ const Product = ({ products, gift, headerfilter, setChosenGift, setImage }) => {
 
   useEffect(() => {
 
-    //get all favorites to display them later
+    //get the user's id for the favorites
     AuthService.getMe().then(
       (result) => {
-        if (!result.status) {
-          setUserID(result._id);
-          FavoriteService.getFavorites(result._id).then(
-            (res) => {
-              setFavorites(res);
-            },
-            (err) => {
-              console.log(err);
-            }
-          );
-        }
+        setUserID(result);
       },
-      (error) => {
-        console.log(error);
+      (err) => {
+        console.log(err);
+      }
+    );
+    //get all favorites to display them later
+    FavoriteService.getFavorites().then(
+      (res) => {
+        setFavorites(res);
+      },
+      (err) => {
+        console.log(err);
       }
     );
   }, []);

@@ -67,7 +67,7 @@ const FavoriteButton = ({productObject, favorites, setFavorites, userID, singleP
                 style={styles.productfavoritesdisabled}
                 onClick={() => {
                   //only set favorite when logged in
-                  if(userID === undefined)
+                  if(userID.message)
                   {
                     toast("not logged in");
                   }

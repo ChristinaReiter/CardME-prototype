@@ -44,6 +44,13 @@ const ViewCard = ({ setImage, setChosenGift }) => {
       );
     }
 
+    //get my id
+    AuthService.getMe().then(
+      (result) => {
+        setUserID(result);
+      }
+    )
+
     //get one single gift
     if (producttype === "gift") {
       GiftService.getSingleGift(productid).then(
