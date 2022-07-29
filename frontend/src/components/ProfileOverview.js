@@ -26,10 +26,6 @@ const ProfileOverview = ({
 }) => {
   const navigate = useNavigate();
 
-  const handleChange = (newValue) => {
-    setSelectedTab(newValue);
-  };
-
   const logOut = () => {
     AuthService.logout().then(() => {
       setCurrentAccount(undefined);
@@ -42,7 +38,6 @@ const ProfileOverview = ({
       <Box className="subheader">
         <Tabs
           value={selectedTab}
-          onChange={handleChange}
           indicatorColor="secondary"
           scrollButtons="auto"
         >
