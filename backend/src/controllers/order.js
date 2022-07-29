@@ -77,8 +77,8 @@ const create = async (req, res) => {
       const mailData = {
         to: req.body.email,
         subject: `Your order ${order._id} at CardMe`,
-        text: "Thank you for your order at CardMe. We will deliver your card on the chosen date."
-      }
+        text: "Thank you for your order at CardMe. We will deliver your card on the chosen date.",
+      };
 
       mail.transporter.sendMail(mailData, (error, info) => {
         if (error) {
@@ -116,8 +116,6 @@ const getOrders = async (req, res) => {
     });
   }
 };
-
-// user cant update/delete orders by himself
 
 module.exports = {
   create,

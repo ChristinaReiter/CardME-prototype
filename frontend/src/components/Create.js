@@ -53,11 +53,15 @@ const Create = ({
 
   //setting up ShoppingCart with different cardstyles (chosen or own) and different modes (edit or not edit)
   useEffect(() => {
+    // Chosen card, but not in edit
     if (cardStyle === "chosen" && mode !== "edit") {
+      // Get product details
       CardService.getSingleCard(id).then((item) => {
         setProduct(item);
       });
+      // All cards in edit mode
     } else if (mode === "edit") {
+      // Get stored values from Shopping cart
       let key = parseInt(id);
       ShoppingCartService.getItem(key).then((item) => {
         setProduct(item);
@@ -70,6 +74,7 @@ const Create = ({
         setfontstyle(item.fontStyle);
         setlineHeight(item.lineHeight);
 
+        // Filters only for own cards
         if (cardStyle === "own") {
           setRotation(item.cardImageFilterValues.rotation);
           setBrightness(item.cardImageFilterValues.brightness);
@@ -81,6 +86,7 @@ const Create = ({
           setCardwidth(item.cardImageFilterValues.cardwidth);
         }
 
+        // If gift was saved and no new one was chosen
         if (item.giftId !== null && chosenGift === null) {
           setChosenGift({
             _id: item.giftId,
@@ -89,6 +95,7 @@ const Create = ({
             url: item.giftImage,
           });
         } else if (item.giftId === null) {
+          // Reset gift
           setChosenGift(null);
         }
       });
@@ -112,6 +119,7 @@ const Create = ({
       setfontstyle("Annie Use Your Telescope");
       setlineHeight(1);
 
+      // If own card also reset image state
       if (cardStyle === "own") {
         setImage(null);
       }
@@ -135,10 +143,6 @@ const Create = ({
     cardwidth,
     cardheight,
   ]);
-
-  const handleTextPersist = (text) => {
-    setText(text);
-  };
 
   //updating styles of the text
   useEffect(() => {
@@ -185,7 +189,6 @@ const Create = ({
       )}
       <CreateText //Create card text (Create Text & Adjust Text )
         text={text}
-        handleTextPersist={handleTextPersist}
         setText={setText}
         setfontstyle={setfontstyle}
         setfontcolor={setfontcolor}

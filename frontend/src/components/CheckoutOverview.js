@@ -25,10 +25,16 @@ const CheckoutOverview = () => {
   const [cartItem, setCartItem] = useState({});
   const [total, setTotal] = useState(0.01);
   const [checkoutData, setCheckoutData] = useState({});
+
+  // Subscription ID from PayPal
   const [subscriptionPlan, setSubscriptionPlan] = useState(null);
+  // Starting date of subscription (first payment)
   const [startingDate, setStartingDate] = useState(null);
+
+  // Error states
   const [paymentError, setPaymentError] = useState(false);
   const [orderError, setOrderError] = useState(false);
+
   const { id } = useParams();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -47,6 +53,7 @@ const CheckoutOverview = () => {
   };
 
   useEffect(() => {
+    // Set local state
     let checkoutData = CheckoutService.getCheckoutData();
     setCheckoutData(checkoutData);
 
@@ -57,13 +64,18 @@ const CheckoutOverview = () => {
   }, []);
 
   useEffect(() => {
+    // Setting total
     if (cartItem != null) {
       setTotal(cartItem.cardPrice + cartItem.giftPrice);
     }
+
+    // If subscription wanted
     if (checkoutData.recurrentDelivery) {
+      // Starting date
       let deliveryDate = Date.parse(checkoutData.deliveryDate);
       setStartingDate(new Date(deliveryDate).toISOString());
 
+      // Create subscription plan with indiviual price
       PayPalService.createSubscriptionPlan(total).then((result) => {
         if (result) {
           setSubscriptionPlan(result.id);
@@ -72,23 +84,32 @@ const CheckoutOverview = () => {
     }
   }, [cartItem]);
 
+  const handleExit = (orderId) => {
+    // Remove persistent data and redirect
+    CheckoutService.removeData();
+    ShoppingCartService.removeItem(id);
+    navigate("/successful-order/" + orderId);
+  };
+
+  // If just regular order
   const handleSuccessfulCheckout = async () => {
     const response = await OrderService.createOrder(checkoutData, cartItem);
     if (response.response === "success") {
-      CheckoutService.removeData();
-      ShoppingCartService.removeItem(id);
-      navigate("/successful-order/" + response.order._id);
+      handleExit(response.order._id);
     } else {
       setOrderError(true);
     }
   };
 
+  // If subscription wanted
   const handleSuccessfulSubscription = async (subscriptionId) => {
     const order = await OrderService.createOrder(checkoutData, cartItem);
 
     const currentUser = await AuthService.getLog();
     let account = null;
+    // If no user logged in, no account existent (checked before)
     if (currentUser === null) {
+      // Create new account
       account = await AuthService.register({
         name:
           checkoutData.billingFirstName + " " + checkoutData.billingLastName,
@@ -96,6 +117,7 @@ const CheckoutOverview = () => {
         password: checkoutData.accountPassword,
       });
     } else {
+      // User logged in
       account = currentUser;
     }
 
@@ -112,9 +134,7 @@ const CheckoutOverview = () => {
       });
 
       if (subscription !== null) {
-        CheckoutService.removeData();
-        ShoppingCartService.removeItem(id);
-        navigate("/successful-order/" + order.order._id);
+        handleExit(order.order._id);
       } else {
         setOrderError(true);
       }
@@ -124,6 +144,7 @@ const CheckoutOverview = () => {
     }
   };
 
+  // Error on payment
   const handleFailedCheckout = (error) => {
     console.log(error);
     setPaymentError(true);
@@ -167,7 +188,15 @@ const CheckoutOverview = () => {
         >
           <Grid container>
             <Grid item xs={3}>
-              <Box width="180px" overflow="hidden" height="230px" display="flex" alignItems="center" justifyContent="center" boxShadow="rgba(0, 0, 0, 0.1) 2px 2px 30px, rgba(0, 0, 0, 0.1) -2px -2px 30px">
+              <Box
+                width="180px"
+                overflow="hidden"
+                height="230px"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                boxShadow="rgba(0, 0, 0, 0.1) 2px 2px 30px, rgba(0, 0, 0, 0.1) -2px -2px 30px"
+              >
                 {cartItem.cardImage && (
                   <img
                     src={URL.createObjectURL(cartItem.cardImage)}
@@ -227,14 +256,17 @@ const CheckoutOverview = () => {
             <Grid item xs={8}></Grid>
             <Grid item xs={3} textAlign="right">
               {cartItem.giftId !== null && (
-                <Typography fontFamily="Antic" variant="h6">Additional gift: {cartItem.giftPrice}€</Typography>
+                <Typography fontFamily="Antic" variant="h6">
+                  Additional gift: {cartItem.giftPrice}€
+                </Typography>
               )}
               <Typography fontFamily="Antic" variant="h6">
                 Free delivery: 0€ <br />
                 incl. VAT:{" "}
                 {(total * 0.16).toLocaleString(undefined, {
                   maximumFractionDigits: 2,
-                })}€
+                })}
+                €
               </Typography>
               <Divider></Divider>
               <Typography fontFamily="Antic" variant="h3">
@@ -312,6 +344,7 @@ const CheckoutOverview = () => {
         >
           <Typography variant="h4">Payment</Typography>
           <Box textAlign="center" padding="2em">
+            {/* If regular order */}
             {!checkoutData.recurrentDelivery && total && (
               <PayPalScriptProvider
                 options={{
@@ -320,6 +353,7 @@ const CheckoutOverview = () => {
                   components: "buttons",
                 }}
               >
+                {/* Regular paypal button */}
                 <PayPalButtons
                   forceReRender={[checkoutData]}
                   style={{ layout: "horizontal" }}
@@ -357,14 +391,17 @@ const CheckoutOverview = () => {
                     });
                   }}
                   onApprove={(data, actions) => {
+                    // Payment successful
                     return actions.order.capture().then((details) => {
                       handleSuccessfulCheckout();
                     });
                   }}
                   onError={(error) => {
+                    // Payment failed
                     handleFailedCheckout(error);
                   }}
                 />
+                {/* (Credit) card button */}
                 <PayPalButtons
                   forceReRender={[checkoutData]}
                   style={{ layout: "horizontal" }}
@@ -396,16 +433,19 @@ const CheckoutOverview = () => {
                     });
                   }}
                   onApprove={(data, actions) => {
+                    // Payment successful
                     return actions.order.capture().then((details) => {
                       handleSuccessfulCheckout();
                     });
                   }}
                   onError={(error) => {
+                    // Payment failed
                     handleFailedCheckout(error);
                   }}
                 />
               </PayPalScriptProvider>
             )}
+            {/* If subscription wanted */}
             {checkoutData.recurrentDelivery && (
               <PayPalScriptProvider
                 options={{
@@ -415,6 +455,7 @@ const CheckoutOverview = () => {
                   vault: true,
                 }}
               >
+                {/* Regular paypal button */}
                 <PayPalButtons
                   forceReRender={[subscriptionPlan, checkoutData]}
                   style={{ layout: "horizontal" }}
@@ -454,18 +495,27 @@ const CheckoutOverview = () => {
                     });
                   }}
                   onApprove={(data, actions) => {
+                    // Subscription payment successful
                     handleSuccessfulSubscription(data.subscriptionID);
                   }}
                   onError={(error) => {
+                    // Subscription payment failure
                     handleFailedCheckout(error);
                   }}
                 ></PayPalButtons>
               </PayPalScriptProvider>
             )}
-            <Typography>By clicking on {checkoutData.recurrentDelivery ? "the button" : "one of the buttons"} above you agree to the Privacy Regulations and Terms & Conditions</Typography>
+            <Typography>
+              By clicking on{" "}
+              {checkoutData.recurrentDelivery
+                ? "the button"
+                : "one of the buttons"}{" "}
+              above you agree to the Privacy Regulations and Terms & Conditions
+            </Typography>
           </Box>
         </Box>
       </Box>
+      {/* Popup for payment error */}
       <Dialog
         open={paymentError}
         onClose={() => setPaymentError(false)}
@@ -480,6 +530,7 @@ const CheckoutOverview = () => {
           </DialogContentText>
         </DialogContent>
       </Dialog>
+      {/* Popup for order error */}
       <Dialog
         open={orderError}
         onClose={() => setOrderError(false)}

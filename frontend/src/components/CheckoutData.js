@@ -18,7 +18,7 @@ const CheckoutData = () => {
   const [firstShipmentDate, setFirstShipmentDate] = useState(null);
   const [cartItem, setCartItem] = useState(null);
   const [account, setAccount] = useState(null);
-  const [accountError, setAccountError] = useState(false)
+  const [accountError, setAccountError] = useState(false);
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -33,6 +33,7 @@ const CheckoutData = () => {
   };
 
   useEffect(() => {
+    // Load data into local state
     let checkoutData = CheckoutService.getCheckoutData();
     if (checkoutData) {
       setCheckoutData(checkoutData);
@@ -42,13 +43,14 @@ const CheckoutData = () => {
       setCartItem(item);
     });
 
-    // Set date for delivery date picker
+    // Set min date for delivery date picker
     let date = new Date();
     date.setDate(date.getDate() + 3);
     setFirstShipmentDate(date.toISOString().split("T")[0]);
 
-    AuthService.getMe().then((result) => {
-      if (result) {
+    // If logged in, fill in email
+    AuthService.getLog().then((result) => {
+      if (result !== null) {
         setAccount(result);
         setCheckoutData((values) => ({ ...values, email: result.email }));
       }
@@ -63,35 +65,43 @@ const CheckoutData = () => {
     setCheckoutData((values) => ({ ...values, [name]: value }));
   };
 
+  // Handle recurrentDelivery checkbox
   const handleToggle = (event) => {
     const value = event.target.checked;
 
-    if(value && account === null){
-      setAccountError(true)
-    }else{
-      setAccountError(false)
-      setCheckoutData((values) => ({ ...values, accountPassword: null }))
+    // box checked and no, set error state
+    if (value && account === null) {
+      setAccountError(true);
+    } else {
+      // Either account or not checked
+      setAccountError(false);
+      setCheckoutData((values) => ({ ...values, accountPassword: null }));
     }
 
     setCheckoutData((values) => ({ ...values, recurrentDelivery: value }));
   };
 
+  // When filled in password, check account error state
   const handleAccountTry = () => {
-    if(checkoutData.recurrentDelivery){
-      AuthService.checkFree({email: checkoutData.email}).then(free => {
-        if(free && checkoutData.accountPassword){
-          setAccountError(false)
-        }else{
-          setAccountError(true)
+    if (checkoutData.recurrentDelivery) {
+      // Check if acount still free
+      AuthService.checkFree({ email: checkoutData.email }).then((free) => {
+        // free and password must be set
+        if (free && checkoutData.accountPassword) {
+          setAccountError(false);
+        } else {
+          setAccountError(true);
         }
-      })
+      });
     }
-  }
+  };
 
   const handleSubmit = (event) => {
+    // Prevent default handling of form
     event.preventDefault();
 
-    if(!accountError){
+    // if no error, persistently store checkoutData and redirect
+    if (!accountError) {
       CheckoutService.setData(checkoutData);
       navigate("/checkout-overview/" + id);
     }
@@ -138,7 +148,9 @@ const CheckoutData = () => {
                 onChange={handleChange}
                 onBlur={handleAccountTry}
                 error={accountError}
-                helperText={accountError && ("Account already taken, use a differnt one")}
+                helperText={
+                  accountError && "Account already taken, use a differnt one"
+                }
               ></TextField>
             ) : (
               <Typography>{account.email}</Typography>

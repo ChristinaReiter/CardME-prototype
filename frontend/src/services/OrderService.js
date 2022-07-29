@@ -6,6 +6,12 @@ export default class OrderService {
     "Content-Type": "application/json",
   });
 
+  /**
+   * Order request on backend 
+   * @param {*} data data fields
+   * @param {*} item product details
+   * @returns response object with at least a response field
+   */
   static async createOrder(data, item) {
     let formData = new FormData();
 
@@ -54,6 +60,10 @@ export default class OrderService {
     }
   }
 
+  /**
+   * Gets all orders for a specific user from backend
+   * @returns object | empty array
+   */
   static async getOrders() {
     try {
       let response = await fetch(this.baseUrl + "/profile/orders", {
