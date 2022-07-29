@@ -8,13 +8,16 @@ import {
 
 const GiftsHeaderPriceBox = ({index, giftPriceFilter, setGiftPriceFilter, filterIsHovering}) => {
 
+        //function to update the checked filter options
         const updatePriceArray = (priceKey, event) => {
           setGiftPriceFilter({ ...giftPriceFilter, [priceKey]: event.target.checked });
         };
         
+        //only show the box when the user hovers over it
         if (filterIsHovering != index) {
           return <Box disabled></Box>;
-        } else {
+        } 
+        else {
           return (
             <Box
               style={{

@@ -8,10 +8,14 @@ import {
 
 const HeaderVibeBox = ({index, vibeFilter, setVibeFilter, filterIsHovering}) => {
 
+
+        //function to update the checked filter options
         const updateVibeArray = (vibeKey, event) => {
           setVibeFilter({ ...vibeFilter, [vibeKey]: event.target.checked });
         };
-        
+
+
+        //only show box when user hovers over filter
         if (filterIsHovering != index) {
           return <Box disabled></Box>;
         } else {

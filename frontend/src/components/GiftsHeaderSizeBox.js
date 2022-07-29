@@ -8,10 +8,12 @@ import {
 
 const GiftsHeaderSizeBox = ({index, giftSizeFilter, setGiftSizeFilter, filterIsHovering}) => {
 
+        //function to update the checked filter options
         const updateSizeArray = (sizeKey, event) => {
           setGiftSizeFilter({ ...giftSizeFilter, [sizeKey]: event.target.checked });
         };
         
+        //only show the options when the user hovers over the header
         if (filterIsHovering != index) {
           return <Box disabled></Box>;
         } else {

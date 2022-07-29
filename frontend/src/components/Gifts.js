@@ -26,31 +26,14 @@ const Gifts = ({
   const imageUrl = "http://localhost:3001/public/";
   const [products, setProducts] = useState([]);
   const [favorites, setFavorites] = useState([]);
-  const [userID, setUserID] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
+
+    //get all gifts
     GiftService.getAllGifts().then(
       (result) => {
-        console.log(result);
         setProducts(result);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-    AuthService.getMe().then(
-      (result) => {
-        setUserID(result._id);
-        FavoriteService.getFavorites(result._id).then(
-          (res) => {
-            console.log(res);
-            setFavorites(res);
-          },
-          (err) => {
-            console.log(err);
-          }
-        );
       },
       (error) => {
         console.log(error);
@@ -65,6 +48,7 @@ const Gifts = ({
     height: "40px",
   };
 
+  //sort the products based on the filter clicked in the header
   const productsSort = () => {
     if (giftSortFilter === "titlea") {
       return products.sort((a, b) => (a.title > b.title ? 1 : -1));
@@ -79,14 +63,7 @@ const Gifts = ({
       return products.sort((a, b) => (a.designer > b.designer ? -1 : 1));
     }
     if (giftSortFilter == "mostpopular") {
-      return products.sort(function (a, b) {
-        return b.popularity - a.popularity;
-      }); //small hack to simulate popularity
-    }
-    if (giftSortFilter == "trending") {
-      var randomNumber = 0;
-      randomNumber = Math.floor(Math.random());
-      return products.sort(() => randomNumber - 0.5);
+      return products.sort(function (a, b) { return b.popularity - a.popularity; });
     }
     if (giftSortFilter == "newest") {
       return products.sort((a, b) => (a.date > b.date ? -1 : 1));
@@ -98,8 +75,12 @@ const Gifts = ({
     }
   };
 
-  const filteredCards = productsSort().filter((el) => {
+  //returns the products filtered by all checked filters
+  const filteredGifts = productsSort().filter((el) => {
+
     var filterArray = [];
+
+    //push all checked filters to the filter array
     Object.keys(giftSizeFilter).map((key) => {
       if (giftSizeFilter[key]) {
         filterArray.push(key);
@@ -115,23 +96,27 @@ const Gifts = ({
         filterArray.push(key);
       }
     });
+
+    //filter the products based on the search bar result and the filters
     if (giftSearchTerm.length === 0 && filterArray.length === 0) {
       return el;
-    } else if (giftSearchTerm.length === 0 && filterArray.length !== 0) {
+    } 
+    else if (giftSearchTerm.length === 0 && filterArray.length !== 0) {
       return filterArray.every((filter) => {
-        console.log(el.size === filter);
         return (
           el.size === filter ||
           el.pricerange === filter ||
           el.occasion.includes(filter)
         );
       });
-    } else if (giftSearchTerm.length !== 0 && filterArray.length === 0) {
+    } 
+    else if (giftSearchTerm.length !== 0 && filterArray.length === 0) {
       return el.title
         .toString()
         .toLowerCase()
         .includes(giftSearchTerm.toString().toLowerCase());
-    } else {
+    } 
+    else {
       return (
         el.title
           .toString()
@@ -148,6 +133,8 @@ const Gifts = ({
     }
   });
 
+
+  //renders the gifts
   return (
     <div>
       <Box sx={{ flexGrow: 1, flexShrink: 1, position: "relative" }}>
@@ -162,6 +149,7 @@ const Gifts = ({
           setSortFilter={setGiftSortFilter}
         />
       </Box>
+      {/*search bar*/}
       <Box
         sx={{
           margin: "200px 0px 0px 0px",
@@ -182,8 +170,10 @@ const Gifts = ({
           style={SearchBarStyle}
         ></Input>
       </Box>
+
+      {/*product render*/}
       <Product
-        products={filteredCards}
+        products={filteredGifts}
         gift={true}
         headerfilter={null}
         setChosenGift={setChosenGift}

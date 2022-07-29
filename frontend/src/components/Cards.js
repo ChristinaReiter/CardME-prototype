@@ -28,12 +28,11 @@ const Cards = ({
   setImage,
 }) => {
   const [products, setProducts] = useState([]);
-  const [favorites, setFavorites] = useState([]);
-  const [userID, setUserID] = useState();
-  const navigate = useNavigate();
   const { headerfilter } = useParams();
 
   useEffect(() => {
+
+    //get all cards
     CardService.getAllCards().then(
       (result) => {
         if (result !== undefined) {
@@ -44,24 +43,8 @@ const Cards = ({
         console.log(error);
       }
     );
-    AuthService.getMe().then(
-      (result) => {
-        if (result !== undefined) {
-          setUserID(result._id);
-          FavoriteService.getFavorites(result._id).then(
-            (res) => {
-              setFavorites(res);
-            },
-            (err) => {
-              console.log(err);
-            }
-          );
-        }
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+
+    //set the filters on checked if one of the options in the header are used
     if (headerfilter === "birthday") {
       setOccasionFilter({ ...occasionFilter, [headerfilter]: true });
       setSeasonFilter({ ...seasonFilter, ["summer"]: false });
@@ -82,25 +65,14 @@ const Cards = ({
   }, [headerfilter]);
 
   const styles = {
-    button: {
-      fontFamily: "Annie Use Your Telescope",
-      fontSize: 18,
-      marginRight: 20,
-      marginLeft: 20,
-      width: "92px",
-    },
-    favorites: {
-      marginLeft: "auto",
+    SearchBarStyle : {
+      boxShadow: "1px 3px 9px rgba(0,0,0,0.75)",
+      width: "500px",
+      height: "40px",
     },
   };
 
-  //search bar design
-  const SearchBarStyle = {
-    boxShadow: "1px 3px 9px rgba(0,0,0,0.75)",
-    width: "500px",
-    height: "40px",
-  };
-
+  //sort the products based on the filter clicked in the header
   const productsSort = () => {
     if (sortFilter === "titlea") {
       return products.sort((a, b) => (a.title > b.title ? 1 : -1));
@@ -115,26 +87,24 @@ const Cards = ({
       return products.sort((a, b) => (a.designer > b.designer ? -1 : 1));
     }
     if (sortFilter == "mostpopular") {
-      return products.sort(function (a, b) {
-        return b.popularity - a.popularity;
-      }); //small hack to simulate popularity
-    }
-    if (sortFilter == "trending") {
-      //return products.sort(() => Math.random() - 0.5); //we would need to check the clicks in a certain time interval here
-      return products.sort();
+      return products.sort(function (a, b) { return b.popularity - a.popularity;}); 
     }
     if (sortFilter == "newest") {
       return products.sort((a, b) => (a.date > b.date ? -1 : 1));
     }
     if (sortFilter == "oldest") {
       return products.sort((a, b) => (a.date > b.date ? 1 : -1));
-    } else {
+    } 
+    else {
       return products;
     }
   };
 
+  //returns the products filtered by all checked filters
   const filteredCards = productsSort().filter((el) => {
     var filterArray = [];
+
+    //push all checked filters to the filter array
     Object.keys(colorFilter).map((key) => {
       if (colorFilter[key]) {
         filterArray.push(key);
@@ -165,6 +135,8 @@ const Cards = ({
         filterArray.push(key);
       }
     });
+
+    //filter the products based on the search bar result and the filters
     if (searchTerm.length === 0 && filterArray.length === 0) {
       return el;
     } else if (searchTerm.length === 0 && filterArray.length !== 0) {
@@ -213,6 +185,7 @@ const Cards = ({
     }
   });
 
+  //render
   return (
     <div>
       <Box sx={{ flexGrow: 1, flexShrink: 1, position: "relative" }}>
@@ -233,6 +206,8 @@ const Cards = ({
           setSortFilter={setSortFilter}
         />
       </Box>
+
+      {/*search bar*/}
       <Box
         sx={{
           margin: "200px 0px 0px 0px",
@@ -250,9 +225,11 @@ const Cards = ({
               <SearchIcon />
             </InputAdornment>
           }
-          style={SearchBarStyle}
+          style={styles.SearchBarStyle}
         ></Input>
       </Box>
+      
+      {/*render products*/}
       <Product
         products={filteredCards}
         gift={false}

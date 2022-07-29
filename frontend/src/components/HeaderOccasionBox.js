@@ -8,6 +8,7 @@ import {
 
 const HeaderOccasionBox = ({index, gifts, occasionFilter, setOccasionFilter, filterIsHovering}) => {
 
+  //because occasion is used by gift and filter
   const styles = {
     giftBox: {
       position: "absolute",
@@ -29,10 +30,12 @@ const HeaderOccasionBox = ({index, gifts, occasionFilter, setOccasionFilter, fil
     },
   }
 
+        //function to update the checked filter options
         const updateOccasionArray = (occasionKey, event) => {
           setOccasionFilter({ ...occasionFilter, [occasionKey]: event.target.checked });
         };
 
+        //only show box when user hovers over filter
         if (filterIsHovering != index) {
           return <Box disabled></Box>;
         } else {

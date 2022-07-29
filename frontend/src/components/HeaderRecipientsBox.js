@@ -8,10 +8,13 @@ import {
 
 const HeaderRecipientsBox = ({index, recipientsFilter, setRecipientsFilter, filterIsHovering}) => {
 
+
+        //function to update the checked filter options
         const updateRecipientsArray = (recipientsKey, event) => {
           setRecipientsFilter({ ...recipientsFilter, [recipientsKey]: event.target.checked });
         };
         
+        //only show box when user hovers over filter
         if (filterIsHovering != index) {
           return <Box disabled></Box>;
         } else {

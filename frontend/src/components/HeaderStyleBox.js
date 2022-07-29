@@ -8,10 +8,14 @@ import {
 
 const HeaderStyleBox = ({index, styleFilter, setStyleFilter, filterIsHovering}) => {
 
+
+        //function to update the checked filter options
         const updateStyleArray = (styleKey, event) => {
           setStyleFilter({ ...styleFilter, [styleKey]: event.target.checked });
         };
         
+
+        //only show box when user hovers over filter
         if (filterIsHovering != index) {
           return <Box disabled></Box>;
         } else {

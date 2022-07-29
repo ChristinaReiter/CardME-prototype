@@ -24,6 +24,8 @@ const Favorites = ({ setSelectedTab }) => {
 
   useEffect(() => {
     setSelectedTab(4);
+
+    //get all favorites from backend
     AuthService.getMe().then(
       (result) => {
         if (result !== undefined) {
@@ -44,6 +46,7 @@ const Favorites = ({ setSelectedTab }) => {
     );
   }, []);
 
+
   const styles = {
     button: {
       fontFamily: "Annie Use Your Telescope",
@@ -60,6 +63,7 @@ const Favorites = ({ setSelectedTab }) => {
     },
   };
 
+  //distinguish between gift favorites and card favorites
   const giftFavorites = favorites.filter((el) => {
     return el.foldername === "gifts";
   });
@@ -72,11 +76,14 @@ const Favorites = ({ setSelectedTab }) => {
     navigate("/create/chosen/" + product._id);
   };
 
+
+  //render favorites in profile
   return (
     <>
       <Box sx={{ margin: "30px 30px 30px 30px" }}>
         <Typography variant="h4">My Card Favorites:</Typography>
         <div>
+          {/*display message if card favorites are empty*/}
           {cardFavorites.length > 0 ? (
             <Grid
               container
@@ -150,7 +157,7 @@ const Favorites = ({ setSelectedTab }) => {
                           color="secondary"
                           style={styles.button}
                           onClick={() => {
-                            navigate("/ViewCard/" + product._id);
+                            navigate("/ViewProduct/card/" + product._id);
                           }}
                         >
                           View
@@ -189,6 +196,7 @@ const Favorites = ({ setSelectedTab }) => {
       <Box sx={{ margin: "100px 30px 30px 30px" }}>
         <Typography variant="h4">My Gift Favorites:</Typography>
         <div>
+          {/*display message if gift favorites are empty*/}
           {giftFavorites.length > 0 ? (
             <Grid
               container
@@ -258,21 +266,10 @@ const Favorites = ({ setSelectedTab }) => {
                           color="secondary"
                           style={styles.button}
                           onClick={() => {
-                            navigate("/ViewGift/" + product._id);
+                            navigate("/ViewProduct/gift/favorites/" + product._id);
                           }}
                         >
                           View
-                        </Button>
-                        <Button
-                          size="small"
-                          variant="contained"
-                          color="secondary"
-                          style={styles.button}
-                          onClick={() => {
-                            addProductToCart(product);
-                          }}
-                        >
-                          Add
                         </Button>
                       </div>
                     </CardActions>

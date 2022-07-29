@@ -16,6 +16,7 @@ import { ToastContainer, toast } from "react-toastify";
 import FavoriteButton from "./FavoriteButton";
 
 const Product = ({ products, gift, headerfilter, setChosenGift, setImage }) => {
+
   const { path, cardStyle, id, mode } = useParams();
   const imageUrl = "http://localhost:3001/public/";
   const [favorites, setFavorites] = useState([]);
@@ -23,6 +24,8 @@ const Product = ({ products, gift, headerfilter, setChosenGift, setImage }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+
+    //get all favorites to display them later
     AuthService.getMe().then(
       (result) => {
         if (!result.status) {
@@ -43,6 +46,7 @@ const Product = ({ products, gift, headerfilter, setChosenGift, setImage }) => {
     );
   }, []);
 
+  //different styles depending on the product
   const styles = {
     cardstyle: {
       width: 270,
@@ -76,6 +80,7 @@ const Product = ({ products, gift, headerfilter, setChosenGift, setImage }) => {
     },
   };
 
+  //add product to the shopping cart
   const addProductToCart = async (product) => {
     if (gift) {
       setChosenGift(product);
@@ -100,6 +105,8 @@ const Product = ({ products, gift, headerfilter, setChosenGift, setImage }) => {
     }
   };
 
+
+  //render the product (gift or card)
   return (
     <div>
       <Box sx={{ margin: "30px 30px 30px 30px" }}>
@@ -117,6 +124,7 @@ const Product = ({ products, gift, headerfilter, setChosenGift, setImage }) => {
               columnSpacing={{ xs: 2, sm: 2, md: 3 }}
               sx={{ margin: "20px 10px 10px 10px" }}
             >
+              {/*for each product one card*/}
               {products.map((product) => (
                 <Grid
                   item
@@ -188,6 +196,7 @@ const Product = ({ products, gift, headerfilter, setChosenGift, setImage }) => {
                           style={styles.button}
                           onClick={() => {
                             if (gift) {
+                              //navigate to the detailed view with parameters
                               navigate(
                                 "/ViewProduct/gift/" +
                                   product._id +
@@ -203,6 +212,7 @@ const Product = ({ products, gift, headerfilter, setChosenGift, setImage }) => {
                               );
                             } else {
                               if (headerfilter) {
+                                //when one of the three headerfilters was clicked before
                                 navigate(
                                   "/ViewProduct/card/" +
                                     headerfilter +

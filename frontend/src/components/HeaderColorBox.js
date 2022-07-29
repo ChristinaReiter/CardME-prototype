@@ -8,31 +8,12 @@ import {
 
 const HeaderColorBox = ({index, colorFilter, setColorFilter, filterIsHovering}) => {
         
-
+        //function to update the checked filter options
         const updateColorArray = (colorKey, event) => {
           setColorFilter({ ...colorFilter, [colorKey]: event.target.checked });
         };
 
-        var positionIndex = "0px";
-        if (index === 1) {
-          positionIndex = "14%";
-        }
-        if (index === 2) {
-          positionIndex = "28%";
-        }
-        if (index === 3) {
-          positionIndex = "42%";
-        }
-        if (index === 4) {
-          positionIndex = "56%";
-        }
-        if (index === 5) {
-          positionIndex = "70%";
-        }
-        if (index === 6) {
-          positionIndex = "85%";
-        }
-        
+        //only show box when user hovers over filter
         if (filterIsHovering != index) {
           return <Box disabled></Box>;
         } else {

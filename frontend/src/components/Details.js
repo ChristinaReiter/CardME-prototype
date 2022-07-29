@@ -49,8 +49,6 @@ const AccountDetails = ({ setSelectedTab }) => {
 
     DetailsService.updateAccount({ name: newName }).then((res) => {
       toast("Account updated");
-      console.log(res);
-      console.log("Account updated");
 
       setName(res.name);
       setEmail(res.email);

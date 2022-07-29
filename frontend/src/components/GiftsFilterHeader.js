@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { 
     Box,
-    FormGroup,
-    FormControlLabel,
-    Checkbox,
     Table,
     TableCell,
     TableHead,
@@ -23,6 +20,14 @@ const ProductsFilterHeader = ({
       giftPriceFilter, setGiftPriceFilter, 
       occasionFilter, setOccasionFilter,
       sortFilter, setSortFilter}) => {
+
+    //to display the checked filter number in the header
+    var count = 0;
+    const [sortLabel, setSortLabel] = useState("Most Popular");
+
+    //check if filter is hovering
+    const [filterIsHovering, setFilterIsHovering] = useState(-1);
+
     const styles = {
         filterHeader: {
           display: "flex",
@@ -84,16 +89,47 @@ const ProductsFilterHeader = ({
           },
     }
     
-     const [filterIsHovering, setFilterIsHovering] = useState(-1);
-    
+     
+    //set the filter hover
      function handleFilterMouseEnter(index) {
        setFilterIsHovering(index);
      }  
+
+
+     //set how many filters to display in the header
+     const setFilterNumber = (filter) => {
+
+      count = 0;
+
+      if(filter === "size") {
+        Object.keys(giftSizeFilter).map((key) =>{
+          if (giftSizeFilter[key]) {
+            count = count + 1;
+          }
+        })
+      }
+      else if(filter === "prize") {
+        Object.keys(giftPriceFilter).map((key) =>{
+          if (giftPriceFilter[key]) {
+            count = count + 1;
+          }
+        })
+      }
+        else if(filter === "occasion") {
+          Object.keys(occasionFilter).map((key) =>{
+            if (occasionFilter[key]) {
+              count = count + 1;
+            }
+          })
+        }
+
+      return count;
+   }
     
     
      
 
-    // Header bar
+    // Render gift header bar
     return(
         <Box position="fixed" style={styles.filterBar}>
           <Table>
@@ -105,9 +141,11 @@ const ProductsFilterHeader = ({
                       ? styles.tableCellHover
                       : styles.tableCell
                   }
+                  /*display different color when hovering and notify children classes*/
                   onMouseEnter={() => handleFilterMouseEnter(0)}
                   onMouseLeave={() => handleFilterMouseEnter(-1)}
                 >
+                  {/*different filters*/}
                   <div>
                     <GiftHeaderSizeBox index={0} giftSizeFilter={giftSizeFilter} setGiftSizeFilter={setGiftSizeFilter} filterIsHovering={filterIsHovering}></GiftHeaderSizeBox>
                     <div>
@@ -116,7 +154,7 @@ const ProductsFilterHeader = ({
                       </Typography>
                     </div>
                     <div>
-                      <Typography variant="h7">All Sizes</Typography>
+                      <Typography variant="h7">{setFilterNumber("size") === 0 ? "All Sizes" : (count === 1 ? "1 filter" : count + " filters")}</Typography>
                     </div>
                   </div>
                   <div>
@@ -140,7 +178,7 @@ const ProductsFilterHeader = ({
                       </Typography>
                     </div>
                     <div>
-                      <Typography variant="h7">All Prices</Typography>
+                      <Typography variant="h7">{setFilterNumber("prize") === 0 ? "All Prizes" : (count === 1 ? "1 filter" : count + " filters")}</Typography>
                     </div>
                   </div>
 
@@ -165,7 +203,7 @@ const ProductsFilterHeader = ({
                       </Typography>
                     </div>
                     <div>
-                      <Typography variant="h7">All Occasions</Typography>
+                      <Typography variant="h7">{setFilterNumber("occasion") === 0 ? "All Occasions" : (count === 1 ? "1 filter" : count + " filters")}</Typography>
                     </div>
                   </div>
                   <div>
@@ -182,14 +220,14 @@ const ProductsFilterHeader = ({
                   onMouseLeave={() => handleFilterMouseEnter(-1)}
                 >
                   <div>
-                    <HeaderSortBox index={5} gifts={true} sortFilter={sortFilter} setSortFilter={setSortFilter} filterIsHovering={filterIsHovering}></HeaderSortBox>
+                    <HeaderSortBox index={5} gifts={true} sortFilter={sortFilter} setSortFilter={setSortFilter} filterIsHovering={filterIsHovering} setSortLabel={setSortLabel}></HeaderSortBox>
                     <div>
                       <Typography variant="h7" style={{ fontSize: "20px" }}>
                         Sort By
                       </Typography>
                     </div>
                     <div>
-                      <Typography variant="h7">Trending</Typography>
+                      <Typography variant="h7">{sortLabel}</Typography>
                     </div>
                   </div>
                   <div>

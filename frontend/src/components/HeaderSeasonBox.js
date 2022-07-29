@@ -8,10 +8,13 @@ import {
 
 const HeaderSeasonBox = ({index, seasonFilter, setSeasonFilter, filterIsHovering}) => {
 
+        //function to update the checked filter options
         const updateSeasonArray = (seasonKey, event) => {
           setSeasonFilter({ ...seasonFilter, [seasonKey]: event.target.checked });
         };
+
         
+        //only show box when user hovers over filter
         if (filterIsHovering != index) {
           return <Box disabled></Box>;
         } else {

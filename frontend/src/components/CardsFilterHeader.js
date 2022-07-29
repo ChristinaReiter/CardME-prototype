@@ -26,6 +26,10 @@ const CardsFilterHeader = ({
       occasionFilter, setOccasionFilter,
       seasonFilter, setSeasonFilter,
       sortFilter, setSortFilter}) => {
+
+      var count = 0;
+      const [sortLabel, setSortLabel] = useState("Most Popular");
+
     const styles = {
         filterHeader: {
           display: "flex",
@@ -52,8 +56,7 @@ const CardsFilterHeader = ({
             "0px 2px 4px rgba(51, 97, 50, 0.25), inset 0px 6px 4px rgba(51, 97, 50, 0.25)",
           top: "60px",
           zIndex: "1",
-        },
-    
+        },    
         tableRow: {
             height: 70,
             display: "flex",
@@ -70,7 +73,7 @@ const CardsFilterHeader = ({
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
-            padding: "5px 10px",
+            padding: "5px 20px",
             fontFamily: "Abril Fatface",
           },
           tableCellHover: {
@@ -82,7 +85,7 @@ const CardsFilterHeader = ({
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
-            padding: "5px 10px",
+            padding: "5px 20px",
             fontFamily: "Abril Fatface",
           },
     }
@@ -91,15 +94,61 @@ const CardsFilterHeader = ({
     
      function handleFilterMouseEnter(index) {
        setFilterIsHovering(index);
+     }   
+     
+     //to render how many filters are checked in the bar
+     const setFilterNumber = (filter) => {
+        count = 0;
+        if(filter === "color") {
+          Object.keys(colorFilter).map((key) =>{
+            if (colorFilter[key]) {
+              count = count + 1;
+            }
+          })
+        }
+        else if(filter === "vibe") {
+          Object.keys(vibeFilter).map((key) =>{
+            if (vibeFilter[key]) {
+              count = count + 1;
+            }
+          })
+        }
+        else if(filter === "style") {
+          Object.keys(styleFilter).map((key) =>{
+            if (styleFilter[key]) {
+              count = count + 1;
+            }
+          })
+        }
+        else if(filter === "recipient") {
+          Object.keys(recipientsFilter).map((key) =>{
+            if (recipientsFilter[key]) {
+              count = count + 1;
+            }
+          })
+        }
+        else if(filter === "season") {
+            Object.keys(seasonFilter).map((key) =>{
+              if (seasonFilter[key]) {
+                count = count + 1;
+              }
+            })
+          }
+          else if(filter === "occasion") {
+            Object.keys(occasionFilter).map((key) =>{
+              if (occasionFilter[key]) {
+                count = count + 1;
+              }
+            })
+          }
+
+        return count;
      }
-    
-     
-     
     
     
      
 
-    // Header bar
+    // Header bar render
     return(
         <Box position="fixed" style={styles.filterBar}>
           <Table>
@@ -111,9 +160,11 @@ const CardsFilterHeader = ({
                       ? styles.tableCellHover
                       : styles.tableCell
                   }
+                  /*handle the hover effects*/
                   onMouseEnter={() => handleFilterMouseEnter(0)}
                   onMouseLeave={() => handleFilterMouseEnter(-1)}
                 >
+                  {/*render different filters next to each other*/}
                   <div>
                     <HeaderColorBox index={0} colorFilter={colorFilter} setColorFilter={setColorFilter} filterIsHovering={filterIsHovering}></HeaderColorBox>
                     <div>
@@ -122,7 +173,7 @@ const CardsFilterHeader = ({
                       </Typography>
                     </div>
                     <div>
-                      <Typography variant="h7">All Colors</Typography>
+                      <Typography variant="h7">{setFilterNumber("color") === 0 ? "All Colors" : (count === 1 ? "1 filter" : count + " filters")}</Typography>
                     </div>
                   </div>
                   <div>
@@ -141,12 +192,12 @@ const CardsFilterHeader = ({
                   <div>
                     <HeaderVibeBox index={1} vibeFilter={vibeFilter} setVibeFilter={setVibeFilter} filterIsHovering={filterIsHovering}></HeaderVibeBox>
                     <div>
-                      <Typography variant="h7" style={{ fontSize: "20px" }}>
+                      <Typography variant="h7" style={{ fontSize: "20px"}}>
                         Vibes
                       </Typography>
                     </div>
                     <div>
-                      <Typography variant="h7">All Vibes</Typography>
+                      <Typography variant="h7">{setFilterNumber("vibe") === 0 ? "All Vibes" : (count === 1 ? "1 filter" : count + " filters")}</Typography>
                     </div>
                   </div>
 
@@ -171,7 +222,7 @@ const CardsFilterHeader = ({
                       </Typography>
                     </div>
                     <div>
-                      <Typography variant="h7">All Styles</Typography>
+                      <Typography variant="h7">{setFilterNumber("style") === 0 ? "All Styles" : (count === 1 ? "1 filter" : count + " filters")}</Typography>
                     </div>
                   </div>
                   <div>
@@ -195,7 +246,7 @@ const CardsFilterHeader = ({
                       </Typography>
                     </div>
                     <div>
-                      <Typography variant="h7">All Recipients</Typography>
+                      <Typography variant="h7">{setFilterNumber("recipient") === 0 ? "All Recipients" : (count === 1 ? "1 filter" : count + " filters")}</Typography>
                     </div>
                   </div>
                   <div>
@@ -219,7 +270,7 @@ const CardsFilterHeader = ({
                       </Typography>
                     </div>
                     <div>
-                      <Typography variant="h7">All Occasions</Typography>
+                      <Typography variant="h7">{setFilterNumber("occasion") === 0 ? "All Occasions" : (count === 1 ? "1 filter" : count + " filters")}</Typography>
                     </div>
                   </div>
                   <div>
@@ -243,12 +294,12 @@ const CardsFilterHeader = ({
                       </Typography>
                     </div>
                     <div>
-                      <Typography variant="h7">All Seasons</Typography>
+                      <Typography variant="h7">{setFilterNumber("season") === 0 ? "All Seasons" : (count === 1 ? "1 filter" : count + " filters")}</Typography>
                     </div>
                   </div>
                   <div>
                     <FilterList style={{ alignContent: "right" }} />
-                  </div>
+                  </div>  
                 </TableCell>
                 <TableCell
                   style={
@@ -260,14 +311,14 @@ const CardsFilterHeader = ({
                   onMouseLeave={() => handleFilterMouseEnter(-1)}
                 >
                   <div>
-                    <HeaderSortBox index={6} gifts={false} sortFilter={sortFilter} setSortFilter={setSortFilter} filterIsHovering={filterIsHovering}></HeaderSortBox>
+                    <HeaderSortBox index={6} gifts={false} sortFilter={sortFilter} setSortFilter={setSortFilter} filterIsHovering={filterIsHovering} setSortLabel={setSortLabel}></HeaderSortBox>
                     <div>
                       <Typography variant="h7" style={{ fontSize: "20px" }}>
                         Sort By
                       </Typography>
                     </div>
                     <div>
-                      <Typography variant="h7">Trending</Typography>
+                      <Typography variant="h7">{sortLabel}</Typography>
                     </div>
                   </div>
                   <div>

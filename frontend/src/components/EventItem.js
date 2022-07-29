@@ -37,7 +37,6 @@ const deleteEvent = (id) => {
     EventService.deleteEvent({id}).then(
         () => {  
           toast("Event deleted");
-          console.log("Event deleted");
           const updated = allEvents.filter(eve => eve._id !== id);
           changeEvent(updated);
 
@@ -53,14 +52,13 @@ const deleteEvent = (id) => {
 }
 
 const updateEvent = (e, id) => {
-  e.preventDefault(); // w/o this, the page will refresh which might be good but is annoying for testing...
+  e.preventDefault(); 
    const data = {eventDate: newEventDate, title: newTitle, description: newDescription};
 
   
     EventService.updateEvent({data, id}).then(
         res => { 
          toast("Event updated"); 
-          //console.log("Event updated")
 
           changeEvent(prevState => {
             const updated = prevState.map(eve => {
@@ -89,9 +87,6 @@ const updateEvent = (e, id) => {
           return updated
         })
 
-
-        
-        console.log("hi")
         setEventDate(newEventDate)
         setTitle(newTitle)
         setDescription(newDescription)

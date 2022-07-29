@@ -5,10 +5,8 @@ import {
   Card,
   CardMedia,
   Typography,
-  Icon,
 } from "@mui/material";
 import ArrowBackIosNewOutlinedIcon from "@mui/icons-material/ArrowBackIosNewOutlined";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CardService from "../services/CardService";
@@ -17,10 +15,10 @@ import AuthService from "../services/AuthService";
 import { ToastContainer, toast } from "react-toastify";
 import GiftService from "../services/GiftService";
 import FavoriteButton from "./FavoriteButton";
+import FavoriteService from "../services/FavoriteService";
 
 const ViewCard = ({ setImage, setChosenGift }) => {
-  const { producttype, productid, headerfilter, path, cardStyle, id, mode } =
-    useParams();
+  const { producttype, productid, headerfilter, infavorites, path, cardStyle, id, mode } = useParams();
   const [singleProduct, setSingleProduct] = useState();
   const [diffColorCards, setdiffColorCards] = useState([]);
   const imageUrl = "http://localhost:3001/public/";
@@ -30,6 +28,7 @@ const ViewCard = ({ setImage, setChosenGift }) => {
   const [userID, setUserID] = useState();
 
   useEffect(() => {
+    //get one single card
     if (producttype === "card") {
       CardService.getSingleCard(productid).then(
         (result) => {
@@ -44,6 +43,8 @@ const ViewCard = ({ setImage, setChosenGift }) => {
         }
       );
     }
+
+    //get one single gift
     if (producttype === "gift") {
       GiftService.getSingleGift(productid).then(
         (result) => {
@@ -55,10 +56,10 @@ const ViewCard = ({ setImage, setChosenGift }) => {
       );
     }
 
+    //get all favorites
     AuthService.getMe().then(
-      (result) => {
-        setUserID(result._id);
-        CardService.getFavorites(result._id).then((res) => {
+      () => {
+        FavoriteService.getFavorites().then((res) => {
           setFavorites(res);
         });
       },
@@ -110,6 +111,8 @@ const ViewCard = ({ setImage, setChosenGift }) => {
     },
   };
 
+
+  //add the product to the shopping cart
   const addProductToCart = async (product) => {
     if (producttype === "gift") {
       setChosenGift(product);
@@ -134,53 +137,16 @@ const ViewCard = ({ setImage, setChosenGift }) => {
     }
   };
 
+
+  //show the currently clicked color variation in big
   const changeDisplayImage = (displayImage) => {
     setCurrentImage(displayImage);
   };
 
-  function SwitchFavoriteButton() {
-    const found = favorites.find(
-      (element) => element._id === singleProduct._id
-    );
-    if (found) {
-      return (
-        <IconButton
-          onClick={() => {
-            CardService.removeFavorite({ product: singleProduct }).then(() => {
-              toast("Favorite removed");
-              const updated = favorites.filter(
-                (fav) => fav._id !== (singleProduct ? singleProduct._id : "")
-              );
-              setFavorites(updated);
-            });
-          }}
-        >
-          <FavoriteIcon style={{ fontSize: "90px", color: "#DC9292" }} />
-        </IconButton>
-      );
-    } else {
-      return (
-        <IconButton
-          onClick={() => {
-            if (userID === undefined) {
-              toast("not logged in");
-            } else {
-              CardService.setFavorites({ product: singleProduct }).then(() => {
-                toast("Favorite added");
-                setFavorites([...favorites, singleProduct]);
-              });
-            }
-          }}
-        >
-          <FavoriteIcon style={{ fontSize: "90px", color: "grey" }} />
-        </IconButton>
-      );
-    }
-  }
-
   return (
     <div>
       <Box sx={{ flexGrow: 1, flexShrink: 1, position: "relative" }}>
+        {/*header*/}
         <Box position="fixed" style={styles.backBar}>
           <Button
             variant="contained"
@@ -195,11 +161,13 @@ const ViewCard = ({ setImage, setChosenGift }) => {
               backgroundColor: "transparent",
             }}
             onClick={() => {
+
+              //navigate back
               if (producttype === "card") {
                 if (headerfilter) {
                   navigate("/cards/" + headerfilter);
                 } else {
-                  navigate("/cards"); //logic to save previous state
+                  navigate("/cards");
                 }
               }
               if (producttype === "gift") {
@@ -229,6 +197,7 @@ const ViewCard = ({ setImage, setChosenGift }) => {
         </Box>
       </Box>
 
+      
       <div
         style={{
           display: "flex",
@@ -237,6 +206,7 @@ const ViewCard = ({ setImage, setChosenGift }) => {
           marginTop: "180px",
         }}
       >
+        {/*big image*/}
         <div
           style={{ position: "absolute", paddingLeft: "8%", paddingTop: "2%" }}
         >
@@ -266,6 +236,8 @@ const ViewCard = ({ setImage, setChosenGift }) => {
               }}
             />
           </Card>
+
+          {/*color variations*/}
           {producttype === "card" ? (
             <div
               style={{
@@ -314,6 +286,7 @@ const ViewCard = ({ setImage, setChosenGift }) => {
           )}
         </div>
 
+        {/*favorite buton with logic*/}
         <div
           style={{
             position: "absolute",
@@ -330,6 +303,7 @@ const ViewCard = ({ setImage, setChosenGift }) => {
           ></FavoriteButton>
         </div>
 
+        {/*text and other information*/}
         <div
           style={{
             display: "flex",
@@ -421,26 +395,28 @@ const ViewCard = ({ setImage, setChosenGift }) => {
               paddingTop: "5%",
             }}
           >
-            <Button
-              size="small"
-              variant="contained"
-              color="secondary"
-              style={{
-                fontFamily: "Annie Use Your Telescope",
-                fontSize: 20,
-                height: "50px",
-                width: "40%",
-                marginRight: "6%",
-              }}
-              onClick={() => {
-                addProductToCart(singleProduct ? singleProduct : null);
-              }}
-            >
-              {producttype === "gift" ? "Add to Basket" : "Write on Card"}
-            </Button>
-            <div style={{ fontSize: "30px" }}>
-              {singleProduct ? singleProduct.price : ""} €
-            </div>
+            {/*only show button when not clicking on gifts in favorites*/}
+            {producttype === "gift" && infavorites === "favorites" ? <></> : 
+            <><Button
+                size="small"
+                variant="contained"
+                color="secondary"
+                style={{
+                  fontFamily: "Annie Use Your Telescope",
+                  fontSize: 20,
+                  height: "50px",
+                  width: "40%",
+                  marginRight: "6%",
+                }}
+                onClick={() => {
+                  addProductToCart(singleProduct ? singleProduct : null);
+                } }
+              >
+                {producttype === "gift" ? "Add to Basket" : "Write on Card"}
+              </Button><div style={{ fontSize: "30px" }}>
+                  {singleProduct ? singleProduct.price : ""} €
+                </div></>
+            }
           </div>
         </div>
       </div>

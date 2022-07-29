@@ -37,8 +37,6 @@ useEffect(() => {
             setOrderTotal2(res[y].total);
             setOrderRecipient2(res[y].recipientName);     
       }
-    
-      //console.log(res)
       
   })
 }, []); 

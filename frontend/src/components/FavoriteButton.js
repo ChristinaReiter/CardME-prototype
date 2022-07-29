@@ -5,7 +5,6 @@ import {
   import FavoriteService from "../services/FavoriteService";
   import FavoriteIcon from "@mui/icons-material/Favorite";
   import { ToastContainer, toast } from 'react-toastify';
-import { Scale } from "@mui/icons-material";
 
 const FavoriteButton = ({productObject, favorites, setFavorites, userID, singleProduct}) => {
 
@@ -28,17 +27,24 @@ const FavoriteButton = ({productObject, favorites, setFavorites, userID, singleP
           color: "grey"
         },
     };
-   
-        const found = favorites.find(
+
+        //find a single favorite 
+        var found = undefined;
+        if(favorites.length > 0) {
+          found = favorites.find(
             (element) => element._id === productObject._id
           );
+        }
         
+        //display pink heart if favorite was found
         if (found) {
           return (
               <IconButton
                 aria-label="add to favorites"
                 style={styles.productfavoritesenabled}
                 onClick={() => {
+
+                    //one click removes the favorite
                     FavoriteService.removeFavorite({ product: productObject }).then(
                       () => {
                         toast("Favorite removed");
@@ -52,12 +58,15 @@ const FavoriteButton = ({productObject, favorites, setFavorites, userID, singleP
               </IconButton>
             
           );
-        } else {
+        } 
+        //display grey heart if the product is not a favorite
+        else {
           return (
               <IconButton
                 aria-label="add to favorites"
                 style={styles.productfavoritesdisabled}
                 onClick={() => {
+                  //only set favorite when logged in
                   if(userID === undefined)
                   {
                     toast("not logged in");

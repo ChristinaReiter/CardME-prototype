@@ -9,8 +9,10 @@ import {
   FormControl,
 } from "@mui/material";
 
-const HeaderSortBox = ({index, gifts, sortFilter, setSortFilter, filterIsHovering}) => {
-        const styles = {
+const HeaderSortBox = ({index, gifts, sortFilter, setSortFilter, filterIsHovering, setSortLabel}) => {
+        
+    //sort is used by gifts and cards
+    const styles = {
           radio: {
             color: "black",
             '&.MuiChecked': {
@@ -37,6 +39,7 @@ const HeaderSortBox = ({index, gifts, sortFilter, setSortFilter, filterIsHoverin
           },
         }
 
+        //options to render with cards
         const RenderWhenNoGift = () => {
           if (!gifts) {
             return (
@@ -47,6 +50,7 @@ const HeaderSortBox = ({index, gifts, sortFilter, setSortFilter, filterIsHoverin
                   checked={sortFilter === "designera"} />}
                 onChange={(e) => {
                   updateSortArray("designera", e);
+                  setSortLabel("Designer A-Z");
                 } }
                 label="Designer A-Z">
               </FormControlLabel>
@@ -57,6 +61,7 @@ const HeaderSortBox = ({index, gifts, sortFilter, setSortFilter, filterIsHoverin
                   checked={sortFilter === "designerz"} />}
                 onChange={(e) => {
                   updateSortArray("designerz", e);
+                  setSortLabel("Designer Z-A");
                 } }
                 label="Designer Z-A">
                 </FormControlLabel></>
@@ -65,10 +70,13 @@ const HeaderSortBox = ({index, gifts, sortFilter, setSortFilter, filterIsHoverin
         }
 
 
+        //function to update the checked filter options
         const updateSortArray = (sortKey, event) => {
           setSortFilter(sortKey);
         };
         
+
+        //only show box when user hovers over filter
         if (filterIsHovering != index) {
           return <Box disabled></Box>;
         } else {
@@ -93,17 +101,7 @@ const HeaderSortBox = ({index, gifts, sortFilter, setSortFilter, filterIsHoverin
                       name={"sort by group"}                     
                     >
                       <div style={{ display: "flex", flexDirection: "column"}}>
-                        <FormControlLabel 
-                          value="trending" 
-                          control={
-                          <Radio 
-                            style={styles.radio} 
-                            checked={sortFilter === "trending"}
-                          />} 
-                          onChange={(e) => {
-                            updateSortArray("trending", e);
-                          }}
-                          label="Trending"></FormControlLabel>
+              
                         <FormControlLabel 
                           value="mostpopular" 
                           control={
@@ -113,6 +111,7 @@ const HeaderSortBox = ({index, gifts, sortFilter, setSortFilter, filterIsHoverin
                           />} 
                           onChange={(e) => {
                             updateSortArray("mostpopular", e);
+                            setSortLabel("Most Popular");
                           }}
                           label="Most Popular">
                         </FormControlLabel>
@@ -125,6 +124,7 @@ const HeaderSortBox = ({index, gifts, sortFilter, setSortFilter, filterIsHoverin
                           /> } 
                           onChange={(e) => {
                             updateSortArray("titlea", e);
+                            setSortLabel("Title A-Z");
                           }}
                           label="Title A-Z">
                         </FormControlLabel>
@@ -137,11 +137,10 @@ const HeaderSortBox = ({index, gifts, sortFilter, setSortFilter, filterIsHoverin
                           />} 
                           onChange={(e) => {
                             updateSortArray("titlez", e);
+                            setSortLabel("Title Z-A");
                           }}
                           label="Title Z-A">
                         </FormControlLabel>
-                      </div>
-                      <div style={{ display: "flex", flexDirection: "column" }}>
                         <FormControlLabel 
                           value="oldest" 
                           control={
@@ -151,9 +150,12 @@ const HeaderSortBox = ({index, gifts, sortFilter, setSortFilter, filterIsHoverin
                           />} 
                           onChange={(e) => {
                             updateSortArray("oldest", e);
+                            setSortLabel("Oldest");
                           }}
                           label="Oldest">
                         </FormControlLabel>
+                      </div>
+                      <div style={{ display: "flex", flexDirection: "column" }}>
                         <FormControlLabel 
                           value="newest" 
                           control={
@@ -163,6 +165,7 @@ const HeaderSortBox = ({index, gifts, sortFilter, setSortFilter, filterIsHoverin
                           />} 
                           onChange={(e) => {
                             updateSortArray("newest", e);
+                            setSortLabel("Newest");
                           }}
                           label="Newest">
                         </FormControlLabel>

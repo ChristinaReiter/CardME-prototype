@@ -53,7 +53,6 @@ const CheckoutOverview = () => {
     ShoppingCartService.getItem(id).then((item) => {
       setCartItem(item);
       setTotal(item.cardPrice + item.giftPrice);
-      console.log(item.cardPrice);
     });
   }, []);
 
