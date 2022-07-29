@@ -251,7 +251,7 @@ function ShortCalendar() {
                   <CalendarTodayIcon />
                   <Typography variant="body1">{popDate}</Typography>
                 </Stack>
-                <Stack direction="row" alignItems="center" gap={1}>
+                <Stack sx={{ pb: 1 }} direction="row" alignItems="center" gap={1}>
                   <DescriptionIcon />
                   <Typography variant="body1">{popDescription}</Typography>
                 </Stack>

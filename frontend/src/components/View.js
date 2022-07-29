@@ -24,7 +24,7 @@ const View = ({setSelectedTab}) => {
    
 
       <Grid container sx={{pl: "25px", pr:"25px"}} >
-       <Grid key= "1" item xs={6} sx={{pr:"30px"}} >
+       <Grid key= "1" item xs={6} sx={{pr:"75px"}} >
          <ShortCalendar key = "6"/>
        </Grid>
        <Grid key = "2" item xs={6} >

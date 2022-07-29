@@ -29,11 +29,6 @@ const ProfileOverview = ({ setCurrentAccount, currentAccount, selectedTab, setSe
     setSelectedTab(newValue);
   };
 
-  useEffect(() => {
-    if (!currentAccount) {
-      navigate("/login");
-    }
-    }, [currentAccount]);
   
 
   const logOut = () => {
